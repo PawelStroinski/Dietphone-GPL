@@ -1,4 +1,4 @@
-﻿// Uwaga: włączenie property z grupy Score* może automatycznie wyłączyć inne property z tej grupy.
+﻿// Note: enabling property from Score* group may disable other properties from this group automatically.
 using System;
 using System.Collections.Generic;
 using Dietphone.Models;

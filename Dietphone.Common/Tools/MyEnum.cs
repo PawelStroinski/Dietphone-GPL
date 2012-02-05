@@ -1,4 +1,4 @@
-﻿// Na podstawie http://stackoverflow.com/questions/105372/c-how-to-enumerate-an-enum
+﻿// Based on http://stackoverflow.com/questions/105372/c-how-to-enumerate-an-enum
 using System.Collections.Generic;
 using System.Reflection;
 

@@ -1,4 +1,4 @@
-﻿// Na podstawie WindowsPhone7UXGuide
+﻿// Based on WindowsPhone7UXGuide
 using System.Windows;
 
 namespace Dietphone.Views

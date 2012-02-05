@@ -30,8 +30,7 @@ namespace Dietphone.Models
 
         public Product Product
         {
-            // Dyskusjne. Być może wyszukiwanie za każdym razem
-            // będzie wystarczająco szybkie.
+            // Debatable. Maybe searching each time will be fast enough.
             get
             {
                 VerifySearchedForProduct();

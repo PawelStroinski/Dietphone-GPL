@@ -1,4 +1,4 @@
-﻿// Metoda CopyFromAny inspirowana metodą CopyTo z http://stackoverflow.com/questions/78536/cloning-objects-in-c
+﻿// CopyFromAny method inspired by CopyTo method from http://stackoverflow.com/questions/78536/cloning-objects-in-c
 using System;
 using System.Collections.Generic;
 using System.Linq;

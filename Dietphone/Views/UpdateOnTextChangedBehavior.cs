@@ -1,4 +1,4 @@
-﻿// Kod zaczerpnięty z http://zoltanarvai.com/2009/07/22/binding-update-on-textbox-textchanged-event-using-behaviors/
+﻿// Code taken from http://zoltanarvai.com/2009/07/22/binding-update-on-textbox-textchanged-event-using-behaviors/
 
 using System.Windows.Controls;
 using System.Windows.Data;

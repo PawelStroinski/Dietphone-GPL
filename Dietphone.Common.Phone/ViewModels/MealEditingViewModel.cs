@@ -85,7 +85,8 @@ namespace Dietphone.ViewModels
             }
         }
 
-        // Uwaga: zmiana NotIsLockedDateTime może zmienić Meal.DateTime za pomocą UpdateLockedDateTime().
+        // Note: changing NotIsLockedDateTime may change the Meal.DateTime
+        // with help of UpdateLockedDateTime().
         public bool NotIsLockedDateTime
         {
             get

@@ -378,7 +378,7 @@ namespace Dietphone.ViewModels
                       select item.ProductName;
             var nonEmpty = all.Where(name => !string.IsNullOrEmpty(name));
             var firstFew = nonEmpty.Take(TAKE_PRODUCTS_TO_HEAD);
-            // Linq z Take() ewaluuje tylko tyle elementów listy ile potrzeba
+            // Linq with Take() evaluates only such number of list items that is needed
             return string.Join(" | ", firstFew.ToArray());
         }
 
@@ -386,7 +386,7 @@ namespace Dietphone.ViewModels
         {
             var result = new List<string>();
             var items = Items;
-            // Nie zamieniaj na Linq bo Skip() bo w przeciwieństwie do Take() ewaluuje całą listę
+            // Don't replace with Linq because Skip() in contrast to Take() evaluates whole list
             for (int i = TAKE_PRODUCTS_TO_HEAD; i < items.Count; i++)
             {
                 var name = items[i].ProductName;

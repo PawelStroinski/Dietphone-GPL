@@ -1,4 +1,4 @@
-﻿// Inspirowane artykułem http://dotnet.dzone.com/articles/input-box-windows-phone-7
+﻿// Inspired by the article http://dotnet.dzone.com/articles/input-box-windows-phone-7
 using System;
 using System.Windows.Controls;
 using Microsoft.Xna.Framework;

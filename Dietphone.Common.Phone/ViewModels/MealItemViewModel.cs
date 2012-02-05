@@ -78,7 +78,7 @@ namespace Dietphone.ViewModels
             }
         }
 
-        // Uwaga: zmiana UnitWithDetalis może zmienić Value za pomocą SetOneServingIfIsZeroServings().
+        // Note: changing UnitWithDetalis may change the Value with help of SetOneServingIfIsZeroServings().
         public string UnitWithDetalis
         {
             get
