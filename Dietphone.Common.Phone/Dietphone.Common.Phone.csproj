@@ -73,9 +73,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Pabloware.About.Phone\GoingToAbout.cs">
-      <Link>ViewModels\GoingToAbout.cs</Link>
-    </Compile>
     <Compile Include="BinarySerializers\PhoneBinaryStreamProvider.cs" />
     <Compile Include="MyApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +82,7 @@
     <Compile Include="ViewModels\PivotTombstoningViewModel.cs" />
     <Compile Include="ViewModels\ViewModelWithBufferAcc.cs" />
     <Compile Include="Views\StateProviderPage.cs" />
+    <Compile Include="Tools\GoingToAbout.cs" />
     <Compile Include="Tools\UIExtensionMethods.cs" />
     <Compile Include="Tools\Vibration.cs" />
     <Compile Include="Tools\XnaInputBox.cs" />
