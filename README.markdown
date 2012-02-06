@@ -1,10 +1,10 @@
 Dietphone GPL source release
 ============================
-This is GPL source release of (Dietphone)[http://windowsphone.com/s?appid=e70d0fa0-67c1-4674-b27f-849ff5832f47] Windows Phone app.
+This is GPL source release of [Dietphone](http://windowsphone.com/s?appid=e70d0fa0-67c1-4674-b27f-849ff5832f47) Windows Phone app.
 
 Implementation details
 ----------------------
-Dietphone was written with (MVVM)[http://en.wikipedia.org/wiki/Model_View_ViewModel] architectural pattern, (Clean Code)[http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882], performance, Metro UI and everyday-use in mind.
+Dietphone was written with [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) architectural pattern, [Clean Code](http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882), performance, Metro UI and everyday-use in mind.
 
 But what is Dietphone?
 ----------------------
