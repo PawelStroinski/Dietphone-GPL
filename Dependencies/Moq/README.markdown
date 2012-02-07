@@ -1,0 +1,1 @@
+See [Moq](http://code.google.com/p/moq/) for more information.
