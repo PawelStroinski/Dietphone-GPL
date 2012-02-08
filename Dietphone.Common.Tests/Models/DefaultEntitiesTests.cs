@@ -17,7 +17,7 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
-        public void Creates_Expected_MealName()
+        public void Creates_Correct_MealName()
         {
             var mealName = defaultEntities.MealName;
             Assert.AreEqual(Guid.Empty, mealName.Id);
@@ -25,7 +25,7 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
-        public void Creates_Expected_Product()
+        public void Creates_Correct_Product()
         {
             var product = defaultEntities.Product;
             Assert.AreEqual(Guid.Empty, product.Id);
@@ -33,7 +33,7 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
-        public void Creates_MealName_OneTime()
+        public void Creates_MealName_One_Time()
         {
             var mealName1 = defaultEntities.MealName;
             var mealName2 = defaultEntities.MealName;
@@ -42,7 +42,7 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
-        public void Creates_Product_OneTime()
+        public void Creates_Product_One_Time()
         {
             var product1 = defaultEntities.Product;
             var product2 = defaultEntities.Product;
