@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.AsNET", "Dietphone.Common\Dietphone.Common.AsNET.csproj", "{3782705F-A409-4AFE-B178-C0CAE195303F}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dietphone.vsmdi
@@ -55,6 +57,10 @@ Global
 		{A4B579CD-BB2C-44B7-85C4-D6126964E970}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4B579CD-BB2C-44B7-85C4-D6126964E970}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4B579CD-BB2C-44B7-85C4-D6126964E970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3782705F-A409-4AFE-B178-C0CAE195303F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3782705F-A409-4AFE-B178-C0CAE195303F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3782705F-A409-4AFE-B178-C0CAE195303F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3782705F-A409-4AFE-B178-C0CAE195303F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
