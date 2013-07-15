@@ -56,9 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">
-      <Project>{6D7F0A0C-AF4E-4CAC-B82B-35C703FDAF55}</Project>
-      <Name>Dietphone.Common</Name>
+    <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.AsNET.csproj">
+      <Project>{3782705F-A409-4AFE-B178-C0CAE195303F}</Project>
+      <Name>Dietphone.Common.AsNET</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
