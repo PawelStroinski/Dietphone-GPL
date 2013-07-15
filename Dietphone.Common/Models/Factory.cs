@@ -3,7 +3,7 @@ using System;
 
 namespace Dietphone.Models
 {
-    public sealed class Factory<T> where T : Entity, new()
+    public sealed class Factory<T> where T : Entity, new() // TODO: Shouldn't this be named as Repository?
     {
         private List<T> entities;
         private readonly Factories owner;

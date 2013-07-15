@@ -84,6 +84,24 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
+        public void Exposes_Created_Sugars()
+        {
+            var sugars = factories.Sugars;
+            var sugar = factories.CreateSugar();
+            Assert.AreEqual(1, sugars.Count);
+            Assert.AreSame(sugar, sugars[0]);
+        }
+
+        [TestMethod]
+        public void Exposes_Created_Insulins()
+        {
+            var insulins = factories.Insulins;
+            var insulin = factories.CreateInsulin();
+            Assert.AreEqual(1, insulins.Count);
+            Assert.AreSame(insulin, insulins[0]);
+        }
+
+        [TestMethod]
         public void Exposes_Settings()
         {
             var settings = factories.Settings;
@@ -136,6 +154,27 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
+        public void Creates_Correct_Sugar()
+        {
+            var sugar = factories.CreateSugar();
+            Assert.IsInstanceOfType(sugar, typeof(Sugar));
+            Assert.AreNotEqual(Guid.Empty, sugar.Id);
+            Assert.AreNotEqual(default(DateTime), sugar.DateTime);
+            Assert.AreEqual(DateTimeKind.Utc, sugar.DateTime.Kind);
+        }
+
+        [TestMethod]
+        public void Creates_Correct_Insulin()
+        {
+            var insulin = factories.CreateInsulin();
+            Assert.IsInstanceOfType(insulin, typeof(Insulin));
+            Assert.AreNotEqual(Guid.Empty, insulin.Id);
+            Assert.AreNotEqual(default(DateTime), insulin.DateTime);
+            Assert.AreEqual(DateTimeKind.Utc, insulin.DateTime.Kind);
+            Assert.AreEqual(string.Empty, insulin.Note);
+        }
+
+        [TestMethod]
         public void Saves_Everything()
         {
             var factories = new FactoriesImpl();
@@ -145,6 +184,8 @@ namespace Dietphone.Models.Tests
             factories.CreateMeal();
             factories.CreateMealName();
             factories.CreateProduct();
+            factories.CreateSugar();
+            factories.CreateInsulin();
             var dummy = factories.Settings;
             factories.Save();
             stub.Verify();

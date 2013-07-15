@@ -14,6 +14,8 @@ namespace Dietphone.Models
         List<MealName> MealNames { get; }
         List<Product> Products { get; }
         List<Category> Categories { get; }
+        List<Sugar> Sugars { get; }
+        List<Insulin> Insulins { get; }
         Settings Settings { get; }
 
         Meal CreateMeal();
@@ -21,6 +23,8 @@ namespace Dietphone.Models
         MealItem CreateMealItem();
         Product CreateProduct();
         Category CreateCategory();
+        Sugar CreateSugar();
+        Insulin CreateInsulin();
         void Save();
     }
 
@@ -32,12 +36,16 @@ namespace Dietphone.Models
         private Factory<MealName> mealNameFactory;
         private Factory<Product> productFactory;
         private Factory<Category> categoryFactory;
+        private Factory<Sugar> sugarFactory;
+        private Factory<Insulin> insulinFactory;
         private Factory<Settings> settingsFactory;
         private readonly FactoryCreator factoryCreator;
         private readonly object mealFactoryLock = new object();
         private readonly object mealNameFactoryLock = new object();
         private readonly object productFactoryLock = new object();
         private readonly object categoryFactoryLock = new object();
+        private readonly object sugarFactoryLock = new object();
+        private readonly object insulinFactoryLock = new object();
         private readonly object settingsFactoryLock = new object();
 
         public FactoriesImpl()
@@ -87,6 +95,22 @@ namespace Dietphone.Models
             }
         }
 
+        public List<Sugar> Sugars
+        {
+            get
+            {
+                return SugarFactory.Entities;
+            }
+        }
+
+        public List<Insulin> Insulins
+        {
+            get
+            {
+                return InsulinFactory.Entities;
+            }
+        }
+
         public Settings Settings
         {
             get
@@ -96,7 +120,7 @@ namespace Dietphone.Models
             }
         }
 
-        public Meal CreateMeal()
+        public Meal CreateMeal() // TODO: Those Create* methods (class-specific lines) should be in individual classes
         {
             var meal = MealFactory.CreateEntity();
             meal.Id = Guid.NewGuid();
@@ -140,12 +164,31 @@ namespace Dietphone.Models
             return category;
         }
 
+        public Sugar CreateSugar()
+        {
+            var sugar = SugarFactory.CreateEntity();
+            sugar.Id = Guid.NewGuid();
+            sugar.DateTime = DateTime.UtcNow;
+            return sugar;
+        }
+
+        public Insulin CreateInsulin()
+        {
+            var insulin = InsulinFactory.CreateEntity();
+            insulin.Id = Guid.NewGuid();
+            insulin.DateTime = DateTime.UtcNow;
+            insulin.SetNullStringPropertiesToEmpty();
+            return insulin;
+        }
+
         public void Save()
         {
             MealFactory.Save();
             MealNameFactory.Save();
             ProductFactory.Save();
             CategoryFactory.Save();
+            SugarFactory.Save();
+            InsulinFactory.Save();
             SettingsFactory.Save();
         }
 
@@ -205,6 +248,36 @@ namespace Dietphone.Models
                         categoryFactory = factoryCreator.CreateFactory<Category>();
                     }
                     return categoryFactory;
+                }
+            }
+        }
+
+        private Factory<Sugar> SugarFactory
+        {
+            get
+            {
+                lock (sugarFactoryLock)
+                {
+                    if (sugarFactory == null)
+                    {
+                        sugarFactory = factoryCreator.CreateFactory<Sugar>();
+                    }
+                    return sugarFactory;
+                }
+            }
+        }
+
+        private Factory<Insulin> InsulinFactory
+        {
+            get
+            {
+                lock (insulinFactoryLock)
+                {
+                    if (insulinFactory == null)
+                    {
+                        insulinFactory = factoryCreator.CreateFactory<Insulin>();
+                    }
+                    return insulinFactory;
                 }
             }
         }
