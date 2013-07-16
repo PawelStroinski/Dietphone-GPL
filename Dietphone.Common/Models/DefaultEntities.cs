@@ -7,15 +7,18 @@ namespace Dietphone.Models
     {
         MealName MealName { get; }
         Product Product { get; }
+        InsulinCircumstance InsulinCircumstance { get; }
     }
 
     public sealed class DefaultEntitiesImpl : DefaultEntities
     {
         private MealName mealName;
         private Product product;
+        private InsulinCircumstance insulinCircumstance;
         private readonly Factories owner;
         private readonly object mealNameLock = new object();
         private readonly object productLock = new object();
+        private readonly object insulinCircumstanceLock = new object();
 
         public DefaultEntitiesImpl(Factories owner)
         {
@@ -56,6 +59,25 @@ namespace Dietphone.Models
                         product.Name = Translations.NoProduct;
                     }
                     return product;
+                }
+            }
+        }
+
+        public InsulinCircumstance InsulinCircumstance
+        {
+            get
+            {
+                lock (insulinCircumstanceLock)
+                {
+                    if (insulinCircumstance == null)
+                    {
+                        insulinCircumstance = owner.CreateInsulinCircumstance();
+                        var circumstances = owner.InsulinCircumstances;
+                        circumstances.Remove(insulinCircumstance);
+                        insulinCircumstance.Id = Guid.Empty;
+                        insulinCircumstance.Name = Translations.UnknownInsulinCircumstance;
+                    }
+                    return insulinCircumstance;
                 }
             }
         }

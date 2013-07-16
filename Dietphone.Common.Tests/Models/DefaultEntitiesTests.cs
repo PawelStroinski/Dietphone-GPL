@@ -33,6 +33,14 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
+        public void Creates_Correct_InsulinCircumstance()
+        {
+            var insulinCircumstance = defaultEntities.InsulinCircumstance;
+            Assert.AreEqual(Guid.Empty, insulinCircumstance.Id);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(insulinCircumstance.Name));
+        }
+
+        [TestMethod]
         public void Creates_MealName_One_Time()
         {
             var mealName1 = defaultEntities.MealName;
@@ -48,6 +56,15 @@ namespace Dietphone.Models.Tests
             var product2 = defaultEntities.Product;
             Assert.IsNotNull(product1);
             Assert.AreSame(product1, product2);
+        }
+
+        [TestMethod]
+        public void Creates_InsulinCircumstance_One_Time()
+        {
+            var circumstance1 = defaultEntities.InsulinCircumstance;
+            var circumstance2 = defaultEntities.InsulinCircumstance;
+            Assert.IsNotNull(circumstance1);
+            Assert.AreSame(circumstance1, circumstance2);
         }
     }
 }

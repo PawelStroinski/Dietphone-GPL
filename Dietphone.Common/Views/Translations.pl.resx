@@ -493,4 +493,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="Dinner" xml:space="preserve">
     <value>Kolacja</value>
   </data>
+  <data name="UnknownInsulinCircumstance" xml:space="preserve">
+    <value>Nieznana okoliczność</value>
+  </data>
 </root>
