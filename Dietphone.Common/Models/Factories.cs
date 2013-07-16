@@ -16,6 +16,7 @@ namespace Dietphone.Models
         List<Category> Categories { get; }
         List<Sugar> Sugars { get; }
         List<Insulin> Insulins { get; }
+        List<InsulinCircumstance> InsulinCircumstances { get; }
         Settings Settings { get; }
 
         Meal CreateMeal();
@@ -25,6 +26,7 @@ namespace Dietphone.Models
         Category CreateCategory();
         Sugar CreateSugar();
         Insulin CreateInsulin();
+        InsulinCircumstance CreateInsulinCircumstance();
         void Save();
     }
 
@@ -38,6 +40,7 @@ namespace Dietphone.Models
         private Factory<Category> categoryFactory;
         private Factory<Sugar> sugarFactory;
         private Factory<Insulin> insulinFactory;
+        private Factory<InsulinCircumstance> insulinCircumstanceFactory;
         private Factory<Settings> settingsFactory;
         private readonly FactoryCreator factoryCreator;
         private readonly object mealFactoryLock = new object();
@@ -46,6 +49,7 @@ namespace Dietphone.Models
         private readonly object categoryFactoryLock = new object();
         private readonly object sugarFactoryLock = new object();
         private readonly object insulinFactoryLock = new object();
+        private readonly object insulinCircumstanceFactoryLock = new object();
         private readonly object settingsFactoryLock = new object();
 
         public FactoriesImpl()
@@ -108,6 +112,14 @@ namespace Dietphone.Models
             get
             {
                 return InsulinFactory.Entities;
+            }
+        }
+
+        public List<InsulinCircumstance> InsulinCircumstances
+        {
+            get
+            {
+                return InsulinCircumstanceFactory.Entities;
             }
         }
 
@@ -181,6 +193,14 @@ namespace Dietphone.Models
             return insulin;
         }
 
+        public InsulinCircumstance CreateInsulinCircumstance()
+        {
+            var circumstance = InsulinCircumstanceFactory.CreateEntity();
+            circumstance.Id = Guid.NewGuid();
+            circumstance.SetNullStringPropertiesToEmpty();
+            return circumstance;
+        }
+
         public void Save()
         {
             MealFactory.Save();
@@ -189,6 +209,7 @@ namespace Dietphone.Models
             CategoryFactory.Save();
             SugarFactory.Save();
             InsulinFactory.Save();
+            InsulinCircumstanceFactory.Save();
             SettingsFactory.Save();
         }
 
@@ -278,6 +299,21 @@ namespace Dietphone.Models
                         insulinFactory = factoryCreator.CreateFactory<Insulin>();
                     }
                     return insulinFactory;
+                }
+            }
+        }
+
+        private Factory<InsulinCircumstance> InsulinCircumstanceFactory
+        {
+            get
+            {
+                lock (insulinCircumstanceFactoryLock)
+                {
+                    if (insulinCircumstanceFactory == null)
+                    {
+                        insulinCircumstanceFactory = factoryCreator.CreateFactory<InsulinCircumstance>();
+                    }
+                    return insulinCircumstanceFactory;
                 }
             }
         }

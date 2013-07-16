@@ -102,6 +102,15 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
+        public void Exposes_Created_InsulinCircumstances()
+        {
+            var circumstances = factories.InsulinCircumstances;
+            var circumstance = factories.CreateInsulinCircumstance();
+            Assert.AreEqual(1, circumstances.Count);
+            Assert.AreSame(circumstance, circumstances[0]);
+        }
+
+        [TestMethod]
         public void Exposes_Settings()
         {
             var settings = factories.Settings;
@@ -175,6 +184,15 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
+        public void Creates_Correct_InsulinCircumstance()
+        {
+            var circumstance = factories.CreateInsulinCircumstance();
+            Assert.IsInstanceOfType(circumstance, typeof(InsulinCircumstance));
+            Assert.AreNotEqual(Guid.Empty, circumstance.Id);
+            Assert.AreEqual(string.Empty, circumstance.Name);
+        }
+
+        [TestMethod]
         public void Saves_Everything()
         {
             var factories = new FactoriesImpl();
@@ -186,6 +204,7 @@ namespace Dietphone.Models.Tests
             factories.CreateProduct();
             factories.CreateSugar();
             factories.CreateInsulin();
+            factories.CreateInsulinCircumstance();
             var dummy = factories.Settings;
             factories.Save();
             stub.Verify();

@@ -58,6 +58,7 @@
     <Compile Include="Models\Factory.cs" />
     <Compile Include="Models\Finder.cs" />
     <Compile Include="Models\Insulin.cs" />
+    <Compile Include="Models\InsulinCircumstance.cs" />
     <Compile Include="Models\Meal.cs" />
     <Compile Include="Models\MealItem.cs" />
     <Compile Include="Models\MealName.cs" />
