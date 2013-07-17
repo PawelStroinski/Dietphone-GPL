@@ -38,6 +38,11 @@ namespace Dietphone.Models
             circumstances = newCircumstances;
         }
 
+        public IEnumerable<Guid> ReadCircumstances()
+        {
+            return circumstances.ToList();
+        }
+
         public void AddCircumstance(InsulinCircumstance newCircumstance)
         {
             CheckCircumstances();

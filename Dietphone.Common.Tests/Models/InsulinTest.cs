@@ -72,6 +72,15 @@ namespace Dietphone.Models.Tests
                 Assert.AreSame(circumstance, circumstances.ElementAt(1));
             }
 
+            [TestMethod]
+            public void Can_Read_Circumstances()
+            {
+                var circumstances = new List<Guid> { Guid.NewGuid() };
+                var insulin = new Insulin();
+                insulin.InitializeCircumstances(circumstances);
+                Assert.IsTrue(Enumerable.SequenceEqual(circumstances, insulin.ReadCircumstances()));
+            }
+
             [ExpectedException(typeof(InvalidOperationException))]
             [TestMethod]
             public void Cannot_Add_Circumstance_When_Not_Initialized()
