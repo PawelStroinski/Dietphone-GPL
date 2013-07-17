@@ -19,10 +19,7 @@ namespace Dietphone.Models
         {
             get
             {
-                if (circumstances == null)
-                {
-                    throw new InvalidOperationException("Call InitializeCircumstances first.");
-                }
+                CheckCircumstances();
                 foreach (var id in circumstances)
                 {
                     var circumstance = Finder.FindInsulinCircumstanceById(id);
@@ -39,6 +36,26 @@ namespace Dietphone.Models
                 throw new InvalidOperationException("Circumstances can only be initialized once.");
             }
             circumstances = newCircumstances;
+        }
+
+        public void AddCircumstance(InsulinCircumstance newCircumstance)
+        {
+            CheckCircumstances();
+            circumstances.Add(newCircumstance.Id);
+        }
+
+        public void DeleteCircumstance(InsulinCircumstance circumstanceToDelete)
+        {
+            CheckCircumstances();
+            circumstances.Remove(circumstanceToDelete.Id);
+        }
+
+        private void CheckCircumstances()
+        {
+            if (circumstances == null)
+            {
+                throw new InvalidOperationException("Call InitializeCircumstances first.");
+            }
         }
     }
 }
