@@ -20,6 +20,7 @@ namespace Dietphone.BinarySerializers
             builder.ProposeStorageForEntity<ProductBinaryStorage>();
             builder.ProposeStorageForEntity<CategoryBinaryStorage>();
             builder.ProposeStorageForEntity<InsulinBinaryStorage>();
+            builder.ProposeStorageForEntity<InsulinCircumstanceBinaryStorage>();
             builder.ProposeStorageForEntity<SettingsBinaryStorage>();
             var storage = builder.RightStorageForEntity;
             storage.StreamProvider = streamProvider;

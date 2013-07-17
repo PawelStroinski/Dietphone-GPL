@@ -46,6 +46,7 @@
     <Compile Include="BinarySerializers\BinaryStreamProvider.cs" />
     <Compile Include="BinarySerializers\CategoryBinaryStorage.cs" />
     <Compile Include="BinarySerializers\InsulinBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\InsulinCircumstanceBinaryStorage.cs" />
     <Compile Include="BinarySerializers\MealBinaryStorage.cs" />
     <Compile Include="BinarySerializers\MealNameBinaryStorage.cs" />
     <Compile Include="BinarySerializers\ProductBinaryStorage.cs" />
