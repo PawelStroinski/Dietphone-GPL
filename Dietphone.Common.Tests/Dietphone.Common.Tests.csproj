@@ -57,6 +57,7 @@
     <Compile Include="BinarySerializers\BinaryStorageTestsBase.cs" />
     <Compile Include="BinarySerializers\InsulinBinaryStorageTests.cs" />
     <Compile Include="BinarySerializers\InsulinCircumstanceBinaryStorageTests.cs" />
+    <Compile Include="BinarySerializers\SugarBinaryStorageTests.cs" />
     <Compile Include="Models\CalculatorTests.cs" />
     <Compile Include="Models\DefaultEntitiesTests.cs" />
     <Compile Include="Models\EntityTests.cs" />
