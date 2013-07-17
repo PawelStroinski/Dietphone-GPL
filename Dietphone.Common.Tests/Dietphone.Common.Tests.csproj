@@ -52,6 +52,8 @@
     <Compile Include="Models\DefaultEntitiesTests.cs" />
     <Compile Include="Models\EntityTests.cs" />
     <Compile Include="Models\FactoriesTests.cs" />
+    <Compile Include="Models\FinderTests.cs" />
+    <Compile Include="Models\InsulinTest.cs" />
     <Compile Include="Models\StorageCreatorStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
