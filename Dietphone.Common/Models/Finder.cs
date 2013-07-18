@@ -14,6 +14,8 @@ namespace Dietphone.Models
         List<Product> FindProductsByCategory(Guid categoryId);
         List<Product> FindProductsAddedByUser();
         Category FindCategoryFirstAlphabetically();
+        Meal FindMealByInsulin(Insulin insulin);
+        Insulin FindInsulinByMeal(Meal meal);
     }
 
     public sealed class FinderImpl : Finder
@@ -76,6 +78,30 @@ namespace Dietphone.Models
             var categories = factories.Categories;
             var sortedCategories = categories.OrderBy(category => category.Name);
             return sortedCategories.FirstOrDefault();
+        }
+
+        public Meal FindMealByInsulin(Insulin insulin)
+        {
+            var meals = factories.Meals;
+            var earliest = insulin.DateTime.AddHours(-1);
+            var latest = insulin.DateTime.AddHours(1);
+            var candidates = meals.Where(m => m.DateTime >= earliest && m.DateTime <= latest).ToList();
+            if (candidates.Count > 1)
+                return candidates.OrderBy(m => Math.Abs((m.DateTime - insulin.DateTime).Ticks)).FirstOrDefault();
+            else
+                return candidates.FirstOrDefault();
+        }
+
+        public Insulin FindInsulinByMeal(Meal meal)
+        {
+            var insulins = factories.Insulins;
+            var earliest = meal.DateTime.AddHours(-1);
+            var latest = meal.DateTime.AddHours(1);
+            var candidates = insulins.Where(i => i.DateTime >= earliest && i.DateTime <= latest).ToList();
+            if (candidates.Count > 1)
+                return candidates.OrderBy(i => Math.Abs((i.DateTime - meal.DateTime).Ticks)).FirstOrDefault();
+            else
+                return candidates.FirstOrDefault();
         }
     }
 
