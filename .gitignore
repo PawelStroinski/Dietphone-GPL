@@ -33,3 +33,5 @@ desktop.ini
 *.zreproj
 #Ignore tss file (added by git?)
 *.tss
+*.ncrunchproject
+*.ncrunchsolution
