@@ -237,6 +237,11 @@ namespace Dietphone.Models
                 return calculator.Fpu;
             }
         }
+
+        public byte PercentOfEnergyInMeal(Meal meal)
+        {
+            return (byte)Math.Round((double)Energy / meal.Energy * 100);
+        }
     }
 
     public class MealItemWithValidation : MealItemWithNutrients

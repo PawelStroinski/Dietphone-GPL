@@ -7,7 +7,7 @@ using Moq;
 namespace Dietphone.Models.Tests
 {
     [TestClass]
-    public class InsulinTest
+    public class InsulinTests
     {
         [TestClass]
         public class InsulinCircumstances
