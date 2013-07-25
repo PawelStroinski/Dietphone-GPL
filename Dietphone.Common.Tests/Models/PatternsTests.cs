@@ -135,6 +135,18 @@ namespace Dietphone.Models.Tests
         }
 
         [TestMethod]
+        public void MoreSimillarPercentageOfEnergyInMealGivesMoreRightnessPoints()
+        {
+            var sut = new PatternsImpl(factories);
+            var insulin = AddInsulin("12:00", 1, 0, 0);
+            AddMeal("12:00 1 100g 2 100g");
+            AddMeal("07:00 1 100g 3 100g");
+            AddMeal("07:00 1 116g 3 84g");
+            var patterns = sut.GetPatternsFor(insulin);
+            Assert.AreEqual(8, patterns[0].RightnessPoints - patterns[1].RightnessPoints, "10-2 so should be 8 points");
+        }
+
+        [TestMethod]
         public void IfSugarBeforeCannotBeFoundThenMealIsNotReturned()
         {
             

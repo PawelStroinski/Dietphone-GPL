@@ -7,7 +7,7 @@ namespace Dietphone.Models
 {
     public class Pattern
     {
-        public byte RightnessPercent { get; set; }
+        public byte RightnessPoints { get; set; }
         public MealItem Match { get; set; }
         public Meal From { get; set; }
         public Insulin Insulin { get; set; }

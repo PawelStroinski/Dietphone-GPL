@@ -16,6 +16,7 @@ namespace Dietphone.Models
         Category FindCategoryFirstAlphabetically();
         Meal FindMealByInsulin(Insulin insulin);
         Insulin FindInsulinByMeal(Meal meal);
+        Sugar FindSugarBeforeInsulin(Insulin insulin);
     }
 
     public sealed class FinderImpl : Finder
@@ -102,6 +103,11 @@ namespace Dietphone.Models
                 return candidates.OrderBy(i => Math.Abs((i.DateTime - meal.DateTime).Ticks)).FirstOrDefault();
             else
                 return candidates.FirstOrDefault();
+        }
+
+        public Sugar FindSugarBeforeInsulin(Insulin insulin)
+        {
+            throw new NotImplementedException();
         }
     }
 

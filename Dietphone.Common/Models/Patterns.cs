@@ -11,7 +11,7 @@ namespace Dietphone.Models
 
     public class PatternsImpl : Patterns
     {
-        private const int MAX_PERCENT_OF_ENERGY_DIFF = 10;
+        private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private readonly Factories factories;
 
         public PatternsImpl(Factories factories)
@@ -28,11 +28,14 @@ namespace Dietphone.Models
                     foreach (var searchedItem in searchedMeal.Items)
                         if (item.ProductId == searchedItem.ProductId)
                         {
-                            var itemEnergyPercent = item.PercentOfEnergyInMeal(meal);
-                            var searchedItemEnergyPercent = searchedItem.PercentOfEnergyInMeal(searchedMeal);
-                            if (Math.Abs(itemEnergyPercent - searchedItemEnergyPercent) > MAX_PERCENT_OF_ENERGY_DIFF)
+                            var itemPercentOfEnergy = item.PercentOfEnergyInMeal(meal);
+                            var searchedItemPercentOfEnergy = searchedItem.PercentOfEnergyInMeal(searchedMeal);
+                            var percentOfEnergyDiff = Math.Abs(itemPercentOfEnergy - searchedItemPercentOfEnergy);
+                            if (percentOfEnergyDiff > MAX_PERCENT_OF_ENERGY_DIFF)
                                 continue;
-                            patterns.Add(new Pattern { Match = item, From = meal });
+                            var pattern = new Pattern { Match = item, From = meal };
+                            pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
+                            patterns.Add(pattern);
                         }
             return patterns;
         }
