@@ -1,14 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class DefaultEntitiesTests
     {
         private DefaultEntities defaultEntities;
             
-        [TestInitialize()]
+        [SetUp]
         public void TestInitialize()
         {
             var factories = new FactoriesImpl();
@@ -16,7 +15,7 @@ namespace Dietphone.Models.Tests
             defaultEntities = new DefaultEntitiesImpl(factories);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_MealName()
         {
             var mealName = defaultEntities.MealName;
@@ -24,7 +23,7 @@ namespace Dietphone.Models.Tests
             Assert.IsFalse(string.IsNullOrWhiteSpace(mealName.Name));
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_Product()
         {
             var product = defaultEntities.Product;
@@ -32,7 +31,7 @@ namespace Dietphone.Models.Tests
             Assert.IsFalse(string.IsNullOrWhiteSpace(product.Name));
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_InsulinCircumstance()
         {
             var insulinCircumstance = defaultEntities.InsulinCircumstance;
@@ -40,7 +39,7 @@ namespace Dietphone.Models.Tests
             Assert.IsFalse(string.IsNullOrWhiteSpace(insulinCircumstance.Name));
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_MealName_One_Time()
         {
             var mealName1 = defaultEntities.MealName;
@@ -49,7 +48,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(mealName1, mealName2);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Product_One_Time()
         {
             var product1 = defaultEntities.Product;
@@ -58,7 +57,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(product1, product2);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_InsulinCircumstance_One_Time()
         {
             var circumstance1 = defaultEntities.InsulinCircumstance;

@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 using System.Collections.Generic;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class FinderTests
     {
         private Mock<Factories> factories;
 
-        [TestInitialize()]
+        [SetUp]
         public void TestInitialize()
         {
             factories = new Mock<Factories>();
         }
 
-        [TestMethod]
+        [Test]
         public void FindInsulinCircumstanceById()
         {
             var expected = new InsulinCircumstance { Id = Guid.NewGuid() };
@@ -27,7 +26,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void FindMealByInsulin_IfNoMealsInHour_ReturnsNull()
         {
             var meal1 = new Meal { DateTime = DateTime.Now.AddHours(1.1) };
@@ -39,7 +38,7 @@ namespace Dietphone.Models.Tests
             Assert.IsNull(meal);
         }
 
-        [TestMethod]
+        [Test]
         public void FindMealByInsulin_IfMealInHourBefore_ReturnsMeal()
         {
             var meal1 = new Meal { DateTime = DateTime.Now.AddHours(1.1) };
@@ -51,7 +50,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(meal2, meal);
         }
 
-        [TestMethod]
+        [Test]
         public void FindMealByInsulin_IfMealInHourAfter_ReturnsMeal()
         {
             var meal1 = new Meal { DateTime = DateTime.Now.AddHours(0.9) };
@@ -63,7 +62,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(meal1, meal);
         }
 
-        [TestMethod]
+        [Test]
         public void FindMealByInsulin_IfTwoMealsInHour_ReturnsCloserMeal()
         {
             var meal1 = new Meal { DateTime = DateTime.Now.AddHours(0.9) };
@@ -75,7 +74,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(meal2, meal);
         }
 
-        [TestMethod]
+        [Test]
         public void FindInsulinByMeal_IfNoInsulinsInHour_ReturnsNull()
         {
             var insulin1 = new Insulin { DateTime = DateTime.Now.AddHours(1.1) };
@@ -87,7 +86,7 @@ namespace Dietphone.Models.Tests
             Assert.IsNull(insulin);
         }
 
-        [TestMethod]
+        [Test]
         public void FindInsulinByMeal_IfInsulinInHourBefore_ReturnsInsulin()
         {
             var insulin1 = new Insulin { DateTime = DateTime.Now.AddHours(1.1) };
@@ -99,7 +98,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(insulin2, insulin);
         }
 
-        [TestMethod]
+        [Test]
         public void FindInsulinByMeal_IfInsulinInHourAfter_ReturnsInsulin()
         {
             var insulin1 = new Insulin { DateTime = DateTime.Now.AddHours(0.9) };
@@ -111,7 +110,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(insulin1, insulin);
         }
 
-        [TestMethod]
+        [Test]
         public void FindInsulinByMeal_IfTwoInsulinsInHour_ReturnsCloserInsulin()
         {
             var insulin1 = new Insulin { DateTime = DateTime.Now.AddHours(0.9) };
@@ -123,7 +122,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(insulin2, insulin);
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarBeforeInsulin_IfNoSugarsInHalfAnHourBefore_ReturnsNull()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(0.1) };
@@ -135,7 +134,7 @@ namespace Dietphone.Models.Tests
             Assert.IsNull(sugar);
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarBeforeInsulin_IfSugarInHalfAnHourBefore_ReturnsSugar()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(-0.6) };
@@ -147,7 +146,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(sugar2, sugar);
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarBeforeInsulin_IfTwoSugarsInHalfAnHour_ReturnsLatestSugar()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(-0.4) };
@@ -159,7 +158,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(sugar2, sugar);
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarsAfterInsulin_IfNoSugarsInFourHoursAfter_ReturnsEmpty()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(4.1) };
@@ -172,7 +171,7 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(0, sugars.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarsAfterInsulin_IfSugarsInFourHoursAfter_ReturnsThoseSugars()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(1) };
@@ -186,7 +185,7 @@ namespace Dietphone.Models.Tests
             Assert.IsTrue(Enumerable.SequenceEqual(new List<Sugar> { sugar1, sugar2 }, sugars));
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarsAfterInsulin_IfAnotherInsulinSoonerThanFourHoursLater_ReturnsOnlySugarsBeforeThisInsulin()
         {
             Action<int> test = removeMinutes =>
@@ -205,7 +204,7 @@ namespace Dietphone.Models.Tests
             test(0);
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarsAfterInsulin_IfAnotherInsulinLaterThanFourHoursLater_ReturnsAllSugarsInFourHours()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(1) };
@@ -219,7 +218,7 @@ namespace Dietphone.Models.Tests
             Assert.IsTrue(Enumerable.SequenceEqual(new List<Sugar> { sugar1, sugar2 }, sugars));
         }
 
-        [TestMethod]
+        [Test]
         public void FindSugarsAfterInsulin_SortsReturnedSugarsChronologically()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(2) };
@@ -232,7 +231,7 @@ namespace Dietphone.Models.Tests
             Assert.IsTrue(Enumerable.SequenceEqual(new List<Sugar> { sugar2, sugar1 }, sugars));
         }
 
-        [TestMethod]
+        [Test]
         public void FindNextInsulin_ReturnsNullIfNoNextInsulin()
         {
             var insulin1 = new Insulin { DateTime = DateTime.Now };
@@ -243,7 +242,7 @@ namespace Dietphone.Models.Tests
             Assert.IsNull(insulin);
         }
 
-        [TestMethod]
+        [Test]
         public void FindNextInsulin_ReturnsFirstChronologicallyFollowingInsulin()
         {
             var insulin1 = new Insulin { DateTime = DateTime.Now };

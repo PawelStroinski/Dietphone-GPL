@@ -1,16 +1,15 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 using System.Collections.Generic;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class FactoriesTests
     {
         private Factories factories;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             factories = new FactoriesImpl();
@@ -18,7 +17,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(NullReferenceException))]
-        [TestMethod]
+        [Test]
         public void Requires_StorageCreator_To_Create_Enity()
         {
             var factories = new FactoriesImpl();
@@ -26,28 +25,28 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(NullReferenceException))]
-        [TestMethod]
+        [Test]
         public void Requires_StorageCreator_To_Expose_Enities()
         {
             var factories = new FactoriesImpl();
             var dummy = factories.Meals;
         }
 
-        [TestMethod]
+        [Test]
         public void Has_Finder()
         {
             var finder = factories.Finder;
-            Assert.IsInstanceOfType(finder, typeof(Finder));
+            Assert.IsInstanceOf<Finder>(finder);
         }
 
-        [TestMethod]
+        [Test]
         public void Has_DefaultEntities()
         {
             var defaultEntities = factories.DefaultEntities;
-            Assert.IsInstanceOfType(defaultEntities, typeof(DefaultEntities));
+            Assert.IsInstanceOf<DefaultEntities>(defaultEntities);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Created_Meals()
         {
             var meals = factories.Meals;
@@ -56,7 +55,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(meal, meals[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Created_MealNames()
         {
             var mealNames = factories.MealNames;
@@ -65,7 +64,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(mealName, mealNames[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Created_Products()
         {
             var products = factories.Products;
@@ -74,7 +73,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(product, products[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Created_Categories()
         {
             var categories = factories.Categories;
@@ -83,7 +82,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(category, categories[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Created_Sugars()
         {
             var sugars = factories.Sugars;
@@ -92,7 +91,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(sugar, sugars[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Created_Insulins()
         {
             var insulins = factories.Insulins;
@@ -101,7 +100,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(insulin, insulins[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Created_InsulinCircumstances()
         {
             var circumstances = factories.InsulinCircumstances;
@@ -110,89 +109,89 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(circumstance, circumstances[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void Exposes_Settings()
         {
             var settings = factories.Settings;
-            Assert.IsInstanceOfType(settings, typeof(Settings));
+            Assert.IsInstanceOf<Settings>(settings);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_Meal()
         {
             var meal = factories.CreateMeal();
-            Assert.IsInstanceOfType(meal, typeof(Meal));
+            Assert.IsInstanceOf<Meal>(meal);
             Assert.AreNotEqual(Guid.Empty, meal.Id);
             Assert.AreNotEqual(default(DateTime), meal.DateTime);
             Assert.AreEqual(DateTimeKind.Utc, meal.DateTime.Kind);
             Assert.IsNotNull(meal.Items);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_MealName()
         {
             var mealName = factories.CreateMealName();
-            Assert.IsInstanceOfType(mealName, typeof(MealName));
+            Assert.IsInstanceOf<MealName>(mealName);
             Assert.AreNotEqual(Guid.Empty, mealName.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_MealItem()
         {
             var mealItem = factories.CreateMealItem();
-            Assert.IsInstanceOfType(mealItem, typeof(MealItem));
+            Assert.IsInstanceOf<MealItem>(mealItem);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_Product()
         {
             var category = factories.Categories[0];
             category.Id = Guid.NewGuid();
             var product = factories.CreateProduct();
-            Assert.IsInstanceOfType(product, typeof(Product));
+            Assert.IsInstanceOf<Product>(product);
             Assert.AreNotEqual(Guid.Empty, product.Id);
             Assert.AreEqual(category.Id, product.CategoryId);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_Category()
         {
             var category = factories.CreateCategory();
-            Assert.IsInstanceOfType(category, typeof(Category));
+            Assert.IsInstanceOf<Category>(category);
             Assert.AreNotEqual(Guid.Empty, category.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_Sugar()
         {
             var sugar = factories.CreateSugar();
-            Assert.IsInstanceOfType(sugar, typeof(Sugar));
+            Assert.IsInstanceOf<Sugar>(sugar);
             Assert.AreNotEqual(Guid.Empty, sugar.Id);
             Assert.AreNotEqual(default(DateTime), sugar.DateTime);
             Assert.AreEqual(DateTimeKind.Utc, sugar.DateTime.Kind);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_Insulin()
         {
             var insulin = factories.CreateInsulin();
-            Assert.IsInstanceOfType(insulin, typeof(Insulin));
+            Assert.IsInstanceOf<Insulin>(insulin);
             Assert.AreNotEqual(Guid.Empty, insulin.Id);
             Assert.AreNotEqual(default(DateTime), insulin.DateTime);
             Assert.AreEqual(DateTimeKind.Utc, insulin.DateTime.Kind);
             Assert.AreEqual(string.Empty, insulin.Note);
         }
 
-        [TestMethod]
+        [Test]
         public void Creates_Correct_InsulinCircumstance()
         {
             var circumstance = factories.CreateInsulinCircumstance();
-            Assert.IsInstanceOfType(circumstance, typeof(InsulinCircumstance));
+            Assert.IsInstanceOf<InsulinCircumstance>(circumstance);
             Assert.AreNotEqual(Guid.Empty, circumstance.Id);
             Assert.AreEqual(string.Empty, circumstance.Name);
         }
 
-        [TestMethod]
+        [Test]
         public void Saves_Everything()
         {
             var factories = new FactoriesImpl();

@@ -1,20 +1,19 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class EntityTests
     {
         private Factories owner;
 
-        [TestInitialize()]
+        [SetUp]
         public void TestInitialize()
         {
             owner = new FactoriesImpl();
         }
 
-        [TestMethod]
+        [Test]
         public void Can_Set_Owner()
         {
             var entity = new Entity();
@@ -22,7 +21,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Cannot_Set_Same_Owner_Two_Times()
         {
             var entity = new Entity();
@@ -31,7 +30,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Cannot_Change_Owner()
         {
             var entity = new Entity();
@@ -41,7 +40,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Cannot_Remove_Owner()
         {
             var entity = new Entity();
@@ -50,7 +49,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(NullReferenceException))]
-        [TestMethod]
+        [Test]
         public void Cannot_Set_Null_Owner()
         {
             var entity = new Entity();

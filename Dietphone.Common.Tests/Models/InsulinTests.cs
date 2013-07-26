@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class InsulinTests
     {
-        [TestClass]
         public class InsulinCircumstances
         {
             private Mock<Factories> factories;
             private InsulinCircumstance circumstance;
 
-            [TestInitialize()]
+            [SetUp]
             public void TestInitialize()
             {
                 factories = new Mock<Factories>();
@@ -24,7 +22,7 @@ namespace Dietphone.Models.Tests
                 factories.Setup(f => f.Finder).Returns(new FinderImpl(factories.Object));
             }
 
-            [TestMethod]
+            [Test]
             public void Can_Initialize_Circumstances_With_Empty()
             {
                 var sut = new Insulin();
@@ -32,7 +30,7 @@ namespace Dietphone.Models.Tests
                 sut.InitializeCircumstances(newCircumstances);
             }
 
-            [TestMethod]
+            [Test]
             public void Can_Initialize_Circumstances_With_Non_Empty()
             {
                 var sut = new Insulin();
@@ -41,7 +39,7 @@ namespace Dietphone.Models.Tests
             }
 
             [ExpectedException(typeof(InvalidOperationException))]
-            [TestMethod]
+            [Test]
             public void Cannot_Initialize_Circumstances_Two_Times()
             {
                 var sut = new Insulin();
@@ -51,14 +49,14 @@ namespace Dietphone.Models.Tests
             }
 
             [ExpectedException(typeof(InvalidOperationException))]
-            [TestMethod]
+            [Test]
             public void Cannot_Get_Circumstances_When_Not_Initialized()
             {
                 var sut = new Insulin();
                 var temp = sut.Circumstances.ToList();
             }
 
-            [TestMethod]
+            [Test]
             public void Can_Get_Circumstances_When_Initialized()
             {
                 var defaultCircumstance = new InsulinCircumstance();
@@ -72,7 +70,7 @@ namespace Dietphone.Models.Tests
                 Assert.AreSame(circumstance, circumstances.ElementAt(1));
             }
 
-            [TestMethod]
+            [Test]
             public void Can_Read_Circumstances()
             {
                 var circumstances = new List<Guid> { Guid.NewGuid() };
@@ -82,7 +80,7 @@ namespace Dietphone.Models.Tests
             }
 
             [ExpectedException(typeof(InvalidOperationException))]
-            [TestMethod]
+            [Test]
             public void Cannot_Add_Circumstance_When_Not_Initialized()
             {
                 var insulin = new Insulin();
@@ -90,7 +88,7 @@ namespace Dietphone.Models.Tests
                 insulin.AddCircumstance(circumstance);
             }
 
-            [TestMethod]
+            [Test]
             public void Can_Add_Circumstance_When_Initialized()
             {
                 var insulin = new Insulin();
@@ -102,7 +100,7 @@ namespace Dietphone.Models.Tests
             }
 
             [ExpectedException(typeof(InvalidOperationException))]
-            [TestMethod]
+            [Test]
             public void Cannot_Delete_Circumstance_When_Not_Initialized()
             {
                 var insulin = new Insulin();
@@ -110,7 +108,7 @@ namespace Dietphone.Models.Tests
                 insulin.DeleteCircumstance(circumstance);
             }
 
-            [TestMethod]
+            [Test]
             public void Can_Delete_Circumstance_When_Initialized()
             {
                 var insulin = new Insulin();

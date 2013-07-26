@@ -1,12 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using System;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class CalculatorTests
     {
-        [TestMethod]
+        [Test]
         public void Can_Count_Integers()
         {
             var calculator = new Calculator()
@@ -20,7 +19,7 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(9.4f, calculator.Fpu);
         }
 
-        [TestMethod]
+        [Test]
         public void Can_Count_Fractions()
         {
             var calculator = new Calculator()
@@ -34,7 +33,7 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(0.3F, calculator.Fpu);
         }
 
-        [TestMethod]
+        [Test]
         public void Accepts_Zeros()
         {
             var calculator = new Calculator()
@@ -49,7 +48,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Nulls_Generate_Exception_For_Energy()
         {
             var calculator = new Calculator();
@@ -57,7 +56,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Nulls_Generate_Exception_For_Cu()
         {
             var calculator = new Calculator();
@@ -65,7 +64,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Nulls_Generate_Exception_For_Fpu()
         {
             var calculator = new Calculator();
@@ -73,7 +72,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Protein_Null_Generates_Exception()
         {
             var calculator = new Calculator()
@@ -85,7 +84,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void Fat_Null_Generates_Exception()
         {
             var calculator = new Calculator()
@@ -97,7 +96,7 @@ namespace Dietphone.Models.Tests
         }
 
         [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
+        [Test]
         public void DigestibleCarbs_Null_Generates_Exception()
         {
             var calculator = new Calculator()

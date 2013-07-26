@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class MealItemTests
     {
-        [TestMethod]
+        [Test]
         public void PercentOfEnergyInMeal()
         {
             var factories = new FactoriesImpl();

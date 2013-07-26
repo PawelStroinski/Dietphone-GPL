@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Dietphone.Models;
 using Ploeh.AutoFixture;
 using Ploeh.SemanticComparison.Fluent;
 
 namespace Dietphone.BinarySerializers.Tests
 {
-    [TestClass]
     public class InsulinBinaryStorageTests : BinaryStorageTestsBase
     {
-        [TestMethod]
+        [Test]
         public void Can_Write_And_Read()
         {
             var insulinToWrite = fixture.Create<Insulin>();

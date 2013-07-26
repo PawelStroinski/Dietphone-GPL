@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 using System.Text.RegularExpressions;
 
 namespace Dietphone.Models.Tests
 {
-    [TestClass]
     public class PatternsTests
     {
         private Factories factories;
         private static readonly DateTime basedate = new DateTime(2013, 07, 24);
 
-        [TestInitialize]
+        [SetUp]
         public void InitializeOwner()
         {
             factories = new FactoriesImpl();
@@ -72,7 +71,7 @@ namespace Dietphone.Models.Tests
             return sugar;
         }
 
-        [TestMethod]
+        [Test]
         public void IfNoMealForInsulinThenReturnsEmpty()
         {
             var sut = new PatternsImpl(factories);
@@ -81,7 +80,7 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(0, patterns.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void IfNoMatchingItemThenReturnsEmpty()
         {
             var sut = new PatternsImpl(factories);
@@ -92,7 +91,7 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(0, patterns.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void IfMatchingItemThenReturnsIt()
         {
             var sut = new PatternsImpl(factories);
@@ -104,7 +103,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(mealToFind, patterns.Single().From);
         }
 
-        [TestMethod]
+        [Test]
         public void ReturnsMatchesForEveryItemInMeal()
         {
             var sut = new PatternsImpl(factories);
@@ -119,7 +118,7 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(mealToFind, patterns[1].From);
         }
 
-        [TestMethod]
+        [Test]
         public void ReturnsOnlyItemsHavingSimillarPercentageOfEnergyInMeal()
         {
             var sut = new PatternsImpl(factories);
@@ -134,7 +133,7 @@ namespace Dietphone.Models.Tests
             Assert.IsTrue(patterns.Any(p => p.From == mealToFind2), "Percentage different by no more than 10 so matches");
         }
 
-        [TestMethod]
+        [Test]
         public void MoreSimillarPercentageOfEnergyInMealGivesMoreRightnessPoints()
         {
             var sut = new PatternsImpl(factories);
@@ -146,7 +145,7 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(8, patterns[0].RightnessPoints - patterns[1].RightnessPoints, "10-2 so should be 8 points");
         }
 
-        [TestMethod]
+        [Test]
         public void IfSugarBeforeCannotBeFoundThenMealIsNotReturned()
         {
             
