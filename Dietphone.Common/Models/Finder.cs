@@ -17,6 +17,8 @@ namespace Dietphone.Models
         Meal FindMealByInsulin(Insulin insulin);
         Insulin FindInsulinByMeal(Meal meal);
         Sugar FindSugarBeforeInsulin(Insulin insulin);
+        List<Sugar> FindSugarsAfterInsulin(Insulin insulin);
+        Insulin FindNextInsulin(Insulin insulin);
     }
 
     public sealed class FinderImpl : Finder
@@ -107,7 +109,39 @@ namespace Dietphone.Models
 
         public Sugar FindSugarBeforeInsulin(Insulin insulin)
         {
-            throw new NotImplementedException();
+            var sugars = factories.Sugars;
+            var earliest = insulin.DateTime.AddMinutes(-30);
+            var latest = insulin.DateTime;
+            var candidates = sugars.Where(s => s.DateTime >= earliest && s.DateTime <= latest).ToList();
+            if (candidates.Count > 1)
+                return candidates.OrderByDescending(s => s.DateTime).FirstOrDefault();
+            else
+                return candidates.FirstOrDefault();
+        }
+
+        public List<Sugar> FindSugarsAfterInsulin(Insulin insulin)
+        {
+            var sugars = factories.Sugars;
+            var earliest = insulin.DateTime;
+            var nextInsulin = FindNextInsulin(insulin);
+            var latest = nextInsulin == null ? insulin.DateTime.AddHours(4) : nextInsulin.DateTime.AddTicks(-1);
+            return sugars.Where(s => s.DateTime >= earliest && s.DateTime <= latest)
+                .OrderBy(s => s.DateTime).ToList();
+        }
+
+        public Insulin FindNextInsulin(Insulin insulin)
+        {
+            var insulins = factories.Insulins;
+            var earlierThan = DateTime.MaxValue;
+            var laterThan = insulin.DateTime;
+            Insulin result = null;
+            foreach (var candidate in insulins)
+                if (candidate.DateTime < earlierThan && candidate.DateTime > laterThan)
+                {
+                    result = candidate;
+                    earlierThan = result.DateTime;
+                }
+            return result;
         }
     }
 
