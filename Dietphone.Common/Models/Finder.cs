@@ -17,7 +17,7 @@ namespace Dietphone.Models
         Meal FindMealByInsulin(Insulin insulin);
         Insulin FindInsulinByMeal(Meal meal);
         Sugar FindSugarBeforeInsulin(Insulin insulin);
-        List<Sugar> FindSugarsAfterInsulin(Insulin insulin);
+        List<Sugar> FindSugarsAfterInsulin(Insulin insulin, int inHours);
         Insulin FindNextInsulin(Insulin insulin);
     }
 
@@ -119,12 +119,12 @@ namespace Dietphone.Models
                 return candidates.FirstOrDefault();
         }
 
-        public List<Sugar> FindSugarsAfterInsulin(Insulin insulin)
+        public List<Sugar> FindSugarsAfterInsulin(Insulin insulin, int inHours)
         {
             var sugars = factories.Sugars;
             var earliest = insulin.DateTime;
             var nextInsulin = FindNextInsulin(insulin);
-            var latest = nextInsulin == null ? insulin.DateTime.AddHours(4) : nextInsulin.DateTime.AddTicks(-1);
+            var latest = nextInsulin == null ? insulin.DateTime.AddHours(inHours) : nextInsulin.DateTime.AddTicks(-1);
             return sugars.Where(s => s.DateTime >= earliest && s.DateTime <= latest)
                 .OrderBy(s => s.DateTime).ToList();
         }
