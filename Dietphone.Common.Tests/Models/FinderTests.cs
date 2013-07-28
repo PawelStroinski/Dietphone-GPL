@@ -172,6 +172,18 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
+        public void FindSugarsAfterInsulin_DoesntReturnSugarsAtSameTimeAsInsulin()
+        {
+            var sugar = new Sugar { DateTime = DateTime.Now };
+            factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar });
+            factories.Setup(f => f.Insulins).Returns(new List<Insulin>());
+            var finder = new FinderImpl(factories.Object);
+            var insulin = new Insulin { DateTime = sugar.DateTime };
+            var sugars = finder.FindSugarsAfterInsulin(insulin, 2);
+            Assert.IsEmpty(sugars);
+        }
+
+        [Test]
         public void FindSugarsAfterInsulin_IfSugarsInFourHoursAfter_ReturnsThoseSugars()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(1) };

@@ -122,7 +122,7 @@ namespace Dietphone.Models
         public List<Sugar> FindSugarsAfterInsulin(Insulin insulin, int inHours)
         {
             var sugars = factories.Sugars;
-            var earliest = insulin.DateTime;
+            var earliest = insulin.DateTime.AddTicks(1);
             var nextInsulin = FindNextInsulin(insulin);
             var latest = nextInsulin == null ? insulin.DateTime.AddHours(inHours) : nextInsulin.DateTime.AddTicks(-1);
             return sugars.Where(s => s.DateTime >= earliest && s.DateTime <= latest)
