@@ -147,6 +147,18 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
+        public void FindSugarBeforeInsulin_ReturnsSugarWhichIsAtSameTimeAsInsulin()
+        {
+            var sugar = new Sugar { DateTime = DateTime.Now };
+            factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar });
+            factories.Setup(f => f.Insulins).Returns(new List<Insulin>());
+            var finder = new FinderImpl(factories.Object);
+            var insulin = new Insulin { DateTime = sugar.DateTime };
+            var foundSugar = finder.FindSugarBeforeInsulin(insulin);
+            Assert.AreSame(sugar, foundSugar);
+        }
+
+        [Test]
         public void FindSugarBeforeInsulin_IfTwoSugarsInHalfAnHour_ReturnsLatestSugar()
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(-0.4) };
@@ -172,7 +184,7 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
-        public void FindSugarsAfterInsulin_DoesntReturnSugarsAtSameTimeAsInsulin()
+        public void FindSugarsAfterInsulin_DoesntReturnSugarsWhichIsAtSameTimeAsInsulin()
         {
             var sugar = new Sugar { DateTime = DateTime.Now };
             factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar });
