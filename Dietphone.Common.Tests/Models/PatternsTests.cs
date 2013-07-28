@@ -33,12 +33,17 @@ namespace Dietphone.Models.Tests
             return product;
         }
 
-        private Meal AddMealWithInsulin(string meal, string insulinWithoutHour)
+        private Meal AddMealInsulinAndSugars(string meal, string insulinWithoutHour,
+            string sugarsBeforeAndAfterWithoutHour)
+            // e.g. ("12:00", "1", "100 120 140") -> ("12:00", "12:00 1", "12:00 100" "13:00 120" "14:00 140")
         {
-            var result = AddMeal(meal);
+            var addedMeal = AddMeal(meal);
             var mealHour = meal.Split(' ').First();
             AddInsulin(mealHour + " " + insulinWithoutHour);
-            return result;
+            var sugarsSplet = sugarsBeforeAndAfterWithoutHour.Split(' ');
+            for (int i = 0; i < sugarsSplet.Count(); i += 1)
+                AddSugar((TimeSpan.Parse(mealHour) + TimeSpan.FromHours(i)).ToString() + " " + sugarsSplet[i]);
+            return addedMeal;
         }
 
         private Meal AddMeal(string hourAndProductIdsAndValues) // e.g. "12:00 1 100g 2 100g"
@@ -99,7 +104,7 @@ namespace Dietphone.Models.Tests
             var sut = new PatternsImpl(factories);
             var insulin = AddInsulin("12:00 1");
             AddMeal("12:00 1 100g");
-            AddMealWithInsulin("11:00 2 100g", "1");
+            AddMealInsulinAndSugars("11:00 2 100g", "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreEqual(0, patterns.Count());
         }
@@ -110,7 +115,7 @@ namespace Dietphone.Models.Tests
             var sut = new PatternsImpl(factories);
             var insulin = AddInsulin("12:00 1");
             AddMeal("12:00 1 100g");
-            var mealToFind = AddMealWithInsulin("11:00 1 100g", "1");
+            var mealToFind = AddMealInsulinAndSugars("11:00 1 100g", "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreSame(mealToFind.Items[0], patterns.Single().Match);
             Assert.AreSame(mealToFind, patterns.Single().From);
@@ -122,7 +127,7 @@ namespace Dietphone.Models.Tests
             var sut = new PatternsImpl(factories);
             var insulin = AddInsulin("12:00 1");
             AddMeal("12:00 1 100g 2 200g");
-            var mealToFind = AddMealWithInsulin("11:00 1 100g 2 200g", "1");
+            var mealToFind = AddMealInsulinAndSugars("11:00 1 100g 2 200g", "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreEqual(2, patterns.Count);
             Assert.AreSame(mealToFind.Items[0], patterns[0].Match);
@@ -137,9 +142,9 @@ namespace Dietphone.Models.Tests
             var sut = new PatternsImpl(factories);
             var insulin = AddInsulin("12:00 1");
             AddMeal("12:00 1 100g 2 100g");
-            var mealToFind1 = AddMealWithInsulin("07:00 1 1000g 3 1000g", "1");
-            var mealNotFind = AddMealWithInsulin("08:00 1 160g 3 100g", "1");
-            var mealToFind2 = AddMealWithInsulin("09:00 1 150g 3 100g", "1");
+            var mealToFind1 = AddMealInsulinAndSugars("07:00 1 1000g 3 1000g", "1", "100 100");
+            var mealNotFind = AddMealInsulinAndSugars("08:00 1 160g 3 100g", "1", "100 100");
+            var mealToFind2 = AddMealInsulinAndSugars("09:00 1 150g 3 100g", "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.IsTrue(patterns.Any(p => p.From == mealToFind1), "Same percentage so should match");
             Assert.IsFalse(patterns.Any(p => p.From == mealNotFind), "Percentage different by 11 so should fail");
@@ -152,8 +157,8 @@ namespace Dietphone.Models.Tests
             var sut = new PatternsImpl(factories);
             var insulin = AddInsulin("12:00 1");
             AddMeal("12:00 1 100g 2 100g");
-            AddMealWithInsulin("07:00 1 100g 3 100g", "1");
-            AddMealWithInsulin("07:00 1 116g 3 84g", "1");
+            AddMealInsulinAndSugars("07:00 1 100g 3 100g", "1", "100 100");
+            AddMealInsulinAndSugars("07:00 1 116g 3 84g", "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreEqual(8, patterns[0].RightnessPoints - patterns[1].RightnessPoints, "10-2 so should be 8 points");
         }
