@@ -40,12 +40,16 @@ namespace Dietphone.Models
                             var before = finder.FindSugarBeforeInsulin(foundInsulin);
                             if (before == null)
                                 continue;
+                            var after = finder.FindSugarsAfterInsulin(foundInsulin, inHours: 4);
+                            if (!after.Any())
+                                continue;
                             var pattern = new Pattern
                             {
                                 Match = item,
                                 From = meal,
                                 Insulin = foundInsulin,
-                                Before = before
+                                Before = before,
+                                After = after
                             };
                             pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
                             patterns.Add(pattern);
