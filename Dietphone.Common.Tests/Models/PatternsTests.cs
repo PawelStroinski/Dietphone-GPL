@@ -159,6 +159,30 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
+        public void IfThereIsNoInsulinForFoundMealThenSkipsThatMeal()
+        {
+            var sut = new PatternsImpl(factories);
+            var insulin = AddInsulin("12:00 1");
+            AddMeal("12:00 1 100g");
+            AddMeal("07:00 1 100g");
+            var patterns = sut.GetPatternsFor(insulin);
+            Assert.IsEmpty(patterns);
+        }
+
+        [Test]
+        public void IfThereIsInsulinForFoundMealThenReturnsThatMealWithInsulin()
+        {
+            var sut = new PatternsImpl(factories);
+            var insulin = AddInsulin("12:00 1");
+            AddMeal("12:00 1 100g");
+            var mealToFind = AddMeal("07:00 1 100g");
+            var insulinToFind = AddInsulin("07:00 1");
+            var pattern = sut.GetPatternsFor(insulin).Single();
+            Assert.AreSame(mealToFind, pattern.From);
+            Assert.AreSame(insulinToFind, pattern.Insulin);
+        }
+
+        [Test]
         public void IfSugarBeforeCannotBeFoundThenMealIsNotReturned()
         {
             

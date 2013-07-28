@@ -22,7 +22,8 @@ namespace Dietphone.Models
         public IList<Pattern> GetPatternsFor(Insulin insulin)
         {
             var patterns = new List<Pattern>();
-            var searchedMeal = factories.Finder.FindMealByInsulin(insulin);
+            var finder = factories.Finder;
+            var searchedMeal = finder.FindMealByInsulin(insulin);
             foreach (var meal in factories.Meals.Where(m => m != searchedMeal))
                 foreach (var item in meal.Items)
                     foreach (var searchedItem in searchedMeal.Items)
@@ -33,7 +34,10 @@ namespace Dietphone.Models
                             var percentOfEnergyDiff = Math.Abs(itemPercentOfEnergy - searchedItemPercentOfEnergy);
                             if (percentOfEnergyDiff > MAX_PERCENT_OF_ENERGY_DIFF)
                                 continue;
-                            var pattern = new Pattern { Match = item, From = meal };
+                            var foundInsulin = finder.FindInsulinByMeal(meal);
+                            if (foundInsulin == null)
+                                continue;
+                            var pattern = new Pattern { Match = item, From = meal, Insulin = foundInsulin };
                             pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
                             patterns.Add(pattern);
                         }
