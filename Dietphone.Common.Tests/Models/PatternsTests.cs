@@ -41,8 +41,11 @@ namespace Dietphone.Models.Tests
             var mealHour = meal.Split(' ').First();
             AddInsulin(mealHour + " " + insulinWithoutHour);
             var sugarsSplet = sugarsBeforeAndAfterWithoutHour.Split(' ');
-            for (int i = 0; i < sugarsSplet.Count(); i += 1)
-                AddSugars((TimeSpan.Parse(mealHour) + TimeSpan.FromHours(i)).ToString() + " " + sugarsSplet[i]);
+            for (int i = 0; i < sugarsSplet.Count(); i++)
+            {
+                var sugarHour = (TimeSpan.Parse(mealHour) + TimeSpan.FromHours(i)).ToString();
+                AddSugars(sugarHour + " " + sugarsSplet[i]);
+            }
             return addedMeal;
         }
 
@@ -80,16 +83,18 @@ namespace Dietphone.Models.Tests
             return insulin;
         }
 
-        private IEnumerable<Sugar> AddSugars(string hoursAndBloodSugars) // e.g. "12:00 100", "12:00 100 14:00 120"
+        private List<Sugar> AddSugars(string hoursAndBloodSugars) // e.g. "12:00 100", "12:00 100 14:00 120"
         {
+            var sugars = new List<Sugar>();
             var splet = hoursAndBloodSugars.Split(' ');
             for (int i = 0; i < splet.Count(); i += 2)
             {
                 var sugar = factories.CreateSugar();
                 sugar.DateTime = basedate + TimeSpan.Parse(splet[i]);
                 sugar.BloodSugar = int.Parse(splet[i + 1]);
-                yield return sugar;
+                sugars.Add(sugar);
             }
+            return sugars;
         }
 
         [Test]
@@ -195,7 +200,28 @@ namespace Dietphone.Models.Tests
         [Test]
         public void IfSugarBeforeCannotBeFoundThenMealIsNotReturned()
         {
-            
+            var sut = new PatternsImpl(factories);
+            var insulin = AddInsulin("12:00 1");
+            AddMeal("12:00 1 100g");
+            AddMeal("07:00 1 100g");
+            AddInsulin("07:00 1");
+            AddSugars("08:00 100");
+            var patterns = sut.GetPatternsFor(insulin);
+            Assert.IsEmpty(patterns);
+        }
+
+        [Test]
+        public void IfSugarBeforeCanBeFoundThenMealIsReturnedWithThatSugar()
+        {
+            var sut = new PatternsImpl(factories);
+            var insulin = AddInsulin("12:00 1");
+            AddMeal("12:00 1 100g");
+            var mealToFind = AddMeal("07:00 1 100g");
+            AddInsulin("07:00 1");
+            var sugarToFind = AddSugars("07:00 100 08:00 100").First();
+            var pattern = sut.GetPatternsFor(insulin).Single();
+            Assert.AreSame(mealToFind, pattern.From);
+            Assert.AreSame(sugarToFind, pattern.Before);
         }
     }
 }

@@ -37,7 +37,16 @@ namespace Dietphone.Models
                             var foundInsulin = finder.FindInsulinByMeal(meal);
                             if (foundInsulin == null)
                                 continue;
-                            var pattern = new Pattern { Match = item, From = meal, Insulin = foundInsulin };
+                            var before = finder.FindSugarBeforeInsulin(foundInsulin);
+                            if (before == null)
+                                continue;
+                            var pattern = new Pattern
+                            {
+                                Match = item,
+                                From = meal,
+                                Insulin = foundInsulin,
+                                Before = before
+                            };
                             pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
                             patterns.Add(pattern);
                         }
