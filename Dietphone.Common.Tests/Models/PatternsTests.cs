@@ -51,31 +51,34 @@ namespace Dietphone.Models.Tests
             return meal;
         }
 
-        private Insulin AddInsulin(string hour, byte normalBolus, byte squareWaveBolus, byte squareWaveBolusHours,
-            params byte[] circumstances)
+        private Insulin AddInsulin(string hourAndNormalBolusAndSquareWaveBolusAndSquareWaveBolusHoursAndCircumstances)
+            // e.g. "12:00 1 0 0", "12:00 2 2 3 1 2 3"
         {
+            var splet = hourAndNormalBolusAndSquareWaveBolusAndSquareWaveBolusHoursAndCircumstances
+                .Split(" ".ToArray());
             var insulin = factories.CreateInsulin();
-            insulin.DateTime = basedate + TimeSpan.Parse(hour);
-            insulin.NormalBolus = normalBolus;
-            insulin.SquareWaveBolus = squareWaveBolus;
-            insulin.SquareWaveBolusHours = squareWaveBolusHours;
-            insulin.InitializeCircumstances(circumstances.Select(c => c.ToGuid()).ToList());
+            insulin.DateTime = basedate + TimeSpan.Parse(splet[0]);
+            insulin.NormalBolus = int.Parse(splet[1]);
+            insulin.SquareWaveBolus = int.Parse(splet[2]);
+            insulin.SquareWaveBolusHours = int.Parse(splet[3]);
+            insulin.InitializeCircumstances(splet.Skip(4).Select(s => byte.Parse(s).ToGuid()).ToList());
             return insulin;
         }
 
-        private Sugar AddSugar(string hour, byte bloodSugar)
+        private Sugar AddSugar(string hourAndBloodSugar) // e.g. "12:00 100"
         {
+            var splet = hourAndBloodSugar.Split(" ".ToArray());
             var sugar = factories.CreateSugar();
-            sugar.DateTime = basedate + TimeSpan.Parse(hour);
-            sugar.BloodSugar = bloodSugar;
+            sugar.DateTime = basedate + TimeSpan.Parse(splet[0]);
+            sugar.BloodSugar = int.Parse(splet[1]);
             return sugar;
         }
 
         [Test]
-        public void IfNoMealForInsulinThenReturnsEmpty()
+        public void IfNoMealForQueredInsulinThenReturnsEmpty()
         {
             var sut = new PatternsImpl(factories);
-            var insulin = AddInsulin("12:00", 1, 0, 0);
+            var insulin = AddInsulin("12:00 1 0 0");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreEqual(0, patterns.Count());
         }
@@ -84,7 +87,7 @@ namespace Dietphone.Models.Tests
         public void IfNoMatchingItemThenReturnsEmpty()
         {
             var sut = new PatternsImpl(factories);
-            var insulin = AddInsulin("12:00", 1, 0, 0);
+            var insulin = AddInsulin("12:00 1 0 0");
             AddMeal("12:00 1 100g");
             AddMeal("11:00 2 100g");
             var patterns = sut.GetPatternsFor(insulin);
@@ -95,7 +98,7 @@ namespace Dietphone.Models.Tests
         public void IfMatchingItemThenReturnsIt()
         {
             var sut = new PatternsImpl(factories);
-            var insulin = AddInsulin("12:00", 1, 0, 0);
+            var insulin = AddInsulin("12:00 1 0 0");
             AddMeal("12:00 1 100g");
             var mealToFind = AddMeal("11:00 1 100g");
             var patterns = sut.GetPatternsFor(insulin);
@@ -107,7 +110,7 @@ namespace Dietphone.Models.Tests
         public void ReturnsMatchesForEveryItemInMeal()
         {
             var sut = new PatternsImpl(factories);
-            var insulin = AddInsulin("12:00", 1, 0, 0);
+            var insulin = AddInsulin("12:00 1 0 0");
             AddMeal("12:00 1 100g 2 200g");
             var mealToFind = AddMeal("11:00 1 100g 2 200g");
             var patterns = sut.GetPatternsFor(insulin);
@@ -122,7 +125,7 @@ namespace Dietphone.Models.Tests
         public void ReturnsOnlyItemsHavingSimillarPercentageOfEnergyInMeal()
         {
             var sut = new PatternsImpl(factories);
-            var insulin = AddInsulin("12:00", 1, 0, 0);
+            var insulin = AddInsulin("12:00 1 0 0");
             AddMeal("12:00 1 100g 2 100g");
             var mealToFind1 = AddMeal("07:00 1 1000g 3 1000g");
             var mealNotFind = AddMeal("08:00 1 160g 3 100g");
@@ -137,7 +140,7 @@ namespace Dietphone.Models.Tests
         public void MoreSimillarPercentageOfEnergyInMealGivesMoreRightnessPoints()
         {
             var sut = new PatternsImpl(factories);
-            var insulin = AddInsulin("12:00", 1, 0, 0);
+            var insulin = AddInsulin("12:00 1 0 0");
             AddMeal("12:00 1 100g 2 100g");
             AddMeal("07:00 1 100g 3 100g");
             AddMeal("07:00 1 116g 3 84g");
