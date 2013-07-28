@@ -34,7 +34,7 @@ namespace Dietphone.Models.Tests
         }
 
         private Meal AddMealInsulinAndSugars(string meal, string insulinWithoutHour,
-            string sugarsBeforeAndAfterWithoutHour)
+            string sugarsBeforeAndAfterWithoutHour = "")
             // e.g. ("12:00", "1", "100 120 140") -> ("12:00", "12:00 1", "12:00 100" "13:00 120" "14:00 140")
         {
             var addedMeal = AddMeal(meal);
@@ -42,7 +42,7 @@ namespace Dietphone.Models.Tests
             AddInsulin(mealHour + " " + insulinWithoutHour);
             var sugarsSplet = sugarsBeforeAndAfterWithoutHour.Split(' ');
             for (int i = 0; i < sugarsSplet.Count(); i += 1)
-                AddSugar((TimeSpan.Parse(mealHour) + TimeSpan.FromHours(i)).ToString() + " " + sugarsSplet[i]);
+                AddSugars((TimeSpan.Parse(mealHour) + TimeSpan.FromHours(i)).ToString() + " " + sugarsSplet[i]);
             return addedMeal;
         }
 
@@ -80,13 +80,16 @@ namespace Dietphone.Models.Tests
             return insulin;
         }
 
-        private Sugar AddSugar(string hourAndBloodSugar) // e.g. "12:00 100"
+        private IEnumerable<Sugar> AddSugars(string hoursAndBloodSugars) // e.g. "12:00 100", "12:00 100 14:00 120"
         {
-            var splet = hourAndBloodSugar.Split(' ');
-            var sugar = factories.CreateSugar();
-            sugar.DateTime = basedate + TimeSpan.Parse(splet[0]);
-            sugar.BloodSugar = int.Parse(splet[1]);
-            return sugar;
+            var splet = hoursAndBloodSugars.Split(' ');
+            for (int i = 0; i < splet.Count(); i += 2)
+            {
+                var sugar = factories.CreateSugar();
+                sugar.DateTime = basedate + TimeSpan.Parse(splet[i]);
+                sugar.BloodSugar = int.Parse(splet[i + 1]);
+                yield return sugar;
+            }
         }
 
         [Test]
@@ -170,6 +173,7 @@ namespace Dietphone.Models.Tests
             var insulin = AddInsulin("12:00 1");
             AddMeal("12:00 1 100g");
             AddMeal("07:00 1 100g");
+            AddSugars("07:00 100 08:00 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.IsEmpty(patterns);
         }
@@ -182,6 +186,7 @@ namespace Dietphone.Models.Tests
             AddMeal("12:00 1 100g");
             var mealToFind = AddMeal("07:00 1 100g");
             var insulinToFind = AddInsulin("07:00 1");
+            AddSugars("07:00 100 08:00 100");
             var pattern = sut.GetPatternsFor(insulin).Single();
             Assert.AreSame(mealToFind, pattern.From);
             Assert.AreSame(insulinToFind, pattern.Insulin);
