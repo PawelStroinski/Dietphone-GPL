@@ -123,8 +123,10 @@ namespace Dietphone.Models
         {
             var sugars = factories.Sugars;
             var earliest = insulin.DateTime.AddTicks(1);
+            var latest = insulin.DateTime.AddHours(inHours);
             var nextInsulin = FindNextInsulin(insulin);
-            var latest = nextInsulin == null ? insulin.DateTime.AddHours(inHours) : nextInsulin.DateTime.AddTicks(-1);
+            if (nextInsulin != null && nextInsulin.DateTime <= latest)
+                latest = nextInsulin.DateTime.AddTicks(-1);
             return sugars.Where(s => s.DateTime >= earliest && s.DateTime <= latest)
                 .OrderBy(s => s.DateTime).ToList();
         }

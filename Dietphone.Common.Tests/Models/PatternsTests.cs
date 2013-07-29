@@ -17,6 +17,7 @@ namespace Dietphone.Models.Tests
         {
             factories = new FactoriesImpl();
             factories.StorageCreator = new StorageCreatorStub();
+            factories.Settings.SugarsAfterInsulinHours = 4;
             AddProduct(1, energy: 100, carbs: 100, protein: 100, fat: 100);
             AddProduct(2, energy: 100, carbs: 100, protein: 100, fat: 100);
             AddProduct(3, energy: 100, carbs: 100, protein: 100, fat: 100);
@@ -251,7 +252,15 @@ namespace Dietphone.Models.Tests
         [Test]
         public void SettingIsUsedToDetermineTimeWindowForSugarsAfter()
         {
-
+            factories.Settings.SugarsAfterInsulinHours = 1;
+            var sut = new PatternsImpl(factories);
+            var insulin = AddInsulin("12:00 1");
+            AddMeal("12:00 1 100g");
+            AddMealInsulinAndSugars("07:00 1 100g", "1", "100");
+            var sugarsToFind = AddSugars("08:00 120");
+            AddSugars("09:00 120");
+            var pattern = sut.GetPatternsFor(insulin).Single();
+            Assert.AreEqual(sugarsToFind, pattern.After, "Only sugars in 1 hours after should be returned");
         }
     }
 }

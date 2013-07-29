@@ -23,6 +23,7 @@ namespace Dietphone.Models
         {
             var patterns = new List<Pattern>();
             var finder = factories.Finder;
+            var settings = factories.Settings;
             var searchedMeal = finder.FindMealByInsulin(insulin);
             foreach (var meal in factories.Meals.Where(m => m != searchedMeal))
                 foreach (var item in meal.Items)
@@ -40,7 +41,7 @@ namespace Dietphone.Models
                             var before = finder.FindSugarBeforeInsulin(foundInsulin);
                             if (before == null)
                                 continue;
-                            var after = finder.FindSugarsAfterInsulin(foundInsulin, inHours: 4);
+                            var after = finder.FindSugarsAfterInsulin(foundInsulin, settings.SugarsAfterInsulinHours);
                             if (!after.Any())
                                 continue;
                             var pattern = new Pattern

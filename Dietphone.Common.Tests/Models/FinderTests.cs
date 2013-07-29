@@ -230,13 +230,28 @@ namespace Dietphone.Models.Tests
         {
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(1) };
             var sugar2 = new Sugar { DateTime = DateTime.Now.AddHours(2) };
-            factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar1, sugar2 });
+            var sugar3 = new Sugar { DateTime = DateTime.Now.AddHours(4.5) };
+            factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar1, sugar2, sugar3 });
             var insulin1 = new Insulin { DateTime = DateTime.Now };
             var insulin2 = new Insulin { DateTime = DateTime.Now.AddHours(5) };
             factories.Setup(f => f.Insulins).Returns(new List<Insulin> { insulin1, insulin2 });
             var finder = new FinderImpl(factories.Object);
             var sugars = finder.FindSugarsAfterInsulin(insulin1, 4);
             Assert.IsTrue(Enumerable.SequenceEqual(new List<Sugar> { sugar1, sugar2 }, sugars));
+        }
+
+        [Test]
+        public void FindSugarsAfterInsulin_IfAnotherInsulinFourHoursLater_DoesntReturnSugarsFourHoursLater()
+        {
+            var now = DateTime.Now;
+            var sugar1 = new Sugar { DateTime = now.AddHours(4) };
+            factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar1 });
+            var insulin1 = new Insulin { DateTime = now };
+            var insulin2 = new Insulin { DateTime = now.AddHours(4) };
+            factories.Setup(f => f.Insulins).Returns(new List<Insulin> { insulin1, insulin2 });
+            var finder = new FinderImpl(factories.Object);
+            var sugars = finder.FindSugarsAfterInsulin(insulin1, 4);
+            Assert.IsEmpty(sugars);
         }
 
         [Test]

@@ -32,7 +32,7 @@ namespace Dietphone.BinarySerializers
             writer.Write(item.ScoreFpu);
             writer.WriteString(item.NextUiCulture);
             writer.WriteString(item.NextProductCulture);
-            writer.Write(item.SugarAfterInsulinHours);
+            writer.Write(item.SugarsAfterInsulinHours);
         }
 
         public override void ReadItem(BinaryReader reader, Settings item)
@@ -49,7 +49,7 @@ namespace Dietphone.BinarySerializers
                 item.NextProductCulture = reader.ReadString();
             }
             if (ReadingVersion == 4)
-                item.SugarAfterInsulinHours = reader.ReadInt32();
+                item.SugarsAfterInsulinHours = reader.ReadInt32();
         }
     }
 }
