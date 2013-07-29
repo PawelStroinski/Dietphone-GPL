@@ -53,9 +53,21 @@ namespace Dietphone.Models
                                 After = after
                             };
                             pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
+                            pattern.RightnessPoints += RecentMealsRightnessPoints(searchedMeal.DateTime, meal.DateTime);
                             patterns.Add(pattern);
                         }
             return patterns;
+        }
+
+        private byte RecentMealsRightnessPoints(DateTime left, DateTime right)
+        {
+            byte rightnessPoints = 0;
+            var diff = left > right ? left - right : right - left;
+            var daysDiffs = new int[] { 360, 180, 90, 60, 30, 15, 7, 2 };
+            foreach (var daysDiff in daysDiffs)
+                if (diff <= new TimeSpan(daysDiff, 0, 0, 0))
+                    rightnessPoints++;
+            return rightnessPoints;
         }
     }
 }

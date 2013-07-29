@@ -10,11 +10,12 @@ namespace Dietphone.Models.Tests
     public class PatternsTests
     {
         private Factories factories;
-        private static readonly DateTime basedate = new DateTime(2013, 07, 24);
+        private DateTime basedate;
 
         [SetUp]
         public void InitializeOwner()
         {
+            basedate = new DateTime(2013, 07, 24);
             factories = new FactoriesImpl();
             factories.StorageCreator = new StorageCreatorStub();
             factories.Settings.SugarsAfterInsulinHours = 4;
@@ -261,6 +262,27 @@ namespace Dietphone.Models.Tests
             AddSugars("09:00 120");
             var pattern = sut.GetPatternsFor(insulin).Single();
             Assert.AreEqual(sugarsToFind, pattern.After, "Only sugars in 1 hours after should be returned");
+        }
+
+        [TestCase(361, 360, 1, Description = "In 360 days = 1 extra point")]
+        [TestCase(181, 180, 1, Description = "In 180 days = 1 extra point")]
+        [TestCase(91, 90, 1, Description = "In 90 days = 1 extra point")]
+        [TestCase(61, 60, 1, Description = "In 60 days = 1 extra point")]
+        [TestCase(31, 30, 1, Description = "In 30 days = 1 extra point")]
+        [TestCase(16, 15, 1, Description = "In 15 days = 1 extra point")]
+        [TestCase(8, 7, 1, Description = "In 7 days = 1 extra point")]
+        [TestCase(2.1, 2, 1, Description = "In 2 days = 1 extra point")]
+        public void RecentMealGetsMoreRightnessPoints(double addDays1, double addDays2, int expectedPointsDifference)
+        {
+            var sut = new PatternsImpl(factories);
+            var insulin = AddInsulin("12:00 1");
+            AddMeal("12:00 1 100g");
+            basedate = basedate.AddDays(addDays1);
+            AddMealInsulinAndSugars("12:00 1 100g", "1", "100 100");
+            basedate = basedate.AddDays(-addDays1).AddDays(addDays2);
+            AddMealInsulinAndSugars("12:00 1 100g", "1", "100 100");
+            var patterns = sut.GetPatternsFor(insulin);
+            Assert.AreEqual(expectedPointsDifference, patterns[1].RightnessPoints - patterns[0].RightnessPoints);
         }
     }
 }
