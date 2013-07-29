@@ -11,6 +11,7 @@ namespace Dietphone.Models
         public bool ScoreFat { get; set; }
         public bool ScoreCu { get; set; }
         public bool ScoreFpu { get; set; }
+        public int SugarAfterInsulinHours { get; set; }
         private string currentUiCulture;
         private string currentProductCulture;
         private string nextUiCulture;

@@ -3,6 +3,8 @@ using System.Linq;
 using Dietphone.Models;
 using System.IO;
 using Ploeh.AutoFixture;
+using Moq;
+using System.Collections.Generic;
 
 namespace Dietphone.BinarySerializers.Tests
 {
@@ -12,14 +14,28 @@ namespace Dietphone.BinarySerializers.Tests
 
         protected T WriteAndRead<T>(BinaryStorage<T> storage, T itemToWrite) where T : Entity, new()
         {
-            var stream = new MemoryStream();
-            var writer = new BinaryWriter(stream);
-            storage.WriteItem(writer, itemToWrite);
-            var itemToRead = new T();
-            var reader = new BinaryReader(stream);
+            var stream = new NonDisposableMemoryStream();
+            var streamProvider = new Mock<BinaryStreamProvider>();
+            streamProvider.Setup(p => p.GetInputStream(It.IsAny<string>())).Returns(stream);
+            streamProvider.Setup(p => p.GetOutputStream(It.IsAny<string>())).Returns(stream);
+            storage.StreamProvider = streamProvider.Object;
+            storage.Save(new List<T> { itemToWrite });
             stream.Position = 0;
-            storage.ReadItem(reader, itemToRead);
-            return itemToRead;
+            var readedItem = storage.Load().Single();
+            stream.Dispose();
+            return readedItem;
+        }
+
+        public class NonDisposableMemoryStream : MemoryStream
+        {
+            protected override void Dispose(bool disposing)
+            {
+            }
+
+            public new void Dispose()
+            {
+                base.Dispose(true);
+            }
         }
     }
 }
