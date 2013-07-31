@@ -13,10 +13,12 @@ namespace Dietphone.Models
     {
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private readonly Factories factories;
+        private readonly HourDifference hourDifference;
 
-        public PatternsImpl(Factories factories)
+        public PatternsImpl(Factories factories, HourDifference hourDifference)
         {
             this.factories = factories;
+            this.hourDifference = hourDifference;
         }
 
         public IList<Pattern> GetPatternsFor(Insulin insulin)
@@ -54,6 +56,7 @@ namespace Dietphone.Models
                             };
                             pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
                             pattern.RightnessPoints += RecentMealsRightnessPoints(searchedMeal.DateTime, meal.DateTime);
+                            pattern.RightnessPoints += SimillarHoursRightnessPoints(searchedMeal.DateTime, meal.DateTime);
                             patterns.Add(pattern);
                         }
             return patterns;
@@ -68,6 +71,13 @@ namespace Dietphone.Models
                 if (diff <= new TimeSpan(daysDiff, 0, 0, 0))
                     rightnessPoints++;
             return rightnessPoints;
+        }
+
+        private byte SimillarHoursRightnessPoints(DateTime left, DateTime right)
+        {
+            var difference = hourDifference.GetDifference(left.TimeOfDay, right.TimeOfDay);
+            var rightnessPoints = 12 - difference;
+            return (byte)rightnessPoints;
         }
     }
 }
