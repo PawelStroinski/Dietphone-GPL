@@ -26,7 +26,11 @@ namespace Dietphone.Models.Tests
 
         private PatternsImpl CreateSut()
         {
-            return new PatternsImpl(factories, new HourDifferenceImpl());
+            var hourDifference = new Mock<HourDifference>();
+            hourDifference
+                .Setup(h => h.GetDifference(It.IsAny<TimeSpan>(), It.IsAny<TimeSpan>()))
+                .Returns(12);
+            return new PatternsImpl(factories, hourDifference.Object);
         }
 
         private Product AddProduct(byte productId, byte energy, byte carbs, byte protein, byte fat)
@@ -85,7 +89,8 @@ namespace Dietphone.Models.Tests
             {
                 insulin.SquareWaveBolus = int.Parse(splet[2]);
                 insulin.SquareWaveBolusHours = int.Parse(splet[3]);
-                insulin.InitializeCircumstances(splet.Skip(4).Select(s => byte.Parse(s).ToGuid()).ToList());
+                foreach (var circumstanceId in splet.Skip(4).Select(s => byte.Parse(s).ToGuid()))
+                    insulin.AddCircumstance(new InsulinCircumstance { Id = circumstanceId });
             }
             return insulin;
         }
@@ -277,7 +282,7 @@ namespace Dietphone.Models.Tests
         [TestCase(15, 16, 1, Description = "In 15 days = 1 extra point")]
         [TestCase(7, 8, 1, Description = "In 7 days = 1 extra point")]
         [TestCase(2, 3, 1, Description = "In 2 days = 1 extra point")]
-        [TestCase(1.1, 2.1, 1, Description = "In 2 days = 1 extra point (by 0.1 day)")]
+        [TestCase(1, 2.1, 1, Description = "In 2 days = 1 extra point (by 0.1 day)")]
         public void RecentMealGetsMoreRightnessPoints(double addDays1, double addDays2, int expectedPointsDifference)
         {
             var sut = CreateSut();
@@ -293,7 +298,7 @@ namespace Dietphone.Models.Tests
 
         [TestCase("17:00", "05:00", 12, "17:00", Description = "00:00 and 12:00 difference = 12 extra points (12-0)")]
         [TestCase("17:30", "05:00", 12, "17:00", Description = "00:30 and 12:00 difference = 12 extra points (12-0)")]
-        [TestCase("17:31", "05:00", 11, "17:00", Description = "00:31 and 12:00 difference = 11 extra points (12-0)")]
+        [TestCase("17:31", "05:00", 11, "17:00", Description = "00:31 and 12:00 difference = 11 extra points (11-0)")]
         [TestCase("08:00", "15:00", 05, "09:00", Description = "01:00 and 06:00 difference = 05 extra points (11-6)")]
         [TestCase("06:00", "21:00", -1, "14:00", Description = "08:00 and 07:00 difference = -1 extra points (4-5)")]
         [TestCase("08:00", "10:01", 00, "08:31", Description = "00:31 and 01:30 difference = 00 extra points (11-11)")]
@@ -306,12 +311,33 @@ namespace Dietphone.Models.Tests
         public void MealAtSimillarHourGetsMoreRightnessPoints(string hour1, string hour2,
             int expectedPointsDifference, string idealHour)
         {
-            var sut = CreateSut();
+            var sut = new PatternsImpl(factories, new HourDifferenceImpl());
             var insulin = AddInsulin(idealHour + " 1");
             AddMeal(idealHour + " 1 100g");
-            basedate = basedate.AddDays(5);
+            basedate = basedate.AddDays(1); // To avoid same date time of searched and found
             AddMealInsulinAndSugars(hour1 + " 1 100g", "1", "100 100");
             AddMealInsulinAndSugars(hour2 + " 1 100g", "1", "100 100");
+            var patterns = sut.GetPatternsFor(insulin);
+            Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
+        }
+
+        [TestCase("", "", 0)]
+        [TestCase("1 2 3", "1 2 3", 0)]
+        [TestCase("3", "", 5)]
+        [TestCase("10", "", 0)]
+        [TestCase("1 2 3", "", 15)]
+        [TestCase("", "1 2 3", -15)]
+        [TestCase("1 2 3", "4 5 6", 15)]
+        [TestCase("1 2 3", "4 5 6 1", 10)]
+        [TestCase("1 2 3", "2 1", 5)]
+        public void InsulinWithSameCircumstancesGetsMoreRightessPoints(string circumstances1, string circumstances2,
+            int expectedPointsDifference)
+        {
+            var sut = CreateSut();
+            var insulin = AddInsulin("12:00 1 0 0 1 2 3");
+            AddMeal("12:00 1 100g");
+            AddMealInsulinAndSugars("07:00 1 100g", ("1 0 0 " + circumstances1).Trim(), "100 100");
+            AddMealInsulinAndSugars("09:00 1 100g", ("1 0 0 " + circumstances2).Trim(), "100 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
         }

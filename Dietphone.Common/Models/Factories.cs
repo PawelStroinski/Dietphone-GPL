@@ -189,6 +189,8 @@ namespace Dietphone.Models
             var insulin = InsulinFactory.CreateEntity();
             insulin.Id = Guid.NewGuid();
             insulin.DateTime = DateTime.UtcNow;
+            var circumstances = new List<Guid>();
+            insulin.InitializeCircumstances(circumstances);
             insulin.SetNullStringPropertiesToEmpty();
             return insulin;
         }

@@ -12,6 +12,7 @@ namespace Dietphone.Models
     public class PatternsImpl : Patterns
     {
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
+        private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
         private readonly Factories factories;
         private readonly HourDifference hourDifference;
 
@@ -57,6 +58,7 @@ namespace Dietphone.Models
                             pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
                             pattern.RightnessPoints += RecentMealsRightnessPoints(searchedMeal.DateTime, meal.DateTime);
                             pattern.RightnessPoints += SimillarHoursRightnessPoints(searchedMeal.DateTime, meal.DateTime);
+                            pattern.RightnessPoints += SameCircumstancesRightnessPoints(insulin, foundInsulin);
                             patterns.Add(pattern);
                         }
             return patterns;
@@ -78,6 +80,14 @@ namespace Dietphone.Models
             var difference = hourDifference.GetDifference(left.TimeOfDay, right.TimeOfDay);
             var rightnessPoints = 12 - difference;
             return (byte)rightnessPoints;
+        }
+
+        private byte SameCircumstancesRightnessPoints(Insulin left, Insulin right)
+        {
+            var leftCircumstances = left.ReadCircumstances();
+            var rightCircumstances = right.ReadCircumstances();
+            var sameCircumstances = leftCircumstances.Intersect(rightCircumstances).Count();
+            return (byte)(sameCircumstances * POINTS_FOR_SAME_CIRCUMSTANCE);
         }
     }
 }

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Moq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dietphone.Models.Tests
 {
@@ -180,6 +181,7 @@ namespace Dietphone.Models.Tests
             Assert.AreNotEqual(default(DateTime), insulin.DateTime);
             Assert.AreEqual(DateTimeKind.Utc, insulin.DateTime.Kind);
             Assert.AreEqual(string.Empty, insulin.Note);
+            Assert.IsNotNull(insulin.Circumstances.ToList());
         }
 
         [Test]
