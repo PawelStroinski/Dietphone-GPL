@@ -15,6 +15,14 @@ namespace Dietphone.Models
         private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
         private readonly Factories factories;
         private readonly HourDifference hourDifference;
+        private Finder finder;
+        private Settings settings;
+        private Insulin searchedInsulin, insulin;
+        private Meal searchedMeal, meal;
+        private MealItem searchedItem, item;
+        private Sugar sugarBefore;
+        private List<Sugar> sugarsAfter;
+        private int percentOfEnergyDiff;
 
         public PatternsImpl(Factories factories, HourDifference hourDifference)
         {
@@ -24,44 +32,64 @@ namespace Dietphone.Models
 
         public IList<Pattern> GetPatternsFor(Insulin insulin)
         {
+            finder = factories.Finder;
+            settings = factories.Settings;
+            searchedInsulin = insulin;
+            searchedMeal = finder.FindMealByInsulin(searchedInsulin);
             var patterns = new List<Pattern>();
-            var finder = factories.Finder;
-            var settings = factories.Settings;
-            var searchedMeal = finder.FindMealByInsulin(insulin);
             foreach (var meal in factories.Meals.Where(m => m != searchedMeal))
                 foreach (var item in meal.Items)
                     foreach (var searchedItem in searchedMeal.Items)
                         if (item.ProductId == searchedItem.ProductId)
                         {
-                            var itemPercentOfEnergy = item.PercentOfEnergyInMeal(meal);
-                            var searchedItemPercentOfEnergy = searchedItem.PercentOfEnergyInMeal(searchedMeal);
-                            var percentOfEnergyDiff = Math.Abs(itemPercentOfEnergy - searchedItemPercentOfEnergy);
-                            if (percentOfEnergyDiff > MAX_PERCENT_OF_ENERGY_DIFF)
-                                continue;
-                            var foundInsulin = finder.FindInsulinByMeal(meal);
-                            if (foundInsulin == null)
-                                continue;
-                            var before = finder.FindSugarBeforeInsulin(foundInsulin);
-                            if (before == null)
-                                continue;
-                            var after = finder.FindSugarsAfterInsulin(foundInsulin, settings.SugarsAfterInsulinHours);
-                            if (!after.Any())
-                                continue;
-                            var pattern = new Pattern
-                            {
-                                Match = item,
-                                From = meal,
-                                Insulin = foundInsulin,
-                                Before = before,
-                                After = after
-                            };
-                            pattern.RightnessPoints += (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
-                            pattern.RightnessPoints += RecentMealsRightnessPoints(searchedMeal.DateTime, meal.DateTime);
-                            pattern.RightnessPoints += SimillarHoursRightnessPoints(searchedMeal.DateTime, meal.DateTime);
-                            pattern.RightnessPoints += SameCircumstancesRightnessPoints(insulin, foundInsulin);
-                            patterns.Add(pattern);
+                            this.searchedItem = searchedItem;
+                            this.item = item;
+                            this.meal = meal;
+                            if (ConsiderPattern())
+                                patterns.Add(BuildPattern());
                         }
             return patterns;
+        }
+
+        private bool ConsiderPattern()
+        {
+            var itemPercentOfEnergy = item.PercentOfEnergyInMeal(meal);
+            var searchedItemPercentOfEnergy = searchedItem.PercentOfEnergyInMeal(searchedMeal);
+            percentOfEnergyDiff = Math.Abs(itemPercentOfEnergy - searchedItemPercentOfEnergy);
+            if (percentOfEnergyDiff > MAX_PERCENT_OF_ENERGY_DIFF)
+                return false;
+            insulin = finder.FindInsulinByMeal(meal);
+            if (insulin == null)
+                return false;
+            sugarBefore = finder.FindSugarBeforeInsulin(insulin);
+            if (sugarBefore == null)
+                return false;
+            sugarsAfter = finder.FindSugarsAfterInsulin(insulin, settings.SugarsAfterInsulinHours);
+            if (!sugarsAfter.Any())
+                return false;
+            return true;
+        }
+
+        private Pattern BuildPattern()
+        {
+            var pattern = new Pattern
+            {
+                Match = item,
+                From = meal,
+                Insulin = insulin,
+                Before = sugarBefore,
+                After = sugarsAfter
+            };
+            pattern.RightnessPoints += PercentOfEnergysRightnessPoints();
+            pattern.RightnessPoints += RecentMealsRightnessPoints(searchedMeal.DateTime, meal.DateTime);
+            pattern.RightnessPoints += SimillarHoursRightnessPoints(searchedMeal.DateTime, meal.DateTime);
+            pattern.RightnessPoints += SameCircumstancesRightnessPoints(searchedInsulin, insulin);
+            return pattern;
+        }
+
+        private byte PercentOfEnergysRightnessPoints()
+        {
+            return (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
         }
 
         private byte RecentMealsRightnessPoints(DateTime left, DateTime right)
