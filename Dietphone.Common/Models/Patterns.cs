@@ -13,7 +13,7 @@ namespace Dietphone.Models
     {
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
-        private const byte MAX_SIMILLAR_SUGAR_BEFORES_RIGHTNESS_POINTS = POINTS_FOR_SAME_CIRCUMSTANCE;
+        private const byte MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE = POINTS_FOR_SAME_CIRCUMSTANCE;
         private readonly Factories factories;
         private readonly HourDifference hourDifference;
         private Finder finder;
@@ -81,20 +81,20 @@ namespace Dietphone.Models
                 Before = sugarBefore,
                 After = sugarsAfter
             };
-            pattern.RightnessPoints += PercentOfEnergysRightnessPoints();
-            pattern.RightnessPoints += RecentMealsRightnessPoints(searchedMeal.DateTime, meal.DateTime);
-            pattern.RightnessPoints += SimillarHoursRightnessPoints(searchedMeal.DateTime, meal.DateTime);
-            pattern.RightnessPoints += SameCircumstancesRightnessPoints(searchedInsulin, insulin);
-            pattern.RightnessPoints += SimillarSugarBeforesRightnessPoints();
+            pattern.RightnessPoints += PointsForPercentOfEnergy();
+            pattern.RightnessPoints += PointsForRecentMeal(searchedMeal.DateTime, meal.DateTime);
+            pattern.RightnessPoints += PointsForSimillarHour(searchedMeal.DateTime, meal.DateTime);
+            pattern.RightnessPoints += PointsForSameCircumstances(searchedInsulin, insulin);
+            pattern.RightnessPoints += PointsForSimillarSugarBefore();
             return pattern;
         }
 
-        private byte PercentOfEnergysRightnessPoints()
+        private byte PointsForPercentOfEnergy()
         {
             return (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
         }
 
-        private byte RecentMealsRightnessPoints(DateTime left, DateTime right)
+        private byte PointsForRecentMeal(DateTime left, DateTime right)
         {
             byte rightnessPoints = 0;
             var diff = left > right ? left - right : right - left;
@@ -105,14 +105,14 @@ namespace Dietphone.Models
             return rightnessPoints;
         }
 
-        private byte SimillarHoursRightnessPoints(DateTime left, DateTime right)
+        private byte PointsForSimillarHour(DateTime left, DateTime right)
         {
             var difference = hourDifference.GetDifference(left.TimeOfDay, right.TimeOfDay);
             var rightnessPoints = 12 - difference;
             return (byte)rightnessPoints;
         }
 
-        private byte SameCircumstancesRightnessPoints(Insulin left, Insulin right)
+        private byte PointsForSameCircumstances(Insulin left, Insulin right)
         {
             var leftCircumstances = left.ReadCircumstances();
             var rightCircumstances = right.ReadCircumstances();
@@ -120,21 +120,21 @@ namespace Dietphone.Models
             return (byte)(sameCircumstances * POINTS_FOR_SAME_CIRCUMSTANCE);
         }
 
-        private byte SimillarSugarBeforesRightnessPoints()
+        private byte PointsForSimillarSugarBefore()
         {
             var searchedSugarBefore = finder.FindSugarBeforeInsulin(searchedInsulin);
             if (searchedSugarBefore == null)
                 return 0;
             var left = searchedSugarBefore.BloodSugarInMgdL;
             var right = sugarBefore.BloodSugarInMgdL;
-            return SimillarSugarBeforesRightnessPoints(left, right);
+            return PointsForSimillarSugarBefore(left, right);
         }
 
-        private byte SimillarSugarBeforesRightnessPoints(float left, float right)
+        private byte PointsForSimillarSugarBefore(float left, float right)
         {
             var diff = Math.Abs(left - right);
             var roundedDiffDividedByTen = (int)Math.Round(diff / 10, MidpointRounding.AwayFromZero);
-            var rightnessPoints = MAX_SIMILLAR_SUGAR_BEFORES_RIGHTNESS_POINTS - roundedDiffDividedByTen;
+            var rightnessPoints = MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE - roundedDiffDividedByTen;
             rightnessPoints = Math.Max(0, rightnessPoints);
             return (byte)rightnessPoints;
         }
