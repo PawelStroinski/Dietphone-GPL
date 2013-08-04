@@ -16,6 +16,7 @@ namespace Dietphone.BinarySerializers.Tests
             var storage = new SugarBinaryStorage();
             var readSugar = WriteAndRead(storage, sugarToWrite);
             sugarToWrite.AsSource().OfLikeness<Sugar>()
+                .Without(s => s.BloodSugarInMgdL)
                 .ShouldEqual(readSugar);
         }
     }
