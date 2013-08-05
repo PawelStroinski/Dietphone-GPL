@@ -125,6 +125,22 @@ namespace Dietphone.Models
             return ValidateItems();
         }
 
+        public List<MealItem> NormalizedItems()
+        {
+            var normalizedItems = items
+                .GroupBy(g => g.ProductId.ToString() + g.Unit.ToString())
+                .Select(m => new MealItem
+                {
+                    ProductId = m.First().ProductId,
+                    Unit = m.First().Unit,
+                    Value = m.Sum(M => M.Value)
+                })
+                .ToList();
+            foreach (var item in normalizedItems)
+                item.SetOwner(Owner);
+            return normalizedItems;
+        }
+
         protected void InternalCopyItemsFrom(Meal source)
         {
             var sourceItems = source.items;

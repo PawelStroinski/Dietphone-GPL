@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 namespace Dietphone.Models
 {
@@ -8,6 +9,7 @@ namespace Dietphone.Models
         public DateTime DateTime { get; set; }
         public float BloodSugar { get; set; }
 
+        [XmlIgnore]
         public float BloodSugarInMgdL
         {
             get

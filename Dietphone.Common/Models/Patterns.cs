@@ -41,7 +41,7 @@ namespace Dietphone.Models
             foreach (var meal in factories.Meals.Where(m => m != searchedMeal))
                 foreach (var item in meal.Items)
                     foreach (var searchedItem in searchedMeal.Items)
-                        if (item.ProductId == searchedItem.ProductId)
+                        if (item.ProductId == searchedItem.ProductId && item.Unit == searchedItem.Unit)
                         {
                             this.searchedItem = searchedItem;
                             this.item = item;
