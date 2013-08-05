@@ -33,22 +33,31 @@ namespace Dietphone.Models
 
         public IList<Pattern> GetPatternsFor(Insulin insulin)
         {
+            var patterns = new List<Pattern>();
             finder = factories.Finder;
             settings = factories.Settings;
             searchedInsulin = insulin;
             searchedMeal = finder.FindMealByInsulin(searchedInsulin);
-            var patterns = new List<Pattern>();
+            if (searchedMeal == null)
+                return patterns;
+            var searchedItems = searchedMeal.NormalizedItems();
             foreach (var meal in factories.Meals.Where(m => m != searchedMeal))
-                foreach (var item in meal.Items)
-                    foreach (var searchedItem in searchedMeal.Items)
-                        if (item.ProductId == searchedItem.ProductId && item.Unit == searchedItem.Unit)
-                        {
-                            this.searchedItem = searchedItem;
-                            this.item = item;
-                            this.meal = meal;
-                            if (ConsiderPattern())
-                                patterns.Add(BuildPattern());
-                        }
+            {
+                var mealHasMatch = meal.Items.Any(item =>
+                    searchedItems.Any(searchedItem =>
+                        item.ProductId == searchedItem.ProductId && item.Unit == searchedItem.Unit));
+                if (mealHasMatch)
+                    foreach (var item in meal.NormalizedItems())
+                        foreach (var searchedItem in searchedItems)
+                            if (item.ProductId == searchedItem.ProductId && item.Unit == searchedItem.Unit)
+                            {
+                                this.searchedItem = searchedItem;
+                                this.item = item;
+                                this.meal = meal;
+                                if (ConsiderPattern())
+                                    patterns.Add(BuildPattern());
+                            }
+            }
             return patterns;
         }
 

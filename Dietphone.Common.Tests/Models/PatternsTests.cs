@@ -27,6 +27,7 @@ namespace Dietphone.Models.Tests
         {
             var sut = CreateSut();
             var insulin = AddInsulin("12:00 1");
+            AddMeal("15:00 1 100g");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreEqual(0, patterns.Count());
         }
@@ -81,6 +82,21 @@ namespace Dietphone.Models.Tests
             AddMealInsulinAndSugars("10:00 55 1serving", "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin);
             Assert.AreEqual(0, patterns.Count());
+        }
+
+        [Test]
+        public void NormalizesMealtems()
+        {
+            var sut = CreateSut();
+            var insulin = AddInsulin("12:00 1");
+            AddMeal("12:00 1 100g 1 100g");
+            var mealToFind = AddMealInsulinAndSugars("10:00 1 100g 1 100g", "1", "100 100");
+            var patterns = sut.GetPatternsFor(insulin);
+            Assert.AreEqual(1, patterns.Count);
+            Assert.AreEqual(mealToFind.Items[0].ProductId, patterns.Single().Match.ProductId);
+            Assert.AreEqual(mealToFind.Items[0].Unit, patterns.Single().Match.Unit);
+            Assert.AreEqual(200, patterns.Single().Match.Value);
+            Assert.AreSame(mealToFind, patterns.Single().From);
         }
 
         [Test]

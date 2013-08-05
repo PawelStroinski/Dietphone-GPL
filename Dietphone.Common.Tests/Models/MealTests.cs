@@ -19,5 +19,21 @@ namespace Dietphone.Models.Tests
             for (int i = 0; i < expected.Count; i++)
                 expected[i].AsSource().OfLikeness<MealItem>().ShouldEqual(actual[i]);
         }
+
+        [Test]
+        public void NormalizedItemsReturnsSameItemInstancesWhenNotSums()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 2 100g");
+            var normalized = mealToNormalize.NormalizedItems();
+            Assert.AreSame(mealToNormalize.Items[0], normalized[0]);
+        }
+
+        [Test]
+        public void NormalizedItemsReturnsNewItemInstancesWhenSums()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 1 100g");
+            var normalized = mealToNormalize.NormalizedItems();
+            Assert.AreNotSame(mealToNormalize.Items[0], normalized[0]);
+        }
     }
 }

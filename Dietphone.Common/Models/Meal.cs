@@ -125,10 +125,14 @@ namespace Dietphone.Models
             return ValidateItems();
         }
 
-        public List<MealItem> NormalizedItems()
+        public ReadOnlyCollection<MealItem> NormalizedItems()
         {
-            var normalizedItems = items
-                .GroupBy(g => g.ProductId.ToString() + g.Unit.ToString())
+            var groupedItems = items
+                .GroupBy(g => new { g.ProductId, g.Unit })
+                .ToList();
+            if (groupedItems.Count == items.Count)
+                return items.AsReadOnly();
+            var normalizedItems = groupedItems
                 .Select(m => new MealItem
                 {
                     ProductId = m.First().ProductId,
@@ -138,7 +142,7 @@ namespace Dietphone.Models
                 .ToList();
             foreach (var item in normalizedItems)
                 item.SetOwner(Owner);
-            return normalizedItems;
+            return normalizedItems.AsReadOnly();
         }
 
         protected void InternalCopyItemsFrom(Meal source)
