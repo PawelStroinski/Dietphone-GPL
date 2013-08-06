@@ -73,7 +73,7 @@
     <Compile Include="Models\FinderTests.cs" />
     <Compile Include="Models\InsulinTests.cs" />
     <Compile Include="Models\MealItemTests.cs" />
-    <Compile Include="Models\PatternsTests.cs" />
+    <Compile Include="Models\PatternBuilderTests.cs" />
     <Compile Include="Models\StorageCreatorStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

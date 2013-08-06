@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Dietphone.Models
 {
-    public interface Patterns
+    public interface PatternBuilder
     {
-        IList<Pattern> GetPatternsFor(Insulin insulin);
+        IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, IList<MealItem> normalizedItems);
     }
 
-    public class PatternsImpl : Patterns
+    public class PatternBuilderImpl : PatternBuilder
     {
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
@@ -20,40 +20,39 @@ namespace Dietphone.Models
         private Settings settings;
         private Insulin searchedInsulin, insulin;
         private Meal searchedMeal, meal;
+        private IList<MealItem> searchedItems;
         private MealItem searchedItem, item;
         private Sugar sugarBefore;
         private List<Sugar> sugarsAfter;
         private int percentOfEnergyDiff;
 
-        public PatternsImpl(Factories factories, HourDifference hourDifference)
+        public PatternBuilderImpl(Factories factories, HourDifference hourDifference)
         {
             this.factories = factories;
             this.hourDifference = hourDifference;
         }
 
-        public IList<Pattern> GetPatternsFor(Insulin insulin)
+        public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, IList<MealItem> normalizedItems)
         {
             var patterns = new List<Pattern>();
             finder = factories.Finder;
             settings = factories.Settings;
             searchedInsulin = insulin;
-            searchedMeal = finder.FindMealByInsulin(searchedInsulin);
-            if (searchedMeal == null)
-                return patterns;
-            var searchedItems = searchedMeal.NormalizedItems();
-            foreach (var meal in factories.Meals.Where(m => m != searchedMeal))
+            searchedMeal = meal;
+            searchedItems = normalizedItems;
+            foreach (var testMeal in factories.Meals.Where(m => m != searchedMeal))
             {
-                var mealHasMatch = meal.Items.Any(item =>
+                var mealHasMatch = testMeal.Items.Any(item =>
                     searchedItems.Any(searchedItem =>
                         item.ProductId == searchedItem.ProductId && item.Unit == searchedItem.Unit));
                 if (mealHasMatch)
-                    foreach (var item in meal.NormalizedItems())
+                    foreach (var item in testMeal.NormalizedItems())
                         foreach (var searchedItem in searchedItems)
                             if (item.ProductId == searchedItem.ProductId && item.Unit == searchedItem.Unit)
                             {
                                 this.searchedItem = searchedItem;
                                 this.item = item;
-                                this.meal = meal;
+                                this.meal = testMeal;
                                 if (ConsiderPattern())
                                     patterns.Add(BuildPattern());
                             }

@@ -67,7 +67,7 @@
     <Compile Include="Models\MealItem.cs" />
     <Compile Include="Models\MealName.cs" />
     <Compile Include="Models\Pattern.cs" />
-    <Compile Include="Models\Patterns.cs" />
+    <Compile Include="Models\PatternBuilder.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Sugar.cs" />
     <Compile Include="Models\Settings.cs" />
