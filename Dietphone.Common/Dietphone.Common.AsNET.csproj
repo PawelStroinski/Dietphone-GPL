@@ -69,6 +69,12 @@
     <Compile Include="Models\Pattern.cs" />
     <Compile Include="Models\PatternBuilder.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Replacement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ReplacementBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Models\Sugar.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\Storage.cs" />
