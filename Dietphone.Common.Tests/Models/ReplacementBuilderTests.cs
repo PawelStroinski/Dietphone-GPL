@@ -9,7 +9,7 @@ namespace Dietphone.Models.Tests
     public class ReplacementBuilderTests : ModelBasedTests
     {
         [Test]
-        public void ChoosesPatternsWithMoreRightnessPoints()
+        public void ChoosesPatternsWithMostRightnessPoints()
         {
             var meal = AddMeal("12:00 1 100g");
             var pattern1 = new Pattern { RightnessPoints = 1 };
