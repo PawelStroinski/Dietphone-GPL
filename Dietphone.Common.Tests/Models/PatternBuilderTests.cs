@@ -90,6 +90,17 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
+        public void ReturnsItemForWhichPatternWasFound()
+        {
+            var sut = CreateSut();
+            var insulin = AddInsulin("12:00 1");
+            var meal = AddMeal("12:00 1 100g");
+            var mealToFind = AddMealInsulinAndSugars("10:00 1 100g", "1", "100 100");
+            var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
+            Assert.AreSame(meal.Items[0], patterns.Single().For);
+        }
+
+        [Test]
         public void ReturnsOnlyItemsHavingSimillarPercentageOfEnergyInMeal()
         {
             var sut = CreateSut();

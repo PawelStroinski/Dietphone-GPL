@@ -87,7 +87,8 @@ namespace Dietphone.Models
                 From = meal,
                 Insulin = insulin,
                 Before = sugarBefore,
-                After = sugarsAfter
+                After = sugarsAfter,
+                For = searchedItem
             };
             pattern.RightnessPoints += PointsForPercentOfEnergy();
             pattern.RightnessPoints += PointsForRecentMeal(searchedMeal.DateTime, meal.DateTime);

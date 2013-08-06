@@ -12,5 +12,6 @@ namespace Dietphone.Models
         public Insulin Insulin { get; set; }
         public Sugar Before { get; set; }
         public IEnumerable<Sugar> After { get; set; }
+        public MealItem For { get; set; }
     }
 }
