@@ -6,12 +6,12 @@ namespace Dietphone.Models
 {
     public interface ReplacementBuilder
     {
-        IList<Replacement> GetReplacementsFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns);
+        Replacements GetReplacementsFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns);
     }
 
     public class ReplacementBuilderImpl : ReplacementBuilder
     {
-        public IList<Replacement> GetReplacementsFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns)
+        public Replacements GetReplacementsFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns)
         {
             var replacements = new List<Replacement>();
             foreach (var patternsFor in usingPatterns.GroupBy(p => p.For))
@@ -24,7 +24,7 @@ namespace Dietphone.Models
                 };
                 replacements.Add(replacement);
             }
-            return replacements;
+            return new Replacements { Items = replacements };
         }
     }
 }

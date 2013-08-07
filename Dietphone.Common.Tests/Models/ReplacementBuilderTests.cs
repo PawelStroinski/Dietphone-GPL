@@ -22,7 +22,7 @@ namespace Dietphone.Models.Tests
                 pattern.For = meal.Items[0];
             }
             var sut = new ReplacementBuilderImpl();
-            var replacements = sut.GetReplacementsFor(meal.Items, patterns);
+            var replacements = sut.GetReplacementsFor(meal.Items, patterns).Items;
             Assert.AreSame(pattern2, replacements.Single().Pattern);
         }
 
@@ -42,7 +42,7 @@ namespace Dietphone.Models.Tests
                 patterns.Add(pattern);
             }
             var sut = new ReplacementBuilderImpl();
-            var replacements = sut.GetReplacementsFor(meal_.Items, patterns);
+            var replacements = sut.GetReplacementsFor(meal_.Items, patterns).Items;
             Assert.AreEqual(expected, replacements.Select(r => r.PatternFactor));
         }
     }
