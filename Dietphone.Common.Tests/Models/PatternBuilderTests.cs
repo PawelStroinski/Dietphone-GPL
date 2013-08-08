@@ -2,7 +2,6 @@
 using System.Linq;
 using NUnit.Framework;
 using Moq;
-using System.Collections.Generic;
 
 namespace Dietphone.Models.Tests
 {
