@@ -13,5 +13,6 @@ namespace Dietphone.Models
         public Sugar Before { get; set; }
         public IEnumerable<Sugar> After { get; set; }
         public MealItem For { get; set; }
+        public float Factor { get; set; }
     }
 }

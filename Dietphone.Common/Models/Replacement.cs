@@ -13,6 +13,5 @@ namespace Dietphone.Models
     public class Replacement
     {
         public Pattern Pattern { get; set; }
-        public double PatternFactor { get; set; }
     }
 }

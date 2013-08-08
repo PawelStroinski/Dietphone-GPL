@@ -119,6 +119,7 @@ namespace Dietphone.Models.Tests
         public void MoreSimillarPercentageOfEnergyInMealGivesMoreRightnessPoints()
         {
             var sut = CreateSut();
+            sut.AddPointsForFactorCloserToOne = false;
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 1 100g 2 100g");
             AddMealInsulinAndSugars("07:00 1 100g 3 100g", "1", "100 100");
@@ -309,6 +310,38 @@ namespace Dietphone.Models.Tests
             AddSugars("12:00 " + currentSugar.ToString());
             AddMealInsulinAndSugars("07:00 1 100g", "1", sugar1.ToString() + " 100");
             AddMealInsulinAndSugars("09:00 1 100g", "1", sugar2.ToString() + " 100");
+            var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
+            Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
+        }
+
+        [TestCase("1 100g 2 200g", "1 100g 2 200g", 1, 1)]
+        [TestCase("1 100g", "1 50g", 2)]
+        [TestCase("1 0g", "1 0g", 0)]
+        [TestCase("1 100g 2 200g", "1 110g 2 190g", 100f / 110f, 200f / 190f)]
+        public void CalculatesFactor(string currentMeal, string mealToFind, params float[] expectedFactors)
+        {
+            var sut = CreateSut();
+            var insulin = AddInsulin("12:00 1");
+            var meal = AddMeal("12:00 " + currentMeal);
+            AddMealInsulinAndSugars("10:00 " + mealToFind, "1", "100 100");
+            var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
+            Assert.AreEqual(expectedFactors, patterns.Select(pattern => pattern.Factor).ToArray());
+        }
+
+        [TestCase("1 100g", "1 100g", 5 - 5)]
+        [TestCase("1 100g", "1 50g", 5 - 2)]
+        [TestCase("1 100g", "1 200g", 5 - 2)]
+        [TestCase("1 100g", "1 10g", 5 - 0)]
+        [TestCase("1 100g", "1 20g", 5 - 1)]
+        [TestCase("1 100g", "1 90g", 5 - 4)]
+        public void FactorCloserToOneGivesMoreRighnessPoints(string currentMeal, string mealToFind,
+            int expectedPointsDifference)
+        {
+            var sut = CreateSut();
+            var insulin = AddInsulin("12:00 1");
+            var meal = AddMeal("12:00 " + currentMeal);
+            AddMealInsulinAndSugars("07:00 " + currentMeal, "1", "100 100");
+            AddMealInsulinAndSugars("09:00 " + mealToFind, "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
             Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
         }

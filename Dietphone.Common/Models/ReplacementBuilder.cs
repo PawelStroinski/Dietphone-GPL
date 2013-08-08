@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Dietphone.Models
@@ -17,11 +16,7 @@ namespace Dietphone.Models
             foreach (var patternsFor in usingPatterns.GroupBy(p => p.For))
             {
                 var top = patternsFor.OrderByDescending(p => p.RightnessPoints).First();
-                var replacement = new Replacement
-                {
-                    Pattern = top,
-                    PatternFactor = top.Match.Value == 0 ? 0 : top.For.Value / top.Match.Value
-                };
+                var replacement = new Replacement { Pattern = top };
                 replacements.Add(replacement);
             }
             return new Replacements { Items = replacements };

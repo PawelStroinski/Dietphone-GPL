@@ -11,9 +11,12 @@ namespace Dietphone.Models
 
     public class PatternBuilderImpl : PatternBuilder
     {
+        public bool AddPointsForFactorCloserToOne { get; set; }
+
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
         private const byte MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE = POINTS_FOR_SAME_CIRCUMSTANCE;
+        private const byte MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE = POINTS_FOR_SAME_CIRCUMSTANCE;
         private readonly Factories factories;
         private readonly HourDifference hourDifference;
         private Finder finder;
@@ -30,6 +33,7 @@ namespace Dietphone.Models
         {
             this.factories = factories;
             this.hourDifference = hourDifference;
+            AddPointsForFactorCloserToOne = true;
         }
 
         public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, IList<MealItem> normalizedItems)
@@ -88,13 +92,18 @@ namespace Dietphone.Models
                 Insulin = insulin,
                 Before = sugarBefore,
                 After = sugarsAfter,
-                For = searchedItem
+                For = searchedItem,
+                Factor = item.Value == 0 ? 0 : searchedItem.Value / item.Value
             };
+            // TODO: Each of those below should be in separate visitor for better isolation
+            // (instead of AddPointsForFactorCloserToOne)
             pattern.RightnessPoints += PointsForPercentOfEnergy();
             pattern.RightnessPoints += PointsForRecentMeal(searchedMeal.DateTime, meal.DateTime);
             pattern.RightnessPoints += PointsForSimillarHour(searchedMeal.DateTime, meal.DateTime);
             pattern.RightnessPoints += PointsForSameCircumstances(searchedInsulin, insulin);
             pattern.RightnessPoints += PointsForSimillarSugarBefore();
+            if (AddPointsForFactorCloserToOne)
+                pattern.RightnessPoints += PointsForFactorCloserToOne(pattern.Factor);
             return pattern;
         }
 
@@ -145,6 +154,15 @@ namespace Dietphone.Models
             var roundedDiffDividedByTen = (int)Math.Round(diff / 10, MidpointRounding.AwayFromZero);
             var rightnessPoints = MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE - roundedDiffDividedByTen;
             rightnessPoints = Math.Max(0, rightnessPoints);
+            return (byte)rightnessPoints;
+        }
+
+        private byte PointsForFactorCloserToOne(float factor)
+        {
+            if (factor > 1)
+                factor = 1 / factor;
+            var rightnessPoints = (float)MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE * factor;
+            rightnessPoints = (float)Math.Round(rightnessPoints);
             return (byte)rightnessPoints;
         }
     }
