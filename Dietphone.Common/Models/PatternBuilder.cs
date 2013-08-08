@@ -11,14 +11,12 @@ namespace Dietphone.Models
 
     public class PatternBuilderImpl : PatternBuilder
     {
-        public bool AddPointsForFactorCloserToOne { get; set; }
-
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
         private const byte MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE = POINTS_FOR_SAME_CIRCUMSTANCE;
         private const byte MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE = POINTS_FOR_SAME_CIRCUMSTANCE;
         private readonly Factories factories;
-        private readonly HourDifference hourDifference;
+        private readonly IEnumerable<IVisitor> visitors;
         private Finder finder;
         private Settings settings;
         private Insulin searchedInsulin, insulin;
@@ -28,12 +26,12 @@ namespace Dietphone.Models
         private Sugar sugarBefore;
         private List<Sugar> sugarsAfter;
         private int percentOfEnergyDiff;
+        private Pattern pattern;
 
-        public PatternBuilderImpl(Factories factories, HourDifference hourDifference)
+        public PatternBuilderImpl(Factories factories, IEnumerable<IVisitor> visitors)
         {
             this.factories = factories;
-            this.hourDifference = hourDifference;
-            AddPointsForFactorCloserToOne = true;
+            this.visitors = visitors;
         }
 
         public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, IList<MealItem> normalizedItems)
@@ -85,7 +83,7 @@ namespace Dietphone.Models
 
         private Pattern BuildPattern()
         {
-            var pattern = new Pattern
+            pattern = new Pattern
             {
                 Match = item,
                 From = meal,
@@ -95,75 +93,133 @@ namespace Dietphone.Models
                 For = searchedItem,
                 Factor = item.Value == 0 ? 0 : searchedItem.Value / item.Value
             };
-            // TODO: Each of those below should be in separate visitor for better isolation
-            // (instead of AddPointsForFactorCloserToOne)
-            pattern.RightnessPoints += PointsForPercentOfEnergy();
-            pattern.RightnessPoints += PointsForRecentMeal(searchedMeal.DateTime, meal.DateTime);
-            pattern.RightnessPoints += PointsForSimillarHour(searchedMeal.DateTime, meal.DateTime);
-            pattern.RightnessPoints += PointsForSameCircumstances(searchedInsulin, insulin);
-            pattern.RightnessPoints += PointsForSimillarSugarBefore();
-            if (AddPointsForFactorCloserToOne)
-                pattern.RightnessPoints += PointsForFactorCloserToOne(pattern.Factor);
+            AcceptVisitors();
             return pattern;
         }
 
-        private byte PointsForPercentOfEnergy()
+        private void AcceptVisitors()
         {
-            return (byte)(MAX_PERCENT_OF_ENERGY_DIFF - percentOfEnergyDiff);
+            foreach (var visitor in visitors)
+                visitor.Visit(this);
         }
 
-        private byte PointsForRecentMeal(DateTime left, DateTime right)
+        public interface IVisitor
         {
-            byte rightnessPoints = 0;
-            var diff = left > right ? left - right : right - left;
-            var daysDiffs = new int[] { 360, 180, 90, 60, 30, 15, 7, 2 };
-            foreach (var daysDiff in daysDiffs)
-                if (diff <= new TimeSpan(daysDiff, 0, 0, 0))
-                    rightnessPoints++;
-            return rightnessPoints;
+            void Visit(PatternBuilderImpl patternBuilder);
         }
 
-        private byte PointsForSimillarHour(DateTime left, DateTime right)
+        public abstract class VisitorPoints : IVisitor
         {
-            var difference = hourDifference.GetDifference(left.TimeOfDay, right.TimeOfDay);
-            var rightnessPoints = 12 - difference;
-            return (byte)rightnessPoints;
+            public void Visit(PatternBuilderImpl patternBuilder)
+            {
+                patternBuilder.pattern.RightnessPoints += Points(patternBuilder);
+            }
+
+            protected abstract byte Points(PatternBuilderImpl patternBuilder);
         }
 
-        private byte PointsForSameCircumstances(Insulin left, Insulin right)
+        public class PointsForPercentOfEnergy : VisitorPoints
         {
-            var leftCircumstances = left.ReadCircumstances();
-            var rightCircumstances = right.ReadCircumstances();
-            var sameCircumstances = leftCircumstances.Intersect(rightCircumstances).Count();
-            return (byte)(sameCircumstances * POINTS_FOR_SAME_CIRCUMSTANCE);
+            protected override byte Points(PatternBuilderImpl patternBuilder)
+            {
+                return (byte)(MAX_PERCENT_OF_ENERGY_DIFF - patternBuilder.percentOfEnergyDiff);
+            }
         }
 
-        private byte PointsForSimillarSugarBefore()
+        public class PointsForRecentMeal : VisitorPoints
         {
-            var searchedSugarBefore = finder.FindSugarBeforeInsulin(searchedInsulin);
-            if (searchedSugarBefore == null)
-                return 0;
-            var left = searchedSugarBefore.BloodSugarInMgdL;
-            var right = sugarBefore.BloodSugarInMgdL;
-            return PointsForSimillarSugarBefore(left, right);
+            protected override byte Points(PatternBuilderImpl patternBuilder)
+            {
+                return Points(patternBuilder.searchedMeal.DateTime, patternBuilder.meal.DateTime);
+            }
+
+            private byte Points(DateTime left, DateTime right)
+            {
+                byte rightnessPoints = 0;
+                var diff = left > right ? left - right : right - left;
+                var daysDiffs = new int[] { 360, 180, 90, 60, 30, 15, 7, 2 };
+                foreach (var daysDiff in daysDiffs)
+                    if (diff <= new TimeSpan(daysDiff, 0, 0, 0))
+                        rightnessPoints++;
+                return rightnessPoints;
+            }
         }
 
-        private byte PointsForSimillarSugarBefore(float left, float right)
+        public class PointsForSimillarHour : VisitorPoints
         {
-            var diff = Math.Abs(left - right);
-            var roundedDiffDividedByTen = (int)Math.Round(diff / 10, MidpointRounding.AwayFromZero);
-            var rightnessPoints = MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE - roundedDiffDividedByTen;
-            rightnessPoints = Math.Max(0, rightnessPoints);
-            return (byte)rightnessPoints;
+            private readonly HourDifference hourDifference;
+
+            public PointsForSimillarHour(HourDifference hourDifference)
+            {
+                this.hourDifference = hourDifference;
+            }
+
+            protected override byte Points(PatternBuilderImpl patternBuilder)
+            {
+                return Points(patternBuilder.searchedMeal.DateTime, patternBuilder.meal.DateTime);
+            }
+
+            private byte Points(DateTime left, DateTime right)
+            {
+                var difference = hourDifference.GetDifference(left.TimeOfDay, right.TimeOfDay);
+                var rightnessPoints = 12 - difference;
+                return (byte)rightnessPoints;
+            }
         }
 
-        private byte PointsForFactorCloserToOne(float factor)
+        public class PointsForSameCircumstances : VisitorPoints
         {
-            if (factor > 1)
-                factor = 1 / factor;
-            var rightnessPoints = (float)MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE * factor;
-            rightnessPoints = (float)Math.Round(rightnessPoints);
-            return (byte)rightnessPoints;
+            protected override byte Points(PatternBuilderImpl patternBuilder)
+            {
+                return Points(patternBuilder.searchedInsulin, patternBuilder.insulin);
+            }
+
+            private byte Points(Insulin left, Insulin right)
+            {
+                var leftCircumstances = left.ReadCircumstances();
+                var rightCircumstances = right.ReadCircumstances();
+                var sameCircumstances = leftCircumstances.Intersect(rightCircumstances).Count();
+                return (byte)(sameCircumstances * POINTS_FOR_SAME_CIRCUMSTANCE);
+            }
+        }
+
+        public class PointsForSimillarSugarBefore : VisitorPoints
+        {
+            protected override byte Points(PatternBuilderImpl patternBuilder)
+            {
+                var searchedSugarBefore = patternBuilder.finder.FindSugarBeforeInsulin(patternBuilder.searchedInsulin);
+                if (searchedSugarBefore == null)
+                    return 0;
+                var left = searchedSugarBefore.BloodSugarInMgdL;
+                var right = patternBuilder.sugarBefore.BloodSugarInMgdL;
+                return Points(left, right);
+            }
+
+            private byte Points(float left, float right)
+            {
+                var diff = Math.Abs(left - right);
+                var roundedDiffDividedByTen = (int)Math.Round(diff / 10, MidpointRounding.AwayFromZero);
+                var rightnessPoints = MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE - roundedDiffDividedByTen;
+                rightnessPoints = Math.Max(0, rightnessPoints);
+                return (byte)rightnessPoints;
+            }
+        }
+
+        public class PointsForFactorCloserToOne : VisitorPoints
+        {
+            protected override byte Points(PatternBuilderImpl patternBuilder)
+            {
+                return Points(patternBuilder.pattern.Factor);
+            }
+
+            private byte Points(float factor)
+            {
+                if (factor > 1)
+                    factor = 1 / factor;
+                var rightnessPoints = (float)MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE * factor;
+                rightnessPoints = (float)Math.Round(rightnessPoints);
+                return (byte)rightnessPoints;
+            }
         }
     }
 }
