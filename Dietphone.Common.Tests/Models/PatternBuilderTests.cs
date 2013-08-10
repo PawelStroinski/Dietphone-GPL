@@ -260,52 +260,49 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
         }
 
-        [TestCase("", "", 0)]
-        [TestCase("1 2 3", "1 2 3", 0)]
-        [TestCase("3", "", 5)]
-        [TestCase("10", "", 0)]
-        [TestCase("1 2 3", "", 15)]
-        [TestCase("", "1 2 3", -15)]
-        [TestCase("1 2 3", "4 5 6", 15)]
-        [TestCase("1 2 3", "4 5 6 1", 10)]
-        [TestCase("1 2 3", "2 1", 5)]
-        public void InsulinWithSameCircumstancesGetsMoreRightessPoints(string circumstances1, string circumstances2,
-            int expectedPointsDifference)
+        [TestCase("", 0)]
+        [TestCase("1 2 3", 15)]
+        [TestCase("3", 5)]
+        [TestCase("10", 0)]
+        [TestCase("4 5 6", 0)]
+        [TestCase("4 5 6 1", 5)]
+        [TestCase("2 1", 10)]
+        public void InsulinWithSameCircumstancesGetsMoreRightessPoints(string circumstances, int expectedPoints)
         {
             var sut = CreateSut(new PatternBuilderImpl.PointsForSameCircumstances());
             var insulin = AddInsulin("12:00 1 0 0 1 2 3");
             var meal = AddMeal("12:00 1 100g");
-            AddMealInsulinAndSugars("07:00 1 100g", ("1 0 0 " + circumstances1).Trim(), "100 100");
-            AddMealInsulinAndSugars("09:00 1 100g", ("1 0 0 " + circumstances2).Trim(), "100 100");
+            AddMealInsulinAndSugars("07:00 1 100g", ("1 0 0 " + circumstances).Trim(), "100 100");
             var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
-            Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
+            Assert.AreEqual(expectedPoints, patterns[0].RightnessPoints);
         }
 
-        [TestCase(100, 100, SugarUnit.mgdL, 100, 0)]
-        [TestCase(100, 150, SugarUnit.mgdL, 100, 5)]
-        [TestCase(144, 150, SugarUnit.mgdL, 100, 1)]
-        [TestCase(145, 150, SugarUnit.mgdL, 100, 0)]
-        [TestCase(104, 150, SugarUnit.mgdL, 100, 5)]
-        [TestCase(105, 150, SugarUnit.mgdL, 100, 4)]
-        [TestCase(100, 160, SugarUnit.mgdL, 100, 5)]
-        [TestCase(94, 160, SugarUnit.mgdL, 100, 4)]
-        [TestCase(95, 160, SugarUnit.mgdL, 100, 4)]
-        [TestCase(96, 160, SugarUnit.mgdL, 100, 5)]
-        [TestCase(140, 70, SugarUnit.mgdL, 140, 5)]
-        [TestCase(96, 120, SugarUnit.mgdL, 140, -2)]
-        [TestCase(5, 8, SugarUnit.mmolL, 6, 2)]
-        public void MealWithSimillarSugarBeforeGetsMoreRightnessPoints(int sugar1, int sugar2, SugarUnit unit,
-            int currentSugar, int expectedPointsDifference)
+        [TestCase(100, 100, SugarUnit.mgdL, 5)]
+        [TestCase(100, 150, SugarUnit.mgdL, 0)]
+        [TestCase(100, 144, SugarUnit.mgdL, 1)]
+        [TestCase(100, 145, SugarUnit.mgdL, 0)]
+        [TestCase(100, 104, SugarUnit.mgdL, 5)]
+        [TestCase(100, 105, SugarUnit.mgdL, 4)]
+        [TestCase(100, 160, SugarUnit.mgdL, 0)]
+        [TestCase(100, 94, SugarUnit.mgdL, 4)]
+        [TestCase(100, 95, SugarUnit.mgdL, 4)]
+        [TestCase(100, 96, SugarUnit.mgdL, 5)]
+        [TestCase(140, 70, SugarUnit.mgdL, 0)]
+        [TestCase(140, 120, SugarUnit.mgdL, 3)]
+        [TestCase(140, 96, SugarUnit.mgdL, 1)]
+        [TestCase(6, 5, SugarUnit.mmolL, 3)]
+        [TestCase(6, 8, SugarUnit.mmolL, 1)]
+        public void MealWithSimillarSugarBeforeGetsMoreRightnessPoints(int currentSugar, int sugarToFind,
+            SugarUnit unit, int expectedPoints)
         {
             factories.Settings.SugarUnit = unit;
             var sut = CreateSut(new PatternBuilderImpl.PointsForSimillarSugarBefore());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 1 100g");
             AddSugars("12:00 " + currentSugar.ToString());
-            AddMealInsulinAndSugars("07:00 1 100g", "1", sugar1.ToString() + " 100");
-            AddMealInsulinAndSugars("09:00 1 100g", "1", sugar2.ToString() + " 100");
+            AddMealInsulinAndSugars("09:00 1 100g", "1", sugarToFind.ToString() + " 100");
             var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
-            Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
+            Assert.AreEqual(expectedPoints, patterns[0].RightnessPoints);
         }
 
         [TestCase("1 100g 2 200g", "1 100g 2 200g", 1, 1)]
