@@ -13,8 +13,6 @@ namespace Dietphone.Models
     {
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
-        private const byte MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE = POINTS_FOR_SAME_CIRCUMSTANCE;
-        private const byte MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE = POINTS_FOR_SAME_CIRCUMSTANCE;
         private readonly Factories factories;
         private readonly IEnumerable<IVisitor> visitors;
         private Finder finder;
@@ -28,7 +26,7 @@ namespace Dietphone.Models
         private int percentOfEnergyDiff;
         private Pattern pattern;
 
-        public PatternBuilderImpl(Factories factories, IEnumerable<IVisitor> visitors)
+        public PatternBuilderImpl(Factories factories, params IVisitor[] visitors)
         {
             this.factories = factories;
             this.visitors = visitors;
@@ -185,6 +183,8 @@ namespace Dietphone.Models
 
         public class PointsForSimillarSugarBefore : VisitorPoints
         {
+            private const byte MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE = POINTS_FOR_SAME_CIRCUMSTANCE;
+
             protected override byte Points(PatternBuilderImpl patternBuilder)
             {
                 var searchedSugarBefore = patternBuilder.finder.FindSugarBeforeInsulin(patternBuilder.searchedInsulin);
@@ -207,6 +207,8 @@ namespace Dietphone.Models
 
         public class PointsForFactorCloserToOne : VisitorPoints
         {
+            private const byte MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE = POINTS_FOR_SAME_CIRCUMSTANCE;
+
             protected override byte Points(PatternBuilderImpl patternBuilder)
             {
                 return Points(patternBuilder.pattern.Factor);

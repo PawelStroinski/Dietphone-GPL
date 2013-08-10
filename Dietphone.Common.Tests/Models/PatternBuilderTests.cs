@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using Moq;
 
 namespace Dietphone.Models.Tests
 {
@@ -13,24 +12,9 @@ namespace Dietphone.Models.Tests
             factories.Settings.SugarsAfterInsulinHours = 4;
         }
 
-        private PatternBuilderImpl CreateSut(HourDifference hourDifference = null,
-            params PatternBuilderImpl.IVisitor[] addVisitors)
+        private PatternBuilderImpl CreateSut(params PatternBuilderImpl.IVisitor[] visitors)
         {
-            var hourDifferenceMock = new Mock<HourDifference>();
-            hourDifferenceMock
-                .Setup(h => h.GetDifference(It.IsAny<TimeSpan>(), It.IsAny<TimeSpan>()))
-                .Returns(12);
-            if (hourDifference == null)
-                hourDifference = hourDifferenceMock.Object;
-            var visitors = new PatternBuilderImpl.IVisitor[]
-            {
-                new PatternBuilderImpl.PointsForPercentOfEnergy(),
-                new PatternBuilderImpl.PointsForRecentMeal(),
-                new PatternBuilderImpl.PointsForSimillarHour(hourDifference),
-                new PatternBuilderImpl.PointsForSameCircumstances(),
-                new PatternBuilderImpl.PointsForSimillarSugarBefore()
-            };
-            return new PatternBuilderImpl(factories, visitors.Concat(addVisitors));
+            return new PatternBuilderImpl(factories, visitors);
         }
 
         [Test]
@@ -129,7 +113,7 @@ namespace Dietphone.Models.Tests
         [Test]
         public void MoreSimillarPercentageOfEnergyInMealGivesMoreRightnessPoints()
         {
-            var sut = CreateSut();
+            var sut = CreateSut(new PatternBuilderImpl.PointsForPercentOfEnergy());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 1 100g 2 100g");
             AddMealInsulinAndSugars("07:00 1 100g 3 100g", "1", "100 100");
@@ -240,7 +224,7 @@ namespace Dietphone.Models.Tests
         [TestCase(1, 2.1, 1, Description = "In 2 days = 1 extra point (by 0.1 day)")]
         public void RecentMealGetsMoreRightnessPoints(double addDays1, double addDays2, int expectedPointsDifference)
         {
-            var sut = CreateSut();
+            var sut = CreateSut(new PatternBuilderImpl.PointsForRecentMeal());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 1 100g");
             basedate = basedate.AddDays(addDays1);
@@ -266,7 +250,7 @@ namespace Dietphone.Models.Tests
         public void MealAtSimillarHourGetsMoreRightnessPoints(string hour1, string hour2,
             int expectedPointsDifference, string idealHour)
         {
-            var sut = CreateSut(new HourDifferenceImpl());
+            var sut = CreateSut(new PatternBuilderImpl.PointsForSimillarHour(new HourDifferenceImpl()));
             var insulin = AddInsulin(idealHour + " 1");
             var meal = AddMeal(idealHour + " 1 100g");
             basedate = basedate.AddDays(1); // To avoid same date time of searched and found
@@ -288,7 +272,7 @@ namespace Dietphone.Models.Tests
         public void InsulinWithSameCircumstancesGetsMoreRightessPoints(string circumstances1, string circumstances2,
             int expectedPointsDifference)
         {
-            var sut = CreateSut();
+            var sut = CreateSut(new PatternBuilderImpl.PointsForSameCircumstances());
             var insulin = AddInsulin("12:00 1 0 0 1 2 3");
             var meal = AddMeal("12:00 1 100g");
             AddMealInsulinAndSugars("07:00 1 100g", ("1 0 0 " + circumstances1).Trim(), "100 100");
@@ -314,7 +298,7 @@ namespace Dietphone.Models.Tests
             int currentSugar, int expectedPointsDifference)
         {
             factories.Settings.SugarUnit = unit;
-            var sut = CreateSut();
+            var sut = CreateSut(new PatternBuilderImpl.PointsForSimillarSugarBefore());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 1 100g");
             AddSugars("12:00 " + currentSugar.ToString());
@@ -338,22 +322,20 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(expectedFactors, patterns.Select(pattern => pattern.Factor).ToArray());
         }
 
-        [TestCase("1 100g", "1 100g", 5 - 5)]
-        [TestCase("1 100g", "1 50g", 5 - 2)]
-        [TestCase("1 100g", "1 200g", 5 - 2)]
-        [TestCase("1 100g", "1 10g", 5 - 0)]
-        [TestCase("1 100g", "1 20g", 5 - 1)]
-        [TestCase("1 100g", "1 90g", 5 - 4)]
-        public void FactorCloserToOneGivesMoreRighnessPoints(string currentMeal, string mealToFind,
-            int expectedPointsDifference)
+        [TestCase("1 100g", "1 100g", 5)]
+        [TestCase("1 100g", "1 50g", 2)]
+        [TestCase("1 100g", "1 200g", 2)]
+        [TestCase("1 100g", "1 10g", 0)]
+        [TestCase("1 100g", "1 20g", 1)]
+        [TestCase("1 100g", "1 90g", 4)]
+        public void FactorCloserToOneGivesMoreRighnessPoints(string currentMeal, string mealToFind, int expectedPoints)
         {
-            var sut = CreateSut(addVisitors: new PatternBuilderImpl.PointsForFactorCloserToOne());
+            var sut = CreateSut(new PatternBuilderImpl.PointsForFactorCloserToOne());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 " + currentMeal);
-            AddMealInsulinAndSugars("07:00 " + currentMeal, "1", "100 100");
             AddMealInsulinAndSugars("09:00 " + mealToFind, "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
-            Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
+            Assert.AreEqual(expectedPoints, patterns[0].RightnessPoints);
         }
     }
 }
