@@ -88,8 +88,7 @@ namespace Dietphone.Models
                 Insulin = insulin,
                 Before = sugarBefore,
                 After = sugarsAfter,
-                For = searchedItem,
-                Factor = item.Value == 0 ? 0 : searchedItem.Value / item.Value
+                For = searchedItem
             };
             AcceptVisitors();
             return pattern;
@@ -106,7 +105,16 @@ namespace Dietphone.Models
             void Visit(PatternBuilderImpl patternBuilder);
         }
 
-        public abstract class VisitorPoints : IVisitor
+        public class Factor : IVisitor
+        {
+            public void Visit(PatternBuilderImpl patternBuilder)
+            {
+                patternBuilder.pattern.Factor = patternBuilder.item.Value == 0 ? 0 
+                    : patternBuilder.searchedItem.Value / patternBuilder.item.Value;
+            }
+        }
+
+        public abstract class RightnessPoints : IVisitor
         {
             public void Visit(PatternBuilderImpl patternBuilder)
             {
@@ -116,7 +124,7 @@ namespace Dietphone.Models
             protected abstract byte Points(PatternBuilderImpl patternBuilder);
         }
 
-        public class PointsForPercentOfEnergy : VisitorPoints
+        public class PointsForPercentOfEnergy : RightnessPoints
         {
             protected override byte Points(PatternBuilderImpl patternBuilder)
             {
@@ -124,7 +132,7 @@ namespace Dietphone.Models
             }
         }
 
-        public class PointsForRecentMeal : VisitorPoints
+        public class PointsForRecentMeal : RightnessPoints
         {
             protected override byte Points(PatternBuilderImpl patternBuilder)
             {
@@ -143,7 +151,7 @@ namespace Dietphone.Models
             }
         }
 
-        public class PointsForSimillarHour : VisitorPoints
+        public class PointsForSimillarHour : RightnessPoints
         {
             private readonly HourDifference hourDifference;
 
@@ -165,7 +173,7 @@ namespace Dietphone.Models
             }
         }
 
-        public class PointsForSameCircumstances : VisitorPoints
+        public class PointsForSameCircumstances : RightnessPoints
         {
             protected override byte Points(PatternBuilderImpl patternBuilder)
             {
@@ -181,7 +189,7 @@ namespace Dietphone.Models
             }
         }
 
-        public class PointsForSimillarSugarBefore : VisitorPoints
+        public class PointsForSimillarSugarBefore : RightnessPoints
         {
             private const byte MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE = POINTS_FOR_SAME_CIRCUMSTANCE;
 
@@ -205,7 +213,7 @@ namespace Dietphone.Models
             }
         }
 
-        public class PointsForFactorCloserToOne : VisitorPoints
+        public class PointsForFactorCloserToOne : RightnessPoints
         {
             private const byte MAX_POINTS_FOR_FACTOR_CLOSER_TO_ONE = POINTS_FOR_SAME_CIRCUMSTANCE;
 

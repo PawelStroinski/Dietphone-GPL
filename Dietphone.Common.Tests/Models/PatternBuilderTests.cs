@@ -311,7 +311,7 @@ namespace Dietphone.Models.Tests
         [TestCase("1 100g 2 200g", "1 110g 2 190g", 100f / 110f, 200f / 190f)]
         public void CalculatesFactor(string currentMeal, string mealToFind, params float[] expectedFactors)
         {
-            var sut = CreateSut();
+            var sut = CreateSut(new PatternBuilderImpl.Factor());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 " + currentMeal);
             AddMealInsulinAndSugars("10:00 " + mealToFind, "1", "100 100");
@@ -327,7 +327,8 @@ namespace Dietphone.Models.Tests
         [TestCase("1 100g", "1 90g", 4)]
         public void FactorCloserToOneGivesMoreRighnessPoints(string currentMeal, string mealToFind, int expectedPoints)
         {
-            var sut = CreateSut(new PatternBuilderImpl.PointsForFactorCloserToOne());
+            var sut = CreateSut(new PatternBuilderImpl.Factor(),
+                new PatternBuilderImpl.PointsForFactorCloserToOne());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 " + currentMeal);
             AddMealInsulinAndSugars("09:00 " + mealToFind, "1", "100 100");
