@@ -325,6 +325,11 @@ namespace Dietphone.Models.Tests
         [TestCase("1 100g", "1 10g", 0)]
         [TestCase("1 100g", "1 20g", 1)]
         [TestCase("1 100g", "1 90g", 4)]
+        [TestCase("1 50g", "1 100g", 2)]
+        [TestCase("1 200g", "1 100g", 2)]
+        [TestCase("1 10g", "1 100g", 0)]
+        [TestCase("1 20g", "1 100g", 1)]
+        [TestCase("1 90g", "1 100g", 4)]
         public void FactorCloserToOneGivesMoreRighnessPoints(string currentMeal, string mealToFind, int expectedPoints)
         {
             var sut = CreateSut(new PatternBuilderImpl.Factor(),
