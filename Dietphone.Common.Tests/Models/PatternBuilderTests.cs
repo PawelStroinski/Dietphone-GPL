@@ -235,29 +235,27 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
         }
 
-        [TestCase("17:00", "05:00", 12, "17:00", Description = "00:00 and 12:00 difference = 12 extra points (12-0)")]
-        [TestCase("17:30", "05:00", 12, "17:00", Description = "00:30 and 12:00 difference = 12 extra points (12-0)")]
-        [TestCase("17:31", "05:00", 11, "17:00", Description = "00:31 and 12:00 difference = 11 extra points (11-0)")]
-        [TestCase("08:00", "15:00", 05, "09:00", Description = "01:00 and 06:00 difference = 05 extra points (11-6)")]
-        [TestCase("06:00", "21:00", -1, "14:00", Description = "08:00 and 07:00 difference = -1 extra points (4-5)")]
-        [TestCase("08:00", "10:01", 00, "08:31", Description = "00:31 and 01:30 difference = 00 extra points (11-11)")]
-        [TestCase("04:00", "08:00", -2, "07:10", Description = "03:10 and 00:50 difference = -2 extra points (9-11)")]
-        [TestCase("00:00", "00:00", 00, "12:00", Description = "12:00 and 12:00 difference = 00 extra points (0-0)")]
-        [TestCase("01:00", "23:00", 00, "12:00", Description = "11:00 and 11:00 difference = 00 extra points (1-1)")]
-        [TestCase("02:00", "23:00", -1, "00:00", Description = "02:00 and 01:00 difference = -1 extra points (10-11)")]
-        [TestCase("22:00", "05:00", 01, "01:00", Description = "03:00 and 04:00 difference = 01 extra points (9-8)")]
-        [TestCase("22:31", "05:31", 01, "01:30", Description = "03:00 and 04:00 difference = 01 extra points (9-8)")]
-        public void MealAtSimillarHourGetsMoreRightnessPoints(string hour1, string hour2,
-            int expectedPointsDifference, string idealHour)
+        [TestCase("17:00", "05:00", 00, Description = "12:00 difference = 00 points")]
+        [TestCase("17:00", "17:30", 12, Description = "00:30 difference = 12 points")]
+        [TestCase("17:00", "17:31", 11, Description = "00:31 difference = 11 points")]
+        [TestCase("09:00", "15:00", 06, Description = "06:00 difference = 06 points")]
+        [TestCase("14:00", "06:00", 04, Description = "08:00 difference = 04 points")]
+        [TestCase("08:31", "10:01", 11, Description = "01:30 difference = 01 points")]
+        [TestCase("07:10", "08:00", 11, Description = "00:50 difference = 11 points")]
+        [TestCase("12:00", "00:00", 00, Description = "12:00 difference = 00 points")]
+        [TestCase("12:00", "01:00", 01, Description = "11:00 difference = 01 points")]
+        [TestCase("00:00", "23:00", 11, Description = "01:00 difference = 11 points")]
+        [TestCase("01:00", "22:00", 09, Description = "03:00 difference = 09 points")]
+        [TestCase("01:30", "22:31", 09, Description = "03:00 difference = 09 points")]
+        public void MealAtSimillarHourGetsMoreRightnessPoints(string idealHour, string foundHour, int expectedPoints)
         {
             var sut = CreateSut(new PatternBuilderImpl.PointsForSimillarHour(new HourDifferenceImpl()));
             var insulin = AddInsulin(idealHour + " 1");
             var meal = AddMeal(idealHour + " 1 100g");
             basedate = basedate.AddDays(1); // To avoid same date time of searched and found
-            AddMealInsulinAndSugars(hour1 + " 1 100g", "1", "100 100");
-            AddMealInsulinAndSugars(hour2 + " 1 100g", "1", "100 100");
+            AddMealInsulinAndSugars(foundHour + " 1 100g", "1", "100 100");
             var patterns = sut.GetPatternsFor(insulin, meal, meal.Items);
-            Assert.AreEqual(expectedPointsDifference, patterns[0].RightnessPoints - patterns[1].RightnessPoints);
+            Assert.AreEqual(expectedPoints, patterns[0].RightnessPoints);
         }
 
         [TestCase("", 0)]
