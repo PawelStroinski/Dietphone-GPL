@@ -12,7 +12,6 @@ namespace Dietphone.Models
     public class PatternBuilderImpl : PatternBuilder
     {
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
-        private const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
         private readonly Factories factories;
         private readonly IEnumerable<IVisitor> visitors;
         private Finder finder;
@@ -116,6 +115,8 @@ namespace Dietphone.Models
 
         public abstract class RightnessPoints : IVisitor
         {
+            protected const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
+
             public void Visit(PatternBuilderImpl patternBuilder)
             {
                 patternBuilder.pattern.RightnessPoints += Points(patternBuilder);
