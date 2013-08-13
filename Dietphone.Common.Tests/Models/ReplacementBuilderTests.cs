@@ -43,13 +43,17 @@ namespace Dietphone.Models.Tests
         [TestCase("1 107g 2 200g 3 26g", true, 1)]
         [TestCase("1 107g 2 199g 3 26g", false, 1)]
         [TestCase("1 10g 2 20g 3 5g", true, 10)]
+        [TestCase("1 10g 2 24g", true, 10)]
+        [TestCase("1 10g 2 23g", false, 10)]
+        [TestCase("1 100g 2 200g 3 67g", true, 1)]
+        [TestCase("1 100g 2 200g 3 68g", false, 1)]
         public void ReturnsReplacementsAsCompleteWhenAtLeast95PercentOfEnergyIsReplaced(string found,
             bool expectedComplete, int factor)
         {
             var meal = AddMeal("12:00 1 100g 2 200g 3 50g");
             var foundMeal = AddMeal("10:00 " + found);
             var patterns = new List<Pattern>();
-            for (int i = 0; i < meal.Items.Count; i++)
+            for (int i = 0; i < foundMeal.Items.Count; i++)
             {
                 var pattern = new Pattern();
                 pattern.Match = foundMeal.Items[i];
