@@ -7,7 +7,7 @@ namespace Dietphone.Models
     public class Replacements
     {
         public IList<Replacement> Items { get; set; }
-        public bool Complete { get; set; }
+        public bool IsComplete { get; set; }
     }
 
     public class Replacement

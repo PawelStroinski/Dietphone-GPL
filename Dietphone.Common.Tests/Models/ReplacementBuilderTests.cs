@@ -64,7 +64,7 @@ namespace Dietphone.Models.Tests
             }
             var sut = new ReplacementBuilderImpl();
             var replacements = sut.GetReplacementsFor(meal.Items, patterns);
-            Assert.AreEqual(expectedComplete, replacements.Complete);
+            Assert.AreEqual(expectedComplete, replacements.IsComplete);
         }
     }
 }

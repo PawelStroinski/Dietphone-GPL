@@ -23,7 +23,7 @@ namespace Dietphone.Models
                 var replacement = new Replacement { Pattern = top };
                 replacements.Add(replacement);
             }
-            return new Replacements { Items = replacements, Complete = GetComplete(normalizedItems, replacements) };
+            return new Replacements { Items = replacements, IsComplete = IsComplete(normalizedItems, replacements) };
         }
 
         private void CheckPatterns(IList<Pattern> patterns)
@@ -33,7 +33,7 @@ namespace Dietphone.Models
                     throw new ArgumentException("Pattern.For cannot be null.");
         }
 
-        private bool GetComplete(IList<MealItem> normalizedItems, List<Replacement> replacements)
+        private bool IsComplete(IList<MealItem> normalizedItems, List<Replacement> replacements)
         {
             int energySum = normalizedItems
                 .Sum(item => item.Energy);
