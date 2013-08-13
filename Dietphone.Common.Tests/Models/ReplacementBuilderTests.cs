@@ -26,8 +26,41 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(pattern2, replacements.Single().Pattern);
         }
 
-        public void ReturnsReplacementsAsCompleteWhenAlmostAllEnergyIsReplaced()
+        [Test]
+        public void IfCalledWitForEqualNullThenThrowsException()
         {
+            var meal = AddMeal("12:00 1 100g");
+            var patterns = new List<Pattern> { new Pattern { Match = meal.Items[0] } };
+            var sut = new ReplacementBuilderImpl();
+            var exception = Assert.Throws<ArgumentException>(()
+                => sut.GetReplacementsFor(meal.Items, patterns));
+            Assert.AreEqual("Pattern.For cannot be null.", exception.Message);
+        }
+
+        [TestCase("1 100g 2 200g 3 50g", true, 1)]
+        [TestCase("1 100g 2 200g 3 33g", true, 1)]
+        [TestCase("1 100g 2 200g 3 32g", false, 1)]
+        [TestCase("1 107g 2 200g 3 26g", true, 1)]
+        [TestCase("1 107g 2 199g 3 26g", false, 1)]
+        [TestCase("1 10g 2 20g 3 5g", true, 10)]
+        public void ReturnsReplacementsAsCompleteWhenAtLeast95PercentOfEnergyIsReplaced(string found,
+            bool expectedComplete, int factor)
+        {
+            var meal = AddMeal("12:00 1 100g 2 200g 3 50g");
+            var foundMeal = AddMeal("10:00 " + found);
+            var patterns = new List<Pattern>();
+            for (int i = 0; i < meal.Items.Count; i++)
+            {
+                var pattern = new Pattern();
+                pattern.Match = foundMeal.Items[i];
+                pattern.From = foundMeal;
+                pattern.Factor = factor;
+                pattern.For = meal.Items[i];
+                patterns.Add(pattern);
+            }
+            var sut = new ReplacementBuilderImpl();
+            var replacements = sut.GetReplacementsFor(meal.Items, patterns);
+            Assert.AreEqual(expectedComplete, replacements.Complete);
         }
     }
 }
