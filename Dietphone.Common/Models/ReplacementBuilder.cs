@@ -6,24 +6,28 @@ namespace Dietphone.Models
 {
     public interface ReplacementBuilder
     {
-        Replacements GetReplacementsFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns);
+        Replacement GetReplacementFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns);
     }
 
     public class ReplacementBuilderImpl : ReplacementBuilder
     {
         private const byte MAX_NOT_REPLACED_PERCENT_OF_ENERGY = 5;
 
-        public Replacements GetReplacementsFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns)
+        public Replacement GetReplacementFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns)
         {
             CheckPatterns(usingPatterns);
-            var replacements = new List<Replacement>();
+            var replacementItems = new List<ReplacementItem>();
             foreach (var patternsFor in usingPatterns.GroupBy(p => p.For))
             {
                 var top = patternsFor.OrderByDescending(p => p.RightnessPoints).First();
-                var replacement = new Replacement { Pattern = top };
-                replacements.Add(replacement);
+                var replacementItem = new ReplacementItem { Pattern = top };
+                replacementItems.Add(replacementItem);
             }
-            return new Replacements { Items = replacements, IsComplete = IsComplete(normalizedItems, replacements) };
+            return new Replacement
+            {
+                Items = replacementItems,
+                IsComplete = IsComplete(normalizedItems, replacementItems)
+            };
         }
 
         private void CheckPatterns(IList<Pattern> patterns)
@@ -33,11 +37,11 @@ namespace Dietphone.Models
                     throw new ArgumentException("Pattern.For cannot be null.");
         }
 
-        private bool IsComplete(IList<MealItem> normalizedItems, List<Replacement> replacements)
+        private bool IsComplete(IList<MealItem> normalizedItems, List<ReplacementItem> replacementItems)
         {
             int energySum = normalizedItems
                 .Sum(item => item.Energy);
-            float replacementEnergySum = replacements
+            float replacementEnergySum = replacementItems
                 .Sum(replacement => replacement.Pattern.Match.Energy * replacement.Pattern.Factor);
             float notReplacedEnergy = Math.Abs(energySum - replacementEnergySum);
             double notReplacedEnergyPercent = notReplacedEnergy / energySum * 100;

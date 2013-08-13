@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Dietphone.Models
 {
-    public class Replacements
+    public class Replacement
     {
-        public IList<Replacement> Items { get; set; }
+        public IList<ReplacementItem> Items { get; set; }
         public bool IsComplete { get; set; }
     }
 
-    public class Replacement
+    public class ReplacementItem
     {
         public Pattern Pattern { get; set; }
     }

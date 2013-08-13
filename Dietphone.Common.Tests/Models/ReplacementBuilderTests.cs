@@ -22,8 +22,8 @@ namespace Dietphone.Models.Tests
                 pattern.For = meal.Items[0];
             }
             var sut = new ReplacementBuilderImpl();
-            var replacements = sut.GetReplacementsFor(meal.Items, patterns).Items;
-            Assert.AreSame(pattern2, replacements.Single().Pattern);
+            var replacementItems = sut.GetReplacementFor(meal.Items, patterns).Items;
+            Assert.AreSame(pattern2, replacementItems.Single().Pattern);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Dietphone.Models.Tests
             var patterns = new List<Pattern> { new Pattern { Match = meal.Items[0] } };
             var sut = new ReplacementBuilderImpl();
             var exception = Assert.Throws<ArgumentException>(()
-                => sut.GetReplacementsFor(meal.Items, patterns));
+                => sut.GetReplacementFor(meal.Items, patterns));
             Assert.AreEqual("Pattern.For cannot be null.", exception.Message);
         }
 
@@ -63,8 +63,8 @@ namespace Dietphone.Models.Tests
                 patterns.Add(pattern);
             }
             var sut = new ReplacementBuilderImpl();
-            var replacements = sut.GetReplacementsFor(meal.Items, patterns);
-            Assert.AreEqual(expectedComplete, replacements.IsComplete);
+            var replacement = sut.GetReplacementFor(meal.Items, patterns);
+            Assert.AreEqual(expectedComplete, replacement.IsComplete);
         }
     }
 }
