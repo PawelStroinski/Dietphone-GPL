@@ -26,7 +26,8 @@ namespace Dietphone.Models
             return new Replacement
             {
                 Items = replacementItems,
-                IsComplete = IsComplete(normalizedItems, replacementItems)
+                IsComplete = IsComplete(normalizedItems, replacementItems),
+                InsulinTotal = InsulinTotal(replacementItems)
             };
         }
 
@@ -46,6 +47,27 @@ namespace Dietphone.Models
             float notReplacedEnergy = Math.Abs(energySum - replacementEnergySum);
             double notReplacedEnergyPercent = notReplacedEnergy / energySum * 100;
             return notReplacedEnergyPercent <= MAX_NOT_REPLACED_PERCENT_OF_ENERGY;
+        }
+
+        private Insulin InsulinTotal(List<ReplacementItem> replacementItems)
+        {
+            var insulinTotal = new Insulin();
+            var patterns = replacementItems.Select(item => item.Pattern);
+            foreach (var pattern in patterns)
+            {
+                var meal = pattern.From;
+                var totalCuInMeal = meal.Items.Sum(item => item.Cu);
+                var percentOfCu = totalCuInMeal == 0 ? 0 : pattern.Match.Cu / totalCuInMeal;
+                insulinTotal.NormalBolus
+                    += (float)Math.Round(percentOfCu * pattern.Insulin.NormalBolus * pattern.Factor, 1);
+                var totalFpuInMeal = meal.Items.Sum(item => item.Fpu);
+                var percentOfFpu = totalFpuInMeal == 0 ? 0 : pattern.Match.Fpu / totalFpuInMeal;
+                insulinTotal.SquareWaveBolus
+                    += (float)Math.Round(percentOfFpu * pattern.Insulin.SquareWaveBolus * pattern.Factor, 1);
+                insulinTotal.SquareWaveBolusHours
+                    += (float)Math.Round(percentOfFpu * pattern.Insulin.SquareWaveBolusHours * pattern.Factor, 1);
+            }
+            return insulinTotal;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Dietphone.Models.Tests
 {
@@ -22,7 +23,7 @@ namespace Dietphone.Models.Tests
             AddProduct(3, energy: 100, carbs: 100, protein: 100, fat: 100);
         }
 
-        protected Product AddProduct(byte productId, byte energy, byte carbs, byte protein, byte fat)
+        protected Product AddProduct(byte productId, short energy, short carbs, short protein, short fat)
         {
             var product = factories.CreateProduct();
             product.Id = productId.ToGuid();
@@ -68,16 +69,17 @@ namespace Dietphone.Models.Tests
         }
 
         protected Insulin AddInsulin(string hourAndNormalBolusAndSquareWaveBolusAndSquareWaveBolusHoursAndCircumstances)
-        // e.g. "12:00 1", "12:00 1 0 0", "12:00 2 2 3 1 2 3"
+        // e.g. "12:00 1", "12:00 1 0 0", "12:00 2 2 3 1 2 3", "12:00 1.5"
         {
+            var culture = new CultureInfo("en");
             var splet = hourAndNormalBolusAndSquareWaveBolusAndSquareWaveBolusHoursAndCircumstances.Split(' ');
             var insulin = factories.CreateInsulin();
             insulin.DateTime = basedate + TimeSpan.Parse(splet[0]);
-            insulin.NormalBolus = int.Parse(splet[1]);
+            insulin.NormalBolus = float.Parse(splet[1], culture);
             if (splet.Length > 2)
             {
-                insulin.SquareWaveBolus = int.Parse(splet[2]);
-                insulin.SquareWaveBolusHours = int.Parse(splet[3]);
+                insulin.SquareWaveBolus = float.Parse(splet[2], culture);
+                insulin.SquareWaveBolusHours = float.Parse(splet[3], culture);
                 foreach (var circumstanceId in splet.Skip(4).Select(s => byte.Parse(s).ToGuid()))
                     insulin.AddCircumstance(new InsulinCircumstance { Id = circumstanceId });
             }

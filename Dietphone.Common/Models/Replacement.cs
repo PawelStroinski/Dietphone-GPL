@@ -8,6 +8,7 @@ namespace Dietphone.Models
     {
         public IList<ReplacementItem> Items { get; set; }
         public bool IsComplete { get; set; }
+        public Insulin InsulinTotal { get; set; }
     }
 
     public class ReplacementItem
