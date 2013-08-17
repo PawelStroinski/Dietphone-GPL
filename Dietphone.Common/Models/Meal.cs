@@ -14,6 +14,7 @@ namespace Dietphone.Models
         public Guid NameId { get; set; }
         public string Note { get; set; }
         protected List<MealItem> items;
+        private ReadOnlyCollection<MealItem> lastNormalizedItems;
 
         [XmlIgnore]
         public ReadOnlyCollection<MealItem> Items
@@ -127,22 +128,14 @@ namespace Dietphone.Models
 
         public ReadOnlyCollection<MealItem> NormalizedItems()
         {
-            var groupedItems = items
-                .GroupBy(g => new { g.ProductId, g.Unit })
-                .ToList();
-            if (groupedItems.Count == items.Count)
-                return items.AsReadOnly();
-            var normalizedItems = groupedItems
-                .Select(m => new MealItem
-                {
-                    ProductId = m.First().ProductId,
-                    Unit = m.First().Unit,
-                    Value = m.Sum(M => M.Value)
-                })
-                .ToList();
-            foreach (var item in normalizedItems)
-                item.SetOwner(Owner);
-            return normalizedItems.AsReadOnly();
+            var normalizedItems = GetNormalizedItems();
+            if (lastNormalizedItems != null && lastNormalizedItems.SequenceEqual(normalizedItems))
+                return lastNormalizedItems;
+            else
+            {
+                lastNormalizedItems = normalizedItems;
+                return normalizedItems;
+            }
         }
 
         protected void InternalCopyItemsFrom(Meal source)
@@ -182,6 +175,26 @@ namespace Dietphone.Models
             {
                 item.SetOwner(Owner);
             }
+        }
+
+        private ReadOnlyCollection<MealItem> GetNormalizedItems()
+        {
+            var groupedItems = items
+                .GroupBy(g => new { g.ProductId, g.Unit })
+                .ToList();
+            if (groupedItems.Count == items.Count)
+                return items.AsReadOnly();
+            var normalizedItems = groupedItems
+                .Select(m => new MealItem
+                {
+                    ProductId = m.First().ProductId,
+                    Unit = m.First().Unit,
+                    Value = m.Sum(M => M.Value)
+                })
+                .ToList();
+            foreach (var item in normalizedItems)
+                item.SetOwner(Owner);
+            return normalizedItems.AsReadOnly();
         }
     }
 }

@@ -63,6 +63,25 @@ namespace Dietphone.Models
                 }
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            var mealItem = obj as MealItemBase;
+            if (mealItem == null
+                 || mealItem.Value != Value
+                 || mealItem.Unit != Unit
+                 || mealItem.productId != productId)
+                return false;
+            else
+                return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode() * 2
+                 + Unit.GetHashCode() * 3
+                 + productId.GetHashCode() * 5;
+        }
     }
 
     public class MealItemWithNutrientsPerUnit : MealItemBase

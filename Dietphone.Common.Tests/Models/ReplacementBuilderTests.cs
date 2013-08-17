@@ -100,7 +100,7 @@ namespace Dietphone.Models.Tests
                     From = meal,
                     Insulin = AddInsulin("12:00 " + splet[1]),
                     Factor = float.Parse(splet[2], new CultureInfo("en")),
-                    For = new MealItem()
+                    For = new MealItem { ProductId = Guid.NewGuid() }
                 });
             }
             var sut = new ReplacementBuilderImpl();

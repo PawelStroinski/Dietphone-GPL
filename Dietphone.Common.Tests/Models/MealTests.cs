@@ -35,5 +35,65 @@ namespace Dietphone.Models.Tests
             var normalized = mealToNormalize.NormalizedItems();
             Assert.AreNotSame(mealToNormalize.Items[0], normalized[0]);
         }
+
+        [Test]
+        public void NormalizedItemsCalledSecondTimeReturnsSameResultAsFirstTimeIfNotChanged()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 1 100g");
+            var normalized1 = mealToNormalize.NormalizedItems();
+            var normalized2 = mealToNormalize.NormalizedItems();
+            Assert.AreSame(normalized1, normalized2);
+        }
+
+        [Test]
+        public void NormalizedItemsCalledSecondTimeReturnsNewResultIfValueChangedSinceLastCall()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 1 100g");
+            var normalized1 = mealToNormalize.NormalizedItems();
+            mealToNormalize.Items[1].Value = 120;
+            var normalized2 = mealToNormalize.NormalizedItems();
+            Assert.AreNotSame(normalized1, normalized2);
+        }
+
+        [Test]
+        public void NormalizedItemsCalledSecondTimeReturnsNewResultIfUnitChangedSinceLastCall()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 1 100g");
+            var normalized1 = mealToNormalize.NormalizedItems();
+            mealToNormalize.Items[1].Unit = Unit.Mililiter;
+            var normalized2 = mealToNormalize.NormalizedItems();
+            Assert.AreNotSame(normalized1, normalized2);
+        }
+
+
+        [Test]
+        public void NormalizedItemsCalledSecondTimeReturnsNewResultIfProductChangedSinceLastCall()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 1 100g");
+            var normalized1 = mealToNormalize.NormalizedItems();
+            mealToNormalize.Items[1].ProductId = factories.Products[1].Id;
+            var normalized2 = mealToNormalize.NormalizedItems();
+            Assert.AreNotSame(normalized1, normalized2);
+        }
+
+        [Test]
+        public void NormalizedItemsCalledSecondTimeReturnsNewResultIfItemAddedSinceLastCall()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 1 100g");
+            var normalized1 = mealToNormalize.NormalizedItems();
+            mealToNormalize.AddItem();
+            var normalized2 = mealToNormalize.NormalizedItems();
+            Assert.AreNotSame(normalized1, normalized2);
+        }
+
+        [Test]
+        public void NormalizedItemsCalledSecondTimeReturnsNewResultIfItemDeletedSinceLastCall()
+        {
+            var mealToNormalize = AddMeal("12:00 1 100g 1 100g");
+            var normalized1 = mealToNormalize.NormalizedItems();
+            mealToNormalize.DeleteItem(mealToNormalize.Items[1]);
+            var normalized2 = mealToNormalize.NormalizedItems();
+            Assert.AreNotSame(normalized1, normalized2);
+        }
     }
 }
