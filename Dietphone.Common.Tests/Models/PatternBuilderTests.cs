@@ -12,9 +12,9 @@ namespace Dietphone.Models.Tests
             factories.Settings.SugarsAfterInsulinHours = 4;
         }
 
-        private PatternBuilderImpl CreateSut(params PatternBuilderImpl.IVisitor[] visitors)
+        private PatternBuilderImpl CreateSut(params PatternBuilderImpl.IAction[] actions)
         {
-            return new PatternBuilderImpl(factories, visitors);
+            return new PatternBuilderImpl(factories, actions);
         }
 
         [Test]

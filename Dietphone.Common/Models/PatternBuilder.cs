@@ -13,7 +13,7 @@ namespace Dietphone.Models
     {
         private const byte MAX_PERCENT_OF_ENERGY_DIFF = 10;
         private readonly Factories factories;
-        private readonly IEnumerable<IVisitor> visitors;
+        private readonly IEnumerable<IAction> actions;
         private Finder finder;
         private Settings settings;
         private Insulin searchedInsulin, insulin;
@@ -25,10 +25,10 @@ namespace Dietphone.Models
         private int percentOfEnergyDiff;
         private Pattern pattern;
 
-        public PatternBuilderImpl(Factories factories, params IVisitor[] visitors)
+        public PatternBuilderImpl(Factories factories, params IAction[] actions)
         {
             this.factories = factories;
-            this.visitors = visitors;
+            this.actions = actions;
         }
 
         public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, IList<MealItem> normalizedItems)
@@ -89,35 +89,35 @@ namespace Dietphone.Models
                 After = sugarsAfter,
                 For = searchedItem
             };
-            AcceptVisitors();
+            DoActions();
             return pattern;
         }
 
-        private void AcceptVisitors()
+        private void DoActions()
         {
-            foreach (var visitor in visitors)
-                visitor.Visit(this);
+            foreach (var action in actions)
+                action.Do(this);
         }
 
-        public interface IVisitor
+        public interface IAction
         {
-            void Visit(PatternBuilderImpl patternBuilder);
+            void Do(PatternBuilderImpl patternBuilder);
         }
 
-        public class Factor : IVisitor
+        public class Factor : IAction
         {
-            public void Visit(PatternBuilderImpl patternBuilder)
+            public void Do(PatternBuilderImpl patternBuilder)
             {
-                patternBuilder.pattern.Factor = patternBuilder.item.Value == 0 ? 0 
+                patternBuilder.pattern.Factor = patternBuilder.item.Value == 0 ? 0
                     : patternBuilder.searchedItem.Value / patternBuilder.item.Value;
             }
         }
 
-        public abstract class RightnessPoints : IVisitor
+        public abstract class RightnessPoints : IAction
         {
             protected const byte POINTS_FOR_SAME_CIRCUMSTANCE = 5;
 
-            public void Visit(PatternBuilderImpl patternBuilder)
+            public void Do(PatternBuilderImpl patternBuilder)
             {
                 patternBuilder.pattern.RightnessPoints += Points(patternBuilder);
             }
