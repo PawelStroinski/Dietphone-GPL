@@ -6,14 +6,14 @@ namespace Dietphone.Models
 {
     public interface ReplacementBuilder
     {
-        Replacement GetReplacementFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns);
+        Replacement GetReplacementFor(Meal meal, IList<Pattern> usingPatterns);
     }
 
     public class ReplacementBuilderImpl : ReplacementBuilder
     {
         private const byte MAX_NOT_REPLACED_PERCENT_OF_ENERGY = 5;
 
-        public Replacement GetReplacementFor(IList<MealItem> normalizedItems, IList<Pattern> usingPatterns)
+        public Replacement GetReplacementFor(Meal meal, IList<Pattern> usingPatterns)
         {
             CheckPatterns(usingPatterns);
             var replacementItems = new List<ReplacementItem>();
@@ -26,7 +26,7 @@ namespace Dietphone.Models
             return new Replacement
             {
                 Items = replacementItems,
-                IsComplete = IsComplete(normalizedItems, replacementItems),
+                IsComplete = IsComplete(meal, replacementItems),
                 InsulinTotal = InsulinTotal(replacementItems)
             };
         }
@@ -38,10 +38,9 @@ namespace Dietphone.Models
                     throw new ArgumentException("Pattern.For cannot be null.");
         }
 
-        private bool IsComplete(IList<MealItem> normalizedItems, List<ReplacementItem> replacementItems)
+        private bool IsComplete(Meal meal, List<ReplacementItem> replacementItems)
         {
-            int energySum = normalizedItems
-                .Sum(item => item.Energy);
+            short energySum = meal.Energy;
             float replacementEnergySum = replacementItems
                 .Sum(replacement => replacement.Pattern.Match.Energy * replacement.Pattern.Factor);
             float notReplacedEnergy = Math.Abs(energySum - replacementEnergySum);

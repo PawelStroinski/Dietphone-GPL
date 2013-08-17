@@ -26,7 +26,7 @@ namespace Dietphone.Models.Tests
             }
             pattern4.For = meal.Items[1];
             var sut = new ReplacementBuilderImpl();
-            var replacementItems = sut.GetReplacementFor(meal.Items, patterns).Items;
+            var replacementItems = sut.GetReplacementFor(meal, patterns).Items;
             Assert.AreEqual(new Pattern[] { pattern2, pattern4 }, replacementItems.Select(r => r.Pattern));
         }
 
@@ -37,7 +37,7 @@ namespace Dietphone.Models.Tests
             var patterns = new List<Pattern> { new Pattern { Match = meal.Items[0] } };
             var sut = new ReplacementBuilderImpl();
             var exception = Assert.Throws<ArgumentException>(()
-                => sut.GetReplacementFor(meal.Items, patterns));
+                => sut.GetReplacementFor(meal, patterns));
             Assert.AreEqual("Pattern.For cannot be null.", exception.Message);
         }
 
@@ -68,7 +68,7 @@ namespace Dietphone.Models.Tests
                 patterns.Add(pattern);
             }
             var sut = new ReplacementBuilderImpl();
-            var replacement = sut.GetReplacementFor(meal.Items, patterns);
+            var replacement = sut.GetReplacementFor(meal, patterns);
             Assert.AreEqual(expectedComplete, replacement.IsComplete);
         }
 
@@ -104,7 +104,7 @@ namespace Dietphone.Models.Tests
                 });
             }
             var sut = new ReplacementBuilderImpl();
-            var replacement = sut.GetReplacementFor(new List<MealItem>(), patterns);
+            var replacement = sut.GetReplacementFor(AddMeal("12:00"), patterns);
             var expected = AddInsulin("12:00 " + expectedInsulin);
             var actual = replacement.InsulinTotal;
             Assert.AreEqual(expected.NormalBolus, actual.NormalBolus);
