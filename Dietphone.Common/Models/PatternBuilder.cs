@@ -6,7 +6,7 @@ namespace Dietphone.Models
 {
     public interface PatternBuilder
     {
-        IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, IList<MealItem> normalizedItems);
+        IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal);
     }
 
     public class PatternBuilderImpl : PatternBuilder
@@ -31,14 +31,14 @@ namespace Dietphone.Models
             this.actions = actions;
         }
 
-        public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, IList<MealItem> normalizedItems)
+        public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal)
         {
             var patterns = new List<Pattern>();
             finder = factories.Finder;
             settings = factories.Settings;
             searchedInsulin = insulin;
             searchedMeal = meal;
-            searchedItems = normalizedItems;
+            searchedItems = meal.NormalizedItems();
             foreach (var testMeal in factories.Meals.Where(m => m != searchedMeal))
             {
                 var mealHasMatch = testMeal.Items.Any(item =>
