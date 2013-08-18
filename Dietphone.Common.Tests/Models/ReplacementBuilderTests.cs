@@ -8,6 +8,23 @@ namespace Dietphone.Models.Tests
 {
     public class ReplacementBuilderTests : ModelBasedTests
     {
+        private void AddSomeMoreProductsForUseInTest()
+        {
+            Product product;
+            product = AddProduct(7, energy: 200, carbs: 50, protein: 0, fat: 0);
+            Assert.AreEqual(5, product.CuPer100g);
+            Assert.AreEqual(0, product.FpuPer100g);
+            Assert.AreEqual(product.EnergyPer100g, product.CalculatedEnergyPer100g);
+            product = AddProduct(8, energy: 498, carbs: 0, protein: 12, fat: 50);
+            Assert.AreEqual(0, product.CuPer100g);
+            Assert.AreEqual(5, product.FpuPer100g);
+            Assert.AreEqual(product.EnergyPer100g, product.CalculatedEnergyPer100g);
+            product = AddProduct(9, energy: 690, carbs: 10, protein: 50, fat: 50);
+            Assert.AreEqual(1, product.CuPer100g);
+            Assert.AreEqual(6.5, product.FpuPer100g);
+            Assert.AreEqual(product.EnergyPer100g, product.CalculatedEnergyPer100g);
+        }
+
         [Test]
         public void ChoosesPatternsWithMostRightnessPoints()
         {
@@ -67,7 +84,7 @@ namespace Dietphone.Models.Tests
                 pattern.Insulin = new Insulin();
                 patterns.Add(pattern);
             }
-            var sut = new ReplacementBuilderImpl();
+            var sut = new ReplacementBuilderImpl(new ReplacementBuilderImpl.IsComplete());
             var replacement = sut.GetReplacementFor(meal, patterns);
             Assert.AreEqual(expectedComplete, replacement.IsComplete);
         }
@@ -96,37 +113,20 @@ namespace Dietphone.Models.Tests
                 var meal = AddMeal("12:00 " + splet[0]);
                 patterns.Add(new Pattern
                 {
-                    Match = meal.Items[0], // In this test we pretend that always first item is used in pattern
+                    Match = meal.Items[0], // In this test we pretend that always the first item is used in pattern
                     From = meal,
                     Insulin = AddInsulin("12:00 " + splet[1]),
                     Factor = float.Parse(splet[2], new CultureInfo("en")),
                     For = new MealItem { ProductId = Guid.NewGuid() }
                 });
             }
-            var sut = new ReplacementBuilderImpl();
-            var replacement = sut.GetReplacementFor(AddMeal("12:00"), patterns);
+            var sut = new ReplacementBuilderImpl(new ReplacementBuilderImpl.InsulinTotal());
+            var replacement = sut.GetReplacementFor(new Meal(), patterns);
             var expected = AddInsulin("12:00 " + expectedInsulin);
             var actual = replacement.InsulinTotal;
             Assert.AreEqual(expected.NormalBolus, actual.NormalBolus);
             Assert.AreEqual(expected.SquareWaveBolus, actual.SquareWaveBolus);
             Assert.AreEqual(expected.SquareWaveBolusHours, actual.SquareWaveBolusHours);
-        }
-
-        private void AddSomeMoreProductsForUseInTest()
-        {
-            Product product;
-            product = AddProduct(7, energy: 200, carbs: 50, protein: 0, fat: 0);
-            Assert.AreEqual(5, product.CuPer100g);
-            Assert.AreEqual(0, product.FpuPer100g);
-            Assert.AreEqual(product.EnergyPer100g, product.CalculatedEnergyPer100g);
-            product = AddProduct(8, energy: 498, carbs: 0, protein: 12, fat: 50);
-            Assert.AreEqual(0, product.CuPer100g);
-            Assert.AreEqual(5, product.FpuPer100g);
-            Assert.AreEqual(product.EnergyPer100g, product.CalculatedEnergyPer100g);
-            product = AddProduct(9, energy: 690, carbs: 10, protein: 50, fat: 50);
-            Assert.AreEqual(1, product.CuPer100g);
-            Assert.AreEqual(6.5, product.FpuPer100g);
-            Assert.AreEqual(product.EnergyPer100g, product.CalculatedEnergyPer100g);
         }
     }
 }
