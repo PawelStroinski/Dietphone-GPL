@@ -53,6 +53,18 @@ namespace Dietphone.Models.Tests
             Assert.AreSame(replacementItems[1], actual.Last().Source);
         }
 
+        [Test]
+        public void HandlesSugarsOnDifferentDateThanMeal()
+        {
+            var replacementItems = GetReplacementItems("23:00 | 02:00 100");
+            var sugar = replacementItems[0].Pattern.After.Single();
+            sugar.DateTime = sugar.DateTime.AddDays(1);
+            var sut = new SugarCollector();
+            var meal = AddMeal("22:15");
+            var actual = sut.CollectByHour(meal, replacementItems).Values.First();
+            Assert.AreEqual(meal.DateTime.AddHours(3), actual.Single().Copy.DateTime);
+        }
+
         private List<ReplacementItem> GetReplacementItems(params string[] mealAndSugars)
         {
             var replacementItems = new List<ReplacementItem>();
