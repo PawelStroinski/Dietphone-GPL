@@ -66,6 +66,7 @@
     <Compile Include="Models\ReplacementBuilderTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\SugarEstimatorTests.cs" />
     <Compile Include="Models\SugarTests.cs" />
     <Compile Include="Models\ModelBasedTests.cs" />
     <Compile Include="TestExtensions.cs" />

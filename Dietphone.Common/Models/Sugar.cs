@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace Dietphone.Models
 {
-    public class Sugar : EntityWithId
+    public class Sugar : Entity
     {
         private const int UNIT_CONVERSION = 18;
         public DateTime DateTime { get; set; }
@@ -20,6 +20,23 @@ namespace Dietphone.Models
                 else
                     return (float)Math.Round(BloodSugar * UNIT_CONVERSION);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var sugar = obj as Sugar;
+            if (sugar == null
+                 || sugar.DateTime != DateTime
+                 || sugar.BloodSugar != BloodSugar)
+                return false;
+            else
+                return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return DateTime.GetHashCode() * 2
+                 + BloodSugar.GetHashCode() * 3;
         }
     }
 
