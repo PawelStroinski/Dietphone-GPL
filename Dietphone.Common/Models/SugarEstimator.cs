@@ -29,9 +29,9 @@ namespace Dietphone.Models
                 .SelectMany(replacementItem => replacementItem.Pattern.After,
                     (replacementItem, sugar) => new Tuple<Sugar, ReplacementItem>(sugar, replacementItem));
             var collectedSugars = sugarTuples.Select(tuple =>
-                new CollectedSugar { Copy = GetSugarCopyWithRelativeTime(tuple), Source = tuple.Item2 });
+                new CollectedSugar { Collected = GetSugarCopyWithRelativeTime(tuple), Source = tuple.Item2 });
             var groupped = collectedSugars
-                .GroupBy(collectedSugar => new TimeSpan(collectedSugar.Copy.DateTime.Hour, 0, 0));
+                .GroupBy(collectedSugar => new TimeSpan(collectedSugar.Collected.DateTime.Hour, 0, 0));
             return groupped.ToDictionary(groupping => groupping.Key, groupping => groupping.ToList());
         }
 
@@ -43,9 +43,25 @@ namespace Dietphone.Models
         }
     }
 
+    public class SugarRelator
+    {
+        public void Relate(Sugar currentBefore, List<CollectedSugar> collectedSugars)
+        {
+            foreach (var collected in collectedSugars)
+                collected.Related = new Sugar
+                {
+                    DateTime = collected.Collected.DateTime,
+                    BloodSugar = currentBefore.BloodSugar
+                        + (collected.Collected.BloodSugar - collected.Source.Pattern.Before.BloodSugar)
+                        * collected.Source.Pattern.Factor
+                };
+        }
+    }
+
     public class CollectedSugar
     {
-        public Sugar Copy { get; set; }
+        public Sugar Collected { get; set; }
+        public Sugar Related { get; set; }
         public ReplacementItem Source { get; set; }
     }
 }
