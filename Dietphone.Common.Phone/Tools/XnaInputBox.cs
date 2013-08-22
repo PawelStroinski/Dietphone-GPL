@@ -3,6 +3,7 @@ using System;
 using System.Windows.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
+using System.Threading.Tasks;
 
 namespace Dietphone.Tools
 {
@@ -23,24 +24,13 @@ namespace Dietphone.Tools
             Text = "";
         }
 
-        public void Show()
+        public async void Show()
         {
-            Guide.BeginShowKeyboardInput(PlayerIndex.One, Title, Description, Text,
-                                         new AsyncCallback(Callback), null);
-        }
-
-        private void Callback(IAsyncResult result)
-        {
-            Text = Guide.EndShowKeyboardInput(result);
-            var dispatcher = sender.Dispatcher;
+            Text= await Task<string>.Factory.FromAsync(Guide.BeginShowKeyboardInput(PlayerIndex.One, Title, Description, Text,null,null),null);
             if (string.IsNullOrEmpty(Text))
-            {
-                dispatcher.BeginInvoke(() => { OnCancelled(); });
-            }
+                OnCancelled();
             else
-            {
-                dispatcher.BeginInvoke(() => { OnConfirmed(); });
-            }
+                OnConfirmed();
         }
 
         protected void OnConfirmed()
