@@ -32,7 +32,9 @@ namespace Dietphone.Models
                 new CollectedSugar { Collected = GetSugarCopyWithRelativeTime(tuple), Source = tuple.Item2 });
             var groupped = collectedSugars
                 .GroupBy(collectedSugar => new TimeSpan(collectedSugar.Collected.DateTime.Hour, 0, 0));
-            return groupped.ToDictionary(groupping => groupping.Key, groupping => groupping.ToList());
+            return groupped.ToDictionary(groupping => groupping.Key + TimeSpan.FromMinutes(Math.Round(
+                    groupping.Average(collectedSugar => collectedSugar.Collected.DateTime.Minute))),
+                groupping => groupping.ToList());
         }
 
         private Sugar GetSugarCopyWithRelativeTime(Tuple<Sugar, ReplacementItem> sugarTuple)

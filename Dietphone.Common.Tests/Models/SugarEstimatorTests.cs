@@ -15,12 +15,12 @@ namespace Dietphone.Models.Tests
     {
         private readonly object dateLock = new object();
 
-        [TestCase(new string[] { "12:00 | 12:00 100 12:40 110" }, "12:00", "12:00 | 12:00 100 12:40 110")]
-        [TestCase(new string[] { "12:00 | 12:00 100 12:40 110" }, "12:00", "12:00 | 12:00 100", "12:00 | 12:40 110")]
-        [TestCase(new string[] { "12:00 | 12:00 100 12:40 110" }, "12:00", "14:00 | 14:00 100", "14:00 | 14:40 110")]
-        [TestCase(new string[] { "12:00 | 12:00 100", "14:00 | 14:30 110" }, "12:00", "12:00 | 12:00 100",
+        [TestCase(new string[] { "12:20 | 12:00 100 12:40 110" }, "12:00", "12:00 | 12:00 100 12:40 110")]
+        [TestCase(new string[] { "12:20 | 12:00 100 12:40 110" }, "12:00", "12:00 | 12:00 100", "12:00 | 12:40 110")]
+        [TestCase(new string[] { "12:20 | 12:00 100 12:40 110" }, "12:00", "14:00 | 14:00 100", "14:00 | 14:40 110")]
+        [TestCase(new string[] { "12:00 | 12:00 100", "14:30 | 14:30 110" }, "12:00", "12:00 | 12:00 100",
             "12:00 | 14:30 110")]
-        [TestCase(new string[] { "10:00 | 10:00 100 10:10 120", "12:00 | 12:59 115 12:30 110" }, "10:00",
+        [TestCase(new string[] { "10:05 | 10:00 100 10:10 120", "12:44 | 12:59 115 12:30 110" }, "10:00",
             "14:00 | 16:59 115 16:30 110", "12:00 | 12:00 100", "12:30 | 12:40 120")]
         public void ReturnsSugarsGrouppedByHours(string[] expectedKeyHourAndSugars, string meal,
             params string[] replacementMealsAndSugars)
