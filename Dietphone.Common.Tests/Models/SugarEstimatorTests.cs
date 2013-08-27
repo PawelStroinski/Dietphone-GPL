@@ -143,4 +143,18 @@ namespace Dietphone.Models.Tests
                 collectedSugars.Select(collected => collected.Related.DateTime));
         }
     }
+
+    public class SugarWeighterTests : ModelBasedTests
+    {
+        [TestCase("1 100g", "1 100g = 100*100")]
+        [TestCase("1 150g 2 50g", "1 100g = 75*100")]
+        [TestCase("1 100g", "1 150g 2 50g = 100*75")]
+        [TestCase("1 150g 2 50g", "1 150g 2 50g = 75*75", "2 50g 1 150g = 25*25")]
+        [TestCase("1 150g 2 50g", "1 50g 2 150g = 75*25", "1 80g 2 20g = 75*80", "2 40g 1 40g = 25*50")]
+        // In TestCases always the first item of replacement meal is the replacement item            
+        public void ReturnsProductOfItemsPercentOfEnergyInMealAndReplacementItemsPercentOfEnergyInReplacementMeal(
+            string meal, params string[] replacementMealAndExpectedWeigth)
+        {
+        }
+    }
 }

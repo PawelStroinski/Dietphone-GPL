@@ -60,10 +60,19 @@ namespace Dietphone.Models
         }
     }
 
+    public class SugarWeighter
+    {
+        public void Weigth(Meal meal, List<CollectedSugar> collectedSugars)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class CollectedSugar
     {
         public Sugar Collected { get; set; }
         public Sugar Related { get; set; }
+        public short Weight { get; set; }
         public ReplacementItem Source { get; set; }
     }
 }
