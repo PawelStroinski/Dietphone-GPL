@@ -26,7 +26,7 @@ namespace Dietphone.Tools
 
         public async void Show()
         {
-            Text= await Task<string>.Factory.FromAsync(Guide.BeginShowKeyboardInput(PlayerIndex.One, Title, Description, Text,null,null),null);
+            Text = await Task<string>.Factory.FromAsync(Guide.BeginShowKeyboardInput(PlayerIndex.One, Title, Description, Text, null, null), Guide.EndShowKeyboardInput);
             if (string.IsNullOrEmpty(Text))
                 OnCancelled();
             else
