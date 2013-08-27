@@ -147,14 +147,33 @@ namespace Dietphone.Models.Tests
     public class SugarWeighterTests : ModelBasedTests
     {
         [TestCase("1 100g", "1 100g = 100*100")]
-        [TestCase("1 150g 2 50g", "1 100g = 75*100")]
-        [TestCase("1 100g", "1 150g 2 50g = 100*75")]
-        [TestCase("1 150g 2 50g", "1 150g 2 50g = 75*75", "2 50g 1 150g = 25*25")]
+        [TestCase("1 150g 2 50g", "1 100g = 75*100", "2 50g 1 150g = 25*25")]
         [TestCase("1 150g 2 50g", "1 50g 2 150g = 75*25", "1 80g 2 20g = 75*80", "2 40g 1 40g = 25*50")]
-        // In TestCases always the first item of replacement meal is the replacement item            
-        public void ReturnsProductOfItemsPercentOfEnergyInMealAndReplacementItemsPercentOfEnergyInReplacementMeal(
+        // In this test always the first meal item of replacement meal is the replacement meal item
+        public void ReturnsProductOfMealItemPercentOfEnergyInMealAndReplacementMealItemPercentOfEnergyInReplacementMeal(
             string meal, params string[] replacementMealAndExpectedWeigth)
         {
+            var collectedSugars = new List<CollectedSugar>();
+            var expectedWeigths = new List<int>();
+            var currentMeal = AddMeal("12:00 " + meal);
+            foreach (var toSplit in replacementMealAndExpectedWeigth)
+            {
+                var splet = toSplit.Split('=').Select(substring => substring.Trim()).ToList();
+                var replacementMeal = AddMeal("12:00 " + splet[0]);
+                var expectedWeight = splet[1].Split('*').Select(substring => int.Parse(substring))
+                    .Aggregate((left, right) => left * right);
+                var collectedSugar = new CollectedSugar { Source = new ReplacementItem { Pattern = new Pattern() } };
+                var pattern = collectedSugar.Source.Pattern;
+                pattern.Match = replacementMeal.Items[0];
+                pattern.From = replacementMeal;
+                pattern.For = currentMeal.Items.First(item => item.Product == pattern.Match.Product);
+                collectedSugars.Add(collectedSugar);
+                expectedWeigths.Add(expectedWeight);
+            }
+            var sut = new SugarWeighter();
+            sut.Weigth(currentMeal, collectedSugars);
+            var actualWeights = collectedSugars.Select(collected => collected.Weight).ToList();
+            Assert.AreEqual(expectedWeigths, actualWeights);
         }
     }
 }

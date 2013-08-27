@@ -64,7 +64,16 @@ namespace Dietphone.Models
     {
         public void Weigth(Meal meal, List<CollectedSugar> collectedSugars)
         {
-            throw new NotImplementedException();
+            foreach (var collected in collectedSugars)
+            {
+                var pattern = collected.Source.Pattern;
+                var mealItemsPercentOfEnergyInMeal
+                    = pattern.For.PercentOfEnergyInMeal(meal);
+                var replacementMealItemsPercentOfEnergyInReplacementMeal
+                    = pattern.Match.PercentOfEnergyInMeal(pattern.From);
+                collected.Weight 
+                    = mealItemsPercentOfEnergyInMeal * replacementMealItemsPercentOfEnergyInReplacementMeal;
+            }
         }
     }
 
@@ -72,7 +81,7 @@ namespace Dietphone.Models
     {
         public Sugar Collected { get; set; }
         public Sugar Related { get; set; }
-        public short Weight { get; set; }
+        public int Weight { get; set; }
         public ReplacementItem Source { get; set; }
     }
 }
