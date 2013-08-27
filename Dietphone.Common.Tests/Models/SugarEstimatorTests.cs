@@ -176,4 +176,62 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(expectedWeigths, actualWeights);
         }
     }
+
+    public class SugarAggregatorTests : ModelBasedTests
+    {
+        [Test]
+        public void ReturnsWeightedAverage()
+        {
+            var collectedByHour = new Dictionary<TimeSpan, List<CollectedSugar>>();
+            var dateTime = basedate.AddHours(12).AddMinutes(30);
+            collectedByHour[new TimeSpan(20, 10, 00)] = new List<CollectedSugar>
+            { 
+                new CollectedSugar { Related = new Sugar { BloodSugar = 125, DateTime = dateTime }, Weight = 10000 }
+            };
+            collectedByHour[new TimeSpan(20, 15, 00)] = new List<CollectedSugar>
+            { 
+                new CollectedSugar { Related = new Sugar { BloodSugar = 129, DateTime = dateTime }, Weight = 5000 }
+            };
+            collectedByHour[new TimeSpan(22, 15, 00)] = new List<CollectedSugar>
+            { 
+                new CollectedSugar { Related = new Sugar { BloodSugar = 90, DateTime = dateTime }, Weight = 7100 },
+                new CollectedSugar { Related = new Sugar { BloodSugar = 140, DateTime = dateTime }, Weight = 2900 },
+                new CollectedSugar { Related = new Sugar { BloodSugar = 145, DateTime = dateTime }, Weight = 7000 }
+            };
+            var sut = new SugarAggregator();
+            var actual = sut.Aggregate(collectedByHour);
+            var actualKeys = actual.Keys.ToList();
+            var expectedKeys = new List<Sugar>();
+            expectedKeys.Add(new Sugar { BloodSugar = 125, DateTime = basedate + new TimeSpan(20, 10, 00) });
+            expectedKeys.Add(new Sugar { BloodSugar = 129, DateTime = basedate + new TimeSpan(20, 15, 00) });
+            expectedKeys.Add(new Sugar { BloodSugar = 121.2f, DateTime = basedate + new TimeSpan(22, 15, 00) });
+            Assert.AreEqual(expectedKeys, actualKeys);
+            foreach (var actualKey in actualKeys)
+                Assert.AreSame(collectedByHour[actualKey.DateTime.TimeOfDay], actual[actualKey]);
+        }
+
+        [Test]
+        public void SkipsWhenWeightCannotBeSummedToNonZero()
+        {
+            var collectedByHour = new Dictionary<TimeSpan, List<CollectedSugar>>();
+            collectedByHour[new TimeSpan(21, 05, 00)] = new List<CollectedSugar>
+            { 
+                new CollectedSugar { Related = new Sugar { BloodSugar = 100, DateTime = basedate }, Weight = 0 },
+                new CollectedSugar { Related = new Sugar { BloodSugar = 120, DateTime = basedate }, Weight = 0 } 
+            };
+            collectedByHour[new TimeSpan(21, 10, 00)] = new List<CollectedSugar>
+            { 
+                new CollectedSugar { Related = new Sugar { BloodSugar = 125, DateTime = basedate }, Weight = 10000 }
+            };
+            collectedByHour[new TimeSpan(21, 25, 00)] = new List<CollectedSugar>
+            { 
+                new CollectedSugar { Related = new Sugar { BloodSugar = 100, DateTime = basedate }, Weight = -20 },
+                new CollectedSugar { Related = new Sugar { BloodSugar = 120, DateTime = basedate }, Weight = 20 } 
+            };
+            collectedByHour[new TimeSpan(21, 35, 00)] = new List<CollectedSugar>();
+            var sut = new SugarAggregator();
+            var actual = sut.Aggregate(collectedByHour);
+            Assert.AreEqual(new TimeSpan(21, 10, 00), actual.Single().Key.DateTime.TimeOfDay);
+        }
+    }
 }

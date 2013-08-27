@@ -71,9 +71,26 @@ namespace Dietphone.Models
                     = pattern.For.PercentOfEnergyInMeal(meal);
                 var replacementMealItemsPercentOfEnergyInReplacementMeal
                     = pattern.Match.PercentOfEnergyInMeal(pattern.From);
-                collected.Weight 
+                collected.Weight
                     = mealItemsPercentOfEnergyInMeal * replacementMealItemsPercentOfEnergyInReplacementMeal;
             }
+        }
+    }
+
+    public class SugarAggregator
+    {
+        public Dictionary<Sugar, List<CollectedSugar>> Aggregate(
+            Dictionary<TimeSpan, List<CollectedSugar>> collectedByHour)
+        {
+            return collectedByHour
+                .Where(kvp => kvp.Value.Sum(collected => collected.Weight) != 0)
+                .ToDictionary(kvp => new Sugar
+                {
+                    BloodSugar = (float)Math.Round(
+                        kvp.Value.Sum(collected => collected.Related.BloodSugar * collected.Weight)
+                        / kvp.Value.Sum(collected => collected.Weight), 1),
+                    DateTime = kvp.Value.First().Related.DateTime.Date + kvp.Key
+                }, kvp => kvp.Value);
         }
     }
 
