@@ -6,14 +6,26 @@ namespace Dietphone.Models
 {
     public interface SugarEstimator
     {
-        IList<Sugar> GetEstimatedSugarsAfter(Meal meal, IList<ReplacementItem> usingReplacementItems);
+        IList<Sugar> GetEstimatedSugarsAfter(Meal meal, Sugar currentBefore,
+            IList<ReplacementItem> usingReplacementItems);
     }
 
     public class SugarEstimatorImpl : SugarEstimator
     {
-        public IList<Sugar> GetEstimatedSugarsAfter(Meal meal, IList<ReplacementItem> usingReplacementItems)
+        private readonly SugarCollector sugarCollector = new SugarCollector();
+        private readonly SugarRelator sugarRelator = new SugarRelator();
+        private readonly SugarWeighter sugarWeighter = new SugarWeighter();
+        private readonly SugarAggregator sugarAggregator = new SugarAggregator();
+
+        public IList<Sugar> GetEstimatedSugarsAfter(Meal meal, Sugar currentBefore,
+            IList<ReplacementItem> usingReplacementItems)
         {
-            throw new NotImplementedException();
+            var collectedByHour = sugarCollector.CollectByHour(meal, usingReplacementItems);
+            var collectedSugars = collectedByHour.Values.SelectMany(values => values).ToList();
+            sugarRelator.Relate(currentBefore, collectedSugars);
+            sugarWeighter.Weigth(meal, collectedSugars);
+            var result = sugarAggregator.Aggregate(collectedByHour);
+            return result.Keys.ToList();
         }
     }
 

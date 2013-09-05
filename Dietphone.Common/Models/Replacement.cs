@@ -13,6 +13,15 @@ namespace Dietphone.Models
 
     public class ReplacementItem
     {
+        public ReplacementItem()
+        {
+        }
+
+        public ReplacementItem(Pattern pattern)
+        {
+            Pattern = pattern;
+        }
+
         public Pattern Pattern { get; set; }
     }
 }

@@ -9,6 +9,37 @@ namespace Dietphone.Models.Tests
 {
     public class SugarEstimatorTests : ModelBasedTests
     {
+        [Test]
+        public void GetEstimatedSugarsAfter()
+        {
+            var meal = AddMeal("12:00 1 50g 2 200g");
+            var currentBefore = AddSugars("12:05 100").First();
+            var replacementItems = new List<ReplacementItem>()
+            {
+                new ReplacementItem(new Pattern
+                {
+                    From = AddMeal("15:25 1 155g"),
+                    Before = AddSugars("15:00 105").First(),
+                    After = AddSugars("16:00 105 17:00 115 18:00 145"),
+                    For = meal.Items[0],
+                    Factor = 2
+                }),
+                new ReplacementItem(new Pattern
+                {
+                    From = AddMeal("08:45 2 50g"),
+                    Before = AddSugars("08:40 140").First(),
+                    After = AddSugars("09:00 150 10:15 140"),
+                    For = meal.Items[1],
+                    Factor = 3
+                }),
+            };
+            foreach (var replacementItem in replacementItems)
+                replacementItem.Pattern.Match = replacementItem.Pattern.From.Items.First();
+            var sut = new SugarEstimatorImpl();
+            var actual = sut.GetEstimatedSugarsAfter(meal, currentBefore, replacementItems);
+            var expected = AddSugars("12:25 124 13:32 104 14:35 180");
+            Assert.AreEqual(expected, actual);
+        }
     }
 
     public class SugarCollectorTests : ModelBasedTests
