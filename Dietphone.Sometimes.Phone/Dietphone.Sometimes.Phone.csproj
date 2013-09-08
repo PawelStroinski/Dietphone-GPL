@@ -41,8 +41,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Coding4Fun.Phone.Controls">
-      <HintPath>..\Dependencies\Coding4Fun.Phone.Controls\Coding4Fun.Phone.Controls.dll</HintPath>
+    <Reference Include="Coding4Fun.Toolkit.Controls">
+      <HintPath>..\Dependencies\Coding4Fun.Phone.Controls\Coding4Fun.Toolkit.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
