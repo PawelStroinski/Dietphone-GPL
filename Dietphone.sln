@@ -1,17 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone", "Dietphone\Dietphone.csproj", "{87742C9F-0ED0-48E1-81D6-F5DFFF417259}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Rarely.Phone", "Dietphone.Rarely.Phone\Dietphone.Rarely.Phone.csproj", "{6799EBF8-6CFB-4E40-8743-8DEFD9D4F1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common", "Dietphone.Common\Dietphone.Common.csproj", "{6D7F0A0C-AF4E-4CAC-B82B-35C703FDAF55}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone", "Dietphone.Common.Phone\Dietphone.Common.Phone.csproj", "{053D7B63-D632-4332-8263-E6B667AE86CB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Sometimes.Phone", "Dietphone.Sometimes.Phone\Dietphone.Sometimes.Phone.csproj", "{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Tests", "Dietphone.Common.Tests\Dietphone.Common.Tests.csproj", "{A4B579CD-BB2C-44B7-85C4-D6126964E970}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{600FB3A9-84BD-4EF6-BADC-09BB84CABE9D}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,12 +16,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.AsNET", "Dietphone.Common\Dietphone.Common.AsNET.csproj", "{3782705F-A409-4AFE-B178-C0CAE195303F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common", "Dietphone.Common\Dietphone.Common.csproj", "{62A44F50-63F5-4F79-A980-1F85A8793E82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Tests", "Dietphone.Common.Tests\Dietphone.Common.Tests.csproj", "{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3040AB20-0956-4BD8-A0C0-DDEEBB1508F9}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Dietphone.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -41,10 +43,6 @@ Global
 		{6799EBF8-6CFB-4E40-8743-8DEFD9D4F1AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6799EBF8-6CFB-4E40-8743-8DEFD9D4F1AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6799EBF8-6CFB-4E40-8743-8DEFD9D4F1AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D7F0A0C-AF4E-4CAC-B82B-35C703FDAF55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D7F0A0C-AF4E-4CAC-B82B-35C703FDAF55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D7F0A0C-AF4E-4CAC-B82B-35C703FDAF55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D7F0A0C-AF4E-4CAC-B82B-35C703FDAF55}.Release|Any CPU.Build.0 = Release|Any CPU
 		{053D7B63-D632-4332-8263-E6B667AE86CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{053D7B63-D632-4332-8263-E6B667AE86CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{053D7B63-D632-4332-8263-E6B667AE86CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,16 +51,19 @@ Global
 		{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4B579CD-BB2C-44B7-85C4-D6126964E970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4B579CD-BB2C-44B7-85C4-D6126964E970}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4B579CD-BB2C-44B7-85C4-D6126964E970}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4B579CD-BB2C-44B7-85C4-D6126964E970}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3782705F-A409-4AFE-B178-C0CAE195303F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3782705F-A409-4AFE-B178-C0CAE195303F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3782705F-A409-4AFE-B178-C0CAE195303F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3782705F-A409-4AFE-B178-C0CAE195303F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62A44F50-63F5-4F79-A980-1F85A8793E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62A44F50-63F5-4F79-A980-1F85A8793E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62A44F50-63F5-4F79-A980-1F85A8793E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62A44F50-63F5-4F79-A980-1F85A8793E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Dietphone.vsmdi
 	EndGlobalSection
 EndGlobal

@@ -1,1 +1,0 @@
-See [Silverlight for Windows Phone Toolkit](http://silverlight.codeplex.com/) for more information.

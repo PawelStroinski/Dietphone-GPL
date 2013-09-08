@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.0">
-  <App xmlns="" ProductID="{84ec034d-6d94-4ac4-80e8-838765808513}" Title="Dietphone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="Dietphone author" Description="Sample description" Publisher="Dietphone">
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
+  <App xmlns="" ProductID="{08efd046-1fd0-455a-9adf-4d511a678706}" Title="Dietphone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Dietphone author" Description="Sample description" Publisher="Dietphone">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING"/>

@@ -35,3 +35,4 @@ desktop.ini
 *.tss
 *.ncrunchproject
 *.ncrunchsolution
+packages/

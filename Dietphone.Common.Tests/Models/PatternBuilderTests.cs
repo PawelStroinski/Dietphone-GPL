@@ -7,7 +7,7 @@ namespace Dietphone.Models.Tests
     public class PatternBuilderTests : ModelBasedTests
     {
         [SetUp]
-        public void Initialize()
+        public new void Initialize()
         {
             factories.Settings.SugarsAfterInsulinHours = 4;
         }

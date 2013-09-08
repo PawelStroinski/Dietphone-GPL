@@ -1,0 +1,1 @@
+Here are only dependencies which are not available on NuGet, for other dependencies please see `packages.config` files.

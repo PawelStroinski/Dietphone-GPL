@@ -207,7 +207,7 @@ namespace Dietphone.Models
             private byte Points(float left, float right)
             {
                 var diff = Math.Abs(left - right);
-                var roundedDiffDividedByTen = (int)Math.Round(diff / 10, MidpointRounding.AwayFromZero);
+                var roundedDiffDividedByTen = (int)MathShim.Round(diff / 10, MidpointRounding.AwayFromZero);
                 var rightnessPoints = MAX_POINTS_FOR_SIMILLAR_SUGAR_BEFORE - roundedDiffDividedByTen;
                 rightnessPoints = Math.Max(0, rightnessPoints);
                 return (byte)rightnessPoints;

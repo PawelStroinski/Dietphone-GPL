@@ -221,7 +221,7 @@ namespace Dietphone.Tools
 
         public static bool IsValidEmail(this string candidate)
         {
-            return candidate.Contains('@') && candidate.Contains('.');
+            return candidate.Contains("@") && candidate.Contains(".");
         }
 
         public static bool IsValidUri(this string candidate)
