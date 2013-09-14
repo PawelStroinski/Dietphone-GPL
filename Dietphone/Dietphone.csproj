@@ -136,6 +136,9 @@
     <Compile Include="Views\MealListing.xaml.cs">
       <DependentUpon>MealListing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\InsulinEditing.xaml.cs">
+      <DependentUpon>InsulinEditing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProductListing.xaml.cs">
       <DependentUpon>ProductListing.xaml</DependentUpon>
     </Compile>
@@ -160,6 +163,10 @@
     <Page Include="Views\MealListing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InsulinEditing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ProductListing.xaml">
       <SubType>Designer</SubType>
@@ -214,6 +221,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="firstrun\products.en-US.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\insulin.png" />
+    <Content Include="firstrun\insulins.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="firstrun\sugars.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="firstrun\insulincircumstances.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
