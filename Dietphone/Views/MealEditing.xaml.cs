@@ -151,6 +151,11 @@ namespace Dietphone.Views
             ViewModel.CancelAndReturn();
         }
 
+        private void Insulin_Click(object sender, EventArgs e)
+        {
+            ViewModel.GoToInsulin();
+        }
+
         private void Delete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
@@ -248,6 +253,7 @@ namespace Dietphone.Views
         {
             Save.Text = Translations.Save;
             this.GetIcon(1).Text = Translations.Cancel;
+            this.GetIcon(2).Text = Translations.Insulin;
             this.GetMenuItem(0).Text = Translations.Delete;
         }
 

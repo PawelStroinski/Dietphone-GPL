@@ -496,4 +496,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="UnknownInsulinCircumstance" xml:space="preserve">
     <value>Nieznana okoliczność</value>
   </data>
+  <data name="Insulin" xml:space="preserve">
+    <value>insulina</value>
+  </data>
 </root>

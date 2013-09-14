@@ -693,6 +693,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to insulin.
+        /// </summary>
+        public static string Insulin {
+            get {
+                return ResourceManager.GetString("Insulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I would like to report the following bug:
         ///
         ///{0}.

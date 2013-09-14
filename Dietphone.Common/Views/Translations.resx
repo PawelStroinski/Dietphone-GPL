@@ -496,4 +496,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="UnknownInsulinCircumstance" xml:space="preserve">
     <value>Unknown circumstance</value>
   </data>
+  <data name="Insulin" xml:space="preserve">
+    <value>insulin</value>
+  </data>
 </root>
