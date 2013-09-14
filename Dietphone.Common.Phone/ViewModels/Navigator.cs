@@ -11,6 +11,8 @@ namespace Dietphone.ViewModels
         void GoBack();
         void GoToMealEditing(Guid mealId);
         void GoToProductEditing(Guid productId);
+        void GoToInsulinEditing(Guid insulinId);
+        void GoToNewInsulinRelatedToMeal(Guid mealId);
         void GoToMain();
         void GoToMainToAddMealItem();
         void GoToAbout();
@@ -18,6 +20,8 @@ namespace Dietphone.ViewModels
         void GoToSettings();
         Guid GetMealIdToEdit();
         Guid GetProductIdToEdit();
+        Guid GetInsulinIdToEdit();
+        Guid GetRelatedMealId();
         bool ShouldAddMealItem();
     }
 
@@ -35,6 +39,8 @@ namespace Dietphone.ViewModels
         private readonly GoingToAbout about;
         private const string MEAL_ID_TO_EDIT = "MealIdToEdit";
         private const string PRODUCT_ID_TO_EDIT = "ProductIdToEdit";
+        private const string INSULIN_ID_TO_EDIT = "ProductIdToEdit";
+        private const string RELATED_MEAL_ID = "RelatedMealId";
         private const string ADD_MEAL_ITEM = "AddMealItem";
         private const string ABOUT_MAIL = "wp7@pabloware.com";
         private const string ABOUT_PATH_TO_LICENSE = "/Dietphone.Rarely.Phone;component/documents/license.{0}.txt";
@@ -75,6 +81,24 @@ namespace Dietphone.ViewModels
             NavigateWithId();
         }
 
+        public void GoToInsulinEditing(Guid insulinId)
+        {
+            idName = INSULIN_ID_TO_EDIT;
+            idValue = insulinId;
+            path = "/Views/InsulinEditing.xaml";
+            assembly = Assembly.Default;
+            NavigateWithId();
+        }
+
+        public void GoToNewInsulinRelatedToMeal(Guid mealId)
+        {
+            idName = RELATED_MEAL_ID;
+            idValue = mealId;
+            path = "/Views/InsulinEditing.xaml";
+            assembly = Assembly.Default;
+            NavigateWithId();
+        }
+        
         public void GoToMain()
         {
             path = "/Views/Main.xaml";
@@ -119,6 +143,18 @@ namespace Dietphone.ViewModels
         public Guid GetProductIdToEdit()
         {
             idName = PRODUCT_ID_TO_EDIT;
+            return GetId();
+        }
+
+        public Guid GetInsulinIdToEdit()
+        {
+            idName = INSULIN_ID_TO_EDIT;
+            return GetId();
+        }
+
+        public Guid GetRelatedMealId()
+        {
+            idName = RELATED_MEAL_ID;
             return GetId();
         }
 

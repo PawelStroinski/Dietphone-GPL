@@ -136,11 +136,18 @@ namespace Dietphone.ViewModels
 
         public void SaveWithUpdatedTimeAndReturn()
         {
-            UpdateLockedDateTime();
-            modelSource.CopyFrom(modelCopy);
-            modelSource.CopyItemsFrom(modelCopy);
-            SaveNames();
+            SaveWithUpdatedTime();
             Navigator.GoBack();
+        }
+
+        public void GoToInsulin()
+        {
+            SaveWithUpdatedTime();
+            var insulin = finder.FindInsulinByMeal(modelSource);
+            if (insulin == null)
+                Navigator.GoToNewInsulinRelatedToMeal(modelSource.Id);
+            else
+                Navigator.GoToInsulinEditing(modelSource.Id);
         }
 
         public void DeleteAndSaveAndReturn()
@@ -396,6 +403,14 @@ namespace Dietphone.ViewModels
             {
                 NotIsLockedDateTime = true;
             }
+        }
+
+        private void SaveWithUpdatedTime()
+        {
+            UpdateLockedDateTime();
+            modelSource.CopyFrom(modelCopy);
+            modelSource.CopyItemsFrom(modelCopy);
+            SaveNames();
         }
 
         private void SaveNames()
