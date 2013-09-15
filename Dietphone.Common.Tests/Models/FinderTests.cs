@@ -17,6 +17,16 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
+        public void FindInsulinById()
+        {
+            var expected = new Insulin { Id = Guid.NewGuid() };
+            factories.Setup(f => f.Insulins).Returns(new List<Insulin> { expected });
+            var finder = new FinderImpl(factories.Object);
+            var actual = finder.FindInsulinById(expected.Id);
+            Assert.AreSame(expected, actual);
+        }
+
+        [Test]
         public void FindInsulinCircumstanceById()
         {
             var expected = new InsulinCircumstance { Id = Guid.NewGuid() };

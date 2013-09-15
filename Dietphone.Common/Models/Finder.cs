@@ -10,6 +10,7 @@ namespace Dietphone.Models
         MealName FindMealNameById(Guid mealNameId);
         Product FindProductById(Guid productId);
         Category FindCategoryById(Guid categoryId);
+        Insulin FindInsulinById(Guid insulinId);
         InsulinCircumstance FindInsulinCircumstanceById(Guid insulinCircumstanceId);
         List<Product> FindProductsByCategory(Guid categoryId);
         List<Product> FindProductsAddedByUser();
@@ -54,6 +55,12 @@ namespace Dietphone.Models
             return categories.FindById(categoryId);
         }
 
+        public Insulin FindInsulinById(Guid insulinId)
+        {
+            var insulins = factories.Insulins;
+            return insulins.FindById(insulinId);
+        }
+        
         public InsulinCircumstance FindInsulinCircumstanceById(Guid insulinCircumstanceId)
         {
             var insulinCircumstances = factories.InsulinCircumstances;
