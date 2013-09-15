@@ -13,7 +13,6 @@ namespace Dietphone.ViewModels
     public class InsulinEditingViewModel : EditingViewModelBase<Insulin>
     {
         public InsulinViewModel Insulin { get; private set; }
-        private const string INSULIN = "INSULIN";
 
         public InsulinEditingViewModel(Factories factories)
             : base(factories)
@@ -42,26 +41,6 @@ namespace Dietphone.ViewModels
         protected override string Validate()
         {
             return string.Empty;
-        }
-
-        protected override void TombstoneModel()
-        {
-            var state = StateProvider.State;
-            state[INSULIN] = modelCopy.Serialize(string.Empty);
-        }
-
-        protected override void UntombstoneModel()
-        {
-            var state = StateProvider.State;
-            if (state.ContainsKey(INSULIN))
-            {
-                var stateValue = (string)state[INSULIN];
-                var untombstoned = stateValue.Deserialize<Insulin>(string.Empty);
-                if (untombstoned.Id == modelCopy.Id)
-                {
-                    modelCopy.CopyFrom(untombstoned);
-                }
-            }
         }
 
         private void MakeInsulinViewModelInternal()

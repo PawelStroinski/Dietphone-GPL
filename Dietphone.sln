@@ -9,13 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Sometimes.Phone", "Dietphone.Sometimes.Phone\Dietphone.Sometimes.Phone.csproj", "{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{600FB3A9-84BD-4EF6-BADC-09BB84CABE9D}"
-	ProjectSection(SolutionItems) = preProject
-		Dietphone.vsmdi = Dietphone.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common", "Dietphone.Common\Dietphone.Common.csproj", "{62A44F50-63F5-4F79-A980-1F85A8793E82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Tests", "Dietphone.Common.Tests\Dietphone.Common.Tests.csproj", "{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}"

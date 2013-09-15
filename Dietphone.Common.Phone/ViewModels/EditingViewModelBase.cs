@@ -4,7 +4,7 @@ using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
-    public abstract class EditingViewModelBase<TModel> : PivotTombstoningViewModel
+    public abstract class EditingViewModelBase<TModel> : PivotTombstoningViewModel where TModel : EntityWithId
     {
         public Navigator Navigator { get; set; }
         public event EventHandler<CannotSaveEventArgs> CannotSave;
@@ -92,9 +92,27 @@ namespace Dietphone.ViewModels
 
         protected abstract string Validate();
 
-        protected abstract void TombstoneModel();
+        protected virtual void TombstoneModel()
+        {
+            var key = typeof(TModel).ToString();
+            var state = StateProvider.State;
+            state[key] = modelCopy.Serialize(string.Empty);
+        }
 
-        protected abstract void UntombstoneModel();
+        protected virtual void UntombstoneModel()
+        {
+            var key = typeof(TModel).ToString();
+            var state = StateProvider.State;
+            if (state.ContainsKey(key))
+            {
+                var stateValue = (string)state[key];
+                var untombstoned = stateValue.Deserialize<TModel>(string.Empty);
+                if (untombstoned.Id == modelCopy.Id)
+                {
+                    modelCopy.CopyFrom(untombstoned);
+                }
+            }
+        }
 
         protected virtual void TombstoneOthers()
         {

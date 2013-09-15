@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dietphone.Models;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
@@ -30,8 +27,6 @@ namespace Dietphone.Common.Phone.Tests
             sut.Navigator = navigator;
             sut.StateProvider = stateProvider;
             insulin = new Fixture().Create<Insulin>();
-            var state = new Dictionary<string, object>();
-            stateProvider.State.Returns(state);
         }
 
         [TestCase(true)]
@@ -47,26 +42,6 @@ namespace Dietphone.Common.Phone.Tests
                 factories.CreateInsulin().Returns(insulin);
             sut.Load();
             Assert.AreEqual(insulin.Id, sut.Insulin.Id);
-        }
-
-        [Test]
-        public void TombstoneModel()
-        {
-            factories.CreateInsulin().Returns(insulin);
-            sut.Load();
-            sut.Tombstone();
-            Assert.AreEqual(insulin.Serialize(string.Empty), stateProvider.State["INSULIN"]);
-        }
-
-        [Test]
-        public void UntombstoneModel()
-        {
-            factories.CreateInsulin().Returns(insulin);
-            var tombstoned = new Fixture().Create<Insulin>();
-            tombstoned.Id = insulin.Id;
-            stateProvider.State["INSULIN"] = tombstoned.Serialize(string.Empty);
-            sut.Load();
-            Assert.AreEqual(tombstoned.Note, sut.Insulin.Insulin.Note);
         }
     }
 }
