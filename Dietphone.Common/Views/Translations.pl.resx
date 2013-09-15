@@ -499,4 +499,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="Insulin" xml:space="preserve">
     <value>insulina</value>
   </data>
+  <data name="AreYouSureYouWantToSaveThisInsulin" xml:space="preserve">
+    <value>Czy na pewno chcesz zapisać tę insulinę?</value>
+  </data>
 </root>

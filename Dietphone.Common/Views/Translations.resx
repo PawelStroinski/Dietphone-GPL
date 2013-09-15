@@ -499,4 +499,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="Insulin" xml:space="preserve">
     <value>insulin</value>
   </data>
+  <data name="AreYouSureYouWantToSaveThisInsulin" xml:space="preserve">
+    <value>Are you sure you want to save this insulin?</value>
+  </data>
 </root>

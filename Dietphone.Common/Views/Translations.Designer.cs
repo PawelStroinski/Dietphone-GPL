@@ -195,6 +195,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to save this insulin?.
+        /// </summary>
+        public static string AreYouSureYouWantToSaveThisInsulin {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToSaveThisInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to save this meal?.
         /// </summary>
         public static string AreYouSureYouWantToSaveThisMeal {
