@@ -27,7 +27,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3040AB
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone.Tests", "Dietphone.Common.Phone.Tests\Dietphone.Common.Phone.Tests.csproj", "{92635A0B-446F-4A4E-9DCA-13D847B93054}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Dietphone.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -59,11 +64,12 @@ Global
 		{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92635A0B-446F-4A4E-9DCA-13D847B93054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92635A0B-446F-4A4E-9DCA-13D847B93054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92635A0B-446F-4A4E-9DCA-13D847B93054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92635A0B-446F-4A4E-9DCA-13D847B93054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Dietphone.vsmdi
 	EndGlobalSection
 EndGlobal

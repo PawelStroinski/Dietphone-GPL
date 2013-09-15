@@ -97,6 +97,8 @@
     <Compile Include="Tools\IsolatedFile.cs" />
     <Compile Include="Tools\MyStopwatch.cs" />
     <Compile Include="Tools\StateProvider.cs" />
+    <Compile Include="ViewModels\InsulinEditingViewModel.cs" />
+    <Compile Include="ViewModels\InsulinViewModel.cs" />
     <Compile Include="ViewModels\PivotTombstoningViewModel.cs" />
     <Compile Include="ViewModels\ViewModelWithBufferAcc.cs" />
     <Compile Include="Views\StateProviderPage.cs" />

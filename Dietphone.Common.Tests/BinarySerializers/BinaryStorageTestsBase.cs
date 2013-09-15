@@ -12,7 +12,8 @@ namespace Dietphone.BinarySerializers.Tests
     {
         protected readonly Fixture fixture = new Fixture();
 
-        protected T WriteAndRead<T>(BinaryStorage<T> storage, T itemToWrite) where T : Entity, new()
+        protected T WriteAndRead<T>(BinaryStorage<T> storage, T itemToWrite, byte? overrideVersion = null)
+            where T : Entity, new()
         {
             var stream = new NonDisposableMemoryStream();
             var streamProvider = new Mock<BinaryStreamProvider>();
@@ -21,6 +22,11 @@ namespace Dietphone.BinarySerializers.Tests
             storage.StreamProvider = streamProvider.Object;
             storage.Save(new List<T> { itemToWrite });
             stream.Position = 0;
+            if (overrideVersion.HasValue)
+            {
+                stream.WriteByte(overrideVersion.Value);
+                stream.Position = 0;
+            }
             var readedItem = storage.Load().Single();
             stream.Dispose();
             return readedItem;

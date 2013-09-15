@@ -19,5 +19,14 @@ namespace Dietphone.BinarySerializers.Tests
             settingsToWrite.AsSource().OfLikeness<Settings>()
                 .ShouldEqual(readedSettings);
         }
+
+        [Test]
+        public void Default_MaxBolus()
+        {
+            var settingsToWrite = new Settings();
+            var storage = new SettingsBinaryStorage();
+            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(5, readedSettings.MaxBolus);
+        }
     }
 }
