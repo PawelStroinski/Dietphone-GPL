@@ -42,6 +42,18 @@ namespace Dietphone.Views
             }
         }
 
+        private void AddCircumstance_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void EditCircumstance_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void DeleteCircumstance_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
         private void Save_Click(object sender, EventArgs e)
         {
         }

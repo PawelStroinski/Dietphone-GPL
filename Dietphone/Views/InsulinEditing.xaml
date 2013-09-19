@@ -12,27 +12,94 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True"
+    xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+    xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 
     <Grid Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <controls:Pivot Title="{Binding Path=Translations.Insulin, Source={StaticResource Translations}}" SelectedIndex="{Binding Pivot, Mode=TwoWay}">
+            <!--general-->
+            <controls:PivotItem Header="{Binding Path=Translations.General, Source={StaticResource Translations}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <!--Current sugar-->
+                    <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                        <TextBlock Text="{Binding Path=Translations.CurrentSugar, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding CurrentSugar, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <!--Insulin circumstances-->
+                    <StackPanel Margin="18,3,24,13" Orientation="Vertical" Grid.Column="1" Grid.Row="0">
+                        <telerikInput:RadListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding InsulinCircumstances}" SelectedItem="{Binding Product.Category, Mode=TwoWay}" Name="InsulinCircumstances" InlineModeThreshold="0" Style="{StaticResource OsListPickerStyle}" Margin="0 0 0 0">
+                            <telerikInput:RadListPicker.PopupHeader>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Translations.CategoryUppercase, Source={StaticResource Translations}}" Margin="12, 24, 0, 24" FontWeight="SemiBold" Width="168"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCircumstance_Click"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCircumstance_Click"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCircumstance_Click"/>
+                                </StackPanel>
+                            </telerikInput:RadListPicker.PopupHeader>
+                        </telerikInput:RadListPicker>
+                    </StackPanel>
+                    <!--Normal bolus-->
+                    <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
+                        <TextBlock Text="{Binding Translations.NormalBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Insulin.NormalBolus, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <!--Square wave bolus-->
+                    <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="2">
+                        <TextBlock Text="{Binding Translations.SquareWaveBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Insulin.SquareWaveBolus, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <!--Square duration (h)-->
+                    <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="3">
+                        <TextBlock Text="{Binding Translations.SquareWaveBolusHours, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Insulin.SquareWaveBolusHours, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <!--Note-->
+                    <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="3">
+                        <TextBlock Text="{Binding Translations.Note, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="Text" Text="{Binding Insulin.Note}"/>
+                    </StackPanel>
+                </Grid>
+            </controls:PivotItem>
 
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="{Binding Path=Translations.Dietphone, Source={StaticResource Translations}}" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="{Binding Path=Translations.Insulin, Source={StaticResource Translations}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
-
-        <Grid Grid.Row="1" Margin="12,0,12,0">
-            
-        </Grid>
-        <toolkit:PerformanceProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}"/>
+            <!--date-->
+            <controls:PivotItem Header="{Binding Path=Translations.DateLowercase, Source={StaticResource Translations}}">
+                <Grid Margin="12,0,12,13">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="72"/>
+                    </Grid.ColumnDefinitions>
+                    <!--Date-->
+                    <TextBlock Text="{Binding Path=Translations.Date, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5" />
+                    <telerikInput:RadDatePicker Height="72" Value="{Binding Insulin.DateTime, Mode=TwoWay}"  DisplayValueFormat="{Binding DateFormat}" SelectorFormat="{Binding DateFormat}" Grid.Row="1" Margin="0 0 12 0"/>
+                    <!--Time-->
+                    <TextBlock Text="{Binding Path=Translations.Time, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5" Grid.Column="1"/>
+                    <telerikInput:RadTimePicker Height="72" Value="{Binding Insulin.DateTime, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="0 0 12 0"/>
+                    <!--Lock-->
+                    <ToggleButton Height="72" Width="72" VerticalAlignment="Top" Style="{StaticResource ToggleButtonWithIconStyle}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" IsChecked="{Binding NotIsLockedDateTime, Mode=TwoWay}"/>
+                </Grid>
+            </controls:PivotItem>
+        </controls:Pivot>
+        <toolkit:PerformanceProgressBar VerticalAlignment="Top" Name="ProgressBar"/>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>

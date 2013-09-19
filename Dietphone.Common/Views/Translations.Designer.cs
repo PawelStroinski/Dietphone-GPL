@@ -376,11 +376,29 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current sugar.
+        /// </summary>
+        public static string CurrentSugar {
+            get {
+                return ResourceManager.GetString("CurrentSugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to date.
+        /// </summary>
+        public static string DateLowercase {
+            get {
+                return ResourceManager.GetString("DateLowercase", resourceCulture);
             }
         }
         
@@ -711,6 +729,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insulin circumstances.
+        /// </summary>
+        public static string InsulinCircumstances {
+            get {
+                return ResourceManager.GetString("InsulinCircumstances", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to I would like to report the following bug:
         ///
         ///{0}.
@@ -817,6 +844,15 @@ namespace Dietphone.Views {
         public static string NoProduct {
             get {
                 return ResourceManager.GetString("NoProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal bolus.
+        /// </summary>
+        public static string NormalBolus {
+            get {
+                return ResourceManager.GetString("NormalBolus", resourceCulture);
             }
         }
         
@@ -1069,6 +1105,24 @@ namespace Dietphone.Views {
         public static string SpecifiedServingSizeButNotDescriptionOfServingSize {
             get {
                 return ResourceManager.GetString("SpecifiedServingSizeButNotDescriptionOfServingSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Square wave bolus.
+        /// </summary>
+        public static string SquareWaveBolus {
+            get {
+                return ResourceManager.GetString("SquareWaveBolus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Square duration (h).
+        /// </summary>
+        public static string SquareWaveBolusHours {
+            get {
+                return ResourceManager.GetString("SquareWaveBolusHours", resourceCulture);
             }
         }
         

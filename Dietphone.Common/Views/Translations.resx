@@ -502,4 +502,22 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="AreYouSureYouWantToSaveThisInsulin" xml:space="preserve">
     <value>Are you sure you want to save this insulin?</value>
   </data>
+  <data name="CurrentSugar" xml:space="preserve">
+    <value>Current sugar</value>
+  </data>
+  <data name="InsulinCircumstances" xml:space="preserve">
+    <value>Insulin circumstances</value>
+  </data>
+  <data name="NormalBolus" xml:space="preserve">
+    <value>Normal bolus</value>
+  </data>
+  <data name="SquareWaveBolus" xml:space="preserve">
+    <value>Square wave bolus</value>
+  </data>
+  <data name="SquareWaveBolusHours" xml:space="preserve">
+    <value>Square duration (h)</value>
+  </data>
+  <data name="DateLowercase" xml:space="preserve">
+    <value>date</value>
+  </data>
 </root>
