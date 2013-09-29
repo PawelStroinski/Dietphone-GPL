@@ -10,7 +10,7 @@
             	This class is for internal use only.
             </summary>
             <remarks>
-            	The Result storybard is a collection of DoubleAnimationUsingKeyFrame collection.
+            	The Result storyboard is a collection of DoubleAnimationUsingKeyFrame collection.
             </remarks>
         </member>
         <member name="P:Telerik.Windows.Controls.Animation.AnimationContext.Storyboard">
@@ -28,9 +28,25 @@
             Gets the UIElement instance, which is the actual target of the animation.
             </summary>
         </member>
+        <member name="T:Telerik.Windows.Controls.AnimationEndedEventArgs">
+            <summary>
+            Contains information about the <see cref="E:Telerik.Windows.Controls.RadAnimation.Ended"/> event.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.AnimationEndedEventArgs.#ctor(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.AnimationEndedEventArgs"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.AnimationEndedEventArgs.AnimationInfo">
+            <summary>
+            Gets the <see cref="T:System.Windows.UIElement"/> that was animated by the animation
+            for which the <see cref="E:Telerik.Windows.Controls.RadAnimation.Ended"/> event fires.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.RadContinuumAnimation">
             <summary>
-            Porvides an animation exact copy of the WP7 list based transition.
+            Provides an animation exact copy of the Windows Phone list based transition.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.RadAnimation">
@@ -40,7 +56,7 @@
         </member>
         <member name="F:Telerik.Windows.Controls.RadAnimation.Empty">
             <summary>
-            The Emtpy animation does nothing and must be used instead of null if no animation should be played.
+            The Empty animation does nothing and must be used instead of null if no animation should be played.
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.RadAnimation.#ctor">
@@ -54,9 +70,14 @@
             </summary>
             <returns>Returns a clone animation of this instance.</returns>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadAnimation.ClearAnimation(System.Windows.UIElement)">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Removes any property modifications, applied to the specified element by this instance.
             </summary>
             <param name="target">The element which property values are to be cleared.</param>
             <remarks>
@@ -136,6 +157,12 @@
             </summary>
             <param name="context">The context that holds information about the animation.</param>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadAnimation.OnEnded(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Fires the <see cref="E:Telerik.Windows.Controls.RadAnimation.Ended"/> event for the specific target provided
+            in the <see cref="T:Telerik.Windows.Controls.Animation.PlayAnimationInfo"/> object.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadAnimation.OnEnded">
             <summary>
             Raises the <see cref="E:Telerik.Windows.Controls.RadAnimation.Ended"/> event.
@@ -171,7 +198,7 @@
             		correct animation to return. 
             	</para>
             	<para>
-            		It is not used outside the NamedAnimationSelector
+            		It is not used outside the NamedAnimationSelector.
             	</para>
             </remarks>
         </member>
@@ -192,7 +219,12 @@
         </member>
         <member name="P:Telerik.Windows.Controls.RadAnimation.RepeatBehavior">
             <summary>
-            Gets or sets the repeat behavior of this RadAnimation instace.
+            Gets or sets the repeat behavior of this RadAnimation instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadAnimation.AnimationOrigin">
+            <summary>
+            Gets or sets the render transform origin of the animated element.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadAnimation.Parent">
@@ -265,18 +297,12 @@
         </member>
         <member name="M:Telerik.Windows.Controls.RadContinuumAnimation.ClearAnimation(System.Windows.UIElement)">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Removes any property modifications, applied to the specified element by this instance.
             </summary>
             <param name="target">The element which property values are to be cleared.</param>
             <remarks>
             It is assumed that the element has been previously animated by this animation.
             </remarks>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadContinuumAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
-            <summary>
-            Applies already stored (if any) animated values.
-            </summary>
-            <param name="info"></param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadContinuumAnimation.OnStarted(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
             <summary>
@@ -308,9 +334,477 @@
             </summary>
             <value>The duration of the item animation.</value>
         </member>
+        <member name="T:Telerik.Windows.Controls.MoveAnimationBase">
+            <summary>
+            This is the base class of the move X and move Y animations.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.MoveAnimationBase.#ctor">
+            <summary>
+            Initializes a new instance of the MoveAnimationBase class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.MoveAnimationBase.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.MoveAnimationBase.CreateOpposite">
+            <summary>
+            Creates a new instance of this animation that is the reverse of this instance.
+            </summary>
+            <returns>A new instance of this animation that is the reverse of this instance.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.MoveAnimationBase.SwapValues">
+            <summary>
+            This method must be overridden and is called when this move animation has to swap its start and end values.
+            This is necessary when an opposite animation is created.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.MoveAnimationBase.GetMoveArguments(System.Double,System.Double)">
+            <summary>
+            Gets an array of interleaved duration/value pairs for this move animation's keyframes.
+            </summary>
+            <param name="startValue">The value of the first frame.</param>
+            <param name="endValue">The value of the last frame.</param>
+            <returns>Returns an array of interleaved duration/value pairs for this move animation's keyframes.</returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.MoveAnimationBase.PointMode">
+            <summary>
+            Gets or sets a value that determines how the move animation's start and end points will be interpreted.
+            Absolute means that they will be interpreted as pixels and Relative means that they will interpreted as
+            points in the [-1, 1] range.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.MoveAnimationBase.MiddlePointsAxis">
+            <summary>
+            Gets or sets the middle points.
+            </summary>
+            <value>The middle points.</value>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadMoveXAnimation">
+            <summary>
+            Represents a move animation on the X axis.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveXAnimation.ClearAnimation(System.Windows.UIElement)">
+            <summary>
+            Removes any property modifications, applied to the specified element by this instance.
+            </summary>
+            <param name="target">The element which property values are to be cleared.</param>
+            <remarks>
+            It is assumed that the element has been previously animated by this animation.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveXAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveXAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Applies already stored (if any) animated values.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveXAnimation.GetX(System.Windows.UIElement,System.Nullable{System.Double})">
+            <summary>
+            Gets the value of a nullable X value if it is not null. If it is null it returns a point that represents the X
+            component of the target's TranslateTransform.
+            </summary>
+            <param name="target">The target from which to obtain a point if the provided point is null.</param>
+            <param name="x">A nullable X coordinate.</param>
+            <returns>Returns the value of a nullable X value if it is not null. If it is null it returns a value that represents the X
+            component of the target's TranslateTransform.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveXAnimation.GetRelativeX(System.Windows.FrameworkElement,System.Nullable{System.Double})">
+            <summary>
+            Gets an X value that is relative to the size of the animation target.
+            </summary>
+            <param name="target">The animation target.</param>
+            <param name="x">The X value in relative coordinates.</param>
+            <returns>Returns an X value in absolute coordinates based on the target's size and the relative argument.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveXAnimation.SwapValues">
+            <summary>
+            This method must be overridden and is called when this move animation has to swap its start and end values.
+            This is necessary when an opposite animation is created.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveXAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+            <summary>
+            Core update routine.
+            </summary>
+            <param name="context">The context that holds information about the animation.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMoveXAnimation.StartX">
+            <summary>
+            Gets or sets the start X value.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMoveXAnimation.EndX">
+            <summary>
+            Gets or sets the end X value.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadMoveYAnimation">
+            <summary>
+            Represents a move animation on the Y axis.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveYAnimation.ClearAnimation(System.Windows.UIElement)">
+            <summary>
+            Removes any property modifications, applied to the specified element by this instance.
+            </summary>
+            <param name="target">The element which property values are to be cleared.</param>
+            <remarks>
+            It is assumed that the element has been previously animated by this animation.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveYAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveYAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Applies already stored (if any) animated values.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveYAnimation.GetY(System.Windows.UIElement,System.Nullable{System.Double})">
+            <summary>
+            Gets the value of a nullable Y value if it is not null. If it is null it returns a value that represents the Y
+            component of the target's TranslateTransform.
+            </summary>
+            <param name="target">The target from which to obtain a Y value if the provided Y value is null.</param>
+            <param name="y">A nullable Y value.</param>
+            <returns>Returns the value of a nullable Y value if it is not null. If it is null it returns a point that represents the Y
+            component of the target's TranslateTransform.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveYAnimation.GetRelativeY(System.Windows.FrameworkElement,System.Nullable{System.Double})">
+            <summary>
+            Gets a Y value that is relative to the height of the animation target.
+            </summary>
+            <param name="target">The animation target.</param>
+            <param name="y">The Y value in relative coordinates.</param>
+            <returns>Returns a Y value in absolute coordinates based on the target's height and the relative value.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveYAnimation.SwapValues">
+            <summary>
+            This method must be overridden and is called when this move animation has to swap its start and end values.
+            This is necessary when an opposite animation is created.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveYAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+            <summary>
+            Core update routine.
+            </summary>
+            <param name="context">The context that holds information about the animation.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMoveYAnimation.StartY">
+            <summary>
+            Gets or sets the start Y value.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMoveYAnimation.EndY">
+            <summary>
+            Gets or sets the end Y value.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.MoveAnimationPointMode">
+            <summary>
+            Determines how the start and end points of the move animation will be interpreted.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveAnimationPointMode.Absolute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveAnimationPointMode.Relative">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.MoveDirection">
+            <summary>
+            Provides intuitive values which describe common move animation scenarios.
+            For example LeftIn means that the animated element is moving left and is coming in view.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.LeftIn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.LeftOut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.RightIn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.RightOut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.TopIn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.TopOut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.BottomIn">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MoveDirection.BottomOut">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadResizeHeightAnimation">
+            <summary>
+            This class represents a resize animation that animates the FrameworkElement.Height property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeHeightAnimation.CreateOpposite">
+            <summary>
+            Creates a new instance of this animation that is the reverse of this instance.
+            </summary>
+            <returns>A new instance of this animation that is the reverse of this instance.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeHeightAnimation.ClearAnimation(System.Windows.UIElement)">
+            <summary>
+            Removes any property modifications, applied to the specified element by this instance.
+            </summary>
+            <param name="target">The element which property values are to be cleared.</param>
+            <remarks>
+            It is assumed that the element has been previously animated by this animation.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeHeightAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeHeightAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Applies already stored (if any) animated values.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeHeightAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+            <summary>
+            Core update routine.
+            </summary>
+            <param name="context">The context that holds information about the animation.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadResizeHeightAnimation.StartHeight">
+            <summary>
+            Gets or sets the initial height. If no value is applied current element height is used.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadResizeHeightAnimation.EndHeight">
+            <summary>
+            Gets or sets the final height of the animation target. If no value is applied current element height is used.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadResizeHeightAnimation.Width">
+            <summary>
+            Gets or sets a the width that will be applied to the animation target during this animation.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadResizeWidthAnimation">
+            <summary>
+            This class represents a resize animation that animates the FrameworkElement.Width property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeWidthAnimation.CreateOpposite">
+            <summary>
+            Creates a new instance of this animation that is the reverse of this instance.
+            </summary>
+            <returns>A new instance of this animation that is the reverse of this instance.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeWidthAnimation.ClearAnimation(System.Windows.UIElement)">
+            <summary>
+            Removes any property modifications, applied to the specified element by this instance.
+            </summary>
+            <param name="target">The element which property values are to be cleared.</param>
+            <remarks>
+            It is assumed that the element has been previously animated by this animation.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeWidthAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeWidthAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Applies already stored (if any) animated values.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadResizeWidthAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+            <summary>
+            Core update routine.
+            </summary>
+            <param name="context">The context that holds information about the animation.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadResizeWidthAnimation.StartWidth">
+            <summary>
+            Gets or sets the initial width. If no value is applied current element width is used.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadResizeWidthAnimation.EndWidth">
+            <summary>
+            Gets or sets the final width of the animation target. If no value is applied current element width is used.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadResizeWidthAnimation.Height">
+            <summary>
+            Gets or sets a the height that will be applied to the animation target during this animation.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadScaleYAnimation">
+            <summary>
+            This animation animates an element only on its Y axis.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleYAnimation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadScaleYAnimation"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleYAnimation.ClearAnimation(System.Windows.UIElement)">
+            <summary>
+            Removes any property modifications, applied to the specified element by this instance.
+            </summary>
+            <param name="target">The element which property values are to be cleared.</param>
+            <remarks>
+            It is assumed that the element has been previously animated by this animation.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleYAnimation.CreateOpposite">
+            <summary>
+            Creates a new instance of this animation that is the reverse of this instance.
+            </summary>
+            <returns>A new instance of this animation that is the reverse of this instance.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleYAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleYAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Applies already stored (if any) animated values.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleYAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+            <summary>
+            Core update routine.
+            </summary>
+            <param name="context">The context that holds information about the animation.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadScaleYAnimation.StartScaleY">
+            <summary>
+            Gets or sets the start scale on the Y axis.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadScaleYAnimation.EndScaleY">
+            <summary>
+            Gets or sets the end scale on the Y axis.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadScaleYAnimation.ScaleX">
+            <summary>
+            Gets or sets a scale factor for X property of the scale transform.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadScaleXAnimation">
+            <summary>
+            This animation animates an element only on its X axis.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleXAnimation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadScaleXAnimation"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleXAnimation.ClearAnimation(System.Windows.UIElement)">
+            <summary>
+            Removes any property modifications, applied to the specified element by this instance.
+            </summary>
+            <param name="target">The element which property values are to be cleared.</param>
+            <remarks>
+            It is assumed that the element has been previously animated by this animation.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleXAnimation.CreateOpposite">
+            <summary>
+            Creates a new instance of this animation that is the reverse of this instance.
+            </summary>
+            <returns>A new instance of this animation that is the reverse of this instance.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleXAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleXAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Applies already stored (if any) animated values.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadScaleXAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+            <summary>
+            Core update routine.
+            </summary>
+            <param name="context">The context that holds information about the animation.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadScaleXAnimation.StartScaleX">
+            <summary>
+            Gets or sets the start scale on the X axis.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadScaleXAnimation.EndScaleX">
+            <summary>
+            Gets or sets the end scale on the X axis.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadScaleXAnimation.ScaleY">
+            <summary>
+            Gets or sets a scale factor for Y property of the scale transform.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadEmptyAnimation">
+            <summary>
+            Empty animation.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.Animations.Helpers.ElementScreenShotInfo">
             <summary>
-            Replaces an element with a screenhsot and positions the screenshot in a popup, keeping the same location.
+            Replaces an element with a screenshot and positions the screenshot in a popup, keeping the same location.
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.Animations.Helpers.ElementScreenShotInfo.#ctor(System.Windows.FrameworkElement)">
@@ -343,9 +837,135 @@
             </summary>
             <value>The screen shot container.</value>
         </member>
+        <member name="T:Telerik.Windows.Controls.RadTileAnimation">
+            <summary>
+            Provides an animation that sequentially animates items in a container. The end effect is
+            similar to the animation of the homescreen on the Windows Phone OS.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadTileAnimation.ContainerToAnimateProperty">
+            <summary>
+            Identifies the ContainerToAnimate property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadTileAnimation.ElementToDelayProperty">
+            <summary>
+            Identifies the ElementToDelay property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadTileAnimation"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.GetContainerToAnimate(System.Windows.DependencyObject)">
+            <summary>
+            Gets the ContainerToAnimate dependency property from an object.
+            </summary>
+            <param name="source">The object to get the property from.</param>
+            <returns>The property's value.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.SetContainerToAnimate(System.Windows.DependencyObject,System.Windows.FrameworkElement)">
+            <summary>
+            Sets the ContainerToAnimate dependency property on an object.
+            </summary>
+            <param name="source">The object to set the property on.</param>
+            <param name="value">The value to set.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.GetElementToDelay(System.Windows.DependencyObject)">
+            <summary>
+            Gets the ElementToDelay dependency property from an object.
+            </summary>
+            <param name="source">The object to get the property from.</param>
+            <returns>The property's value.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.SetElementToDelay(System.Windows.DependencyObject,System.Windows.FrameworkElement)">
+            <summary>
+            Sets the ElementToDelay dependency property on an object.
+            </summary>
+            <param name="source">The object to set the property on.</param>
+            <param name="value">The value to set.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.CreateOpposite">
+            <summary>
+            Creates a new instance of this animation that is the reverse of this instance.
+            </summary>
+            <returns>A new instance of this animation that is the reverse of this instance.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.ClearAnimation(System.Windows.UIElement)">
+            <summary>
+            Removes any property modifications, applied to the specified element by this instance.
+            </summary>
+            <param name="target">The element which property values are to be cleared.</param>
+            <remarks>
+            It is assumed that the element has been previously animated by this animation.
+            </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Applies already stored (if any) animated values.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+            <summary>
+            Core update routine.
+            </summary>
+            <param name="context">The context that holds information about the animation.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadTileAnimation.OnEnded(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Fires the <see cref="E:Telerik.Windows.Controls.RadAnimation.Ended"/> event for the specific target provided
+            in the <see cref="T:Telerik.Windows.Controls.Animation.PlayAnimationInfo"/> object.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.InOutAnimationMode">
+            <summary>
+            Gets or sets the in out animation mode.
+            </summary>
+            <value>The in out animation mode.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.PerspectiveAngleY">
+            <summary>
+            Gets or sets the starting angle of the perspective rotation along the Y axis.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.PerspectiveAngleX">
+            <summary>
+            Gets or sets the starting angle of the perspective rotation along the X axis.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.IsTranslationEnabled">
+            <summary>
+            Determines whether plane projection will be combined with a translate transform to enable the Turnstile effect.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.SequentialItemDelay">
+            <summary>
+            Gets or sets the delay between the items start animation.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.SequentialMode">
+            <summary>
+            Gets or sets the sequential mode.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.SelectedItemDelay">
+            <summary>
+            Gets or sets the selected item delay.
+            </summary>
+            <value>The selected item delay.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTileAnimation.ItemAnimationDuration">
+            <summary>
+            Gets or sets the duration of the item animation.
+            </summary>
+            <value>The duration of the item animation.</value>
+        </member>
         <member name="T:Telerik.Windows.Controls.RadSlideContinuumAnimation">
             <summary>
-            Porvides an animation exact copy of the WP7 list based transition.
+            Provides an animation exact copy of the Windows Phone list based transition.
             </summary>
         </member>
         <member name="F:Telerik.Windows.Controls.RadSlideContinuumAnimation.HeaderElementProperty">
@@ -399,7 +1019,7 @@
         </member>
         <member name="M:Telerik.Windows.Controls.RadSlideContinuumAnimation.ClearAnimation(System.Windows.UIElement)">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Removes any property modifications, applied to the specified element by this instance.
             </summary>
             <param name="target">The element which property values are to be cleared.</param>
             <remarks>
@@ -453,12 +1073,18 @@
         </member>
         <member name="M:Telerik.Windows.Controls.RadAnimationGroup.ClearAnimation(System.Windows.UIElement)">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Removes any property modifications, applied to the specified element by this instance.
             </summary>
             <param name="target">The element which property values are to be cleared.</param>
             <remarks>
             It is assumed that the element has been previously animated by this animation.
             </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadAnimationGroup.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadAnimationGroup.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
             <summary>
@@ -497,7 +1123,7 @@
         </member>
         <member name="M:Telerik.Windows.Controls.RadMoveAndFadeAnimation.ClearAnimation(System.Windows.UIElement)">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Removes any property modifications, applied to the specified element by this instance.
             </summary>
             <param name="target">The element which property values are to be cleared.</param>
             <remarks>
@@ -635,129 +1261,6 @@
             Gets the rotate animation for this group.
             </summary>
         </member>
-        <member name="T:Telerik.Windows.Controls.RadTileAnimation">
-            <summary>
-            Porvides an animation exact copy of the WP7 tile animation on page transition.
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.RadTileAnimation.ContainerToAnimateProperty">
-            <summary>
-            Identifies the ContainerToAnimate property.
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.RadTileAnimation.ElementToDelayProperty">
-            <summary>
-            Identifies the ElementToDelay property.
-            </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadTileAnimation"/> class.
-            </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.GetContainerToAnimate(System.Windows.DependencyObject)">
-            <summary>
-            Gets the ContainerToAnimate dependency property from an object.
-            </summary>
-            <param name="source">The object to get the property from.</param>
-            <returns>The property's value.</returns>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.SetContainerToAnimate(System.Windows.DependencyObject,System.Windows.FrameworkElement)">
-            <summary>
-            Sets the ContainerToAnimate dependency property on an object.
-            </summary>
-            <param name="source">The object to set the property on.</param>
-            <param name="value">The value to set.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.GetElementToDelay(System.Windows.DependencyObject)">
-            <summary>
-            Gets the ElementToDelay dependency property from an object.
-            </summary>
-            <param name="source">The object to get the property from.</param>
-            <returns>The property's value.</returns>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.SetElementToDelay(System.Windows.DependencyObject,System.Windows.FrameworkElement)">
-            <summary>
-            Sets the ElementToDelay dependency property on an object.
-            </summary>
-            <param name="source">The object to set the property on.</param>
-            <param name="value">The value to set.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.CreateOpposite">
-            <summary>
-            Creates a new instance of this animation that is the reverse of this instance.
-            </summary>
-            <returns>A new instance of this animation that is the reverse of this instance.</returns>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.ClearAnimation(System.Windows.UIElement)">
-            <summary>
-            Removes any property modifications, applied to the specified element by this istance.
-            </summary>
-            <param name="target">The element which property values are to be cleared.</param>
-            <remarks>
-            It is assumed that the element has been previously animated by this animation.
-            </remarks>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
-            <summary>
-            Applies already stored (if any) animated values.
-            </summary>
-            <param name="info"></param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
-            <summary>
-            Core update routine.
-            </summary>
-            <param name="context">The context that holds information about the animation.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadTileAnimation.OnEnded">
-            <summary>
-            Raises the <see cref="E:Telerik.Windows.Controls.RadAnimation.Ended"/> event.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.InOutAnimationMode">
-            <summary>
-            Gets or sets the in out animation mode.
-            </summary>
-            <value>The in out animation mode.</value>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.PerspectiveAngleY">
-            <summary>
-            Gets or sets the starting angle of the perspective rotation along the Y axis.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.PerspectiveAngleX">
-            <summary>
-            Gets or sets the starting angle of the perspective rotation along the X axis.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.IsTranslationEnabled">
-            <summary>
-            Determines whether plane projection will be combined with a translate transform to enable the Turnstile effect.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.SequentialItemDelay">
-            <summary>
-            Gets or sets the delay between the items start animation.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.SequentialMode">
-            <summary>
-            Gets or sets the sequential mode.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.SelectedItemDelay">
-            <summary>
-            Gets or sets the selected item delay.
-            </summary>
-            <value>The selected item delay.</value>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTileAnimation.ItemAnimationDuration">
-            <summary>
-            Gets or sets the duration of the item animation.
-            </summary>
-            <value>The duration of the item animation.</value>
-        </member>
         <member name="T:Telerik.Windows.Controls.Animation.SequentialMode">
             <summary>
             Specifies the direction of the animation.
@@ -765,12 +1268,12 @@
         </member>
         <member name="F:Telerik.Windows.Controls.Animation.SequentialMode.LastToFirst">
             <summary>
-            The sequentaial animation starts from the last item and ends with the first item.
+            The sequential animation starts from the last item and ends with the first item.
             </summary>
         </member>
         <member name="F:Telerik.Windows.Controls.Animation.SequentialMode.FirstToLast">
             <summary>
-            The sequentaial animation starts from the first item and ends with the last item.
+            The sequential animation starts from the first item and ends with the last item.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.Animation.InOutAnimationMode">
@@ -849,19 +1352,19 @@
             <summary>
             Sets the Animation selector for the given DependencyObject, normally a Control.
             </summary>
-            <param name="obj">The target animated object, normally a cotnrol.</param>
+            <param name="obj">The target animated object, normally a control.</param>
             <param name="value">The AnimationSelector to assign.</param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadAnimationManager.GetIsAnimationEnabled(System.Windows.DependencyObject)">
             <summary>
-            Gets a value idicating whether animation is enabled for the given Control.
+            Gets a value indicating whether animation is enabled for the given Control.
             </summary>
             <param name="obj">The dependency object for which to check the value, normally a control.</param>
             <returns>True if animation is enabled, false otherwise.</returns>
         </member>
         <member name="M:Telerik.Windows.Controls.RadAnimationManager.SetIsAnimationEnabled(System.Windows.DependencyObject,System.Boolean)">
             <summary>
-            Sets a value idicating whether animation is enabled for the given Control.
+            Sets a value indicating whether animation is enabled for the given Control.
             </summary>
             <param name="obj">The dependency object for which to check the value, normally a control.</param>
             <param name="value">True if animation should be enabled, false otherwise.</param>
@@ -912,9 +1415,17 @@
             <param name="completedCallback">Optional callback to notify the caller for animation completion.</param>
             <returns>True if the animation has been successfully executed, false otherwise.</returns>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadAnimationManager.IsAnimationScheduled(System.Windows.UIElement,Telerik.Windows.Controls.RadAnimation)">
+            <summary>
+            Returns a boolean value determining whether an animation has been scheduled for the given <see cref="T:System.Windows.UIElement"/>.
+            </summary>
+            <param name="element">The <see cref="T:System.Windows.UIElement"/> instance for which to check whether the given <see cref="T:Telerik.Windows.Controls.RadAnimation"/> is scheduled.</param>
+            <param name="animation">The <see cref="T:Telerik.Windows.Controls.RadAnimation"/> instance for which to check whether it has been scheduled for the given <see cref="T:System.Windows.UIElement"/>.</param>
+            <returns>True if an animation is scheduled for the element, otherwise false.</returns>
+        </member>
         <member name="P:Telerik.Windows.Controls.RadAnimationManager.IsGlobalAnimationEnabled">
             <summary>
-            Gets or sets a value idicating whether the Animation for the whole application will be enabled. 
+            Gets or sets a value indicating whether the Animation for the whole application will be enabled. 
             This value overrides all other properties.
             </summary>
         </member>
@@ -936,7 +1447,7 @@
         <member name="M:Telerik.Windows.Controls.Animation.AnimationSelectorBase.SelectAnimation(System.Windows.UIElement,System.String)">
             <summary>
             	<para>
-            		When overriden in derived classes, it selects an animation for the specific
+            		When overridden in derived classes, it selects an animation for the specific
             		control and reason.
             	</para>
             </summary>
@@ -981,12 +1492,18 @@
         </member>
         <member name="M:Telerik.Windows.Controls.RadFadeAnimation.ClearAnimation(System.Windows.UIElement)">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Removes any property modifications, applied to the specified element by this instance.
             </summary>
             <param name="target">The element which property values are to be cleared.</param>
             <remarks>
             It is assumed that the element has been previously animated by this animation.
             </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadFadeAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadFadeAnimation.CreateOpposite">
             <summary>
@@ -1016,52 +1533,6 @@
             Gets or sets a value will be applied when the animation finishes.
             </summary>
         </member>
-        <member name="T:Telerik.Windows.Controls.MoveDirection">
-            <summary>
-            Provides intuitive values which describe common move animation scenarios.
-            For example LeftIn means that the animated element is moving left and is coming in view.
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.LeftIn">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.LeftOut">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.RightIn">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.RightOut">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.TopIn">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.TopOut">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.BottomIn">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:Telerik.Windows.Controls.MoveDirection.BottomOut">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="T:Telerik.Windows.Controls.RadMoveAnimation">
             <summary>
             Moves the target element from a start point to an end point.
@@ -1078,28 +1549,6 @@
             </summary>
             <returns>A new instance of this animation that is the reverse of this instance.</returns>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadMoveAnimation.ClearAnimation(System.Windows.UIElement)">
-            <summary>
-            Removes any property modifications, applied to the specified element by this istance.
-            </summary>
-            <param name="target">The element which property values are to be cleared.</param>
-            <remarks>
-            It is assumed that the element has been previously animated by this animation.
-            </remarks>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadMoveAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
-            <summary>
-            Applies already stored (if any) animated values.
-            </summary>
-            <param name="info"></param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadMoveAnimation.GetOppositeDirection(Telerik.Windows.Controls.MoveDirection)">
-            <summary>
-            Gets the move direction value, opposite (mirrored) to the specified one.
-            </summary>
-            <param name="direction">The direction which opposite value should be caclulated.</param>
-            <returns></returns>
-        </member>
         <member name="M:Telerik.Windows.Controls.RadMoveAnimation.GetPoint(System.Windows.UIElement,System.Nullable{System.Windows.Point})">
             <summary>
             Gets the value of a nullable point if it is not null. If it is null it returns a point that represents the X and Y
@@ -1110,17 +1559,34 @@
             <returns>Returns the value of a nullable point if it is not null. If it is null it returns a point that represents the X and Y
             components of the target's TranslateTransform.</returns>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadMoveAnimation.GetOppositeDirection(Telerik.Windows.Controls.MoveDirection)">
+            <summary>
+            Gets the move direction value, opposite (mirrored) to the specified one.
+            </summary>
+            <param name="direction">The direction which opposite value should be calculated.</param>
+            <returns></returns>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadMoveAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
             <summary>
             Core update routine.
             </summary>
             <param name="context">The context that holds information about the animation.</param>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadMoveAnimation.SetStartEndPoints(System.Windows.UIElement)">
+        <member name="M:Telerik.Windows.Controls.RadMoveAnimation.GetStartEndPoints(System.Windows.FrameworkElement)">
             <summary>
             Sets the start and end point arguments based on the current MoveDirection value.
             </summary>
-            <param name="target">The target which is required in order to determine the move length. The move length is equal to the render size of target.</param>
+            <param name="element">The target which is required in order to determine the move length. The move length is equal to the render size of target.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMoveAnimation.MiddlePointsXAxis">
+            <summary>
+            Gets or sets the middle points of the X animation.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMoveAnimation.MiddlePointsYAxis">
+            <summary>
+            Gets or sets the middle points of the Y animation.
+            </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadMoveAnimation.MoveDirection">
             <summary>
@@ -1143,17 +1609,17 @@
             If MoveDirection is set this property is disregarded.
             </summary>
         </member>
-        <member name="P:Telerik.Windows.Controls.RadMoveAnimation.MiddlePointsXAxis">
+        <member name="P:Telerik.Windows.Controls.RadMoveAnimation.PointMode">
             <summary>
-            Gets or sets the middle points X axis.
+            Gets or sets a value that determines how the move animation's start and end points will be interpreted.
+            Absolute means that they will be interpreted as pixels and Relative means that they will interpreted as
+            points in the [-1, 1] range.
             </summary>
-            <value>The middle points X axis.</value>
         </member>
-        <member name="P:Telerik.Windows.Controls.RadMoveAnimation.MiddlePointsYAxis">
+        <member name="P:Telerik.Windows.Controls.RadMoveAnimation.Duration">
             <summary>
-            Gets or sets the middle points Y axis.
+            Gets or sets the duration of the animation. Defaults to (0:0:.4) - 400 milliseconds.
             </summary>
-            <value>The middle points Y axis.</value>
         </member>
         <member name="T:Telerik.Windows.Controls.ReverseMode">
             <summary>
@@ -1249,12 +1715,18 @@
         </member>
         <member name="M:Telerik.Windows.Controls.RadPlaneProjectionAnimation.ClearAnimation(System.Windows.UIElement)">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Removes any property modifications, applied to the specified element by this instance.
             </summary>
             <param name="target">The element which property values are to be cleared.</param>
             <remarks>
             It is assumed that the element has been previously animated by this animation.
             </remarks>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadPlaneProjectionAnimation.ApplyInitialValues(System.Windows.UIElement)">
+            <summary>
+            Sets the initial animation values to the provided target element.
+            </summary>
+            <param name="target"></param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadPlaneProjectionAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
             <summary>
@@ -1329,32 +1801,10 @@
             Animation for smooth resizing elements.
             </summary>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadResizeAnimation.CreateOpposite">
+        <member name="M:Telerik.Windows.Controls.RadResizeAnimation.#ctor">
             <summary>
-            Creates a new instance of this animation that is the reverse of this instance.
+            Initializes a new instance of the RadResizeAnimation class.
             </summary>
-            <returns>A new instance of this animation that is the reverse of this instance.</returns>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadResizeAnimation.ClearAnimation(System.Windows.UIElement)">
-            <summary>
-            Removes any property modifications, applied to the specified element by this istance.
-            </summary>
-            <param name="target">The element which property values are to be cleared.</param>
-            <remarks>
-            It is assumed that the element has been previously animated by this animation.
-            </remarks>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadResizeAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
-            <summary>
-            Applies already stored (if any) animated values.
-            </summary>
-            <param name="info"></param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadResizeAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
-            <summary>
-            Core update routine.
-            </summary>
-            <param name="context">The context that holds information about the animation.</param>
         </member>
         <member name="P:Telerik.Windows.Controls.RadResizeAnimation.StartSize">
             <summary>
@@ -1364,6 +1814,11 @@
         <member name="P:Telerik.Windows.Controls.RadResizeAnimation.EndSize">
             <summary>
             Gets or sets the final size of the animated element. If no value is applied current element size is used.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadResizeAnimation.Duration">
+            <summary>
+            Gets or sets the duration of the animation. Defaults to (0:0:.4) - 400 milliseconds.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.RadScaleAnimation">
@@ -1376,32 +1831,26 @@
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadScaleAnimation"/> class.
             </summary>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadScaleAnimation.ClearAnimation(System.Windows.UIElement)">
+        <member name="P:Telerik.Windows.Controls.RadScaleAnimation.Duration">
             <summary>
-            Removes any property modifications, applied to the specified element by this istance.
+            Gets or sets the duration of the scale animation. The value of
+            this property will be set as the value of DurationX and DurationY.
             </summary>
-            <param name="target">The element which property values are to be cleared.</param>
-            <remarks>
-            It is assumed that the element has been previously animated by this animation.
-            </remarks>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadScaleAnimation.CreateOpposite">
+        <member name="P:Telerik.Windows.Controls.RadScaleAnimation.AnimationOrigin">
             <summary>
-            Creates a new instance of this animation that is the reverse of this instance.
+            Gets or sets the render transform origin of the animated element.
             </summary>
-            <returns>A new instance of this animation that is the reverse of this instance.</returns>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadScaleAnimation.ApplyAnimationValues(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+        <member name="P:Telerik.Windows.Controls.RadScaleAnimation.DurationX">
             <summary>
-            Applies already stored (if any) animated values.
+            Gets or sets the duration of the X animation.
             </summary>
-            <param name="info"></param>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadScaleAnimation.UpdateAnimationOverride(Telerik.Windows.Controls.Animation.AnimationContext)">
+        <member name="P:Telerik.Windows.Controls.RadScaleAnimation.DurationY">
             <summary>
-            Core update routine.
+            Gets or sets the duration of the Y animation.
             </summary>
-            <param name="context">The context that holds information about the animation.</param>
         </member>
         <member name="P:Telerik.Windows.Controls.RadScaleAnimation.StartScaleX">
             <summary>
@@ -1484,7 +1933,7 @@
             <summary>
             Gets previously stored array of values for the specified animation.
             </summary>
-            <param name="animation">The animation which values are to be rertieved.</param>
+            <param name="animation">The animation which values are to be retrieved.</param>
             <returns>An array of values, stored by the specified animation.</returns>
         </member>
         <member name="M:Telerik.Windows.Controls.Animation.PlayAnimationInfo.SetAnimatedValues(Telerik.Windows.Controls.RadAnimation,System.Object[])">
@@ -1517,6 +1966,99 @@
             Since the target is a weak reference it can be garbage collected before we
             get its hash code for resource cleanup. See AnimationManager.RemoveAnimationInfo().
             </remarks>
+        </member>
+        <member name="T:Telerik.Windows.Controls.ApplicationUsageHelper">
+            <summary>
+            Provides data about the application usage.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ApplicationUsageHelper.Init(System.String)">
+            <summary>
+            Initializes the data. Call this method when the application is launching.
+            </summary>
+            <remarks>
+            It is mandatory to call this method before using any property.
+            </remarks>
+            <seealso cref="M:Telerik.Windows.Controls.ApplicationUsageHelper.OnApplicationActivated"/>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ApplicationUsageHelper.OnApplicationActivated">
+            <summary>
+            Initializes the data when application is re-activated. Call this method when application is reactivated.
+            </summary>
+            <seealso cref="M:Telerik.Windows.Controls.ApplicationUsageHelper.Init(System.String)"/>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ApplicationUsageHelper.InitialInstallationDate">
+            <summary>
+            Gets initial installation date.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ApplicationUsageHelper.CurrentVersionInstallationDate">
+            <summary>
+            Gets date when the last application update was installed.
+            </summary>
+            <remarks>
+            Application update is recognized when the application version is changed.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ApplicationUsageHelper.PreviousRunDate">
+            <summary>
+            Gets date when the application was previously started.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationRunsCountForCurrentVersion">
+            <summary>
+            Gets the number of application runs after the last application update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationRunsCountTotal">
+            <summary>
+            Gets the number of application runs after the initial installation.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel">
+            <summary>
+            Data model for the ApplicationUsageHelper.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.InitialInstallationDate">
+            <summary>
+            Gets or sets the first the application was installed.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.CurrentVersionInstallationDate">
+            <summary>
+            Gets or sets the installation date with current version was installed.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.PreviousRunDate">
+            <summary>
+            Gets or sets the date when the application was previously run.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.ApplicationRunsCountForCurrentVersion">
+            <summary>
+            Gets or sets the count of application runs of the current version.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.ApplicationRunsCountTotal">
+            <summary>
+            Gets or sets the count of application runs since the initial install.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.LastApplicationVersion">
+            <summary>
+            Gets or sets the previous application version.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ApplicationUsageHelper.ApplicationUsageDataModel.Clone">
+            <summary>
+            Clones this instance.
+            </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.BitStateChangedEventArgs">
             <summary>
@@ -1641,7 +2183,7 @@
         </member>
         <member name="T:Telerik.Windows.Controls.SuspendableObject">
             <summary>
-            Represents the abstract definition of an object which may be suspended. That is to prevent it from prefroming certain functionality until resumed.
+            Represents the abstract definition of an object which may be suspended. That is to prevent it from preforming certain functionality until resumed.
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.SuspendableObject.Suspend">
@@ -1751,7 +2293,7 @@
         </member>
         <member name="M:Telerik.Windows.Controls.EmptyEnumerator.MoveNext">
             <summary>
-            Attemts to advance the current item to the next one.
+            Attempts to advance the current item to the next one.
             </summary>
             <returns></returns>
         </member>
@@ -1781,6 +2323,320 @@
             <summary>
             Gets the raw data item instance which property has changed.
             </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.Pair`2">
+            <summary>
+            A utility class that holds a pair of objects of arbitrary types.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.Pair`2.#ctor(`0,`1)">
+            <summary>
+            Initializes a new instance of the Pair class.
+            </summary>
+            <param name="first">The object for First.</param>
+            <param name="second">The object for Second.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.Pair`2.First">
+            <summary>
+            Gets or sets the first object.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.Pair`2.Second">
+            <summary>
+            Gets or sets the second object.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.PngEncoder.Adler32">
+            <summary>
+            Computes the Adler32 CRC value for a given data set.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.Adler">
+            <summary>
+            Returns the current running Adler32 result.
+            </summary>
+            <returns>An unsigned 32bit integer representing the current Adler32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.Adler(System.Byte[])">
+            <summary>
+            Returns the current running Adler32 result.
+            </summary>
+            <param name="data">A byte[] to process.</param>
+            <returns>An unsigned 32bit integer representing the current Adler32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.Adler(System.Byte[],System.Int32)">
+            <summary>
+            Returns the current running Adler32 result.
+            </summary>
+            <param name="data">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+            <returns>An unsigned 32bit integer representing the current Adler32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.Adler(System.Byte[],System.Int32,System.UInt32)">
+            <summary>
+            Returns the current running Adler32 result.
+            </summary>
+            <param name="data">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+            <param name="offset">The offset to start processing byte[] at.</param>
+            <returns>An unsigned 32bit integer representing the current Adler32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.AddToAdler(System.Byte[])">
+            <summary>
+            Adds to the current running Adler32 the bytes from buf[].
+            </summary>
+            <param name="data">A byte[] to process.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.AddToAdler(System.Byte[],System.Int32)">
+            <summary>
+            Adds to the current running Adler32 the bytes from buf[].
+            </summary>
+            <param name="data">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.AddToAdler(System.Byte[],System.Int32,System.UInt32)">
+            <summary>
+            Adds to the current running Adler32 the bytes from buf[].
+            </summary>
+            <param name="data">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+            <param name="offset">The offset to start processing byte[] at.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.Adler32.ResetAdler">
+            <summary>
+            Resets the running Adler32.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.PngEncoder.CRC32">
+            <summary>
+            Computes the CRC32 value for a given data set.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.MakeCRCTable">
+            <summary>
+            Populates the CRC32 checksum values for every byte.  This should only be called
+            if you are using this library on a non-standard platform that uses some kind of
+            weird binary encoding of bytes.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.Crc">
+            <summary>
+            Returns the current running CRC32 result for a PNG file.
+            </summary>
+            <returns>An unsigned 32bit integer representing the current CRC32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.Crc(System.Byte[])">
+            <summary>
+            Returns the current running CRC32 result for a PNG file.
+            </summary>
+            <param name="buf">A byte[] to process.</param>
+            <returns>An unsigned 32bit integer representing the CRC32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.Crc(System.Byte[],System.Int32)">
+            <summary>
+            Returns the current running CRC32 result for a PNG file.
+            </summary>
+            <param name="buf">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+            <returns>An unsigned 32bit integer representing the CRC32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.Crc(System.Byte[],System.Int32,System.UInt32)">
+            <summary>
+            Returns the current running CRC32 result for a PNG file.
+            </summary>
+            <param name="buf">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+            <param name="offset">The offset to start processing byte[] at.</param>
+            <returns>An unsigned 32bit integer representing the CRC32.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.AddToCRC(System.Byte[])">
+            <summary>
+            Adds to the current running CRC32 the bytes from buf[].
+            </summary>
+            <param name="buf">A byte[] to process.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.AddToCRC(System.Byte[],System.Int32)">
+            <summary>
+            Adds to the current running CRC32 the bytes from buf[].
+            </summary>
+            <param name="buf">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.AddToCRC(System.Byte[],System.Int32,System.UInt32)">
+            <summary>
+            Adds to the current running CRC32 the bytes from buf[].
+            </summary>
+            <param name="buf">A byte[] to process.</param>
+            <param name="len">The length of the byte[].</param>
+            <param name="offset">The offset to start processing byte[] at.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.CRC32.ResetCRC">
+            <summary>
+            Resets the running CRC32.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.Header">
+            <summary>
+            The first chunk in a png file. Can only exists once. Contains 
+            common information like the width and the height of the image or
+            the used compression method.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.Palette">
+            <summary>
+            The PLTE chunk contains from 1 to 256 palette entries, each a three byte
+            series in the RGB format.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.Data">
+            <summary>
+            The IDAT chunk contains the actual image data. The image can contains more
+            than one chunk of this type. All chunks together are the whole image.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.End">
+            <summary>
+            This chunk must appear last. It marks the end of the PNG datastream. 
+            The chunk's data field is empty. 
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.PaletteAlpha">
+            <summary>
+            This chunk specifies that the image uses simple transparency: 
+            either alpha values associated with palette entries (for indexed-color images) 
+            or a single transparent color (for grayscale and truecolor images). 
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.Text">
+            <summary>
+            Textual information that the encoder wishes to record with the image can be stored in 
+            tEXt chunks. Each tEXt chunk contains a keyword and a text string.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.Gamma">
+            <summary>
+            This chunk specifies the relationship between the image samples and the desired 
+            display output intensity.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngChunkTypes.Physical">
+            <summary>
+            The pHYs chunk specifies the intended pixel size or aspect ratio for display of the image. 
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngHeader.Width">
+            <summary>
+            The dimension in x-direction of the image in pixels.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngHeader.Height">
+            <summary>
+            The dimension in y-direction of the image in pixels.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngHeader.BitDepth">
+            <summary>
+            Bit depth is a single-byte integer giving the number of bits per sample 
+            or per palette index (not per pixel). Valid values are 1, 2, 4, 8, and 16, 
+            although not all values are allowed for all color types. 
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngHeader.ColorType">
+            <summary>
+            Color type is a integer that describes the interpretation of the 
+            image data. Color type codes represent sums of the following values: 
+            1 (palette used), 2 (color used), and 4 (alpha channel used).
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngHeader.CompressionMethod">
+            <summary>
+            Indicates the method  used to compress the image data. At present, 
+            only compression method 0 (deflate/inflate compression with a sliding 
+            window of at most 32768 bytes) is defined.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngHeader.FilterMethod">
+            <summary>
+            Indicates the preprocessing method applied to the image 
+            data before compression. At present, only filter method 0 
+            (adaptive filtering with five basic filter types) is defined.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.PngEncoder.PngHeader.InterlaceMethod">
+            <summary>
+            Indicates the transmission order of the image data. 
+            Two values are currently defined: 0 (no interlace) or 1 (Adam7 interlace).
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.PngEncoder.PNGWriter">
+            <summary>
+            WriteableBitmap Extensions for PNG Writing.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.PNGWriter.DetectWBByteOrder">
+            <summary>
+            Detects the color order of a stored byte array.  Byte order may change between platforms, you should call this once before writting a PNG or if you have any issues with colors changing.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.PNGWriter.WritePNG(System.Windows.Media.Imaging.WriteableBitmap,System.IO.Stream)">
+            <summary>
+            Write and PNG file out to a file stream.  Currently compression is not supported.
+            </summary>
+            <param name="image">The WriteableBitmap to work on.</param>
+            <param name="stream">The destination file stream.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.PngEncoder.PNGWriter.WritePNG(System.Windows.Media.Imaging.WriteableBitmap,System.IO.Stream,System.Int32)">
+            <summary>
+            Write and PNG file out to a file stream.  Currently compression is not supported.
+            </summary>
+            <param name="image">The WriteableBitmap to work on.</param>
+            <param name="stream">The destination file stream.</param>
+            <param name="compression">Level of compression to use (-1=auto, 0=none, 1-100 is percentage).</param>
+        </member>
+        <member name="T:Telerik.Windows.Controls.TreeTraversalMode">
+            <summary>
+            Defines possible approaches when traversing a tree.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.TreeTraversalMode.DepthFirst">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.TreeTraversalMode.BreadthFirst">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.BoolToVisibilityConverter">
+            <summary>
+            Converts boolean values to <see cref="T:System.Windows.Visibility"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.BoolToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Modifies the source data before passing it to the target for display
+            in the UI.
+            </summary>
+            <param name="value">The source data being passed to the target.</param>
+            <param name="targetType">The <see cref="T:System.Type" /> of data expected by
+            the target dependency property.</param>
+            <param name="parameter">An optional parameter to be used in the converter logic.</param>
+            <param name="culture">The culture of the conversion.</param>
+            <returns>The value to be passed to the target dependency property.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.BoolToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Modifies the target data before passing it to the source object.  This
+            method is called only in <see cref="F:System.Windows.Data.BindingMode.TwoWay" />
+            bindings.
+            </summary>
+            <param name="value">The target data being passed to the source.</param>
+            <param name="targetType">The <see cref="T:System.Type" /> of data expected by
+            the source object.</param>
+            <param name="parameter">An optional parameter to be used in the converter logic.</param>
+            <param name="culture">The culture of the conversion.</param>
+            <returns>The value to be passed to the source object.</returns>
         </member>
         <member name="T:Telerik.Windows.Controls.Converters.StringToDoubleConverter">
             <summary>
@@ -1952,6 +2808,13 @@
             <param name="value"></param>
             <returns></returns>
         </member>
+        <member name="P:Telerik.Windows.Data.IDataSourceItem.IsChecked">
+            <summary>
+            Gets a boolean value determining whether the data item
+            will appear as checked when the list control shows
+            check boxes next to each visual item.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Data.IDataSourceItem.Value">
             <summary>
             Gets the raw data wrapped by this instance.
@@ -1975,6 +2838,18 @@
         <member name="P:Telerik.Windows.Data.IDataSourceItem.ParentGroup">
             <summary>
             Gets or sets the parent group of this instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Data.IDataSourceItem.DisplayValue">
+            <summary>
+            Gets or sets the display value that will be used when there are no data templates for the item.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Data.DataSourceItem.IsChecked">
+            <summary>
+            Gets a boolean value determining whether the data item
+            will appear as checked when the list control shows
+            check boxes next to each visual item.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Data.DataSourceItem.Value">
@@ -2007,6 +2882,16 @@
             Determines whether the group has nested groups or data items only.
             </summary>
         </member>
+        <member name="P:Telerik.Windows.Data.IDataSourceGroup.Level">
+            <summary>
+            Gets the zero-based level of this group.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Data.IDataSourceGroup.LastChildItem">
+            <summary>
+            Gets the last child item in this group.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Data.DataSourceGroup.IsExpanded">
             <summary>
             Determines whether the groups is expanded (its child items are visible and may be enumerated).
@@ -2022,18 +2907,40 @@
             Creates instances of the <see cref="T:Telerik.Windows.Data.IDataSourceItem"/> type which are used by a <see cref="T:Telerik.Windows.Data.RadListSource"/> instance.
             </summary>
         </member>
-        <member name="M:Telerik.Windows.Data.IDataSourceItemFactory.CreateItem(System.Object)">
+        <member name="M:Telerik.Windows.Data.IDataSourceItemFactory.CreateItem(Telerik.Windows.Data.RadListSource,System.Object)">
             <summary>
             Creates a <see cref="T:Telerik.Windows.Data.IDataSourceItem"/> instance.
             </summary>
-            <param name="value">The raw data wrapped by the newly created item.</param>
-            <returns></returns>
         </member>
-        <member name="M:Telerik.Windows.Data.IDataSourceItemFactory.CreateGroup(Telerik.Windows.Data.DataGroup)">
+        <member name="M:Telerik.Windows.Data.IDataSourceItemFactory.CreateGroup(Telerik.Windows.Data.RadListSource,Telerik.Windows.Data.DataGroup)">
             <summary>
             Creates a group item for the specified data group.
             </summary>
-            <param name="dataGroup"></param>
+        </member>
+        <member name="M:Telerik.Windows.Data.IDataSourceItemFactory.OnOwningListSourceCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Called when the items in the owning <see cref="T:Telerik.Windows.Data.RadListSource"/> instance change.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="T:Telerik.Windows.DynamicHelper">
+            <summary>
+            Encapsulates helper methods to generate Dynamic methods using System.Reflection.Emit.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.DynamicHelper.CreatePropertyValueGetter(System.Type,System.String)">
+            <summary>
+            Generates a <see cref="T:Telerik.Windows.GetPropertyValueDelegate"/> instance to allow for retrieving property values for instances of the specified type without using reflection.
+            </summary>
+            <param name="type"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Telerik.Windows.GetPropertyValueDelegate">
+            <summary>
+            Retrieves the value of a property of an object instance. Used to generate dynamic methods to bypass reflection.
+            </summary>
+            <param name="instance"></param>
             <returns></returns>
         </member>
         <member name="T:Telerik.Windows.Data.ICurrencyManager">
@@ -2161,12 +3068,6 @@
             Removes data items from the source after a change of type Remove has occurred in the original collection.
             </summary>
             <param name="e"></param>
-        </member>
-        <member name="M:Telerik.Windows.Data.RadListSource.OnBitStateChanged(Telerik.Windows.Controls.BitStateChangedEventArgs)">
-            <summary>
-            Notifies for a change in the current bit state of this instance.
-            </summary>
-            <param name="e">The arguments, associated with the event.</param>
         </member>
         <member name="M:Telerik.Windows.Data.RadListSource.CollectEvents(System.Collections.Generic.List{System.Delegate})">
             <summary>
@@ -2319,9 +3220,9 @@
             Gets the count of the collection.
             </summary>
         </member>
-        <member name="P:Telerik.Windows.Data.RadListSource.ListenForItemPropertyChanged">
+        <member name="P:Telerik.Windows.Data.RadListSource.SupportsItemReorder">
             <summary>
-            Determines whether the collection will listen for the PropertyChanged event (if implemented) of each item.
+            Gets a boolean value determining whether the source collection.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Data.RadListSource.Items">
@@ -2357,6 +3258,23 @@
         <member name="P:Telerik.Windows.Data.RadListSource.CurrentItem">
             <summary>
             Gets the current item in the collection.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.Exceptions.MissingTemplatePartException">
+            <summary>
+            An exception of this type is thrown when an ControlTemplate with missing crucial parts is applied.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.Exceptions.MissingTemplatePartException.#ctor(System.Type,System.String)">
+            <summary>
+            Initializes a new instance of the MissingTemplatePartException class.
+            </summary>
+            <param name="missingPartType">The type of the missing part.</param>
+            <param name="name">The name of the missing part.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.Exceptions.MissingTemplatePartException.Message">
+            <summary>
+            Gets the message of the exception.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.InteractionBehavior">
@@ -2428,6 +3346,23 @@
             Identifies the Interaction dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.InteractionEffectManager.ApplyInteractionExplicitlyProperty">
+            <summary>
+            Identifies the ApplyInteractionExplicitly dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.InteractionEffectManager.SetApplyInteractionExplicitly(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Sets a boolean value determining whether an interaction effect will be applied to a given element explicitly
+            without checking the AllowedTypes and ExcludedTypes values.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.InteractionEffectManager.GetApplyInteractionExplicitly(System.Windows.DependencyObject)">
+            <summary>
+            Gets a boolean value determining whether an interaction effect will be applied to a given element explicitly
+            without checking the AllowedTypes and ExcludedTypes values.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.InteractionEffectManager.SetIsInteractionEnabled(System.Windows.DependencyObject,System.Object)">
             <summary>
             Sets a boolean value indicating whether the tilt effect will be enabled for the given element.
@@ -2475,7 +3410,7 @@
         </member>
         <member name="F:Telerik.Windows.Controls.TiltInteractionEffect.DedicatedTiltTargetProperty">
             <summary>
-            Identifies the DedicatedTiltTarget depdendency property.
+            Identifies the DedicatedTiltTarget dependency property.
             </summary>
         </member>
         <member name="F:Telerik.Windows.Controls.TiltInteractionEffect.MaxRotationAngleProperty">
@@ -2491,6 +3426,16 @@
         <member name="M:Telerik.Windows.Controls.TiltInteractionEffect.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.TiltInteractionEffect"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.TiltInteractionEffect.SetDedicatedTiltTarget(System.Windows.FrameworkElement,System.Object)">
+            <summary>
+            Sets the DedicatedTiltTarget attached property to the given <see cref="T:System.Windows.FrameworkElement"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.TiltInteractionEffect.GetDedicatedTiltTarget(System.Windows.FrameworkElement)">
+            <summary>
+            Gets the defined DedicatedTiltTarget from the given <see cref="T:System.Windows.FrameworkElement"/>.
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.TiltInteractionEffect.CancelEffect">
@@ -2536,6 +3481,37 @@
             </summary>
             <param name="animations">The animations to reverse.</param>
             <returns>Returns a new sequence of reversed animations.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumerableExtensions.Apply``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0},System.Predicate{``0})">
+            <summary>
+            Applies the given function to the objects in this IEnumerable instance.
+            </summary>
+            <param name="objects">The objects to which to apply the function argument.</param>
+            <param name="function">The function to apply.</param>
+            <param name="predicate">The function argument will be applied only if this predicate returns true or if it is null.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumerableExtensions.Count(System.Collections.IEnumerable)">
+            <summary>
+            Gets the number of items in an IEnumerable.
+            </summary>
+            <param name="enumerable">The IEnumerable instance from which to get the item count.</param>
+            <returns>Returns the number of items in an IEnumerable.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumerableExtensions.ElementAt(System.Collections.IEnumerable,System.Int32)">
+            <summary>
+            Gets an element at a position.
+            </summary>
+            <param name="enumerable">The enumerable from which to get an element.</param>
+            <param name="index">The index of the element to get.</param>
+            <returns>Returns the object in the enumerable at the specified index.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.EnumerableExtensions.IsEmpty(System.Collections.IEnumerable)">
+            <summary>
+            Gets a boolean value determining whether the <see cref="T:System.Collections.IEnumerable"/> implementation
+            has items.
+            </summary>
+            <param name="enumerable">The <see cref="T:System.Collections.IEnumerable"/> implementation which is checked whether it is empty or not.</param>
+            <returns>True if the <see cref="T:System.Collections.IEnumerable"/> is empty, otherwise false.</returns>
         </member>
         <member name="T:Telerik.Windows.Controls.Converters.NullableDoubleConverter">
             <summary>
@@ -3021,17 +3997,8 @@
         </member>
         <member name="T:Telerik.Windows.Controls.ElementTreeHelper">
             <summary>
-            Exposes helper methods for managing visual trees.
+            Exposes helper methods for searching and traversing visual trees.
             </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.FindVisualAncestor``1(System.Windows.DependencyObject)">
-            <summary>
-            Finds a visual ancestor from a given type
-            that is in the parent chain of a given child element.
-            </summary>
-            <typeparam name="T">The type of the element to look for.</typeparam>
-            <param name="child">The child.</param>
-            <returns>An instance of the given type if found, otherwise null.</returns>
         </member>
         <member name="M:Telerik.Windows.Controls.ElementTreeHelper.FindVisualAncestor``1(System.Windows.DependencyObject,System.Predicate{System.Windows.DependencyObject})">
             <summary>
@@ -3043,14 +4010,6 @@
             <param name="condition">The condition.</param>
             <returns>An instance of the given type if found, otherwise null.</returns>
         </member>
-        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.FindLastVisualAncestor``1(System.Windows.DependencyObject)">
-            <summary>
-            Finds the last visual ancestor of the provided type.
-            </summary>
-            <typeparam name="T">The type of the ancestor to search for.</typeparam>
-            <param name="child">The from which to start the search.</param>
-            <returns>The last ancestor of the specified T type which matches the condition.</returns>
-        </member>
         <member name="M:Telerik.Windows.Controls.ElementTreeHelper.FindLastVisualAncestor``1(System.Windows.DependencyObject,System.Predicate{System.Windows.DependencyObject})">
             <summary>
             Finds the last visual ancestor of the provided type.
@@ -3059,15 +4018,6 @@
             <param name="child">The from which to start the search.</param>
             <param name="condition">A condition to test each ancestor of the T type.</param>
             <returns>The last ancestor of the specified T type which matches the condition.</returns>
-        </member>
-        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.FindVisualDescendant``1(System.Windows.DependencyObject)">
-            <summary>
-            Finds a visual descendant from a given type
-            that is in the hierarchy of a given parent element.
-            </summary>
-            <typeparam name="T">The type of the element to look for.</typeparam>
-            <param name="parent">The parent.</param>
-            <returns>An instance of the given type if found, otherwise null.</returns>
         </member>
         <member name="M:Telerik.Windows.Controls.ElementTreeHelper.FindVisualDescendant``1(System.Windows.DependencyObject,System.Predicate{System.Windows.DependencyObject})">
             <summary>
@@ -3078,6 +4028,51 @@
             <param name="parent">The parent.</param>
             <param name="condition">The condition.</param>
             <returns>An instance of the given type if found, otherwise null.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.EnumVisualDescendants(System.Windows.DependencyObject,System.Predicate{System.Windows.DependencyObject},Telerik.Windows.Controls.TreeTraversalMode)">
+            <summary>
+            Returns a lazily evaluated iterator that allows linear iteration
+            over a tree of DependencyObjects.
+            </summary>
+            <param name="parent">The root element of the tree to iterate over.</param>
+            <param name="condition">A predicate to filter what elements are returned.</param>
+            <param name="mode">The tree traversal mode of the iteration algorithm.</param>
+            <returns>
+            Returns a lazily evaluated iterator that allows linear iteration
+            over a tree of DependencyObjects.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.IsElementRendered(System.Windows.FrameworkElement)">
+            <summary>
+            Determines whether the specified element is rendered on the visual tree.
+            </summary>
+            <param name="element"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.SafeTransformPoint(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Point)">
+            <summary>
+            Transforms the specified point using the TransformToVisual routine while checking for valid transform conditions - e.g. elements are both loaded and rendered.
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.SafeTransformBounds(System.Windows.FrameworkElement,System.Windows.FrameworkElement,System.Windows.Rect)">
+            <summary>
+            Transforms the specified rect using the TransformToVisual routine while checking for valid transform conditions - e.g. elements are both loaded and rendered.
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+            <param name="bounds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ElementTreeHelper.IsParentChainHitTestVisible(System.Windows.UIElement)">
+            <summary>
+            Determines whether all the ancestors of the specified <see cref="T:System.Windows.UIElement"/> instance are hit-test visible.
+            </summary>
+            <param name="element">The element to start from.</param>
+            <returns>True if all the ancestors are hit-test visible, false otherwise.</returns>
         </member>
         <member name="T:Telerik.Windows.Controls.WeakReferenceList`1">
             <summary>
@@ -3100,7 +4095,7 @@
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.WeakReferenceList`1"/> class.
             </summary>
             <param name="cleanNonAlive">True to remove any non-alive instances automatically, false otherwise.</param>
-            <param name="trackResurrection">True to track object resurrection, false otheriwse.</param>
+            <param name="trackResurrection">True to track object resurrection, false otherwise.</param>
         </member>
         <member name="M:Telerik.Windows.Controls.WeakReferenceList`1.Add(`0)">
             <summary>
@@ -3159,7 +4154,7 @@
         </member>
         <member name="P:Telerik.Windows.Controls.WeakReferenceList`1.AutoCleanNonAlive">
             <summary>
-            Determines whether the list will automatically remove any containednon-alive weak reference.
+            Determines whether the list will automatically remove any contained non-alive weak reference.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.WeakReferenceList`1.TrackRessurection">
@@ -3256,6 +4251,591 @@
             </summary>
             <value>The state.</value>
         </member>
+        <member name="T:Telerik.Windows.Controls.ISupportTransparency">
+            <summary>
+            An interface that defines common properties and methods for tile data that supports transparency.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ISupportTransparency.IsTransparencySupported">
+            <summary>
+            Gets or sets a value indicating whether this tile will support transparent elements.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.CycleTileData">
+            <summary>
+            A class created to mimic the cycle tile data from WP8.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.CycleTileData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.CycleTileData"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.CycleTileData.op_Implicit(Telerik.Windows.Controls.CycleTileData)~Microsoft.Phone.Shell.ShellTileData">
+            <summary>
+            Provides implicit conversation from CycleTileData to ShellTileData.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.CycleTileData.Title">
+            <summary>
+            Gets or sets the text that displays on the front side of the medium and wide tile sizes.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.CycleTileData.Count">
+            <summary>
+            Gets or sets a value between 1 and 99 that will be displayed in the Count
+            field of the Tile. A value of 0 means the Count will not be displayed. If
+            this property is not set, the Count display will not change during an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.CycleTileData.CycleImages">
+            <summary>
+            Gets or sets a collection of up to 9 background images for the medium and wide Tile sizes.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.CycleTileData.SmallBackgroundImage">
+            <summary>
+            Gets and sets the front-side background image for the small Tile size.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.FlipTileData">
+            <summary>
+            A class created to mimic the flip tile data from WP8.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FlipTileData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.FlipTileData"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.FlipTileData.op_Implicit(Telerik.Windows.Controls.FlipTileData)~Microsoft.Phone.Shell.ShellTileData">
+            <summary>
+            Provides implicit conversation from FlipTileData to ShellTileData.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.Title">
+            <summary>
+            Gets or sets the text that displays on the front side of the medium and wide tile sizes.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.BackBackgroundImage">
+            <summary>
+            Background image of the back of the Tile.  If this property is an empty Uri, the background image of the back of the tile will not change during an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.BackContent">
+            <summary>
+            Text to display on the back of the tile, above the title. If this property is an empty string, 
+            the content on the back of the tile will not change during an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.BackgroundImage">
+            <summary>
+            Background image of the front of the Tile. If this property is an empty Uri, 
+            the background image of the front of the tile will not change during an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.BackTitle">
+            <summary>
+            Title to display at the bottom of the back of the Tile.  If this property is an empty string, 
+            the title of the back of the tile will not change during an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.Count">
+            <summary>
+            A value between 1 and 99 will be displayed in the Count field of the tile.  
+            A value of 0 means the Count will not be displayed. If this property is not set, the Count display will not change during an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.SmallBackgroundImage">
+            <summary>
+            Gets and sets the front-side background image for the small Tile size.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.WideBackgroundImage">
+            <summary>
+            Gets and sets the front-side background image for the wide Tile size.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.WideBackBackgroundImage">
+            <summary>
+            Gets and sets the back-side background image for the wide Tile size.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FlipTileData.WideBackContent">
+            <summary>
+            Gets and sets the text that displays above the title,
+            on the back-side of the wide Tile size.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.IconicTileData">
+            <summary>
+            A class created to mimic the iconic tile data from WP8.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.IconicTileData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.IconicTileData"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.IconicTileData.op_Implicit(Telerik.Windows.Controls.IconicTileData)~Microsoft.Phone.Shell.ShellTileData">
+            <summary>
+            Provides implicit conversation from IconicTileData to ShellTileData.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.Title">
+            <summary>
+            Gets or sets the text that displays on the front side of the medium and wide tile sizes.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.BackgroundColor">
+            <summary>
+            Gets or sets the background color of the Tile. Setting this property overrides
+            the default theme color that is set on the phone.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.Count">
+            <summary>
+            Gets or sets a value between 1 and 99 that will be displayed in the Count
+            field of the Tile. A value of 0 means the Count will not be displayed. If
+            this property is not set, the Count display will not change during an update.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.IconImage">
+            <summary>
+            Gets or sets the icon image for the medium and large Tile sizes.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.SmallIconImage">
+            <summary>
+            Gets or sets the icon image for the small Tile size.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.WideContent1">
+            <summary>
+            Gets or sets the text that displays on the first row of the wide Tile size.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.WideContent2">
+            <summary>
+            Gets or sets the text that displays on the second row of the wide Tile size.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IconicTileData.WideContent3">
+            <summary>
+            Gets or sets the text that displays on the third row of the wide Tile size.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.ITileData">
+            <summary>
+            An interface that defines common properties and methods for the different types of tile data.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITileData.CreateTileData(System.Uri)">
+            <summary>
+            Prepares shell tile data from Telerik's tile data.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITileData.RegisterTile(System.Uri)">
+            <summary>
+            Saves information about the actual location of the images used by LiveTileHelper.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITileData.MeasureMode">
+            <summary>
+            Provides options for the display of UIElement in tiles. 
+            If the mode is Tile, the tile will be created with its default size and the provided element will be placed in the dimensions provided by the tile itself.
+            If the mode is Element, the element will be taken with its own size and stretched/schrinked to fit the tile.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.MeasureMode">
+            <summary>
+            Defines the possible modes for measuring the elements passed to <see cref="T:Telerik.Windows.Controls.LiveTileHelper"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MeasureMode.Tile">
+            <summary>
+            In this mode when <see cref="T:Telerik.Windows.Controls.LiveTileHelper"/> creates tiles it takes their size as a base and places the passed element relatively to the tile.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MeasureMode.Element">
+            <summary>
+            In this mode when <see cref="T:Telerik.Windows.Controls.LiveTileHelper"/> creates tiles it takes the size of the UIElement and stretches it to fit the tile if necessary.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.LiveTileHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CleanupUnpinnedTilesResources">
+            <summary>
+            Clean the used resources of tiles that were unpinned from the home screen by the end users.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateTile(Telerik.Windows.Controls.RadExtendedTileData,System.Uri)">
+            <summary>
+            Creates a tile and pins it to the phone home screen.
+            </summary>
+            <param name="extendedTileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateTile(Telerik.Windows.Controls.RadExtendedTileData,System.Uri,System.Boolean)">
+            <summary>
+            Creates a tile and pins it to the phone home screen.
+            </summary>
+            <param name="extendedTileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+            <param name="skipCleanup">If set to <c>true</c> the tile data saved on disc will not be removed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateTile(Telerik.Windows.Controls.ITileData,System.Uri,System.Boolean)">
+            <summary>
+            Creates a tile and pins it to the phone home screen.
+            </summary>
+            <param name="tileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+            <param name="supportsWideTile">If set to <c>true</c> wide tile size is supported.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateTile(Telerik.Windows.Controls.ITileData,System.Uri,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a tile and pins it to the phone home screen.
+            </summary>
+            <param name="tileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+            <param name="supportsWideTile">If set to <c>true</c> wide tile size is supported.</param>
+            <param name="skipCleanup">If set to <c>true</c> the tile data saved on disc will not be removed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateOrUpdateTile(Telerik.Windows.Controls.RadExtendedTileData,System.Uri)">
+            <summary>
+            Creates a tile and pins it to the phone home screen, removing any previous tile with the same Uri.
+            </summary>
+            <param name="extendedTileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateOrUpdateTile(Telerik.Windows.Controls.RadExtendedTileData,System.Uri,System.Boolean)">
+            <summary>
+            Creates a tile and pins it to the phone home screen, or updates the tile with new data if tile with same Uri is found.
+            </summary>
+            <param name="extendedTileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+            <param name="skipCleanup">If set to <c>true</c> the tile data saved on disc will not be removed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateOrUpdateTile(Telerik.Windows.Controls.ITileData,System.Uri,System.Boolean)">
+            <summary>
+            Creates a tile and pins it to the phone home screen, removing any previous tile with the same Uri.
+            </summary>
+            <param name="tileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+            <param name="supportsWideTile">If set to <c>true</c> wide tile size is supported.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateOrUpdateTile(Telerik.Windows.Controls.ITileData,System.Uri,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a tile and pins it to the phone home screen, or updates the tile with new data if tile with same Uri is found.
+            </summary>
+            <param name="tileData">The extended tile data.</param>
+            <param name="navigationUri">The navigation URI.</param>
+            <param name="supportsWideTile">If set to <c>true</c> wide tile size is supported.</param>
+            <param name="skipCleanup">If set to <c>true</c> the tile data saved on disc will not be removed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.UpdateTile(Microsoft.Phone.Shell.ShellTile,Telerik.Windows.Controls.RadExtendedTileData)">
+            <summary>
+            Updates the tile info.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.UpdateTile(Microsoft.Phone.Shell.ShellTile,Telerik.Windows.Controls.RadExtendedTileData,System.Boolean)">
+            <summary>
+            Updates the tile info.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.UpdateTile(Microsoft.Phone.Shell.ShellTile,Telerik.Windows.Controls.ITileData)">
+            <summary>
+            Updates the tile info.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.UpdateTile(Microsoft.Phone.Shell.ShellTile,Telerik.Windows.Controls.ITileData,System.Boolean)">
+            <summary>
+            Updates the tile info.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.GetTile(System.Uri)">
+            <summary>
+            Gets the tile.
+            </summary>
+            <param name="tileUri">The tile URI.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelper.CreateStandardTileData(Telerik.Windows.Controls.RadExtendedTileData,System.Uri)">
+            <summary>
+            Prepares standard tile data from Telerik extended tile data.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelper.AreNewTilesSupported">
+            <summary>
+            Gets a value indicating whether the WP8 tiles are supported on the current device.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadCycleTileData">
+            <summary>
+            Represents a class used for generating cycle tiles from visual elements.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadCycleTileData.SmallVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a small background image.
+            </summary>
+            <remarks>
+            Setting this will override the SmallBackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadCycleTileData.CycleVisualElements">
+            <summary>
+            Gets or sets the visual elements which will be used as cycle images.
+            </summary>
+            <remarks>
+            Setting this will override the CycleImages property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadCycleTileData.IsTransparencySupported">
+            <summary>
+            Gets or sets a value indicating whether this tile will support transparent elements.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadCycleTileData.MeasureMode">
+            <summary>
+            Provides options for the display of UIElement in tiles. 
+            If the mode is Tile, the tile will be created with its default size and the provided element will be placed in the dimensions provided by the tile itself.
+            If the mode is Element, the element will be taken with its own size and stretched/schrinked to fit the tile.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadExtendedTileData">
+            <summary>
+            Represents the class used for generating the live tiles.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadExtendedTileData.VisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a background of the front tile.
+            </summary>
+            <remarks>
+            Setting this will override the BackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadExtendedTileData.BackVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a background of the back tile.
+            </summary>
+            <remarks>
+            Setting this will override the BackBackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadExtendedTileData.IsTransparencySupported">
+            <summary>
+            Gets or sets a value indicating whether this tile will support transparent elements.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadExtendedTileData.MeasureMode">
+            <summary>
+            Provides options for the display of UIElement in tiles. 
+            If the mode is Tile, the tile will be created with its default size and the provided element will be placed in the dimensions provided by the tile itself.
+            If the mode is Element, the element will be taken with its own size and stretched/schrinked to fit the tile.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadFlipTileData">
+            <summary>
+            Represents a class used for generating flip tiles from visual elements.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadFlipTileData.VisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a background of the front side of the tile.
+            </summary>
+            <remarks>
+            Setting this will override the BackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadFlipTileData.BackVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a background of the back side of the tile.
+            </summary>
+            <remarks>
+            Setting this will override the BackBackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadFlipTileData.SmallVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a background for the small size tile.
+            </summary>
+            <remarks>
+            Setting this will override the SmallBackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadFlipTileData.WideVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a background for the front side of the wide size tile.
+            </summary>
+            <remarks>
+            Setting this will override the WideBackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadFlipTileData.WideBackVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a background for the back side of the wide size tile.
+            </summary>
+            <remarks>
+            Setting this will override the WideBackBackgroundImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadFlipTileData.IsTransparencySupported">
+            <summary>
+            Gets or sets a value indicating whether this tile will support transparent elements.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadFlipTileData.MeasureMode">
+            <summary>
+            Provides options for the display of UIElement in tiles. 
+            If the mode is Tile, the tile will be created with its default size and the provided element will be placed in the dimensions provided by the tile itself.
+            If the mode is Element, the element will be taken with its own size and stretched/schrinked to fit the tile.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadIconicTileData">
+            <summary>
+            Represents a class used for generating iconic tiles from visual elements.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadIconicTileData.IconVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as an icon image of the tile.
+            </summary>
+            <remarks>
+            Setting this will override the IconImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadIconicTileData.SmallIconVisualElement">
+            <summary>
+            Gets or sets the visual element which will be used as a small icon image of the tile.
+            </summary>
+            <remarks>
+            Setting this will override the SmallIconImage property.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadIconicTileData.MeasureMode">
+            <summary>
+            Provides options for the display of UIElement in tiles. 
+            If the mode is Tile, the tile will be created with its default size and the provided element will be placed in the dimensions provided by the tile itself.
+            If the mode is Element, the element will be taken with its own size and stretched/schrinked to fit the tile.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.LiveTileHelperData.SavedCycleTileData">
+            <summary>
+            Used internally.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.LiveTileHelperData.SavedTileData">
+            <summary>
+            Used internally.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelperData.SavedTileData.CleanupUnpinnedTilesResourcesForItem">
+            <summary>
+            Clean the used resources of tiles that were unpinned from the home screen by the end users.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedTileData.NavigationString">
+            <summary>
+            Gets or sets the navigation string.
+            </summary>
+            <value>The navigation string.</value>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelperData.SavedCycleTileData.CleanupUnpinnedTilesResourcesForItem">
+            <summary>
+            Clean the used resources of tiles that were unpinned from the home screen by the end users.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedCycleTileData.SmallBackgroundImagePath">
+            <summary>
+            Gets or sets the small background image path.
+            </summary>
+            <value>The small background image path.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedCycleTileData.CycleImagesPaths">
+            <summary>
+            Gets or sets the cycle images paths.
+            </summary>
+            <value>
+            The cycle images paths.
+            </value>
+        </member>
+        <member name="T:Telerik.Windows.Controls.LiveTileHelperData.SavedFlipTileData">
+            <summary>
+            Used internally.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.LiveTileHelperData.SavedStandardTileData">
+            <summary>
+            Used internally.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelperData.SavedStandardTileData.CleanupUnpinnedTilesResourcesForItem">
+            <summary>
+            Clean the used resources of tiles that were unpinned from the home screen by the end users.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedStandardTileData.FrontBackgroundImagePath">
+            <summary>
+            Gets or sets the front background image path.
+            </summary>
+            <value>The front background image path.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedStandardTileData.BackBackgroundImagePath">
+            <summary>
+            Gets or sets the back background image path.
+            </summary>
+            <value>The back background image path.</value>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelperData.SavedFlipTileData.CleanupUnpinnedTilesResourcesForItem">
+            <summary>
+            Clean the used resources of tiles that were unpinned from the home screen by the end users.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedFlipTileData.SmallBackgroundImagePath">
+            <summary>
+            Gets or sets the small background image path.
+            </summary>
+            <value>The small background image path.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedFlipTileData.WideBackgroundImagePath">
+            <summary>
+            Gets or sets wide background image path.
+            </summary>
+            <value>The wide background image path.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedFlipTileData.WideBackBackgroundImagePath">
+            <summary>
+            Gets or sets wide back background image path.
+            </summary>
+            <value>The wide back background image path.</value>
+        </member>
+        <member name="T:Telerik.Windows.Controls.LiveTileHelperData.SavedIconicTileData">
+            <summary>
+            Used internally.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.LiveTileHelperData.SavedIconicTileData.CleanupUnpinnedTilesResourcesForItem">
+            <summary>
+            Clean the used resources of tiles that were unpinned from the home screen by the end users.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedIconicTileData.IconImagePath">
+            <summary>
+            Gets or sets the icon image path.
+            </summary>
+            <value>The icon image path.</value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.LiveTileHelperData.SavedIconicTileData.SmallIconImagePath">
+            <summary>
+            Gets or sets small icon image path.
+            </summary>
+            <value>The small icon image path.</value>
+        </member>
         <member name="T:Telerik.Windows.Controls.LocalizationManager">
             <summary>
             Represents a singleton class that manages application string resources.
@@ -3348,20 +4928,9 @@
             This field supports the controls infrastructure and is not intended to be used directly from your code.
             </summary>
         </member>
-        <member name="T:Telerik.Windows.Controls.Strings">
+        <member name="F:Telerik.Configuration.Assemblies.AssemblyInfoHelper.CompanyName">
             <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.Strings.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.Strings.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
+            This field supports the controls infrastructure and is not intended to be used directly from your code.
             </summary>
         </member>
     </members>

@@ -308,12 +308,6 @@
             </summary>
             <param name="propName">The name of the property this descriptor is associated with.</param>
         </member>
-        <member name="M:Telerik.Windows.Data.PropertySortDescriptor.BeginProcess(System.Collections.IEnumerable)">
-            <summary>
-            Begins data process. Called by the owning source upon building the view.
-            </summary>
-            <param name="data"></param>
-        </member>
         <member name="M:Telerik.Windows.Data.PropertySortDescriptor.Compare(System.Object,System.Object)">
             <summary>
             Compares two objects.
@@ -420,10 +414,24 @@
             Represents an extended <see cref="T:Telerik.Windows.Data.RadListSource"/> that allows for core data operations like grouping, sorting and filtering.
             </summary>
         </member>
+        <member name="M:Telerik.Windows.Data.RadCollectionViewSource.SourceCollectionChangedOverride(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Updates the current instance after a change in the raw data.
+            Allows inheritors to provide additional logic upon the change.
+            </summary>
+            <param name="e"></param>
+        </member>
         <member name="M:Telerik.Windows.Data.RadCollectionViewSource.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Telerik.Windows.Data.RadCollectionViewSource"/> class.
             </summary>
+        </member>
+        <member name="M:Telerik.Windows.Data.RadCollectionViewSource.GetItemAt(System.Int32)">
+            <summary>
+            Gets the item at the specified index.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
         </member>
         <member name="M:Telerik.Windows.Data.RadCollectionViewSource.EnumerateItems(Telerik.Windows.Data.CollectionViewEnumerationMode)">
             <summary>
@@ -453,13 +461,6 @@
             <summary>
             Allows inheritors to perform some additional logic upon attaching to raw data.
             </summary>
-        </member>
-        <member name="M:Telerik.Windows.Data.RadCollectionViewSource.SourceCollectionChangedOverride(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
-            <summary>
-            Updates the current instance after a change in the raw data.
-            Allows inheritors to provide additional logic upon the change.
-            </summary>
-            <param name="e"></param>
         </member>
         <member name="M:Telerik.Windows.Data.RadCollectionViewSource.ItemPropertyChangedOverride(Telerik.Windows.Controls.ItemPropertyChangedEventArgs)">
             <summary>
@@ -501,6 +502,12 @@
             <summary>
             Determines whether grouping data operation is currently applied.
             </summary>
+        </member>
+        <member name="P:Telerik.Windows.Data.RadCollectionViewSource.SupportsItemReorder">
+            <summary>
+            Gets a boolean value determining whether the source collection.
+            </summary>
+            <value></value>
         </member>
         <member name="P:Telerik.Windows.Data.RadCollectionViewSource.DataItemsSource">
             <summary>

@@ -74,10 +74,9 @@ namespace Dietphone.Views
         {
             isTopItemMeal = false;
             isTopItemDate = false;
-            var topItemSource = List.TopVisibleItem;
-            if (topItemSource != null && topItemSource.Value != null)
+            var topItem = List.TopVisibleItem;
+            if (topItem != null)
             {
-                var topItem = topItemSource.Value;
                 if (topItem is MealViewModel)
                 {
                     var meal = topItem as MealViewModel;

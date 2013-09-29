@@ -16,6 +16,7 @@
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:toolkit2="clr-namespace:Microsoft.Phone.Controls"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
@@ -42,16 +43,18 @@
                     </StackPanel>
                     <!--Insulin circumstances-->
                     <StackPanel Margin="18,3,24,13" Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                        <telerikInput:RadListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding InsulinCircumstances}" SelectedItem="{Binding Product.Category, Mode=TwoWay}" Name="InsulinCircumstances" InlineModeThreshold="0" Style="{StaticResource OsListPickerStyle}" Margin="0 0 0 0">
-                            <telerikInput:RadListPicker.PopupHeader>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Translations.CategoryUppercase, Source={StaticResource Translations}}" Margin="12, 24, 0, 24" FontWeight="SemiBold" Width="168"/>
-                                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCircumstance_Click"/>
-                                    <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCircumstance_Click"/>
-                                    <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCircumstance_Click"/>
-                                </StackPanel>
-                            </telerikInput:RadListPicker.PopupHeader>
-                        </telerikInput:RadListPicker>
+                        <toolkit2:BetterMarginListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding InsulinCircumstances}" SelectedItems="{Binding Insulin.Circumstances, Mode=TwoWay}" Name="InsulinCircumstances" SelectionMode="Multiple" Margin="0 0 0 0" Height="83">
+                            <toolkit:ListPicker.FullModeHeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0 28 0 0">
+                                        <TextBlock Text="{Binding Translations.Circumstances, Source={StaticResource Translations}}" Margin="0, 9, 0, 24" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Width="183"/>
+                                        <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCircumstance_Click"/>
+                                        <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCircumstance_Click"/>
+                                        <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCircumstance_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </toolkit:ListPicker.FullModeHeaderTemplate>
+                        </toolkit2:BetterMarginListPicker>
                     </StackPanel>
                     <!--Normal bolus-->
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">

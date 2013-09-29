@@ -520,4 +520,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="DateLowercase" xml:space="preserve">
     <value>date</value>
   </data>
+  <data name="Circumstances" xml:space="preserve">
+    <value>CIRCUMSTANCES</value>
+  </data>
 </root>

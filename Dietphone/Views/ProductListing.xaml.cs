@@ -66,10 +66,9 @@ namespace Dietphone.Views
         private void SaveTopItem()
         {
             topItemId = Guid.Empty;
-            var topItemSource = List.TopVisibleItem;
-            if (topItemSource != null && topItemSource.Value != null)
+            var topItem = List.TopVisibleItem;
+            if (topItem != null)
             {
-                var topItem = topItemSource.Value;
                 if (topItem is ProductViewModel)
                 {
                     var product = topItem as ProductViewModel;

@@ -51,7 +51,8 @@
         </StackPanel>
         <toolkit:PerformanceProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}"/>
         <telerikPrimitives:RadModalWindow Name="Window"
-                                          Placement="TopCenter">
+                                          Placement="TopCenter"
+                                          HorizontalContentAlignment="Stretch">
             <Border BorderBrush="{StaticResource PhoneBorderBrush}"
                     BorderThickness="{StaticResource PhoneBorderThickness}">
                 <StackPanel Background="{StaticResource PhoneBackgroundBrush}">

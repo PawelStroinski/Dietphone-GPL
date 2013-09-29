@@ -520,4 +520,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="DateLowercase" xml:space="preserve">
     <value>data</value>
   </data>
+  <data name="Circumstances" xml:space="preserve">
+    <value>OKOLICZNOŚCI</value>
+  </data>
 </root>

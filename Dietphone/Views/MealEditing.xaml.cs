@@ -262,7 +262,7 @@ namespace Dietphone.Views
             var topItemSource = Items.TopVisibleItem;
             if (topItemSource != null)
             {
-                var topItem = topItemSource.Value as MealItemViewModel;
+                var topItem = topItemSource as MealItemViewModel;
                 if (topItem != null)
                 {
                     var meal = ViewModel.Meal;

@@ -348,6 +348,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CIRCUMSTANCES.
+        /// </summary>
+        public static string Circumstances {
+            get {
+                return ResourceManager.GetString("Circumstances", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} CU.
         /// </summary>
         public static string Cu {
