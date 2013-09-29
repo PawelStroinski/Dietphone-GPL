@@ -25,14 +25,14 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyLight}"/>
+                        <TextBlock Text="{Binding}" Margin="-3 -2 0 0"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="PopupItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" Margin="24, 4, 24, 4" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}"/>
+                        <TextBlock Text="{Binding}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" Margin="0, 0, 0, -16"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -47,8 +47,8 @@
                     <TextBox Height="72" Text="{Binding Product.Name, Mode=TwoWay}" VerticalAlignment="Top" Margin="0,0,0,4" InputScope="Text" Name="NameBox"/>
                     <telerikInput:RadListPicker Header="{Binding Translations.Category, Source={StaticResource Translations}}" ItemsSource="{Binding Categories}" SelectedItem="{Binding Product.Category, Mode=TwoWay}" Style="{StaticResource CategoriesStyle}" IsAnimationEnabled="False" Name="Category" ItemClick="Categories_ItemClick" InlineModeThreshold="0">
                         <telerikInput:RadListPicker.PopupHeader>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Translations.CategoryUppercase, Source={StaticResource Translations}}" Margin="12, 24, 0, 24" FontWeight="SemiBold" Width="168"/>
+                            <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -15">
+                                <TextBlock Text="{Binding Translations.CategoryUppercase, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Width="180"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCategory_Click"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCategory_Click"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCategory_Click"/>
@@ -143,7 +143,13 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.ServingSizeValue, Mode=TwoWay}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="0 0 -3 0"/>
-                            <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="9 4 12 0" VerticalAlignment="Top" SelectedItem="{Binding Product.ServingSizeUnit, Mode=TwoWay}" ItemsSource="{Binding AllServingSizeUnits}" Style="{StaticResource OsListPickerStyle}"/>
+                            <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="9 4 12 0" VerticalAlignment="Top" SelectedItem="{Binding Product.ServingSizeUnit, Mode=TwoWay}" ItemsSource="{Binding AllServingSizeUnits}" Style="{StaticResource OsListPickerStyle}">
+                                <telerikInput:RadListPicker.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" Margin="0 -2 0 2"/>
+                                    </DataTemplate>
+                                </telerikInput:RadListPicker.ItemTemplate>
+                            </telerikInput:RadListPicker>
                         </Grid>
                     </StackPanel>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">

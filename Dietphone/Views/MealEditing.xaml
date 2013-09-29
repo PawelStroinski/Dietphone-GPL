@@ -107,18 +107,18 @@
                         </Grid.ColumnDefinitions>
                         <!--Data-->
                         <TextBlock Text="{Binding Path=Translations.Date, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5" />
-                        <telerikInput:RadDatePicker Height="72" Value="{Binding Meal.DateTime, Mode=TwoWay}"  DisplayValueFormat="{Binding DateFormat}" SelectorFormat="{Binding DateFormat}" Grid.Row="1" Margin="0 0 12 0"/>
+                        <telerikInput:RadDatePicker Height="72" Value="{Binding Meal.DateTime, Mode=TwoWay}"  DisplayValueFormat="{Binding DateFormat}" SelectorFormat="{Binding DateFormat}" Grid.Row="1" Margin="0 0 12 0" PopupHeader="{Binding Path=Translations.ChooseDate, Source={StaticResource Translations}}"/>
                         <!--Godzina-->
                         <TextBlock Text="{Binding Path=Translations.Time, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5" Grid.Column="1"/>
-                        <telerikInput:RadTimePicker Height="72" Value="{Binding Meal.DateTime, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="0 0 12 0"/>
+                        <telerikInput:RadTimePicker Height="72" Value="{Binding Meal.DateTime, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="0 0 12 0" PopupHeader="{Binding Path=Translations.ChooseTime, Source={StaticResource Translations}}"/>
                         <!--Kłódka-->
                         <ToggleButton Height="72" Width="72" VerticalAlignment="Top" Style="{StaticResource ToggleButtonWithIconStyle}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" IsChecked="{Binding NotIsLockedDateTime, Mode=TwoWay}"/>
                     </Grid>
                     <!--Nazwa-->
                     <telerikInput:RadListPicker Header="{Binding Path=Translations.Name, Source={StaticResource Translations}}" ItemsSource="{Binding Names}" SelectedItem="{Binding Meal.Name, Mode=TwoWay}" Margin="24 3 24 25" Name="MealName" InlineModeThreshold="0" Style="{StaticResource OsListPickerStyle}">
                         <telerikInput:RadListPicker.PopupHeader>
-                            <StackPanel Orientation="Horizontal" Margin="0, -17, 0, 0">
-                                <TextBlock Text="{Binding Path=Translations.NameUppercase, Source={StaticResource Translations}}" Margin="-1, 10, 1, 0" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Width="180"/>
+                            <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -8">
+                                <TextBlock Text="{Binding Path=Translations.NameUppercase, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Width="180"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddMealName_Click"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditMealName_Click"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteMealName_Click"/>

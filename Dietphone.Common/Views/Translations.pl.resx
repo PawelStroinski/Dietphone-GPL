@@ -523,4 +523,10 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="Circumstances" xml:space="preserve">
     <value>OKOLICZNOŚCI</value>
   </data>
+  <data name="ChooseDate" xml:space="preserve">
+    <value>WYBIERZ DATĘ</value>
+  </data>
+  <data name="ChooseTime" xml:space="preserve">
+    <value>WYBIERZ GODZINĘ</value>
+  </data>
 </root>

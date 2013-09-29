@@ -131,7 +131,7 @@
             <Setter Property="PopupItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Margin="13, 8, 0, 18"/>
+                        <TextBlock Text="{Binding}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Margin="-3, 0, 0, 2"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>

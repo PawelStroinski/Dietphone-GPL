@@ -348,6 +348,24 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CHOOSE DATE.
+        /// </summary>
+        public static string ChooseDate {
+            get {
+                return ResourceManager.GetString("ChooseDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CHOOSE TIME.
+        /// </summary>
+        public static string ChooseTime {
+            get {
+                return ResourceManager.GetString("ChooseTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CIRCUMSTANCES.
         /// </summary>
         public static string Circumstances {
