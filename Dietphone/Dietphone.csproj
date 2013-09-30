@@ -98,6 +98,9 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Serialization" />
+    <Reference Include="Telerik.Windows.Controls.Chart">
+      <HintPath>..\Dependencies\Telerik.Windows\Telerik.Windows.Controls.Chart.dll</HintPath>
+    </Reference>
     <Reference Include="Telerik.Windows.Controls.Data">
       <HintPath>..\Dependencies\Telerik.Windows\Telerik.Windows.Controls.Data.dll</HintPath>
       <Private>True</Private>

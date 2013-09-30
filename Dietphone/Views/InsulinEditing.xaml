@@ -19,6 +19,7 @@
     xmlns:toolkit2="clr-namespace:Microsoft.Phone.Controls"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone"
+    xmlns:chart="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Chart"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 
     <Grid Background="Transparent">
@@ -56,6 +57,16 @@
                             </toolkit:ListPicker.FullModeHeaderTemplate>
                         </toolkit2:BetterMarginListPicker>
                     </StackPanel>
+                    <!--Chart-->
+                    <chart:RadCartesianChart x:Name="Chart" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 24">
+                        <chart:RadCartesianChart.HorizontalAxis>
+                            <chart:DateTimeContinuousAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
+                        </chart:RadCartesianChart.HorizontalAxis>
+                        <chart:RadCartesianChart.VerticalAxis>
+                            <chart:LinearAxis Visibility="Collapsed" Minimum="40" Maximum="200"/>
+                        </chart:RadCartesianChart.VerticalAxis>
+                        <chart:SplineSeries Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="Date" ValueBinding="Value" ShowLabels="True"/>
+                    </chart:RadCartesianChart>
                     <!--Normal bolus-->
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.NormalBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>

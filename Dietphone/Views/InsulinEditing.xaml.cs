@@ -32,6 +32,13 @@ namespace Dietphone.Views
             viewModel.CannotSave += ViewModel_CannotSave;
             viewModel.Load();
             DataContext = viewModel;
+            Chart.Series[0].ItemsSource = new ChartDataObject[]
+            {
+                new ChartDataObject(DateTime.Now, 100),
+                new ChartDataObject(DateTime.Now.AddMinutes(60), 150),
+                new ChartDataObject(DateTime.Now.AddMinutes(120), 90),
+                new ChartDataObject(DateTime.Now.AddMinutes(180), 120)
+            };
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -82,6 +89,26 @@ namespace Dietphone.Views
             Save.Text = Translations.Save;
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetMenuItem(0).Text = Translations.Delete;
+        }
+    }
+
+    public class ChartDataObject
+    {
+        public ChartDataObject(DateTime date, double value)
+        {
+            Date = date;
+            Value = value;
+        }
+
+        public DateTime Date
+        {
+            get;
+            set;
+        }
+        public double Value
+        {
+            get;
+            set;
         }
     }
 }
