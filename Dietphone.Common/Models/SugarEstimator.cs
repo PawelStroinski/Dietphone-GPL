@@ -79,6 +79,8 @@ namespace Dietphone.Models
             foreach (var collected in collectedSugars)
             {
                 var pattern = collected.Source.Pattern;
+                // TODO: Maybe instead of just always looking at percent of energy in meal I should look at
+                // percent of CU when sugar is just after meal and also percent of FPU afterwards.
                 var mealItemsPercentOfEnergyInMeal
                     = pattern.For.PercentOfEnergyInMeal(meal);
                 var replacementMealItemsPercentOfEnergyInReplacementMeal
