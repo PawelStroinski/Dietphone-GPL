@@ -23,7 +23,7 @@
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 
     <Grid Background="Transparent">
-        <controls:Pivot Title="{Binding Path=Translations.Insulin, Source={StaticResource Translations}}" SelectedIndex="{Binding Pivot, Mode=TwoWay}">
+        <controls:Pivot Title="{Binding Path=Translations.InsulinUppercase, Source={StaticResource Translations}}" SelectedIndex="{Binding Pivot, Mode=TwoWay}">
             <!--general-->
             <controls:PivotItem Header="{Binding Path=Translations.General, Source={StaticResource Translations}}">
                 <Grid>
@@ -33,7 +33,8 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
@@ -57,16 +58,8 @@
                             </toolkit:ListPicker.FullModeHeaderTemplate>
                         </toolkit2:BetterMarginListPicker>
                     </StackPanel>
-                    <!--Chart-->
-                    <chart:RadCartesianChart x:Name="Chart" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 24">
-                        <chart:RadCartesianChart.HorizontalAxis>
-                            <chart:DateTimeContinuousAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
-                        </chart:RadCartesianChart.HorizontalAxis>
-                        <chart:RadCartesianChart.VerticalAxis>
-                            <chart:LinearAxis Visibility="Collapsed" Minimum="40" Maximum="200"/>
-                        </chart:RadCartesianChart.VerticalAxis>
-                        <chart:SplineSeries Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="Date" ValueBinding="Value" ShowLabels="True"/>
-                    </chart:RadCartesianChart>
+                    <!--Header-->
+                    <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.BolusHeaderCalculated, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,7,24,-1" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
                     <!--Normal bolus-->
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.NormalBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
@@ -87,6 +80,16 @@
                         <TextBlock Text="{Binding Translations.Note, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
                         <TextBox Height="72" InputScope="Text" Text="{Binding Insulin.Note}"/>
                     </StackPanel>
+                    <!--Chart-->
+                    <chart:RadCartesianChart x:Name="Chart" Height="135" Margin="0 7 0 0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" EmptyContent="">
+                        <chart:RadCartesianChart.HorizontalAxis>
+                            <chart:DateTimeContinuousAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
+                        </chart:RadCartesianChart.HorizontalAxis>
+                        <chart:RadCartesianChart.VerticalAxis>
+                            <chart:LinearAxis Visibility="Collapsed" Minimum="40" Maximum="200"/>
+                        </chart:RadCartesianChart.VerticalAxis>
+                        <chart:SplineSeries Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="Date" ValueBinding="Value" ShowLabels="True"/>
+                    </chart:RadCartesianChart>
                 </Grid>
             </controls:PivotItem>
 

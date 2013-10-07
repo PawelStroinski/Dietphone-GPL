@@ -529,4 +529,16 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="ChooseTime" xml:space="preserve">
     <value>CHOOSE TIME</value>
   </data>
+  <data name="InsulinUppercase" xml:space="preserve">
+    <value>INSULIN</value>
+  </data>
+  <data name="BolusHeaderCalculated" xml:space="preserve">
+    <value>Bolus calculated based on your previous boluses and estimated sugar after it</value>
+  </data>
+  <data name="BolusHeaderIncomplete" xml:space="preserve">
+    <value>Bolus calculated based on previous boluses (incomplete meal) and estimated sugar after it</value>
+  </data>
+  <data name="BolusHeaderUser" xml:space="preserve">
+    <value>Tap to show bolus calculated based on your previous boluses</value>
+  </data>
 </root>
