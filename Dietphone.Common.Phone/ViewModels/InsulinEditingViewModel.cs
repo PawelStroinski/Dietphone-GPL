@@ -1,18 +1,13 @@
 ﻿using Dietphone.Models;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using Dietphone.Tools;
 using System;
-using System.Globalization;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace Dietphone.ViewModels
 {
     public class InsulinEditingViewModel : EditingViewModelBase<Insulin>
     {
         public InsulinViewModel Insulin { get; private set; }
+        public SugarViewModel CurrentSugar { get; private set; }
 
         public InsulinEditingViewModel(Factories factories)
             : base(factories)
@@ -36,6 +31,7 @@ namespace Dietphone.ViewModels
         protected override void MakeViewModel()
         {
             MakeInsulinViewModelInternal();
+            CurrentSugar = new SugarViewModel(new Sugar(), factories);
         }
 
         protected override string Validate()

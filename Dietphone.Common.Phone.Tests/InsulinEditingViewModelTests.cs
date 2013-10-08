@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Dietphone.Models;
+﻿using Dietphone.Models;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
 using NSubstitute;
@@ -29,6 +27,12 @@ namespace Dietphone.Common.Phone.Tests
             insulin = new Fixture().Create<Insulin>();
         }
 
+        private void InitializeViewModel()
+        {
+            factories.CreateInsulin().Returns(insulin);
+            sut.Load();
+        }
+
         [TestCase(true)]
         [TestCase(false)]
         public void FindAndCopyModel_And_MakeViewModel(bool editingExisting)
@@ -42,6 +46,15 @@ namespace Dietphone.Common.Phone.Tests
                 factories.CreateInsulin().Returns(insulin);
             sut.Load();
             Assert.AreEqual(insulin.Id, sut.Insulin.Id);
+        }
+
+        [Test]
+        public void HasCurrentSugarMemberWhichIsWorking()
+        {
+            factories.Settings.Returns(new Settings());
+            InitializeViewModel();
+            sut.CurrentSugar.BloodSugar = "110";
+            Assert.AreEqual("110", sut.CurrentSugar.BloodSugar);
         }
     }
 }
