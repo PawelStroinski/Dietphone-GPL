@@ -153,7 +153,7 @@ namespace Dietphone.Views
 
         private void Insulin_Click(object sender, EventArgs e)
         {
-            ViewModel.GoToInsulin();
+            ViewModel.GoToInsulinEditing();
         }
 
         private void Delete_Click(object sender, EventArgs e)

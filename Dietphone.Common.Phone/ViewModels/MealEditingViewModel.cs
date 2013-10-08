@@ -140,7 +140,7 @@ namespace Dietphone.ViewModels
             Navigator.GoBack();
         }
 
-        public void GoToInsulin()
+        public void GoToInsulinEditing()
         {
             SaveWithUpdatedTime();
             var insulin = finder.FindInsulinByMeal(modelSource);
