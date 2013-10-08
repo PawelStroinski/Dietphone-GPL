@@ -147,7 +147,7 @@ namespace Dietphone.ViewModels
             if (insulin == null)
                 Navigator.GoToNewInsulinRelatedToMeal(modelSource.Id);
             else
-                Navigator.GoToInsulinEditing(modelSource.Id);
+                Navigator.GoToInsulinEditing(insulin.Id);
         }
 
         public void DeleteAndSaveAndReturn()
