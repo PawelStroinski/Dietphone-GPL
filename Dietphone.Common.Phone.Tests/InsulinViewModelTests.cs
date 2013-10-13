@@ -5,6 +5,9 @@ using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Dietphone.Tools;
 using NSubstitute;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Dietphone.Common.Phone.Tests
 {
@@ -19,9 +22,15 @@ namespace Dietphone.Common.Phone.Tests
         {
             insulin = new Fixture().Create<Insulin>();
             factories = Substitute.For<Factories>();
+            factories.Finder.Returns(new FinderImpl(factories));
+            insulin.SetOwner(factories);
             sut = new InsulinViewModel(insulin, factories);
             var settings = new Settings { MaxBolus = 3 };
             factories.Settings.Returns(settings);
+            factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(5).ToList());
+            var circumstanceIds = factories.InsulinCircumstances.Take(3)
+                .Select(circumstance => circumstance.Id).ToList();
+            insulin.InitializeCircumstances(circumstanceIds);
         }
 
         [Test]
@@ -60,5 +69,61 @@ namespace Dietphone.Common.Phone.Tests
             sut.SquareWaveBolusHours = "9";
             Assert.AreEqual("8", sut.SquareWaveBolusHours);
         }
+
+        //[Test]
+        //public void CircumstancesGetterReturnsCicumstanceViewModels()
+        //{
+        //    var circumstanceIds = factories.InsulinCircumstances.Take(3)
+        //        .Select(circumstance => circumstance.Id).ToList();
+        //    var actual = sut.Circumstances;
+        //    Assert.AreEqual(circumstanceIds, actual.Select(circumstance => circumstance.Id).ToList());
+        //}
+
+        //[Test]
+        //public void CircumstancesGetterReusesOnceComputedResult()
+        //{
+        //    var actual1 = sut.Circumstances;
+        //    var actual2 = sut.Circumstances;
+        //    Assert.AreEqual(actual1, actual2);
+        //    Assert.AreSame(actual1, actual2);
+        //}
+
+        //[Test]
+        //public void CircumstancesSetterDoesNotChangeWhenAssignedValueIsNotChanged()
+        //{
+        //    var previous = new ObservableCollection<InsulinCircumstanceViewModel>(sut.Circumstances.ToList());
+        //    sut.Circumstances = previous;
+        //    Assert.AreEqual(previous.Select(circumstance => circumstance.Id),
+        //        insulin.Circumstances.Select(circumstance => circumstance.Id));
+        //}
+
+        //[Test]
+        //public void CircumstancesSetterAddsWhenAssignedValueHasNewItems()
+        //{
+        //    var previous = new ObservableCollection<InsulinCircumstanceViewModel>(sut.Circumstances.ToList());
+        //    previous.Add(new InsulinCircumstanceViewModel(factories.InsulinCircumstances.Last(), factories));
+        //    sut.Circumstances = previous;
+        //    Assert.AreEqual(previous.Select(circumstance => circumstance.Id),
+        //        insulin.Circumstances.Select(circumstance => circumstance.Id));
+        //}
+
+        //[Test]
+        //public void CircumstancesSetterRemovesWhenAssignedValueHasRemovedItems()
+        //{
+        //    var previous = new ObservableCollection<InsulinCircumstanceViewModel>(sut.Circumstances.ToList());
+        //    previous.Remove(previous.Last());
+        //    sut.Circumstances = previous;
+        //    Assert.AreEqual(previous.Select(circumstance => circumstance.Id),
+        //        insulin.Circumstances.Select(circumstance => circumstance.Id));
+        //}
+
+        //[Test]
+        //public void CircumstancesSetterThrowsExceptionWhenAssignedValueIsNull()
+        //{
+        //    Assert.Throws<NullReferenceException>(() =>
+        //    {
+        //        sut.Circumstances = null;
+        //    });
+        //}
     }
 }

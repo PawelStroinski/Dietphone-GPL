@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Navigation;
 using System.Collections.Generic;
 using Dietphone.Tools;
 using Pabloware.About;

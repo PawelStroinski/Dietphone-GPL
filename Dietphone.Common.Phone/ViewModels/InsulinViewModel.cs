@@ -6,12 +6,15 @@ using System.Linq;
 using Dietphone.Tools;
 using System.Collections.Generic;
 using Dietphone.Views;
+using System.Collections;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinViewModel : ViewModelBase
+    public class InsulinViewModel : ViewModelWithDate
     {
         public Insulin Insulin { get; private set; }
+        //private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
+        //private readonly object circumstancesLock = new object();
         private readonly Factories factories;
         private static readonly Constrains maxHours = new Constrains { Max = 8 };
 
@@ -29,7 +32,7 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public DateTime DateTime
+        public override DateTime DateTime
         {
             get
             {
@@ -47,31 +50,6 @@ namespace Dietphone.ViewModels
                     OnPropertyChanged("DateAndTime");
                     OnPropertyChanged("Time");
                 }
-            }
-        }
-
-        public DateTime DateOnly
-        {
-            get
-            {
-                return DateTime.Date;
-            }
-        }
-
-        public string DateAndTime
-        {
-            get
-            {
-                var date = DateTime.ToShortDateInAlternativeFormat();
-                return string.Format("{0} {1}", date, Time);
-            }
-        }
-
-        public string Time
-        {
-            get
-            {
-                return DateTime.ToShortTimeString();
             }
         }
 
@@ -142,5 +120,34 @@ namespace Dietphone.ViewModels
                 OnPropertyChanged("SquareWaveBolusHours");
             }
         }
+
+        //public ObservableCollection<InsulinCircumstanceViewModel> Circumstances
+        //{
+        //    get
+        //    {
+        //        lock (circumstancesLock)
+        //        {
+        //            if (circumstances == null)
+        //            {
+        //                var model = Insulin.Circumstances.ToList();
+        //                var viewModels = model.Select(circumstance => new InsulinCircumstanceViewModel(
+        //                    circumstance, factories)).ToList();
+        //                circumstances = new ObservableCollection<InsulinCircumstanceViewModel>(viewModels);
+        //            }
+        //            return circumstances;
+        //        }
+        //    }
+        //    set
+        //    {
+        //        if (value == null)
+        //            throw new NullReferenceException("value");
+        //        var newItems = value.Except(Circumstances);
+        //        foreach (var item in newItems)
+        //            Insulin.AddCircumstance(item.Model);
+        //        var removedItems = Circumstances.Except(value);
+        //        foreach (var item in removedItems)
+        //            Insulin.RemoveCircumstance(item.Model);
+        //    }
+        //}
     }
 }

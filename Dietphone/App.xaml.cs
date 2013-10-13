@@ -5,6 +5,7 @@ using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Telerik.Windows.Controls;
 using Dietphone.Views;
+using Dietphone.BinarySerializers;
 
 namespace Dietphone
 {
@@ -36,12 +37,14 @@ namespace Dietphone
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            InitializeStreamProvider();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            InitializeStreamProvider();
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -81,6 +84,11 @@ namespace Dietphone
             RootFrame.Navigated += CompleteInitializePhoneApplication;
             RootFrame.NavigationFailed += RootFrame_NavigationFailed;
             phoneApplicationInitialized = true;
+        }
+
+        private void InitializeStreamProvider()
+        {
+            MyApp.StreamProvider = new PhoneBinaryStreamProvider();
         }
 
         private static void SaveFactories()

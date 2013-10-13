@@ -3,10 +3,10 @@
   <App xmlns="" ProductID="{08efd046-1fd0-455a-9adf-4d511a678706}" Title="Dietphone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Dietphone author" Description="Sample description" Publisher="Dietphone">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
-      <Capability Name="ID_CAP_NETWORKING"/>
+      <Capability Name="ID_CAP_NETWORKING" />
     </Capabilities>
     <Tasks>
-      <DefaultTask  Name ="_default" NavigationPage="Views/Main.xaml"/>
+      <DefaultTask Name="_default" NavigationPage="Views/Main.xaml" />
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="DietphoneToken" TaskName="_default">

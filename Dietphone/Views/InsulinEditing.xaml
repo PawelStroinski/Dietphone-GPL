@@ -18,7 +18,7 @@
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:toolkit2="clr-namespace:Microsoft.Phone.Controls"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone"
+    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone.Windows"
     xmlns:chart="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Chart"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 
@@ -45,7 +45,7 @@
                     </StackPanel>
                     <!--Insulin circumstances-->
                     <StackPanel Margin="18,3,24,13" Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                        <toolkit2:BetterMarginListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding InsulinCircumstances}" SelectedItems="{Binding Insulin.Circumstances, Mode=TwoWay}" Name="InsulinCircumstances" SelectionMode="Multiple" Margin="0 0 0 0" Height="83">
+                        <toolkit2:BetterMarginListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding InsulinCircumstances}" SelectedItems="{Binding Insulin.Circumstances}" Name="InsulinCircumstances" SelectionMode="Multiple" Margin="0 0 0 0" Height="83">
                             <toolkit:ListPicker.FullModeHeaderTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="0 27 0 -26">

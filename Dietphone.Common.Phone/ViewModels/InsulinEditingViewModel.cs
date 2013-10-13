@@ -1,6 +1,9 @@
 ﻿using Dietphone.Models;
 using Dietphone.Tools;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Dietphone.ViewModels
 {
@@ -8,11 +11,30 @@ namespace Dietphone.ViewModels
     {
         public InsulinViewModel Insulin { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
+        //private IList<InsulinCircumstanceViewModel> circumstances;
+        //private readonly object circumstancesLock = new object();
 
         public InsulinEditingViewModel(Factories factories)
             : base(factories)
         {
         }
+
+        //public IList<InsulinCircumstanceViewModel> Circumstances
+        //{
+        //    get
+        //    {
+        //        lock (circumstancesLock)
+        //        {
+        //            if (circumstances == null)
+        //            {
+        //                var model = factories.InsulinCircumstances;
+        //                circumstances = model.Select(circumstance => new InsulinCircumstanceViewModel(
+        //                    circumstance, factories)).ToList();
+        //            }
+        //            return circumstances;
+        //        }
+        //    }
+        //}
 
         protected override void FindAndCopyModel()
         {
@@ -25,6 +47,7 @@ namespace Dietphone.ViewModels
             {
                 modelCopy = modelSource.GetCopy();
                 modelCopy.SetOwner(factories);
+                modelCopy.InitializeCircumstances(modelSource.ReadCircumstances().ToList());
             }
         }
 

@@ -19,7 +19,7 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:views="clr-namespace:Dietphone.Views"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone"
+    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone.Windows"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 
     <Grid Background="Transparent">

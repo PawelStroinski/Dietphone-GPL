@@ -5,16 +5,13 @@ using Dietphone.ViewModels;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Data;
 using Dietphone.Tools;
-using System.Windows;
-using Microsoft.Phone.Shell;
-using Microsoft.Phone.Controls;
 
 namespace Dietphone.Views
 {
     public partial class MealListing : UserControl
     {
         public StateProvider StateProvider { private get; set; }
-        public MealListingViewModel ViewModel { get; private set; }
+        public TelerikMealListingViewModel ViewModel { get; private set; }
         public event EventHandler DatesPoppedUp;
         private bool isTopItemMeal;
         private bool isTopItemDate;
@@ -28,7 +25,7 @@ namespace Dietphone.Views
         public MealListing()
         {
             InitializeComponent();
-            ViewModel = new MealListingViewModel(MyApp.Factories);
+            ViewModel = new TelerikMealListingViewModel(MyApp.Factories);
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.FilterDescriptors = List.FilterDescriptors;

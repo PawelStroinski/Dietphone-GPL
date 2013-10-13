@@ -17,7 +17,7 @@
             <telerikDataControls:RadJumpList.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="4">
-                        <Grid Visibility="{Binding VisibleWhenIsNewerAndHasName}">
+                        <Grid Visibility="{Binding VisibleWhenIsNewerAndHasName, Converter={StaticResource BooleanToVisibility}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="22*"/>
                                 <ColumnDefinition Width="23*"/>
@@ -27,7 +27,7 @@
                             <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" Text="{Binding Name}" VerticalAlignment="Center" Grid.Column="1"/>
                             <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}" Text="{Binding ProductsHead}" VerticalAlignment="Center" Margin="18 0 0 0" Grid.Column="2"/>
                         </Grid>
-                        <Grid Visibility="{Binding VisibleWhenIsNewerAndHasNoName}">
+                        <Grid Visibility="{Binding VisibleWhenIsNewerAndHasNoName, Converter={StaticResource BooleanToVisibility}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="22*"/>
                                 <ColumnDefinition Width="78*"/>
@@ -35,7 +35,7 @@
                             <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Foreground="{StaticResource PhoneAccentBrush}" Text="{Binding Time}" VerticalAlignment="Center" Grid.Column="0"/>
                             <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}" Text="{Binding ProductsHead}" VerticalAlignment="Center" Grid.Column="1"/>
                         </Grid>
-                        <Grid Visibility="{Binding VisibleWhenIsOlder}">
+                        <Grid Visibility="{Binding VisibleWhenIsOlder, Converter={StaticResource BooleanToVisibility}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="45*"/>
                                 <ColumnDefinition Width="55*"/>

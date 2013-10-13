@@ -84,38 +84,6 @@ namespace Dietphone.ViewModels
                 return Exists;
             }
         }
-
-        public Visibility FirstVisibility
-        {
-            get
-            {
-                return FirstExists.ToVisibility();
-            }
-        }
-
-        public Visibility SecondVisibility
-        {
-            get
-            {
-                return SecondExists.ToVisibility();
-            }
-        }
-
-        public Visibility ThirdVisibility
-        {
-            get
-            {
-                return ThirdExists.ToVisibility();
-            }
-        }
-
-        public Visibility FourthVisibility
-        {
-            get
-            {
-                return FourthExists.ToVisibility();
-            }
-        }
     }
 
     public abstract class ScoreSelectorBase

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Telerik.Windows.Data;
 using System.Collections.Generic;
 
 namespace Dietphone.ViewModels
@@ -11,8 +10,6 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<MealViewModel> Meals { get; private set; }
         public ObservableCollection<DateViewModel> Dates { get; private set; }
-        public ObservableCollection<DataDescriptor> GroupDescriptors { private get; set; }
-        public ObservableCollection<DataDescriptor> FilterDescriptors { private get; set; }
         public event EventHandler DescriptorsUpdating;
         public event EventHandler DescriptorsUpdated;
         private Factories factories;
@@ -53,13 +50,6 @@ namespace Dietphone.ViewModels
             Navigator.GoToMealEditing(meal.Id);
         }
 
-        public void UpdateGroupDescriptors()
-        {
-            GroupDescriptors.Clear();
-            var groupByDate = new GenericGroupDescriptor<MealViewModel, DateViewModel>(meal => meal.Date);
-            GroupDescriptors.Add(groupByDate);
-        }
-
         public MealViewModel FindMeal(Guid mealId)
         {
             var result = from meal in Meals
@@ -83,14 +73,8 @@ namespace Dietphone.ViewModels
             OnDescriptorsUpdated();
         }
 
-        private void UpdateFilterDescriptors()
+        protected virtual void UpdateFilterDescriptors()
         {
-            FilterDescriptors.Clear();
-            if (!string.IsNullOrEmpty(search))
-            {
-                var filterIn = new GenericFilterDescriptor<MealViewModel>(meal => meal.FilterIn(search));
-                FilterDescriptors.Add(filterIn);
-            }
         }
 
         protected void OnDescriptorsUpdating()

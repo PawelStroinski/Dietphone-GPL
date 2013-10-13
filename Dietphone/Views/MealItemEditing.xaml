@@ -47,13 +47,13 @@
                 <!--Produkt-->
                 <TextBlock Text="{Binding ProductName}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
                 <!--0-->
-                <TextBlock Text="{Binding Scores.First}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.FirstVisibility}"/>
+                <TextBlock Text="{Binding Scores.First}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.FirstExists, Converter={StaticResource BooleanToVisibility}}"/>
                 <!--0-->
-                <TextBlock Text="{Binding Scores.Second}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.SecondVisibility}"/>
+                <TextBlock Text="{Binding Scores.Second}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.SecondExists, Converter={StaticResource BooleanToVisibility}}"/>
                 <!--0-->
-                <TextBlock Text="{Binding Scores.Third}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.ThirdVisibility}"/>
+                <TextBlock Text="{Binding Scores.Third}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.ThirdExists, Converter={StaticResource BooleanToVisibility}}"/>
                 <!--0-->
-                <TextBlock Text="{Binding Scores.Fourth}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.FourthVisibility}"/>
+                <TextBlock Text="{Binding Scores.Fourth}" Opacity="0.65" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Visibility="{Binding Scores.FourthExists, Converter={StaticResource BooleanToVisibility}}"/>
             </StackPanel>
         </Grid>
     </telerikPrimitives:RadPickerBox>

@@ -7,9 +7,9 @@
 using System;
 using System.Net;
 using System.Text;
-using System.Windows.Navigation;
 using System.Threading;
 using System.Globalization;
+using Dietphone.Tools;
 
 namespace Pabloware.About
 {
@@ -54,7 +54,7 @@ namespace Pabloware.About
                     builder.Append(property.Name);
                     builder.Append("=");
                     var strValue = value.ToString();
-                    strValue = HttpUtility.UrlEncode(strValue);
+                    strValue = Uri.EscapeDataString(strValue);
                     builder.Append(strValue);
                 }
             }

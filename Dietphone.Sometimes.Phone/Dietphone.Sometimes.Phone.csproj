@@ -101,8 +101,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dietphone.Common.Phone.Windows\Dietphone.Common.Phone.Windows.csproj">
+      <Project>{5B491308-7819-405D-9F2F-D6949A7022AD}</Project>
+      <Name>Dietphone.Common.Phone.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dietphone.Common.Phone\Dietphone.Common.Phone.csproj">
-      <Project>{053D7B63-D632-4332-8263-E6B667AE86CB}</Project>
+      <Project>{2788C479-27D7-4B73-94EA-988274ABB912}</Project>
       <Name>Dietphone.Common.Phone</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">

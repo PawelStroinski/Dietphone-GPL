@@ -49,7 +49,7 @@ namespace Dietphone.Models
             circumstances.Add(newCircumstance.Id);
         }
 
-        public void DeleteCircumstance(InsulinCircumstance circumstanceToDelete)
+        public void RemoveCircumstance(InsulinCircumstance circumstanceToDelete)
         {
             CheckCircumstances();
             circumstances.Remove(circumstanceToDelete.Id);

@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Telerik.Windows.Data;
-using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
@@ -12,9 +10,6 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<ProductViewModel> Products { get; private set; }
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
-        public ObservableCollection<DataDescriptor> GroupDescriptors { private get; set; }
-        public ObservableCollection<DataDescriptor> SortDescriptors { private get; set; }
-        public ObservableCollection<DataDescriptor> FilterDescriptors { private get; set; }
         public event EventHandler DescriptorsUpdating;
         public event EventHandler DescriptorsUpdated;
         public event EventHandler<ChoosedEventArgs> Choosed;
@@ -68,20 +63,6 @@ namespace Dietphone.ViewModels
             Navigator.GoToProductEditing(product.Id);
         }
 
-        public void UpdateGroupDescriptors()
-        {
-            GroupDescriptors.Clear();
-            var groupByCategory = new GenericGroupDescriptor<ProductViewModel, CategoryViewModel>(product => product.Category);
-            GroupDescriptors.Add(groupByCategory);
-        }
-
-        public void UpdateSortDescriptors()
-        {
-            SortDescriptors.Clear();
-            var sortByName = new GenericSortDescriptor<ProductViewModel, string>(product => product.Name);
-            SortDescriptors.Add(sortByName);
-        }
-
         public ProductViewModel FindProduct(Guid productId)
         {
             var result = from product in Products
@@ -105,14 +86,8 @@ namespace Dietphone.ViewModels
             OnDescriptorsUpdated();
         }
 
-        private void UpdateFilterDescriptors()
+        protected virtual void UpdateFilterDescriptors()
         {
-            FilterDescriptors.Clear();
-            if (!string.IsNullOrEmpty(search))
-            {
-                var filterByName = new GenericFilterDescriptor<ProductViewModel>(product => product.Name.ContainsIgnoringCase(search));
-                FilterDescriptors.Add(filterByName);
-            }
         }
 
         protected void OnChoosed(ChoosedEventArgs e)

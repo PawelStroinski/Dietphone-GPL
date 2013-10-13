@@ -54,6 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditingViewModelBaseTests.cs" />
+    <Compile Include="InsulinCircumstanceViewModelTests.cs" />
     <Compile Include="InsulinEditingViewModelTests.cs" />
     <Compile Include="InsulinViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dietphone.Common.Phone\Dietphone.Common.Phone.csproj">
-      <Project>{053d7b63-d632-4332-8263-e6b667ae86cb}</Project>
+      <Project>{2788c479-27d7-4b73-94ea-988274abb912}</Project>
       <Name>Dietphone.Common.Phone</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">

@@ -45,7 +45,8 @@ namespace Dietphone.Views
             base.OnNavigatedTo(e);
             ViewModel.Untombstone();
             UntombstoneSearchButNotRestoreUi();
-            var navigator = new NavigatorImpl(NavigationService, NavigationContext);
+            var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService),
+                new NavigationContextImpl(NavigationContext));
             subConnector.Navigator = navigator;
             subConnector.Refresh();
             ViewModel.Navigator = navigator;

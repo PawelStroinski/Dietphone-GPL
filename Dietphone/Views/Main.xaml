@@ -16,7 +16,7 @@
     xmlns:watermark="clr-namespace:System.Windows.Controls;assembly=WindowsPhoneWatermarkTextBoxControl" 
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:views="clr-namespace:Dietphone.Views"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone"
+    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone.Windows"
     BackKeyPress="Main_BackKeyPress">
 
     <phone:PhoneApplicationPage.Resources>

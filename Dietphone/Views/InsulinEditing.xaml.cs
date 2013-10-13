@@ -7,6 +7,9 @@ using Dietphone.Tools;
 using Telerik.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Collections.Generic;
+using Dietphone.Models;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Dietphone.Views
 {
@@ -17,21 +20,10 @@ namespace Dietphone.Views
         public InsulinEditing()
         {
             InitializeComponent();
-            Save = this.GetIcon(0);
-            TranslateApplicationBar();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            var navigator = new NavigatorImpl(NavigationService, NavigationContext);
             viewModel = new InsulinEditingViewModel(MyApp.Factories);
             viewModel.StateProvider = this;
-            viewModel.Navigator = navigator;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;
-            viewModel.Load();
-            DataContext = viewModel;
             Chart.Series[0].ItemsSource = new ChartDataObject[]
             {
                 new ChartDataObject(DateTime.Now, 100),
@@ -39,6 +31,28 @@ namespace Dietphone.Views
                 new ChartDataObject(DateTime.Now.AddMinutes(120), 90),
                 new ChartDataObject(DateTime.Now.AddMinutes(180), 120)
             };
+            Save = this.GetIcon(0);
+            TranslateApplicationBar();
+            InsulinCircumstances.SummaryForSelectedItemsDelegate += (newValue) =>
+            {
+                //viewModel.Insulin.Circumstances 
+                //    = new ObservableCollection<InsulinCircumstanceViewModel>(
+                //        newValue.Cast<InsulinCircumstanceViewModel>());
+                return "";
+            };
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (viewModel.Navigator == null)
+            {
+                var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService),
+                    new NavigationContextImpl(NavigationContext));
+                viewModel.Navigator = navigator;
+                viewModel.Load();
+                DataContext = viewModel;
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

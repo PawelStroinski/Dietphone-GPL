@@ -105,16 +105,16 @@ namespace Dietphone.Models.Tests
             {
                 var insulin = new Insulin();
                 insulin.SetOwner(factories.Object);
-                insulin.DeleteCircumstance(circumstance);
+                insulin.RemoveCircumstance(circumstance);
             }
 
             [Test]
-            public void Can_Delete_Circumstance_When_Initialized()
+            public void Can_Remove_Circumstance_When_Initialized()
             {
                 var insulin = new Insulin();
                 insulin.SetOwner(factories.Object);
                 insulin.InitializeCircumstances(new List<Guid> { circumstance.Id });
-                insulin.DeleteCircumstance(circumstance);
+                insulin.RemoveCircumstance(circumstance);
                 var circumstances = insulin.Circumstances;
                 Assert.AreEqual(0, circumstances.Count());
             }

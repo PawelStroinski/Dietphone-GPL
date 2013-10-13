@@ -9,10 +9,9 @@ using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
-    public class MealViewModel : ViewModelBase
+    public class MealViewModel : ViewModelWithDate
     {
         public Meal Meal { get; private set; }
-        public DateViewModel Date { get; set; }
         public IEnumerable<MealNameViewModel> Names { private get; set; }
         public MealNameViewModel DefaultName { private get; set; }
         private ObservableCollection<MealItemViewModel> items;
@@ -42,7 +41,7 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public DateTime DateTime
+        public override DateTime DateTime
         {
             get
             {
@@ -60,31 +59,6 @@ namespace Dietphone.ViewModels
                     OnPropertyChanged("DateAndTime");
                     OnPropertyChanged("Time");
                 }
-            }
-        }
-
-        public DateTime DateOnly
-        {
-            get
-            {
-                return DateTime.Date;
-            }
-        }
-
-        public string DateAndTime
-        {
-            get
-            {
-                var date = DateTime.ToShortDateInAlternativeFormat();
-                return string.Format("{0} {1}", date, Time);
-            }
-        }
-
-        public string Time
-        {
-            get
-            {
-                return DateTime.ToShortTimeString();
             }
         }
 
@@ -178,27 +152,27 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public Visibility VisibleWhenIsNewerAndHasName
+        public bool VisibleWhenIsNewerAndHasName
         {
             get
             {
-                return (IsNewer && HasName).ToVisibility();
+                return IsNewer && HasName;
             }
         }
 
-        public Visibility VisibleWhenIsNewerAndHasNoName
+        public bool VisibleWhenIsNewerAndHasNoName
         {
             get
             {
-                return (IsNewer && !HasName).ToVisibility();
+                return IsNewer && !HasName;
             }
         }
 
-        public Visibility VisibleWhenIsOlder
+        public bool VisibleWhenIsOlder
         {
             get
             {
-                return (!IsNewer).ToVisibility();
+                return !IsNewer;
             }
         }
 

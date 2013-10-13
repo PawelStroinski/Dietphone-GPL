@@ -13,7 +13,7 @@ namespace Dietphone.Views
     public partial class ProductListing : UserControl
     {
         public StateProvider StateProvider { private get; set; }
-        public ProductListingViewModel ViewModel { get; private set; }
+        public TelerikProductListingViewModel ViewModel { get; private set; }
         public event EventHandler CategoriesPoppedUp;
         private bool isTopItemCategory;
         private Guid topItemId;
@@ -23,7 +23,7 @@ namespace Dietphone.Views
         public ProductListing()
         {
             InitializeComponent();
-            ViewModel = new ProductListingViewModel(MyApp.Factories);
+            ViewModel = new TelerikProductListingViewModel(MyApp.Factories);
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.SortDescriptors = List.SortDescriptors;

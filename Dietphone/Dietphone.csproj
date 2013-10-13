@@ -79,6 +79,9 @@
     <Reference Include="Pabloware.About.Phone">
       <HintPath>..\Dependencies\Pabloware.About.Phone\Pabloware.About.Phone.dll</HintPath>
     </Reference>
+    <Reference Include="Portable.Phone">
+      <HintPath>..\Dependencies\PclContrib\Portable.Phone.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime, Version=1.5.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Bcl.1.0.19\lib\sl4-windowsphone71\System.Runtime.dll</HintPath>
@@ -261,8 +264,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dietphone.Common.Phone.Windows\Dietphone.Common.Phone.Windows.csproj">
+      <Project>{5B491308-7819-405D-9F2F-D6949A7022AD}</Project>
+      <Name>Dietphone.Common.Phone.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dietphone.Common.Phone\Dietphone.Common.Phone.csproj">
-      <Project>{053D7B63-D632-4332-8263-E6B667AE86CB}</Project>
+      <Project>{2788C479-27D7-4B73-94EA-988274ABB912}</Project>
       <Name>Dietphone.Common.Phone</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">

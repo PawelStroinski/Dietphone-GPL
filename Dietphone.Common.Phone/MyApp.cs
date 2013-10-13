@@ -6,6 +6,7 @@ namespace Dietphone
 {
     public class MyApp
     {
+        public static BinaryStreamProvider StreamProvider { private get; set; }
         private static Factories factories = null;
         private static readonly object factoriesLock = new object();
 
@@ -43,8 +44,7 @@ namespace Dietphone
 
         private static void CreateFactories()
         {
-            var streamProvider = new PhoneBinaryStreamProvider();
-            var storageCreator = new BinaryStorageCreator(streamProvider);
+            var storageCreator = new BinaryStorageCreator(StreamProvider);
             factories = new FactoriesImpl();
             factories.StorageCreator = storageCreator;
             storageCreator.CultureName = CurrentProductCulture;

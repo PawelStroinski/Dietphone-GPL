@@ -25,7 +25,8 @@ namespace Dietphone.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            var navigator = new NavigatorImpl(NavigationService, NavigationContext);
+            var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService),
+                new NavigationContextImpl(NavigationContext));
             viewModel = new ProductEditingViewModel(MyApp.Factories);
             viewModel.StateProvider = this;
             viewModel.Navigator = navigator;
