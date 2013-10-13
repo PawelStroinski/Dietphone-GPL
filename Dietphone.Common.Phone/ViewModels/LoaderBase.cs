@@ -1,6 +1,9 @@
 ﻿using System;
 using Dietphone.Models;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Dietphone.ViewModels
 {
@@ -44,6 +47,59 @@ namespace Dietphone.ViewModels
             {
                 Loaded(this, EventArgs.Empty);
             }
+        }
+    }
+
+    public abstract class LoaderBaseWithDates : LoaderBase
+    {
+        protected ObservableCollection<DateViewModel> dates;
+        private const byte DATES_MAX_COUNT = 14 * 3;
+
+        protected override void DoWork()
+        {
+        }
+
+        protected ObservableCollection<T> MakeDatesAndSortItems<T>(List<T> unsortedItems)
+            where T : ViewModelWithDate
+        {
+            var itemDatesDescending = from item in unsortedItems
+                                      group item by item.DateOnly into date
+                                      orderby date.Key descending
+                                      select date;
+            var newerCount = DATES_MAX_COUNT;
+            if (itemDatesDescending.Count() > newerCount)
+            {
+                newerCount--;
+            }
+            var newer = itemDatesDescending.Take(newerCount);
+            var older = from date in itemDatesDescending.Skip(newerCount)
+                        from meal in date
+                        orderby meal.DateTime descending
+                        select meal;
+            dates = new ObservableCollection<DateViewModel>();
+            var sortedItems = new ObservableCollection<T>();
+            foreach (var date in newer)
+            {
+                var normalDate = DateViewModel.CreateNormalDate(date.Key);
+                dates.Add(normalDate);
+                var dateAscending = date.OrderBy(meal => meal.DateTime);
+                foreach (var meal in dateAscending)
+                {
+                    meal.Date = normalDate;
+                    sortedItems.Add(meal);
+                }
+            }
+            if (older.Count() > 0)
+            {
+                var groupOfOlder = DateViewModel.CreateGroupOfOlder();
+                dates.Add(groupOfOlder);
+                foreach (var meal in older)
+                {
+                    meal.Date = groupOfOlder;
+                    sortedItems.Add(meal);
+                }
+            }
+            return sortedItems;
         }
     }
 }

@@ -93,15 +93,13 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public class NamesAndMealsLoader : LoaderBase
+        public class NamesAndMealsLoader : LoaderBaseWithDates
         {
             private ObservableCollection<MealNameViewModel> names;
             private List<MealViewModel> unsortedMeals;
             private ObservableCollection<MealViewModel> sortedMeals;
-            private ObservableCollection<DateViewModel> dates;
             private MealNameViewModel defaultName;
             private readonly bool sortNames;
-            private const byte DATES_MAX_COUNT = 14 * 3;
 
             public NamesAndMealsLoader(MealListingViewModel viewModel)
             {
@@ -202,43 +200,7 @@ namespace Dietphone.ViewModels
 
             private void MakeDatesAndSortMeals()
             {
-                var mealDatesDescending = from meal in unsortedMeals
-                                          group meal by meal.DateOnly into date
-                                          orderby date.Key descending
-                                          select date;
-                var newerCount = DATES_MAX_COUNT;
-                if (mealDatesDescending.Count() > newerCount)
-                {
-                    newerCount--;
-                }
-                var newer = mealDatesDescending.Take(newerCount);
-                var older = from date in mealDatesDescending.Skip(newerCount)
-                            from meal in date
-                            orderby meal.DateTime descending
-                            select meal;
-                dates = new ObservableCollection<DateViewModel>();
-                sortedMeals = new ObservableCollection<MealViewModel>();
-                foreach (var date in newer)
-                {
-                    var normalDate = DateViewModel.CreateNormalDate(date.Key);
-                    dates.Add(normalDate);
-                    var dateAscending = date.OrderBy(meal => meal.DateTime);
-                    foreach (var meal in dateAscending)
-                    {
-                        meal.Date = normalDate;
-                        sortedMeals.Add(meal);
-                    }
-                }
-                if (older.Count() > 0)
-                {
-                    var groupOfOlder = DateViewModel.CreateGroupOfOlder();
-                    dates.Add(groupOfOlder);
-                    foreach (var meal in older)
-                    {
-                        meal.Date = groupOfOlder;
-                        sortedMeals.Add(meal);
-                    }
-                }
+                sortedMeals = MakeDatesAndSortItems(unsortedMeals);
             }
 
             private void AssignSortedMeals()
