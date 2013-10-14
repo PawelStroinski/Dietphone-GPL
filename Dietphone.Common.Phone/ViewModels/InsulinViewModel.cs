@@ -13,13 +13,14 @@ namespace Dietphone.ViewModels
     public class InsulinViewModel : ViewModelWithDate
     {
         public Insulin Insulin { get; private set; }
-        //private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
-        //private readonly object circumstancesLock = new object();
+        private IList<InsulinCircumstanceViewModel> circumstances;
+        private readonly object circumstancesLock = new object();
         private readonly Factories factories;
-        private readonly IEnumerable<InsulinCircumstanceViewModel> allCircumstances;
+        private readonly IList<InsulinCircumstanceViewModel> allCircumstances;
         private static readonly Constrains maxHours = new Constrains { Max = 8 };
 
-        public InsulinViewModel(Insulin insulin, Factories factories, IEnumerable<InsulinCircumstanceViewModel> allCircumstances)
+        public InsulinViewModel(Insulin insulin, Factories factories,
+            IList<InsulinCircumstanceViewModel> allCircumstances)
         {
             Insulin = insulin;
             this.factories = factories;
@@ -123,34 +124,40 @@ namespace Dietphone.ViewModels
             }
         }
 
-        //public ObservableCollection<InsulinCircumstanceViewModel> Circumstances
-        //{
-        //    get
-        //    {
-        //        lock (circumstancesLock)
-        //        {
-        //            if (circumstances == null)
-        //            {
-        //                var model = Insulin.Circumstances.ToList();
-        //                var viewModels = model.Select(circumstance => new InsulinCircumstanceViewModel(
-        //                    circumstance, factories)).ToList();
-        //                circumstances = new ObservableCollection<InsulinCircumstanceViewModel>(viewModels);
-        //            }
-        //            return circumstances;
-        //        }
-        //    }
-        //    set
-        //    {
-        //        if (value == null)
-        //            throw new NullReferenceException("value");
-        //        var newItems = value.Except(Circumstances);
-        //        foreach (var item in newItems)
-        //            Insulin.AddCircumstance(item.Model);
-        //        var removedItems = Circumstances.Except(value);
-        //        foreach (var item in removedItems)
-        //            Insulin.RemoveCircumstance(item.Model);
-        //    }
-        //}
+        public IList<InsulinCircumstanceViewModel> Circumstances
+        {
+            get
+            {
+                lock (circumstancesLock)
+                {
+                    if (circumstances == null)
+                    {
+                        var circumtanceIds = Insulin.ReadCircumstances();
+                        circumstances = allCircumstances
+                            .Where(circumstance => circumtanceIds.Contains(circumstance.Id))
+                            .ToList();
+                    }
+                    return circumstances;
+                }
+            }
+            set
+            {
+                if (value == null)
+                    throw new NullReferenceException("value");
+                lock (circumstancesLock)
+                {
+                    var newItems = value.Except(Circumstances);
+                    foreach (var item in newItems)
+                        Insulin.AddCircumstance(item.Model);
+                    var removedItems = Circumstances.Except(value);
+                    foreach (var item in removedItems)
+                        Insulin.RemoveCircumstance(item.Model);
+                    if (newItems.Any() || removedItems.Any())
+                        circumstances = null;
+                }
+                OnPropertyChanged("Circumstances");
+            }
+        }
 
         public IEnumerable<InsulinCircumstanceViewModel> AllCircumstances()
         {

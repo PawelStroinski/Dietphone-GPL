@@ -15,7 +15,7 @@ namespace Dietphone.Common.Phone.Tests
     {
         private Insulin insulin;
         private Factories factories;
-        private InsulinViewModel sut;
+        private IList<InsulinCircumstanceViewModel> allCircumstances;
 
         [SetUp]
         public void TestInitialize()
@@ -30,12 +30,14 @@ namespace Dietphone.Common.Phone.Tests
             var circumstanceIds = factories.InsulinCircumstances.Take(3)
                 .Select(circumstance => circumstance.Id).ToList();
             insulin.InitializeCircumstances(circumstanceIds);
+            allCircumstances = factories.InsulinCircumstances
+                .Select(circumstance => new InsulinCircumstanceViewModel(circumstance, factories)).ToList();
         }
 
         [Test]
         public void TrivialProperties()
         {
-            sut = new InsulinViewModel(insulin, factories, allCircumstances: null);
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
             Assert.AreEqual(insulin.Id, sut.Id);
             var universal = DateTime.UtcNow;
             sut.DateTime = universal;
@@ -62,7 +64,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void Constraints()
         {
-            sut = new InsulinViewModel(insulin, factories, allCircumstances: null);
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
             sut.NormalBolus = "4";
             Assert.AreEqual("3", sut.NormalBolus);
             sut.SquareWaveBolus = "4";
@@ -71,60 +73,79 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual("8", sut.SquareWaveBolusHours);
         }
 
-        //[Test]
-        //public void CircumstancesGetterReturnsCicumstanceViewModels()
-        //{
-        //    var circumstanceIds = factories.InsulinCircumstances.Take(3)
-        //        .Select(circumstance => circumstance.Id).ToList();
-        //    var actual = sut.Circumstances;
-        //    Assert.AreEqual(circumstanceIds, actual.Select(circumstance => circumstance.Id).ToList());
-        //}
+        [Test]
+        public void CircumstancesGetterReturnsSubsetOfCicumstanceViewModelsProvidedInConstructor()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var expected = allCircumstances.Take(3);
+            var actual = sut.Circumstances;
+            Assert.AreEqual(expected, actual);
+        }
 
-        //[Test]
-        //public void CircumstancesGetterReusesOnceComputedResult()
-        //{
-        //    var actual1 = sut.Circumstances;
-        //    var actual2 = sut.Circumstances;
-        //    Assert.AreEqual(actual1, actual2);
-        //    Assert.AreSame(actual1, actual2);
-        //}
+        [Test]
+        public void CircumstancesGetterReusesOnceComputedResult()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var actual1 = sut.Circumstances;
+            var actual2 = sut.Circumstances;
+            Assert.AreEqual(actual1, actual2);
+            Assert.AreSame(actual1, actual2);
+        }
 
-        //[Test]
-        //public void CircumstancesSetterDoesNotChangeWhenAssignedValueIsNotChanged()
-        //{
-        //    var previous = new ObservableCollection<InsulinCircumstanceViewModel>(sut.Circumstances.ToList());
-        //    sut.Circumstances = previous;
-        //    Assert.AreEqual(previous.Select(circumstance => circumstance.Id),
-        //        insulin.Circumstances.Select(circumstance => circumstance.Id));
-        //}
+        [Test]
+        public void CircumstancesSetterDoesNotChangeWhenAssignedValueIsNotChanged()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var previous = sut.Circumstances;
+            sut.Circumstances = previous;
+            Assert.AreEqual(previous, sut.Circumstances);
+            Assert.AreSame(previous, sut.Circumstances);
+        }
 
-        //[Test]
-        //public void CircumstancesSetterAddsWhenAssignedValueHasNewItems()
-        //{
-        //    var previous = new ObservableCollection<InsulinCircumstanceViewModel>(sut.Circumstances.ToList());
-        //    previous.Add(new InsulinCircumstanceViewModel(factories.InsulinCircumstances.Last(), factories));
-        //    sut.Circumstances = previous;
-        //    Assert.AreEqual(previous.Select(circumstance => circumstance.Id),
-        //        insulin.Circumstances.Select(circumstance => circumstance.Id));
-        //}
+        [Test]
+        public void CircumstancesSetterInvalidatesGetterWhenAssignedValueIsChanged()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var previous = sut.Circumstances;
+            var newValue = previous.ToList();
+            newValue.Add(allCircumstances.Last());
+            sut.Circumstances = newValue;
+            Assert.AreEqual(newValue, sut.Circumstances);
+            Assert.AreNotSame(previous, sut.Circumstances);
+        }
 
-        //[Test]
-        //public void CircumstancesSetterRemovesWhenAssignedValueHasRemovedItems()
-        //{
-        //    var previous = new ObservableCollection<InsulinCircumstanceViewModel>(sut.Circumstances.ToList());
-        //    previous.Remove(previous.Last());
-        //    sut.Circumstances = previous;
-        //    Assert.AreEqual(previous.Select(circumstance => circumstance.Id),
-        //        insulin.Circumstances.Select(circumstance => circumstance.Id));
-        //}
+        [Test]
+        public void CircumstancesSetterAddsToModelWhenAssignedValueHasNewItems()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var previous = sut.Circumstances;
+            var newValue = previous.ToList();
+            newValue.Add(allCircumstances.Last());
+            sut.Circumstances = newValue;
+            Assert.AreEqual(newValue.Select(circumstance => circumstance.Id),
+                insulin.Circumstances.Select(circumstance => circumstance.Id));
+        }
 
-        //[Test]
-        //public void CircumstancesSetterThrowsExceptionWhenAssignedValueIsNull()
-        //{
-        //    Assert.Throws<NullReferenceException>(() =>
-        //    {
-        //        sut.Circumstances = null;
-        //    });
-        //}
+        [Test]
+        public void CircumstancesSetterRemovesFromModelWhenAssignedValueHasRemovedItems()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var previous = sut.Circumstances;
+            var newValue = previous.ToList();
+            newValue.Remove(newValue.Last());
+            sut.Circumstances = newValue;
+            Assert.AreEqual(newValue.Select(circumstance => circumstance.Id),
+                insulin.Circumstances.Select(circumstance => circumstance.Id));
+        }
+
+        [Test]
+        public void CircumstancesSetterThrowsExceptionWhenAssignedValueIsNull()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            Assert.Throws<NullReferenceException>(() =>
+            {
+                sut.Circumstances = null;
+            });
+        }
     }
 }
