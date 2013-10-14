@@ -64,7 +64,7 @@ namespace Dietphone.ViewModels
 
         private void MakeInsulinViewModelInternal()
         {
-            Insulin = new InsulinViewModel(modelCopy, factories);
+            Insulin = new InsulinViewModel(modelCopy, factories, allCircumstances: null);
             Insulin.PropertyChanged += delegate
             {
                 IsDirty = true;

@@ -55,10 +55,6 @@ namespace Dietphone.ViewModels
         protected ObservableCollection<DateViewModel> dates;
         private const byte DATES_MAX_COUNT = 14 * 3;
 
-        protected override void DoWork()
-        {
-        }
-
         protected ObservableCollection<T> MakeDatesAndSortItems<T>(List<T> unsortedItems)
             where T : ViewModelWithDate
         {

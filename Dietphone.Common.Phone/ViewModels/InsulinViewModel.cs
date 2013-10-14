@@ -16,12 +16,14 @@ namespace Dietphone.ViewModels
         //private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
         //private readonly object circumstancesLock = new object();
         private readonly Factories factories;
+        private readonly IEnumerable<InsulinCircumstanceViewModel> allCircumstances;
         private static readonly Constrains maxHours = new Constrains { Max = 8 };
 
-        public InsulinViewModel(Insulin insulin, Factories factories)
+        public InsulinViewModel(Insulin insulin, Factories factories, IEnumerable<InsulinCircumstanceViewModel> allCircumstances)
         {
             Insulin = insulin;
             this.factories = factories;
+            this.allCircumstances = allCircumstances;
         }
 
         public Guid Id
@@ -149,5 +151,10 @@ namespace Dietphone.ViewModels
         //            Insulin.RemoveCircumstance(item.Model);
         //    }
         //}
+
+        public IEnumerable<InsulinCircumstanceViewModel> AllCircumstances()
+        {
+            return allCircumstances;
+        }
     }
 }

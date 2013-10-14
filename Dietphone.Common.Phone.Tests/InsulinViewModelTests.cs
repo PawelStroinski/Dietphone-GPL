@@ -24,7 +24,6 @@ namespace Dietphone.Common.Phone.Tests
             factories = Substitute.For<Factories>();
             factories.Finder.Returns(new FinderImpl(factories));
             insulin.SetOwner(factories);
-            sut = new InsulinViewModel(insulin, factories);
             var settings = new Settings { MaxBolus = 3 };
             factories.Settings.Returns(settings);
             factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(5).ToList());
@@ -36,6 +35,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void TrivialProperties()
         {
+            sut = new InsulinViewModel(insulin, factories, allCircumstances: null);
             Assert.AreEqual(insulin.Id, sut.Id);
             var universal = DateTime.UtcNow;
             sut.DateTime = universal;
@@ -62,6 +62,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void Constraints()
         {
+            sut = new InsulinViewModel(insulin, factories, allCircumstances: null);
             sut.NormalBolus = "4";
             Assert.AreEqual("3", sut.NormalBolus);
             sut.SquareWaveBolus = "4";
