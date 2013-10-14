@@ -29,12 +29,20 @@ namespace Dietphone.Common.Phone.Tests
             sut.StateProvider = stateProvider;
             insulin = new Fixture().Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
+            factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>().ToList());
         }
 
         private void InitializeViewModel()
         {
             factories.CreateInsulin().Returns(insulin);
             sut.Load();
+        }
+
+        private void ChooseCircumstance()
+        {
+            var circumstances = sut.Insulin.Circumstances;
+            circumstances.Add(sut.Circumstances.First());
+            sut.Insulin.Circumstances = circumstances;
         }
 
         [TestCase(true)]
@@ -61,15 +69,74 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual("110", sut.CurrentSugar.BloodSugar);
         }
 
-        //[Test]
-        //public void InsulinCircumstancesReturnsCicumstanceViewModels()
-        //{
-        //    factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(3).ToList());
-        //    InitializeViewModel();
-        //    var expected = factories.InsulinCircumstances;
-        //    var actual = sut.Circumstances;
-        //    Assert.AreEqual(expected.Select(circumstance => circumstance.Id).ToList(),
-        //        actual.Select(circumstance => circumstance.Id).ToList());
-        //}
+        [Test]
+        public void CircumstancesCanBeRead()
+        {
+            InitializeViewModel();
+            var expected = factories.InsulinCircumstances;
+            var actual = sut.Circumstances;
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [Test]
+        public void CircumstancesAreBuffered()
+        {
+            InitializeViewModel();
+            var expected = factories.InsulinCircumstances.First();
+            var actual = sut.Circumstances.First(circumstance => circumstance.Id == expected.Id);
+            Assert.AreEqual(expected.Name, actual.Name);
+            expected.Name = "foo";
+            Assert.AreNotEqual(expected.Name, actual.Name);
+        }
+
+        [Test]
+        public void AddAndSetCircumstance()
+        {
+            var newCircumstance = new InsulinCircumstance();
+            factories.CreateInsulinCircumstance()
+                .Returns(newCircumstance)
+                .AndDoes(delegate { factories.InsulinCircumstances.Add(newCircumstance); });
+            InitializeViewModel();
+            var factoriesCountBefore = factories.InsulinCircumstances.Count;
+            var sutCountBefore = sut.Circumstances.Count;
+            var insulinCountBefore = sut.Insulin.Circumstances.Count;
+            sut.AddAndSetCircumstance("new");
+            Assert.AreEqual(factoriesCountBefore, factories.InsulinCircumstances.Count);
+            Assert.AreEqual(sutCountBefore + 1, sut.Circumstances.Count);
+            Assert.AreEqual(insulinCountBefore + 1, sut.Insulin.Circumstances.Count);
+            Assert.AreEqual("new", sut.Circumstances.Last().Name);
+            Assert.AreEqual("new", sut.Insulin.Circumstances.Last().Name);
+        }
+
+        [Test]
+        public void CanEditCircumstance()
+        {
+            InitializeViewModel();
+            Assert.IsFalse(sut.CanEditCircumstance());
+            ChooseCircumstance();
+            Assert.IsTrue(sut.CanEditCircumstance());
+        }
+
+        [Test]
+        public void CanDeleteCircumstance()
+        {
+            InitializeViewModel();
+            Assert.IsFalse(sut.CanDeleteCircumstance());
+            ChooseCircumstance();
+            Assert.IsTrue(sut.CanDeleteCircumstance());
+        }
+
+        [Test]
+        public void DeleteCircumstance()
+        {
+            InitializeViewModel();
+            Assert.IsFalse(sut.CanDeleteCircumstance());
+            ChooseCircumstance();
+            ChooseCircumstance();
+            var expected = sut.Insulin.Circumstances.Skip(1).ToList();
+            sut.DeleteCircumstance();
+            var actual = sut.Insulin.Circumstances;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

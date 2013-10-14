@@ -9,32 +9,50 @@ namespace Dietphone.ViewModels
 {
     public class InsulinEditingViewModel : EditingViewModelBase<Insulin>
     {
+        public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
         public InsulinViewModel Insulin { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
-        //private IList<InsulinCircumstanceViewModel> circumstances;
-        //private readonly object circumstancesLock = new object();
+        private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
+        private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
 
         public InsulinEditingViewModel(Factories factories)
             : base(factories)
         {
         }
 
-        //public IList<InsulinCircumstanceViewModel> Circumstances
-        //{
-        //    get
-        //    {
-        //        lock (circumstancesLock)
-        //        {
-        //            if (circumstances == null)
-        //            {
-        //                var model = factories.InsulinCircumstances;
-        //                circumstances = model.Select(circumstance => new InsulinCircumstanceViewModel(
-        //                    circumstance, factories)).ToList();
-        //            }
-        //            return circumstances;
-        //        }
-        //    }
-        //}
+        public void AddAndSetCircumstance(string name)
+        {
+            var tempModel = factories.CreateInsulinCircumstance();
+            var models = factories.InsulinCircumstances;
+            models.Remove(tempModel);
+            var viewModel = new InsulinCircumstanceViewModel(tempModel, factories);
+            viewModel.Name = name;
+            Circumstances.Add(viewModel);
+            var choosenViewModels = Insulin.Circumstances;
+            choosenViewModels.Add(viewModel);
+            Insulin.Circumstances = choosenViewModels;
+            addedCircumstances.Add(viewModel);
+        }
+
+        public bool CanEditCircumstance()
+        {
+            return Insulin.Circumstances.Any();
+        }
+
+        public bool CanDeleteCircumstance()
+        {
+            return Insulin.Circumstances.Any();
+        }
+
+        public void DeleteCircumstance()
+        {
+            var toDelete = Insulin.Circumstances.First();
+            var choosenViewModels = Insulin.Circumstances;
+            choosenViewModels.Remove(toDelete);
+            Insulin.Circumstances = choosenViewModels;
+            Circumstances.Remove(toDelete);
+            deletedCircumstances.Add(toDelete);
+        }
 
         protected override void FindAndCopyModel()
         {
@@ -53,6 +71,7 @@ namespace Dietphone.ViewModels
 
         protected override void MakeViewModel()
         {
+            LoadCircumstances();
             MakeInsulinViewModelInternal();
             CurrentSugar = new SugarViewModel(new Sugar(), factories);
         }
@@ -62,9 +81,17 @@ namespace Dietphone.ViewModels
             return string.Empty;
         }
 
+        private void LoadCircumstances()
+        {
+            var loader = new InsulinListingViewModel.CircumstancesAndInsulinsLoader(factories, true);
+            Circumstances = loader.Circumstances;
+            foreach (var circumstance in Circumstances)
+                circumstance.MakeBuffer();
+        }
+
         private void MakeInsulinViewModelInternal()
         {
-            Insulin = new InsulinViewModel(modelCopy, factories, allCircumstances: null);
+            Insulin = new InsulinViewModel(modelCopy, factories, allCircumstances: Circumstances);
             Insulin.PropertyChanged += delegate
             {
                 IsDirty = true;
