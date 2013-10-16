@@ -45,7 +45,7 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual(tombstoned.Foo, modelCopy.Foo);
         }
 
-        public class TestViewModel : EditingViewModelBase<TestModel>
+        public class TestViewModel : EditingViewModelBase<TestModel, ViewModelBase>
         {
             public TestViewModel(TestModel modelCopy)
                 : base(Substitute.For<Factories>())

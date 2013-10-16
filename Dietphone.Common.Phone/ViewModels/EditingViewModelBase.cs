@@ -4,7 +4,9 @@ using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
-    public abstract class EditingViewModelBase<TModel> : PivotTombstoningViewModel where TModel : EntityWithId
+    public abstract class EditingViewModelBase<TModel, TViewModel> : PivotTombstoningViewModel
+        where TModel : EntityWithId
+        where TViewModel : ViewModelBase
     {
         public Navigator Navigator { get; set; }
         public event EventHandler<CannotSaveEventArgs> CannotSave;
@@ -13,6 +15,7 @@ namespace Dietphone.ViewModels
         protected TModel modelSource;
         protected readonly Factories factories;
         protected readonly Finder finder;
+        private TViewModel subject;
         private bool isDirty;
         private const string IS_DIRTY = "IS_DIRTY";
 
@@ -20,6 +23,18 @@ namespace Dietphone.ViewModels
         {
             this.factories = factories;
             finder = factories.Finder;
+        }
+
+        public virtual TViewModel Subject
+        {
+            get
+            {
+                return subject;
+            }
+            protected set
+            {
+                this.subject = value;
+            }
         }
 
         public bool IsDirty

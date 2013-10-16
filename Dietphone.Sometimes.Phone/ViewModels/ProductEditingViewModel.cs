@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace Dietphone.ViewModels
 {
-    public class ProductEditingViewModel : EditingViewModelBase<Product>
+    public class ProductEditingViewModel : EditingViewModelBase<Product, ProductViewModel>
     {
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
-        public ProductViewModel Product { get; private set; }
+        public ProductViewModel Subject { get; private set; }
         private List<CategoryViewModel> addedCategories = new List<CategoryViewModel>();
         private List<CategoryViewModel> deletedCategories = new List<CategoryViewModel>();
         private const string PRODUCT = "PRODUCT";
@@ -24,12 +24,12 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                var category = Product.Category;
+                var category = Subject.Category;
                 return category.Name;
             }
             set
             {
-                var category = Product.Category;
+                var category = Subject.Category;
                 category.Name = value;
             }
         }
@@ -50,7 +50,7 @@ namespace Dietphone.ViewModels
             var viewModel = new CategoryViewModel(tempModel, factories);
             viewModel.Name = name;
             Categories.Add(viewModel);
-            Product.Category = viewModel;
+            Subject.Category = viewModel;
             addedCategories.Add(viewModel);
         }
 
@@ -77,8 +77,8 @@ namespace Dietphone.ViewModels
 
         public void DeleteCategory()
         {
-            var toDelete = Product.Category;
-            Product.Category = Categories.GetNextItemToSelectWhenDeleteSelected(toDelete);
+            var toDelete = Subject.Category;
+            Subject.Category = Categories.GetNextItemToSelectWhenDeleteSelected(toDelete);
             Categories.Remove(toDelete);
             deletedCategories.Add(toDelete);
         }
@@ -202,12 +202,12 @@ namespace Dietphone.ViewModels
         private void MakeProductViewModelInternal()
         {
             var maxCuAndFpu = new MaxCuAndFpuInCategories(finder, modelCopy);
-            Product = new ProductViewModel(modelCopy)
+            Subject = new ProductViewModel(modelCopy)
             {
                 Categories = Categories,
                 MaxCuAndFpu = maxCuAndFpu
             };
-            Product.PropertyChanged += delegate
+            Subject.PropertyChanged += delegate
             {
                 IsDirty = true;
             };

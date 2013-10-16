@@ -50,6 +50,7 @@
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\DateViewModel.cs" />
     <Compile Include="ViewModels\EditingViewModelBase.cs" />
+    <Compile Include="ViewModels\EditingViewModelWithDate.cs" />
     <Compile Include="ViewModels\InsulinCircumstanceViewModel.cs" />
     <Compile Include="ViewModels\InsulinEditingViewModel.cs" />
     <Compile Include="ViewModels\InsulinListingViewModel.cs" />

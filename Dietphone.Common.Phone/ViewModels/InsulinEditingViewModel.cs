@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinEditingViewModel : EditingViewModelBase<Insulin>
+    public class InsulinEditingViewModel : EditingViewModelBase<Insulin, InsulinViewModel>
     {
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
-        public InsulinViewModel Insulin { get; private set; }
+        public InsulinViewModel Subject { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
@@ -28,28 +28,28 @@ namespace Dietphone.ViewModels
             var viewModel = new InsulinCircumstanceViewModel(tempModel, factories);
             viewModel.Name = name;
             Circumstances.Add(viewModel);
-            var choosenViewModels = Insulin.Circumstances;
+            var choosenViewModels = Subject.Circumstances;
             choosenViewModels.Add(viewModel);
-            Insulin.Circumstances = choosenViewModels;
+            Subject.Circumstances = choosenViewModels;
             addedCircumstances.Add(viewModel);
         }
 
         public bool CanEditCircumstance()
         {
-            return Insulin.Circumstances.Any();
+            return Subject.Circumstances.Any();
         }
 
         public bool CanDeleteCircumstance()
         {
-            return Insulin.Circumstances.Any();
+            return Subject.Circumstances.Any();
         }
 
         public void DeleteCircumstance()
         {
-            var toDelete = Insulin.Circumstances.First();
-            var choosenViewModels = Insulin.Circumstances;
+            var toDelete = Subject.Circumstances.First();
+            var choosenViewModels = Subject.Circumstances;
             choosenViewModels.Remove(toDelete);
-            Insulin.Circumstances = choosenViewModels;
+            Subject.Circumstances = choosenViewModels;
             Circumstances.Remove(toDelete);
             deletedCircumstances.Add(toDelete);
         }
@@ -91,8 +91,8 @@ namespace Dietphone.ViewModels
 
         private void MakeInsulinViewModelInternal()
         {
-            Insulin = new InsulinViewModel(modelCopy, factories, allCircumstances: Circumstances);
-            Insulin.PropertyChanged += delegate
+            Subject = new InsulinViewModel(modelCopy, factories, allCircumstances: Circumstances);
+            Subject.PropertyChanged += delegate
             {
                 IsDirty = true;
             };

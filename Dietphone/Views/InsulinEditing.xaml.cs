@@ -35,7 +35,7 @@ namespace Dietphone.Views
             TranslateApplicationBar();
             InsulinCircumstances.SummaryForSelectedItemsDelegate += (newValue) =>
             {
-                //viewModel.Insulin.Circumstances 
+                //viewModel.Subject.Circumstances 
                 //    = new ObservableCollection<InsulinCircumstanceViewModel>(
                 //        newValue.Cast<InsulinCircumstanceViewModel>());
                 return "";

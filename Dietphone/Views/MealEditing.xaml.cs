@@ -197,7 +197,7 @@ namespace Dietphone.Views
         private void ItemGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var itemGrid = (Grid)sender;
-            var meal = ViewModel.Meal;
+            var meal = ViewModel.Subject;
             var scores = meal.Scores;
             if (!scores.FirstExists)
             {
@@ -266,7 +266,7 @@ namespace Dietphone.Views
                 var topItem = topItemSource as MealItemViewModel;
                 if (topItem != null)
                 {
-                    var meal = ViewModel.Meal;
+                    var meal = ViewModel.Subject;
                     var items = meal.Items;
                     var topItemIndex = items.IndexOf(topItem);
                     State[TOP_ITEM_INDEX] = topItemIndex;
@@ -279,7 +279,7 @@ namespace Dietphone.Views
             if (State.ContainsKey(TOP_ITEM_INDEX))
             {
                 var topItemIndex = (int)State[TOP_ITEM_INDEX];
-                var meal = ViewModel.Meal;
+                var meal = ViewModel.Subject;
                 var items = meal.Items;
                 if (topItemIndex > -1 && topItemIndex < items.Count)
                 {
@@ -291,7 +291,7 @@ namespace Dietphone.Views
 
         private void ScrollItemsDown()
         {
-            var meal = ViewModel.Meal;
+            var meal = ViewModel.Subject;
             var items = meal.Items;
             if (items.Count > 0)
             {

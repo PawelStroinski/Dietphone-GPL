@@ -4,29 +4,23 @@ using System.Collections.Generic;
 using Dietphone.Tools;
 using System;
 using System.Globalization;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace Dietphone.ViewModels
 {
-    public class MealEditingViewModel : EditingViewModelBase<Meal>
+    public class MealEditingViewModel : EditingViewModelWithDate<Meal, MealViewModel>
     {
         public MealItem AddCopyOfThisItem { get; set; }
         public bool NeedsScrollingItemsDown { get; set; }
         public ObservableCollection<MealNameViewModel> Names { get; private set; }
-        public MealViewModel Meal { get; private set; }
         public event EventHandler InvalidateItems;
         private List<MealNameViewModel> addedNames = new List<MealNameViewModel>();
         private List<MealNameViewModel> deletedNames = new List<MealNameViewModel>();
         private MealNameViewModel defaultName;
-        private bool isLockedDateTime;
-        private bool updatingLockedDateTime;
         private MealItemEditingViewModel itemEditing;
         private MealItemViewModel editItem;
         private bool wentToSettings;
         private bool setIsDirtyWhenReady;
-        private const byte LOCKED_DATE_TIME_RECENT_MINUTES = 3;
         private const string MEAL = "MEAL";
         private const string NAMES = "NAMES";
         private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
@@ -58,12 +52,12 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                var name = Meal.Name;
+                var name = Subject.Name;
                 return name.Name;
             }
             set
             {
-                var name = Meal.Name;
+                var name = Subject.Name;
                 name.Name = value;
             }
         }
@@ -72,7 +66,7 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                return string.Format("{0}, {1}", NameOfName, Meal.DateAndTime);
+                return string.Format("{0}, {1}", NameOfName, Subject.DateAndTime);
             }
         }
 
@@ -85,25 +79,6 @@ namespace Dietphone.ViewModels
             }
         }
 
-        // Note: changing NotIsLockedDateTime may change the Meal.DateTime
-        // with help of UpdateLockedDateTime().
-        public bool NotIsLockedDateTime
-        {
-            get
-            {
-                return !isLockedDateTime;
-            }
-            set
-            {
-                if (!isLockedDateTime != value)
-                {
-                    isLockedDateTime = !value;
-                    UpdateLockedDateTime();
-                    OnPropertyChanged("NotIsLockedDateTime");
-                }
-            }
-        }
-
         public void AddAndSetName(string name)
         {
             var tempModel = factories.CreateMealName();
@@ -112,24 +87,24 @@ namespace Dietphone.ViewModels
             var viewModel = new MealNameViewModel(tempModel, factories);
             viewModel.Name = name;
             Names.Add(viewModel);
-            Meal.Name = viewModel;
+            Subject.Name = viewModel;
             addedNames.Add(viewModel);
         }
 
         public bool CanEditName()
         {
-            return Meal.Name != defaultName;
+            return Subject.Name != defaultName;
         }
 
         public bool CanDeleteName()
         {
-            return Meal.Name != defaultName;
+            return Subject.Name != defaultName;
         }
 
         public void DeleteName()
         {
-            var toDelete = Meal.Name;
-            Meal.Name = Names.GetNextItemToSelectWhenDeleteSelected(toDelete);
+            var toDelete = Subject.Name;
+            Subject.Name = Names.GetNextItemToSelectWhenDeleteSelected(toDelete);
             Names.Remove(toDelete);
             deletedNames.Add(toDelete);
         }
@@ -251,7 +226,7 @@ namespace Dietphone.ViewModels
             };
             ItemEditing.NeedToDelete += delegate
             {
-                Meal.DeleteItem(editItem);
+                Subject.DeleteItem(editItem);
             };
             ItemEditing.CanDelete = true;
             ItemEditing.StateProvider = StateProvider;
@@ -359,7 +334,7 @@ namespace Dietphone.ViewModels
             state[ITEM_EDITING] = ItemEditing.IsVisible;
             if (ItemEditing.IsVisible)
             {
-                var items = Meal.Items;
+                var items = Subject.Items;
                 var editItemIndex = items.IndexOf(editItem);
                 state[EDIT_ITEM_INDEX] = editItemIndex;
                 ItemEditing.Tombstone();
@@ -377,7 +352,7 @@ namespace Dietphone.ViewModels
             if (itemEditing)
             {
                 var editItemIndex = (int)state[EDIT_ITEM_INDEX];
-                var items = Meal.Items;
+                var items = Subject.Items;
                 if (editItemIndex > -1 && editItemIndex < items.Count)
                 {
                     var item = items[editItemIndex];
@@ -388,21 +363,11 @@ namespace Dietphone.ViewModels
 
         private void MakeMealViewModelInternal()
         {
-            Meal = new MealViewModel(modelCopy, factories)
+            Subject = new MealViewModel(modelCopy, factories)
             {
                 Names = Names,
                 DefaultName = defaultName
             };
-            Meal.PropertyChanged += Meal_PropertyChanged;
-        }
-
-        private void Meal_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            IsDirty = true;
-            if (e.PropertyName == "DateTime" && !updatingLockedDateTime)
-            {
-                NotIsLockedDateTime = true;
-            }
         }
 
         private void SaveWithUpdatedTime()
@@ -434,7 +399,7 @@ namespace Dietphone.ViewModels
         {
             if (AddCopyOfThisItem != null)
             {
-                if (Meal == null)
+                if (Subject == null)
                 {
                     var model = modelCopy.AddItem();
                     model.CopyFrom(AddCopyOfThisItem);
@@ -442,27 +407,11 @@ namespace Dietphone.ViewModels
                 }
                 else
                 {
-                    var viewModel = Meal.AddItem();
+                    var viewModel = Subject.AddItem();
                     viewModel.CopyFromModel(AddCopyOfThisItem);
                 }
                 AddCopyOfThisItem = null;
                 NeedsScrollingItemsDown = true;
-            }
-        }
-
-        private void LockRecentDateTime()
-        {
-            var difference = (DateTime.Now - Meal.DateTime).Duration();
-            isLockedDateTime = difference <= TimeSpan.FromMinutes(LOCKED_DATE_TIME_RECENT_MINUTES);
-        }
-
-        private void UpdateLockedDateTime()
-        {
-            if (isLockedDateTime)
-            {
-                updatingLockedDateTime = true;
-                Meal.DateTime = DateTime.Now;
-                updatingLockedDateTime = false;
             }
         }
 

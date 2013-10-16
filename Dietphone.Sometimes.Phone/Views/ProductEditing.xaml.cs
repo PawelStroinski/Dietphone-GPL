@@ -46,7 +46,7 @@ namespace Dietphone.Views
 
         private void ProductEditing_Loaded(object sender, RoutedEventArgs e)
         {
-            var product = viewModel.Product;
+            var product = viewModel.Subject;
             if (string.IsNullOrEmpty(product.Name))
             {
                 NameBox.Focus();
@@ -136,7 +136,7 @@ namespace Dietphone.Views
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            var product = viewModel.Product;
+            var product = viewModel.Subject;
             if (MessageBox.Show(
                 String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisProduct,
                 product.Name),

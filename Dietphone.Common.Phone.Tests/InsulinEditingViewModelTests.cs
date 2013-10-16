@@ -40,9 +40,9 @@ namespace Dietphone.Common.Phone.Tests
 
         private void ChooseCircumstance()
         {
-            var circumstances = sut.Insulin.Circumstances;
+            var circumstances = sut.Subject.Circumstances;
             circumstances.Add(sut.Circumstances.First());
-            sut.Insulin.Circumstances = circumstances;
+            sut.Subject.Circumstances = circumstances;
         }
 
         [TestCase(true)]
@@ -57,7 +57,7 @@ namespace Dietphone.Common.Phone.Tests
             else
                 factories.CreateInsulin().Returns(insulin);
             sut.Load();
-            Assert.AreEqual(insulin.Id, sut.Insulin.Id);
+            Assert.AreEqual(insulin.Id, sut.Subject.Id);
         }
 
         [Test]
@@ -99,13 +99,13 @@ namespace Dietphone.Common.Phone.Tests
             InitializeViewModel();
             var factoriesCountBefore = factories.InsulinCircumstances.Count;
             var sutCountBefore = sut.Circumstances.Count;
-            var insulinCountBefore = sut.Insulin.Circumstances.Count;
+            var insulinCountBefore = sut.Subject.Circumstances.Count;
             sut.AddAndSetCircumstance("new");
             Assert.AreEqual(factoriesCountBefore, factories.InsulinCircumstances.Count);
             Assert.AreEqual(sutCountBefore + 1, sut.Circumstances.Count);
-            Assert.AreEqual(insulinCountBefore + 1, sut.Insulin.Circumstances.Count);
+            Assert.AreEqual(insulinCountBefore + 1, sut.Subject.Circumstances.Count);
             Assert.AreEqual("new", sut.Circumstances.Last().Name);
-            Assert.AreEqual("new", sut.Insulin.Circumstances.Last().Name);
+            Assert.AreEqual("new", sut.Subject.Circumstances.Last().Name);
         }
 
         [Test]
@@ -133,9 +133,9 @@ namespace Dietphone.Common.Phone.Tests
             Assert.IsFalse(sut.CanDeleteCircumstance());
             ChooseCircumstance();
             ChooseCircumstance();
-            var expected = sut.Insulin.Circumstances.Skip(1).ToList();
+            var expected = sut.Subject.Circumstances.Skip(1).ToList();
             sut.DeleteCircumstance();
-            var actual = sut.Insulin.Circumstances;
+            var actual = sut.Subject.Circumstances;
             Assert.AreEqual(expected, actual);
         }
     }

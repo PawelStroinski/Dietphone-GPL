@@ -44,8 +44,8 @@
             <!--ogólne-->
             <controls:PivotItem Header="{Binding Translations.General, Source={StaticResource Translations}}">
                 <StackPanel Margin="12,0">
-                    <TextBox Height="72" Text="{Binding Product.Name, Mode=TwoWay}" VerticalAlignment="Top" Margin="0,0,0,4" InputScope="Text" Name="NameBox"/>
-                    <telerikInput:RadListPicker Header="{Binding Translations.Category, Source={StaticResource Translations}}" ItemsSource="{Binding Categories}" SelectedItem="{Binding Product.Category, Mode=TwoWay}" Style="{StaticResource CategoriesStyle}" IsAnimationEnabled="False" Name="Category" ItemClick="Categories_ItemClick" InlineModeThreshold="0">
+                    <TextBox Height="72" Text="{Binding Subject.Name, Mode=TwoWay}" VerticalAlignment="Top" Margin="0,0,0,4" InputScope="Text" Name="NameBox"/>
+                    <telerikInput:RadListPicker Header="{Binding Translations.Category, Source={StaticResource Translations}}" ItemsSource="{Binding Categories}" SelectedItem="{Binding Subject.Category, Mode=TwoWay}" Style="{StaticResource CategoriesStyle}" IsAnimationEnabled="False" Name="Category" ItemClick="Categories_ItemClick" InlineModeThreshold="0">
                         <telerikInput:RadListPicker.PopupHeader>
                             <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -15">
                                 <TextBlock Text="{Binding Translations.CategoryUppercase, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Width="180"/>
@@ -76,41 +76,41 @@
                     <TextBlock Text="{Binding Translations.NutritionalValuePer100g, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="21,0,0,21" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
                         <TextBlock Text="{Binding Translations.ProteinG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.ProteinPer100g, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.ProteinPer100g, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="1">
                         <TextBlock Text="{Binding Translations.CarbohydratesG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.CarbsTotalPer100g, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.CarbsTotalPer100g, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.FatG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.FatPer100g, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.FatPer100g, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.DietaryFiberG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.FiberPer100g, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.FiberPer100g, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="3">
                         <TextBlock Text="{Binding Translations.EnergyCaloriesUppercase, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.EnergyPer100g, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.EnergyPer100g, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="3">
                         <TextBlock Text="{Binding Translations.DigestibleCarbsG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.DigestibleCarbsPer100g}" IsReadOnly="True"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.DigestibleCarbsPer100g}" IsReadOnly="True"/>
                     </StackPanel>
                     <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.FullSquareMeansMaximumInCategory, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,7,24,9" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"/>
                     <commonViews:InteractionEffectContainer Margin="24,0,18,0" Grid.Column="0" Grid.Row="5" MouseLeftButtonUp="Cu_Click">
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding Product.DoubledWidthOfFilledCuRect}" Height="50" VerticalAlignment="Center" />
-                            <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding Product.DoubledWidthOfEmptyCuRect}" Height="50" VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Product.CuPer100g}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="16,0,0,0"/>
+                            <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding Subject.DoubledWidthOfFilledCuRect}" Height="50" VerticalAlignment="Center" />
+                            <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding Subject.DoubledWidthOfEmptyCuRect}" Height="50" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Subject.CuPer100g}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="16,0,0,0"/>
                         </StackPanel>
                     </commonViews:InteractionEffectContainer>
                     <commonViews:InteractionEffectContainer Margin="18,0,24,0" Grid.Column="1" Grid.Row="5" MouseLeftButtonUp="Fpu_Click">
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding Product.DoubledWidthOfFilledFpuRect}" Height="50" VerticalAlignment="Center" />
-                            <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding Product.DoubledWidthOfEmptyFpuRect}" Height="50" VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Product.FpuPer100g}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="16,0,0,0"/>
+                            <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding Subject.DoubledWidthOfFilledFpuRect}" Height="50" VerticalAlignment="Center" />
+                            <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding Subject.DoubledWidthOfEmptyFpuRect}" Height="50" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Subject.FpuPer100g}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="16,0,0,0"/>
                         </StackPanel>
                     </commonViews:InteractionEffectContainer>
                 </Grid>
@@ -133,7 +133,7 @@
                     <TextBlock Text="{Binding Translations.NutritionalValuePerServing, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="21,0,0,21" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
                         <TextBlock Text="{Binding Translations.ServingDescription, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="Text" Text="{Binding Product.ServingSizeDescription, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="Text" Text="{Binding Subject.ServingSizeDescription, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="1">
                         <TextBlock Text="{Binding Translations.ServingSize, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
@@ -142,8 +142,8 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.ServingSizeValue, Mode=TwoWay}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="0 0 -3 0"/>
-                            <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="9 4 12 0" VerticalAlignment="Top" SelectedItem="{Binding Product.ServingSizeUnit, Mode=TwoWay}" ItemsSource="{Binding AllServingSizeUnits}" Style="{StaticResource OsListPickerStyle}">
+                            <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.ServingSizeValue, Mode=TwoWay}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="0 0 -3 0"/>
+                            <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="9 4 12 0" VerticalAlignment="Top" SelectedItem="{Binding Subject.ServingSizeUnit, Mode=TwoWay}" ItemsSource="{Binding AllServingSizeUnits}" Style="{StaticResource OsListPickerStyle}">
                                 <telerikInput:RadListPicker.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding}" Margin="0 -2 0 2"/>
@@ -154,27 +154,27 @@
                     </StackPanel>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.ProteinG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.ProteinPerServing, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.ProteinPerServing, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.CarbohydratesG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.CarbsTotalPerServing, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.CarbsTotalPerServing, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="3">
                         <TextBlock Text="{Binding Translations.FatG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.FatPerServing, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.FatPerServing, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="3">
                         <TextBlock Text="{Binding Translations.DietaryFiberG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.FiberPerServing, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.FiberPerServing, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="4">
                         <TextBlock Text="{Binding Translations.EnergyCaloriesUppercase, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.EnergyPerServing, Mode=TwoWay}"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.EnergyPerServing, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="4">
                         <TextBlock Text="{Binding Translations.DigestibleCarbsG, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Product.DigestibleCarbsPerServing}" IsReadOnly="True"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.DigestibleCarbsPerServing}" IsReadOnly="True"/>
                     </StackPanel>
                 </Grid>
             </controls:PivotItem>
