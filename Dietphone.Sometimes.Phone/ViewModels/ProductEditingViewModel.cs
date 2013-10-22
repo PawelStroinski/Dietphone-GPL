@@ -9,7 +9,6 @@ namespace Dietphone.ViewModels
     public class ProductEditingViewModel : EditingViewModelBase<Product, ProductViewModel>
     {
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
-        public ProductViewModel Subject { get; private set; }
         private List<CategoryViewModel> addedCategories = new List<CategoryViewModel>();
         private List<CategoryViewModel> deletedCategories = new List<CategoryViewModel>();
         private const string PRODUCT = "PRODUCT";

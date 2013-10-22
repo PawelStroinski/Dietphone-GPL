@@ -7,10 +7,9 @@ using System.Linq;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinEditingViewModel : EditingViewModelBase<Insulin, InsulinViewModel>
+    public class InsulinEditingViewModel : EditingViewModelWithDate<Insulin, InsulinViewModel>
     {
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
-        public InsulinViewModel Subject { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
