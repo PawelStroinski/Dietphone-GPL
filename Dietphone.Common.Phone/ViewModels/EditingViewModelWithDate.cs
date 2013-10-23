@@ -11,6 +11,7 @@ namespace Dietphone.ViewModels
         protected bool isLockedDateTime;
         protected bool updatingLockedDateTime;
         private const byte LOCKED_DATE_TIME_RECENT_MINUTES = 3;
+        private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
 
         public EditingViewModelWithDate(Factories factories)
             : base(factories)
@@ -58,6 +59,21 @@ namespace Dietphone.ViewModels
                 updatingLockedDateTime = true;
                 Subject.DateTime = DateTime.Now;
                 updatingLockedDateTime = false;
+            }
+        }
+
+        protected override void TombstoneOthers()
+        {
+            var state = StateProvider.State;
+            state[NOT_IS_LOCKED_DATE_TIME] = NotIsLockedDateTime;
+        }
+
+        protected override void UntombstoneOthers()
+        {
+            var state = StateProvider.State;
+            if (state.ContainsKey(NOT_IS_LOCKED_DATE_TIME))
+            {
+                NotIsLockedDateTime = (bool)state[NOT_IS_LOCKED_DATE_TIME];
             }
         }
 

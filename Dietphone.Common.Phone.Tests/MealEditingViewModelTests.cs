@@ -14,6 +14,8 @@ namespace Dietphone.Common.Phone.Tests
         private MealEditingViewModel sut;
         private Meal meal;
         private Factories factories;
+        private StateProvider stateProvider;
+        private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
 
         [SetUp]
         public void TestInitialize()
@@ -25,7 +27,8 @@ namespace Dietphone.Common.Phone.Tests
             factories.MealNames.Returns(new List<MealName>());
             sut = new MealEditingViewModel(factories);
             sut.Navigator = Substitute.For<Navigator>();
-            sut.StateProvider = Substitute.For<StateProvider>();
+            stateProvider = Substitute.For<StateProvider>();
+            sut.StateProvider = stateProvider;
         }
 
         [Test]
@@ -60,6 +63,25 @@ namespace Dietphone.Common.Phone.Tests
             Assert.IsTrue(!sut.NotIsLockedDateTime);
             sut.Subject.DateTime = DateTime.Now.AddSeconds(1);
             Assert.IsFalse(!sut.NotIsLockedDateTime);
+        }
+
+        [Test]
+        public void TombstoneOthers_Tombstones_NotIsLockedDateTime()
+        {
+            sut.ItemEditing = new MealItemEditingViewModel();
+            sut.Load();
+            sut.Tombstone();
+            Assert.AreEqual(sut.NotIsLockedDateTime, stateProvider.State[NOT_IS_LOCKED_DATE_TIME]);
+        }
+
+        [Test]
+        public void UntombstoneOthers_Untombstones_NotIsLockedDateTime()
+        {
+            var expected = !sut.NotIsLockedDateTime;
+            stateProvider.State[NOT_IS_LOCKED_DATE_TIME].Returns(expected);
+            stateProvider.State.ContainsKey(NOT_IS_LOCKED_DATE_TIME).Returns(true);
+            sut.Load();
+            Assert.AreEqual(expected, sut.NotIsLockedDateTime);
         }
     }
 }

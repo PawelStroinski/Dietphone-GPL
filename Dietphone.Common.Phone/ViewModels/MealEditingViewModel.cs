@@ -23,7 +23,6 @@ namespace Dietphone.ViewModels
         private bool setIsDirtyWhenReady;
         private const string MEAL = "MEAL";
         private const string NAMES = "NAMES";
-        private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
         private const string ITEM_EDITING = "EDIT_ITEM";
         private const string EDIT_ITEM_INDEX = "EDIT_ITEM_INDEX";
 
@@ -270,19 +269,9 @@ namespace Dietphone.ViewModels
 
         protected override void TombstoneOthers()
         {
-            var state = StateProvider.State;
-            state[NOT_IS_LOCKED_DATE_TIME] = NotIsLockedDateTime;
+            base.TombstoneOthers();
             TombstoneNames();
             TombstoneItemEditing();
-        }
-
-        protected override void UntombstoneOthers()
-        {
-            var state = StateProvider.State;
-            if (state.ContainsKey(NOT_IS_LOCKED_DATE_TIME))
-            {
-                NotIsLockedDateTime = (bool)state[NOT_IS_LOCKED_DATE_TIME];
-            }
         }
 
         private void TombstoneNames()
