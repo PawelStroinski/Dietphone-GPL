@@ -32,7 +32,14 @@
             <Setter Property="PopupItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" Margin="0, 0, 0, -16"/>
+                        <TextBlock Text="{Binding}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" Margin="0, -15, 0, -16"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="0 0 0 1"/>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -47,7 +54,7 @@
                     <TextBox Height="72" Text="{Binding Subject.Name, Mode=TwoWay}" VerticalAlignment="Top" Margin="0,0,0,4" InputScope="Text" Name="NameBox"/>
                     <telerikInput:RadListPicker Header="{Binding Translations.Category, Source={StaticResource Translations}}" ItemsSource="{Binding Categories}" SelectedItem="{Binding Subject.Category, Mode=TwoWay}" Style="{StaticResource CategoriesStyle}" IsAnimationEnabled="False" Name="Category" ItemClick="Categories_ItemClick" InlineModeThreshold="0">
                         <telerikInput:RadListPicker.PopupHeader>
-                            <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -15">
+                            <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -16">
                                 <TextBlock Text="{Binding Translations.CategoryUppercase, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Width="180"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCategory_Click"/>
                                 <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCategory_Click"/>

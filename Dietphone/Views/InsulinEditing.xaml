@@ -45,18 +45,16 @@
                     </StackPanel>
                     <!--Insulin circumstances-->
                     <StackPanel Margin="18,3,24,13" Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                        <toolkit2:BetterMarginListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding InsulinCircumstances}" SelectedItems="{Binding Subject.Circumstances}" Name="InsulinCircumstances" SelectionMode="Multiple" Margin="0 0 0 0" Height="83">
-                            <toolkit:ListPicker.FullModeHeaderTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="0 27 0 -26">
-                                        <TextBlock Text="{Binding Translations.Circumstances, Source={StaticResource Translations}}" Margin="0, 23, 0, 24" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Width="183"/>
-                                        <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCircumstance_Click"/>
-                                        <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCircumstance_Click"/>
-                                        <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCircumstance_Click"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </toolkit:ListPicker.FullModeHeaderTemplate>
-                        </toolkit2:BetterMarginListPicker>
+                        <telerikInput:RadListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding Circumstances}" Name="InsulinCircumstances" Margin="0 0 0 0" Height="83" InlineModeThreshold="0" SelectionMode="Multiple" NoSelectionContent="" Style="{StaticResource OsListPickerStyle}">
+                            <telerikInput:RadListPicker.PopupHeader>
+                                <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -16">
+                                    <TextBlock Text="{Binding Translations.Circumstances, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Width="180"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCircumstance_Click"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCircumstance_Click"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCircumstance_Click"/>
+                                </StackPanel>
+                            </telerikInput:RadListPicker.PopupHeader>
+                        </telerikInput:RadListPicker>
                     </StackPanel>
                     <!--Header-->
                     <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.BolusHeaderCalculated, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,7,24,-1" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
@@ -107,10 +105,10 @@
                     </Grid.ColumnDefinitions>
                     <!--Date-->
                     <TextBlock Text="{Binding Path=Translations.Date, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5" />
-                    <telerikInput:RadDatePicker Height="72" Value="{Binding Subject.DateTime, Mode=TwoWay}"  DisplayValueFormat="{Binding DateFormat}" SelectorFormat="{Binding DateFormat}" Grid.Row="1" Margin="0 0 12 0" PopupHeader="{Binding Path=Translations.ChooseDate, Source={StaticResource Translations}}"/>
+                    <telerikInput:RadDatePicker Value="{Binding Subject.DateTime, Mode=TwoWay}"  DisplayValueFormat="{Binding DateFormat}" SelectorFormat="{Binding DateFormat}" Grid.Row="1" PopupHeader="{Binding Path=Translations.ChooseDate, Source={StaticResource Translations}}" Style="{StaticResource DatePickerStyle}"/>
                     <!--Time-->
                     <TextBlock Text="{Binding Path=Translations.Time, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5" Grid.Column="1"/>
-                    <telerikInput:RadTimePicker Height="72" Value="{Binding Subject.DateTime, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="0 0 12 0" PopupHeader="{Binding Path=Translations.ChooseTime, Source={StaticResource Translations}}"/>
+                    <telerikInput:RadTimePicker Value="{Binding Subject.DateTime, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" PopupHeader="{Binding Path=Translations.ChooseTime, Source={StaticResource Translations}}" Style="{StaticResource TimePickerStyle}"/>
                     <!--Lock-->
                     <ToggleButton Height="72" Width="72" VerticalAlignment="Top" Style="{StaticResource ToggleButtonWithIconStyle}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" IsChecked="{Binding NotIsLockedDateTime, Mode=TwoWay}"/>
                 </Grid>
