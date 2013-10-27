@@ -541,4 +541,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="BolusHeaderUser" xml:space="preserve">
     <value>Tap to show bolus calculated based on your previous boluses</value>
   </data>
+  <data name="AddCircumstance" xml:space="preserve">
+    <value>ADD CIRCUMSTANCE</value>
+  </data>
 </root>

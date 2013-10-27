@@ -90,7 +90,7 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
-        public void AddAndSetCircumstance()
+        public void AddCircumstance()
         {
             var newCircumstance = new InsulinCircumstance();
             factories.CreateInsulinCircumstance()
@@ -100,12 +100,11 @@ namespace Dietphone.Common.Phone.Tests
             var factoriesCountBefore = factories.InsulinCircumstances.Count;
             var sutCountBefore = sut.Circumstances.Count;
             var insulinCountBefore = sut.Subject.Circumstances.Count;
-            sut.AddAndSetCircumstance("new");
+            sut.AddCircumstance("new");
             Assert.AreEqual(factoriesCountBefore, factories.InsulinCircumstances.Count);
             Assert.AreEqual(sutCountBefore + 1, sut.Circumstances.Count);
-            Assert.AreEqual(insulinCountBefore + 1, sut.Subject.Circumstances.Count);
+            Assert.AreEqual(insulinCountBefore, sut.Subject.Circumstances.Count);
             Assert.AreEqual("new", sut.Circumstances.Last().Name);
-            Assert.AreEqual("new", sut.Subject.Circumstances.Last().Name);
         }
 
         [Test]
@@ -137,6 +136,17 @@ namespace Dietphone.Common.Phone.Tests
             sut.DeleteCircumstance();
             var actual = sut.Subject.Circumstances;
             Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SummaryForSelectedCircumstances()
+        {
+            InitializeViewModel();
+            ChooseCircumstance();
+            ChooseCircumstance();
+            var circumstances = sut.Subject.Circumstances;
+            var expected = circumstances.First().Name + ", " + circumstances.Last().Name;
+            Assert.AreEqual(expected, sut.SummaryForSelectedCircumstances());
         }
     }
 }

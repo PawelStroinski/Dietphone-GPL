@@ -45,7 +45,7 @@
                     </StackPanel>
                     <!--Insulin circumstances-->
                     <StackPanel Margin="18,3,24,13" Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                        <telerikInput:RadListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding Circumstances}" Name="InsulinCircumstances" Margin="0 0 0 0" Height="83" InlineModeThreshold="0" SelectionMode="Multiple" NoSelectionContent="" Style="{StaticResource OsListPickerStyle}">
+                        <telerikInput:RadListPicker Header="{Binding Path=Translations.InsulinCircumstances, Source={StaticResource Translations}}" ItemsSource="{Binding Circumstances}" Name="InsulinCircumstances" Margin="0 0 0 0" Height="83" InlineModeThreshold="0" SelectionMode="Multiple" NoSelectionContent="" Style="{StaticResource OsListPickerStyle}" OkButtonIconUri="/images/appbar.check.rest.png" CancelButtonIconUri="/images/appbar.cancel.rest.png">
                             <telerikInput:RadListPicker.PopupHeader>
                                 <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -16">
                                     <TextBlock Text="{Binding Translations.Circumstances, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Width="180"/>

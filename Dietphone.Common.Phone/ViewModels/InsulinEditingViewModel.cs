@@ -19,7 +19,7 @@ namespace Dietphone.ViewModels
         {
         }
 
-        public void AddAndSetCircumstance(string name)
+        public void AddCircumstance(string name)
         {
             var tempModel = factories.CreateInsulinCircumstance();
             var models = factories.InsulinCircumstances;
@@ -27,9 +27,6 @@ namespace Dietphone.ViewModels
             var viewModel = new InsulinCircumstanceViewModel(tempModel, factories);
             viewModel.Name = name;
             Circumstances.Add(viewModel);
-            var choosenViewModels = Subject.Circumstances;
-            choosenViewModels.Add(viewModel);
-            Subject.Circumstances = choosenViewModels;
             addedCircumstances.Add(viewModel);
         }
 
@@ -51,6 +48,12 @@ namespace Dietphone.ViewModels
             Subject.Circumstances = choosenViewModels;
             Circumstances.Remove(toDelete);
             deletedCircumstances.Add(toDelete);
+        }
+
+        public string SummaryForSelectedCircumstances()
+        {
+            return string.Join(", ",
+                Subject.Circumstances.Select(circumstance => circumstance.Name));
         }
 
         protected override void FindAndCopyModel()

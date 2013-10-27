@@ -88,6 +88,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ADD CIRCUMSTANCE.
+        /// </summary>
+        public static string AddCircumstance {
+            get {
+                return ResourceManager.GetString("AddCircumstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ADD NAME.
         /// </summary>
         public static string AddName {

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using Dietphone.Models;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Collections;
 
 namespace Dietphone.Views
 {
@@ -33,12 +35,10 @@ namespace Dietphone.Views
             };
             Save = this.GetIcon(0);
             TranslateApplicationBar();
-            InsulinCircumstances.SummaryForSelectedItemsDelegate += (newValue) =>
+            InsulinCircumstances.SummaryForSelectedItemsDelegate += (IList newValue) =>
             {
-                //viewModel.Subject.Circumstances 
-                //    = new ObservableCollection<InsulinCircumstanceViewModel>(
-                //        newValue.Cast<InsulinCircumstanceViewModel>());
-                return "";
+                viewModel.Subject.Circumstances = newValue.Cast<InsulinCircumstanceViewModel>().ToList();
+                return viewModel.SummaryForSelectedCircumstances();
             };
         }
 
@@ -53,6 +53,7 @@ namespace Dietphone.Views
                 viewModel.Load();
                 DataContext = viewModel;
             }
+            PopulateListPickerWithSelectedInsulinCircumstances();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -65,6 +66,16 @@ namespace Dietphone.Views
 
         private void AddCircumstance_Click(object sender, RoutedEventArgs e)
         {
+            var input = new XnaInputBox(this)
+            {
+                Title = Translations.AddCircumstance,
+                Description = Translations.Name
+            };
+            input.Show();
+            input.Confirmed += delegate
+            {
+                viewModel.AddCircumstance(input.Text);
+            };
         }
 
         private void EditCircumstance_Click(object sender, RoutedEventArgs e)
@@ -103,6 +114,12 @@ namespace Dietphone.Views
             Save.Text = Translations.Save;
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetMenuItem(0).Text = Translations.Delete;
+        }
+
+        private void PopulateListPickerWithSelectedInsulinCircumstances()
+        {
+            foreach (var circumstance in viewModel.Subject.Circumstances)
+                InsulinCircumstances.SelectedItems.Add(circumstance);
         }
     }
 
