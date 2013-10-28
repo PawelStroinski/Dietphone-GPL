@@ -544,4 +544,13 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="AddCircumstance" xml:space="preserve">
     <value>DODAJ OKOLICZNOŚĆ</value>
   </data>
+  <data name="Exercise" xml:space="preserve">
+    <value>Wysiłek fizyczny</value>
+  </data>
+  <data name="Sickness" xml:space="preserve">
+    <value>Choroba</value>
+  </data>
+  <data name="Stress" xml:space="preserve">
+    <value>Stres</value>
+  </data>
 </root>

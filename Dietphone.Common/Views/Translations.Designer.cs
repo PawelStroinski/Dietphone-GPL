@@ -610,6 +610,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exercise.
+        /// </summary>
+        public static string Exercise {
+            get {
+                return ResourceManager.GetString("Exercise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to export.
         /// </summary>
         public static string Export {
@@ -1163,6 +1172,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sickness.
+        /// </summary>
+        public static string Sickness {
+            get {
+                return ResourceManager.GetString("Sickness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specified description of serving size but not the size itself..
         /// </summary>
         public static string SpecifiedDescriptionOfServingSizeButNotTheSize {
@@ -1195,6 +1213,15 @@ namespace Dietphone.Views {
         public static string SquareWaveBolusHours {
             get {
                 return ResourceManager.GetString("SquareWaveBolusHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stress.
+        /// </summary>
+        public static string Stress {
+            get {
+                return ResourceManager.GetString("Stress", resourceCulture);
             }
         }
         

@@ -544,4 +544,13 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="AddCircumstance" xml:space="preserve">
     <value>ADD CIRCUMSTANCE</value>
   </data>
+  <data name="Exercise" xml:space="preserve">
+    <value>Exercise</value>
+  </data>
+  <data name="Sickness" xml:space="preserve">
+    <value>Sickness</value>
+  </data>
+  <data name="Stress" xml:space="preserve">
+    <value>Stress</value>
+  </data>
 </root>

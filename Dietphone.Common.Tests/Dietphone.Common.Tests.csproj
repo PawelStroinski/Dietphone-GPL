@@ -75,6 +75,7 @@
     <Compile Include="Models\FactoriesTests.cs" />
     <Compile Include="Models\FinderTests.cs" />
     <Compile Include="Models\HourDifferenceTests.cs" />
+    <Compile Include="Models\InsulinCircumstanceTests.cs" />
     <Compile Include="Models\InsulinTests.cs" />
     <Compile Include="Models\MealItemTests.cs" />
     <Compile Include="Models\MealTests.cs" />

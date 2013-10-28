@@ -3,6 +3,8 @@ using Dietphone.Models;
 using Dietphone.BinarySerializers;
 using System.IO;
 using System.Diagnostics;
+using System;
+using System.Linq;
 
 namespace Dietphone.DesktopHelper
 {
@@ -90,6 +92,18 @@ namespace Dietphone.DesktopHelper
             testCategory.Name = "test category";
             var products = factories.Products;
             products.Clear();
+        }
+
+        private void SetDefaultInsulinCircumstances_Click(object sender, RoutedEventArgs e)
+        {
+            var insulinCircumstances = factories.InsulinCircumstances;
+            insulinCircumstances.Clear();
+            var exercise = factories.CreateInsulinCircumstance();
+            exercise.Kind = InsulinCircumstanceKind.Exercise;
+            var sickness = factories.CreateInsulinCircumstance();
+            sickness.Kind = InsulinCircumstanceKind.Sickness;
+            var stress = factories.CreateInsulinCircumstance();
+            stress.Kind = InsulinCircumstanceKind.Stress;
         }
     }
 }
