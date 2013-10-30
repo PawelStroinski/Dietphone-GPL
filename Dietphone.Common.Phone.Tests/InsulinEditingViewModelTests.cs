@@ -7,6 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using System.Linq;
+using System.ComponentModel;
 
 namespace Dietphone.Common.Phone.Tests
 {
@@ -40,8 +41,8 @@ namespace Dietphone.Common.Phone.Tests
 
         private void ChooseCircumstance()
         {
-            var circumstances = sut.Subject.Circumstances;
-            circumstances.Add(sut.Circumstances.First());
+            var circumstances = sut.Subject.Circumstances.ToList();
+            circumstances.Add(sut.Circumstances.Except(circumstances).First());
             sut.Subject.Circumstances = circumstances;
         }
 
@@ -120,16 +121,27 @@ namespace Dietphone.Common.Phone.Tests
         public void CanDeleteCircumstance()
         {
             InitializeViewModel();
-            Assert.IsFalse(sut.CanDeleteCircumstance());
+            Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoCircumstanceChoosen,
+                sut.CanDeleteCircumstance());
             ChooseCircumstance();
-            Assert.IsTrue(sut.CanDeleteCircumstance());
+            Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.Yes,
+                sut.CanDeleteCircumstance());
+        }
+
+        [Test]
+        public void CanDeleteCircumstanceWhenOnlyOne()
+        {
+            factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(1).ToList());
+            InitializeViewModel();
+            ChooseCircumstance();
+            Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance,
+                sut.CanDeleteCircumstance());
         }
 
         [Test]
         public void DeleteCircumstance()
         {
             InitializeViewModel();
-            Assert.IsFalse(sut.CanDeleteCircumstance());
             ChooseCircumstance();
             ChooseCircumstance();
             var expected = sut.Subject.Circumstances.Skip(1).ToList();
@@ -147,6 +159,62 @@ namespace Dietphone.Common.Phone.Tests
             var circumstances = sut.Subject.Circumstances;
             var expected = circumstances.First().Name + ", " + circumstances.Last().Name;
             Assert.AreEqual(expected, sut.SummaryForSelectedCircumstances());
+        }
+
+        [Test]
+        public void NameOfFirstChoosenCircumstanceGetter()
+        {
+            InitializeViewModel();
+            Assert.AreEqual(string.Empty, sut.NameOfFirstChoosenCircumstance);
+            ChooseCircumstance();
+            ChooseCircumstance();
+            var expected = sut.Subject.Circumstances.First().Name;
+            var actual = sut.NameOfFirstChoosenCircumstance;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void NameOfFirstChoosenCircumstanceSetter()
+        {
+            InitializeViewModel();
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                sut.NameOfFirstChoosenCircumstance = "newname1";
+            });
+            ChooseCircumstance();
+            ChooseCircumstance();
+            sut.NameOfFirstChoosenCircumstance = "newname";
+            var actual = sut.Subject.Circumstances.First().Name;
+            Assert.AreEqual("newname", actual);
+        }
+
+        [Test]
+        public void InvalidateCircumstancesInvalidatesWithoutChangingAnything()
+        {
+            factories.CreateInsulinCircumstance().Returns(new InsulinCircumstance());
+            InitializeViewModel();
+            ChooseCircumstance();
+            ChooseCircumstance();
+            sut.AddCircumstance(string.Empty);
+            sut.DeleteCircumstance();
+            sut.NameOfFirstChoosenCircumstance = "foo";
+            var previousAll = sut.Circumstances;
+            var previousAllIds = sut.Circumstances.Select(circumstance => circumstance.Id).ToList();
+            var previousChoosen = sut.Subject.Circumstances;
+            var propertyChanged = false;
+            sut.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == "Circumstances")
+                    propertyChanged = true;
+            };
+            sut.InvalidateCircumstances();
+            Assert.AreNotSame(previousAll, sut.Circumstances);
+            Assert.AreEqual(previousAllIds, sut.Circumstances.Select(circumstance => circumstance.Id));
+            Assert.AreNotSame(previousChoosen, sut.Subject.Circumstances);
+            Assert.IsTrue(propertyChanged);
+            Assert.AreEqual(new InsulinCircumstanceViewModel[] { sut.Circumstances.First() }, sut.Subject.Circumstances);
+            Assert.AreEqual("foo", sut.NameOfFirstChoosenCircumstance);
+            Assert.AreNotEqual("foo", sut.Subject.Circumstances.First().Model.Name, "Should be buffered");
         }
     }
 }

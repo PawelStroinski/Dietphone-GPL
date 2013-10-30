@@ -14,9 +14,9 @@ namespace Dietphone.ViewModels
     {
         public Insulin Insulin { get; private set; }
         private IList<InsulinCircumstanceViewModel> circumstances;
+        private IList<InsulinCircumstanceViewModel> allCircumstances;
         private readonly object circumstancesLock = new object();
         private readonly Factories factories;
-        private readonly IList<InsulinCircumstanceViewModel> allCircumstances;
         private static readonly Constrains maxHours = new Constrains { Max = 8 };
 
         public InsulinViewModel(Insulin insulin, Factories factories,
@@ -144,6 +144,8 @@ namespace Dietphone.ViewModels
             {
                 if (value == null)
                     throw new NullReferenceException("value");
+                if (value == Circumstances)
+                    throw new ArgumentException("value");
                 lock (circumstancesLock)
                 {
                     var newItems = value.Except(Circumstances);
@@ -162,6 +164,15 @@ namespace Dietphone.ViewModels
         public IEnumerable<InsulinCircumstanceViewModel> AllCircumstances()
         {
             return allCircumstances;
+        }
+
+        public void InvalidateCircumstances(IList<InsulinCircumstanceViewModel> allCircumstances)
+        {
+            lock (circumstancesLock)
+            {
+                this.allCircumstances = allCircumstances;
+                this.circumstances = null;
+            }
         }
     }
 }

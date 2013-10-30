@@ -97,7 +97,7 @@ namespace Dietphone.Common.Phone.Tests
         {
             var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
             var previous = sut.Circumstances;
-            sut.Circumstances = previous;
+            sut.Circumstances = previous.ToList();
             Assert.AreEqual(previous, sut.Circumstances);
             Assert.AreSame(previous, sut.Circumstances);
         }
@@ -146,6 +146,15 @@ namespace Dietphone.Common.Phone.Tests
             {
                 sut.Circumstances = null;
             });
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CircumstancesSetterThrowsIfAssignedListIsTheSameInstance()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var newValue = sut.Circumstances;
+            sut.Circumstances = newValue;
         }
     }
 }

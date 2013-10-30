@@ -553,4 +553,24 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="Stress" xml:space="preserve">
     <value>Stres</value>
   </data>
+  <data name="SelectCircumstanceFirst" xml:space="preserve">
+    <value>Najpierw proszę wybrać okoliczność i nacisnąć gotowe.</value>
+  </data>
+  <data name="Circumstance" xml:space="preserve">
+    <value>Okoliczność</value>
+  </data>
+  <data name="EditCircumstance" xml:space="preserve">
+    <value>EDYTUJ OKOLICZNOŚĆ</value>
+  </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisCircumstance" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć tę okoliczność?
+
+{0}</value>
+  </data>
+  <data name="CannotDeleteCircumstanceBecauseOnlyOneLeft" xml:space="preserve">
+    <value>Nie można usunąć okoliczności ponieważ pozostała tylko jedna.</value>
+  </data>
+  <data name="DeleteCircumstance" xml:space="preserve">
+    <value>Usunąć okoliczność?</value>
+  </data>
 </root>

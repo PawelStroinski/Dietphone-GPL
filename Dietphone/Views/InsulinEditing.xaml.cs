@@ -35,11 +35,8 @@ namespace Dietphone.Views
             };
             Save = this.GetIcon(0);
             TranslateApplicationBar();
-            InsulinCircumstances.SummaryForSelectedItemsDelegate += (IList newValue) =>
-            {
-                viewModel.Subject.Circumstances = newValue.Cast<InsulinCircumstanceViewModel>().ToList();
-                return viewModel.SummaryForSelectedCircumstances();
-            };
+            InsulinCircumstances.SummaryForSelectedItemsDelegate
+                += InsulinCircumstancesSummaryForSelectedItemsDelegate;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -80,10 +77,78 @@ namespace Dietphone.Views
 
         private void EditCircumstance_Click(object sender, RoutedEventArgs e)
         {
+            if (viewModel.CanEditCircumstance())
+            {
+                EditCircumstanceDo();
+            }
+            else
+            {
+                MessageBox.Show(Translations.SelectCircumstanceFirst);
+            }
         }
 
         private void DeleteCircumstance_Click(object sender, RoutedEventArgs e)
         {
+            var canDelete = viewModel.CanDeleteCircumstance();
+            switch (canDelete)
+            {
+                case InsulinEditingViewModel.CanDeleteCircumstanceResult.Yes:
+                    DeleteCircumstanceDo();
+                    break;
+                case InsulinEditingViewModel.CanDeleteCircumstanceResult.NoCircumstanceChoosen:
+                    MessageBox.Show(Translations.SelectCircumstanceFirst);
+                    break;
+                case InsulinEditingViewModel.CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance:
+                    MessageBox.Show(Translations.CannotDeleteCircumstanceBecauseOnlyOneLeft);
+                    break;
+                default:
+                    throw new Exception(string.Format("Unknown result {0}", canDelete));
+            }
+        }
+
+        private void EditCircumstanceDo()
+        {
+            var input = new XnaInputBox(this)
+            {
+                Title = Translations.EditCircumstance,
+                Description = Translations.Circumstance,
+                Text = viewModel.NameOfFirstChoosenCircumstance
+            };
+            input.Show();
+            input.Confirmed += delegate
+            {
+                InsulinCircumstances.QuicklyCollapse();
+                viewModel.NameOfFirstChoosenCircumstance = input.Text;
+                InvalidateCircumstancesListPicker();
+            };
+        }
+
+        private void DeleteCircumstanceDo()
+        {
+            if (MessageBox.Show(
+                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisCircumstance,
+                viewModel.NameOfFirstChoosenCircumstance),
+                Translations.DeleteCircumstance, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+                Save.IsEnabled = false;
+                InsulinCircumstances.QuicklyCollapse();
+                Dispatcher.BeginInvoke(() =>
+                {
+                    InsulinCircumstances.SummaryForSelectedItemsDelegate
+                        -= InsulinCircumstancesSummaryForSelectedItemsDelegate;
+                    try
+                    {
+                        InsulinCircumstances.SelectedItems.RemoveAt(0);
+                    }
+                    finally
+                    {
+                        InsulinCircumstances.SummaryForSelectedItemsDelegate
+                            += InsulinCircumstancesSummaryForSelectedItemsDelegate;
+                    }
+                    viewModel.DeleteCircumstance();
+                    Save.IsEnabled = viewModel.IsDirty;
+                });
+            }
         }
 
         private void Save_Click(object sender, EventArgs e)
@@ -116,10 +181,33 @@ namespace Dietphone.Views
             this.GetMenuItem(0).Text = Translations.Delete;
         }
 
+        private string InsulinCircumstancesSummaryForSelectedItemsDelegate(IList newValue)
+        {
+            viewModel.Subject.Circumstances = newValue.Cast<InsulinCircumstanceViewModel>().ToList();
+            return viewModel.SummaryForSelectedCircumstances();
+        }
+
         private void PopulateListPickerWithSelectedInsulinCircumstances()
         {
-            foreach (var circumstance in viewModel.Subject.Circumstances)
+            foreach (var circumstance in viewModel.Subject.Circumstances.ToList())
                 InsulinCircumstances.SelectedItems.Add(circumstance);
+        }
+
+        private void InvalidateCircumstancesListPicker()
+        {
+            InsulinCircumstances.SummaryForSelectedItemsDelegate
+                -= InsulinCircumstancesSummaryForSelectedItemsDelegate;
+            try
+            {
+                InsulinCircumstances.SelectedItems.Clear();
+                viewModel.InvalidateCircumstances();
+            }
+            finally
+            {
+                InsulinCircumstances.SummaryForSelectedItemsDelegate
+                    += InsulinCircumstancesSummaryForSelectedItemsDelegate;
+            }
+            PopulateListPickerWithSelectedInsulinCircumstances();
         }
     }
 

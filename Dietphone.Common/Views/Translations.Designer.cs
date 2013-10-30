@@ -171,6 +171,17 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to permanently delete this circumstance?
+        ///
+        ///{0}.
+        /// </summary>
+        public static string AreYouSureYouWantToPermanentlyDeleteThisCircumstance {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToPermanentlyDeleteThisCircumstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to permanently delete this meal?
         ///
         ///{0}.
@@ -312,6 +323,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete circumstance because only one left..
+        /// </summary>
+        public static string CannotDeleteCircumstanceBecauseOnlyOneLeft {
+            get {
+                return ResourceManager.GetString("CannotDeleteCircumstanceBecauseOnlyOneLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot delete this name..
         /// </summary>
         public static string CannotDeleteThisName {
@@ -402,6 +422,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Circumstance.
+        /// </summary>
+        public static string Circumstance {
+            get {
+                return ResourceManager.GetString("Circumstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CIRCUMSTANCES.
         /// </summary>
         public static string Circumstances {
@@ -480,6 +509,15 @@ namespace Dietphone.Views {
         public static string DeleteCategory {
             get {
                 return ResourceManager.GetString("DeleteCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete circumstance?.
+        /// </summary>
+        public static string DeleteCircumstance {
+            get {
+                return ResourceManager.GetString("DeleteCircumstance", resourceCulture);
             }
         }
         
@@ -579,6 +617,15 @@ namespace Dietphone.Views {
         public static string EditCategory {
             get {
                 return ResourceManager.GetString("EditCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EDIT CIRCUMSTANCE.
+        /// </summary>
+        public static string EditCircumstance {
+            get {
+                return ResourceManager.GetString("EditCircumstance", resourceCulture);
             }
         }
         
@@ -1096,6 +1143,15 @@ namespace Dietphone.Views {
         public static string SearchUppercase {
             get {
                 return ResourceManager.GetString("SearchUppercase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select circumstance and tap done first..
+        /// </summary>
+        public static string SelectCircumstanceFirst {
+            get {
+                return ResourceManager.GetString("SelectCircumstanceFirst", resourceCulture);
             }
         }
         

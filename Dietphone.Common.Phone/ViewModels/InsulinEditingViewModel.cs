@@ -19,6 +19,20 @@ namespace Dietphone.ViewModels
         {
         }
 
+        public string NameOfFirstChoosenCircumstance
+        {
+            get
+            {
+                return Subject.Circumstances.Any() ? Subject.Circumstances.First().Name : string.Empty;
+            }
+            set
+            {
+                if (!Subject.Circumstances.Any())
+                    throw new InvalidOperationException("No insulin circumstance choosen.");
+                Subject.Circumstances.First().Name = value;
+            }
+        }
+
         public void AddCircumstance(string name)
         {
             var tempModel = factories.CreateInsulinCircumstance();
@@ -35,15 +49,19 @@ namespace Dietphone.ViewModels
             return Subject.Circumstances.Any();
         }
 
-        public bool CanDeleteCircumstance()
+        public CanDeleteCircumstanceResult CanDeleteCircumstance()
         {
-            return Subject.Circumstances.Any();
+            if (Circumstances.Count < 2)
+                return CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance;
+            if (!Subject.Circumstances.Any())
+                return CanDeleteCircumstanceResult.NoCircumstanceChoosen;
+            return CanDeleteCircumstanceResult.Yes;
         }
 
         public void DeleteCircumstance()
         {
             var toDelete = Subject.Circumstances.First();
-            var choosenViewModels = Subject.Circumstances;
+            var choosenViewModels = Subject.Circumstances.ToList();
             choosenViewModels.Remove(toDelete);
             Subject.Circumstances = choosenViewModels;
             Circumstances.Remove(toDelete);
@@ -54,6 +72,21 @@ namespace Dietphone.ViewModels
         {
             return string.Join(", ",
                 Subject.Circumstances.Select(circumstance => circumstance.Name));
+        }
+
+        public void InvalidateCircumstances()
+        {
+            var newCircumstances = new ObservableCollection<InsulinCircumstanceViewModel>();
+            foreach (var circumstance in Circumstances)
+            {
+                var newCircumstance = new InsulinCircumstanceViewModel(circumstance.Model, factories);
+                newCircumstance.MakeBuffer();
+                newCircumstance.CopyFrom(circumstance);
+                newCircumstances.Add(newCircumstance);
+            }
+            Circumstances = newCircumstances;
+            Subject.InvalidateCircumstances(Circumstances);
+            OnPropertyChanged("Circumstances");
         }
 
         protected override void FindAndCopyModel()
@@ -99,5 +132,7 @@ namespace Dietphone.ViewModels
                 IsDirty = true;
             };
         }
+
+        public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };
     }
 }
