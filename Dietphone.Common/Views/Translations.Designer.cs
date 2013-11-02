@@ -242,33 +242,6 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bolus calculated based on your previous boluses and estimated sugar after it.
-        /// </summary>
-        public static string BolusHeaderCalculated {
-            get {
-                return ResourceManager.GetString("BolusHeaderCalculated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bolus calculated based on previous boluses (incomplete meal) and estimated sugar after it.
-        /// </summary>
-        public static string BolusHeaderIncomplete {
-            get {
-                return ResourceManager.GetString("BolusHeaderIncomplete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tap to show bolus calculated based on your previous boluses.
-        /// </summary>
-        public static string BolusHeaderUser {
-            get {
-                return ResourceManager.GetString("BolusHeaderUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Breakfast.
         /// </summary>
         public static string Breakfast {
@@ -853,6 +826,33 @@ namespace Dietphone.Views {
         public static string InsulinCircumstances {
             get {
                 return ResourceManager.GetString("InsulinCircumstances", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insulin &amp; sugar calculated from your entires.
+        /// </summary>
+        public static string InsulinHeaderCalculated {
+            get {
+                return ResourceManager.GetString("InsulinHeaderCalculated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insulin &amp; sugar calculated from your entires (incomplete meal).
+        /// </summary>
+        public static string InsulinHeaderIncomplete {
+            get {
+                return ResourceManager.GetString("InsulinHeaderIncomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to show calculated insulin.
+        /// </summary>
+        public static string InsulinHeaderUser {
+            get {
+                return ResourceManager.GetString("InsulinHeaderUser", resourceCulture);
             }
         }
         

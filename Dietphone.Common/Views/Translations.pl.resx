@@ -532,14 +532,14 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="InsulinUppercase" xml:space="preserve">
     <value>INSULINA</value>
   </data>
-  <data name="BolusHeaderCalculated" xml:space="preserve">
-    <value>Bolus obliczony na podstawie poprzednich bolusów i prognozowany cukier po nim</value>
+  <data name="InsulinHeaderCalculated" xml:space="preserve">
+    <value>Insulina i cukier wyliczone z Twoich wpisów</value>
   </data>
-  <data name="BolusHeaderIncomplete" xml:space="preserve">
-    <value>Bolus na podstawie poprzednich bolusów (niekompletny posiłek) i prognozowany cukier</value>
+  <data name="InsulinHeaderIncomplete" xml:space="preserve">
+    <value>Insulina i cukier wyliczone z Twoich wpisów (niekompletny posiłek)</value>
   </data>
-  <data name="BolusHeaderUser" xml:space="preserve">
-    <value>Naciśnij, aby pokazać bolus obliczony na podstawie poprzednich bolusów</value>
+  <data name="InsulinHeaderUser" xml:space="preserve">
+    <value>Naciśnij, aby pokazać wyliczoną insulinę</value>
   </data>
   <data name="AddCircumstance" xml:space="preserve">
     <value>DODAJ OKOLICZNOŚĆ</value>

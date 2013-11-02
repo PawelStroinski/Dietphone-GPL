@@ -16,7 +16,6 @@
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:toolkit2="clr-namespace:Microsoft.Phone.Controls"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone.Windows"
     xmlns:chart="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Chart"
@@ -57,7 +56,7 @@
                         </telerikInput:RadListPicker>
                     </StackPanel>
                     <!--Header-->
-                    <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.BolusHeaderCalculated, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,7,24,-1" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.InsulinHeaderCalculated, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,3,24,17" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
                     <!--Normal bolus-->
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.NormalBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
@@ -79,12 +78,12 @@
                         <TextBox Height="72" InputScope="Text" Text="{Binding Subject.Note}"/>
                     </StackPanel>
                     <!--Chart-->
-                    <chart:RadCartesianChart x:Name="Chart" Height="135" Margin="0 7 0 0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" EmptyContent="">
+                    <chart:RadCartesianChart x:Name="Chart" Height="117" EmptyContent="" Margin="0 10 0 0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
                         <chart:RadCartesianChart.HorizontalAxis>
                             <chart:DateTimeContinuousAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
                         </chart:RadCartesianChart.HorizontalAxis>
                         <chart:RadCartesianChart.VerticalAxis>
-                            <chart:LinearAxis Visibility="Collapsed" Minimum="40" Maximum="200"/>
+                            <chart:LinearAxis Visibility="Collapsed" Minimum="70" Maximum="200"/>
                         </chart:RadCartesianChart.VerticalAxis>
                         <chart:SplineSeries Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="Date" ValueBinding="Value" ShowLabels="True"/>
                     </chart:RadCartesianChart>
