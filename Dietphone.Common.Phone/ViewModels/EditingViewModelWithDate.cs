@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using Dietphone.Models;
+using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
@@ -43,6 +45,15 @@ namespace Dietphone.ViewModels
                     UpdateLockedDateTime();
                     OnPropertyChanged("NotIsLockedDateTime");
                 }
+            }
+        }
+
+        public string DateFormat
+        {
+            get
+            {
+                var culture = CultureInfo.CurrentCulture;
+                return culture.GetShortDateAlternativeFormat();
             }
         }
 

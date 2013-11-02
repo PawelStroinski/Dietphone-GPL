@@ -108,7 +108,7 @@ namespace Dietphone.ViewModels
         {
             LoadCircumstances();
             MakeInsulinViewModelInternal();
-            CurrentSugar = new SugarViewModel(new Sugar(), factories);
+            MakeSugarViewModel();
         }
 
         protected override string Validate()
@@ -131,6 +131,14 @@ namespace Dietphone.ViewModels
             {
                 IsDirty = true;
             };
+        }
+
+        private void MakeSugarViewModel()
+        {
+            var sugar = finder.FindSugarBeforeInsulin(modelSource);
+            if (sugar == null)
+                sugar = factories.CreateSugar();
+            CurrentSugar = new SugarViewModel(sugar, factories);
         }
 
         public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };

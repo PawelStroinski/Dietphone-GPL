@@ -31,6 +31,7 @@ namespace Dietphone.Common.Phone.Tests
             insulin = new Fixture().Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
             factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>().ToList());
+            factories.CreateSugar().Returns(new Sugar());
         }
 
         private void InitializeViewModel()
@@ -48,7 +49,7 @@ namespace Dietphone.Common.Phone.Tests
 
         [TestCase(true)]
         [TestCase(false)]
-        public void FindAndCopyModel_And_MakeViewModel(bool editingExisting)
+        public void FindAndCopyModelAndMakeViewModel(bool editingExisting)
         {
             if (editingExisting)
             {
@@ -59,6 +60,24 @@ namespace Dietphone.Common.Phone.Tests
                 factories.CreateInsulin().Returns(insulin);
             sut.Load();
             Assert.AreEqual(insulin.Id, sut.Subject.Id);
+        }
+
+        [Test]
+        public void MakeViewModelFindsSugar()
+        {
+            var sugar = new Sugar { BloodSugar = 150 };
+            factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+            InitializeViewModel();
+            Assert.AreEqual(sugar.BloodSugar.ToString(), sut.CurrentSugar.BloodSugar);
+        }
+
+        [Test]
+        public void MakeViewModelCreatesSugarIfCantFind()
+        {
+            var sugar = new Sugar { BloodSugar = 150 };
+            factories.CreateSugar().Returns(sugar);
+            InitializeViewModel();
+            Assert.AreEqual(sugar.BloodSugar.ToString(), sut.CurrentSugar.BloodSugar);
         }
 
         [Test]

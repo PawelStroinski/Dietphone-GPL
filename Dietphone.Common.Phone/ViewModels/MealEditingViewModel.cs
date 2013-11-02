@@ -69,15 +69,6 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public string DateFormat
-        {
-            get
-            {
-                var culture = CultureInfo.CurrentCulture;
-                return culture.GetShortDateAlternativeFormat();
-            }
-        }
-
         public void AddAndSetName(string name)
         {
             var tempModel = factories.CreateMealName();

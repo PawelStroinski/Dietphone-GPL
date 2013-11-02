@@ -83,5 +83,11 @@ namespace Dietphone.Common.Phone.Tests
             sut.Load();
             Assert.AreEqual(expected, sut.NotIsLockedDateTime);
         }
+
+        [Test]
+        public void DateFormat()
+        {
+            Assert.IsTrue(sut.DateFormat.Contains("yy"));
+        }
     }
 }
