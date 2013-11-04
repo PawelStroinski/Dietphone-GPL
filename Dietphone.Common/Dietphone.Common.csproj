@@ -48,6 +48,7 @@
     <Compile Include="BinarySerializers\ProductBinaryStorage.cs" />
     <Compile Include="BinarySerializers\SettingsBinaryStorage.cs" />
     <Compile Include="BinarySerializers\SugarBinaryStorage.cs" />
+    <Compile Include="Models\ReplacementBuilderAndSugarEstimatorFacade.cs" />
     <Compile Include="Models\Calculator.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\DefaultEntities.cs" />
