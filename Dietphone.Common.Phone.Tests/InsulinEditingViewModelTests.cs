@@ -211,6 +211,14 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void IsBusy()
+        {
+            Assert.IsFalse(sut.IsBusy);
+            sut.ChangesProperty("IsBusy", () => { sut.IsBusy = true; });
+            Assert.IsTrue(sut.IsBusy);
+        }
+
+        [Test]
         public void InsulinHeaderCalculatedVisibleIsFalseAfterOpen()
         {
             InitializeViewModel();

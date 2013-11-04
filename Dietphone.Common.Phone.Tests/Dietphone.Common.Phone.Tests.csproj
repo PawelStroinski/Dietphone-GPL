@@ -71,6 +71,7 @@
     <Compile Include="NamesAndMealsLoaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SugarViewModelTests.cs" />
+    <Compile Include="Tools\TestsExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

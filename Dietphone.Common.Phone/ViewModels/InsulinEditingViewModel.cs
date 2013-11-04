@@ -11,9 +11,9 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
-        public bool IsProgressBarVisible { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
+        private bool isBusy;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade)
@@ -33,6 +33,19 @@ namespace Dietphone.ViewModels
                 if (!Subject.Circumstances.Any())
                     throw new InvalidOperationException("No insulin circumstance choosen.");
                 Subject.Circumstances.First().Name = value;
+            }
+        }
+
+        public bool IsBusy
+        {
+            get
+            {
+                return isBusy;
+            }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged("IsBusy");
             }
         }
 
