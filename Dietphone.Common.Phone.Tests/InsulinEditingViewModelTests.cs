@@ -18,6 +18,7 @@ namespace Dietphone.Common.Phone.Tests
         private StateProvider stateProvider;
         private InsulinEditingViewModel sut;
         private Insulin insulin;
+        private ReplacementBuilderAndSugarEstimatorFacade facade;
 
         [SetUp]
         public void TestInitialize()
@@ -25,13 +26,15 @@ namespace Dietphone.Common.Phone.Tests
             factories = Substitute.For<Factories>();
             navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
-            sut = new InsulinEditingViewModel(factories);
+            facade = Substitute.For<ReplacementBuilderAndSugarEstimatorFacade>();
+            sut = new InsulinEditingViewModel(factories, facade);
             sut.Navigator = navigator;
             sut.StateProvider = stateProvider;
             insulin = new Fixture().Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
             factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>().ToList());
             factories.CreateSugar().Returns(new Sugar());
+            factories.Settings.Returns(new Settings());
         }
 
         private void InitializeViewModel()
@@ -205,6 +208,23 @@ namespace Dietphone.Common.Phone.Tests
             sut.NameOfFirstChoosenCircumstance = "newname";
             var actual = sut.Subject.Circumstances.First().Name;
             Assert.AreEqual("newname", actual);
+        }
+
+        [Test]
+        public void InsulinHeaderCalculatedVisibleIsFalseAfterOpen()
+        {
+            InitializeViewModel();
+            Assert.IsFalse(sut.InsulinHeaderCalculatedVisible);
+        }
+
+        [Test]
+        public void WhenOpenedWithEnteredBolusNeverRecalculatesIt()
+        {
+            InitializeViewModel();
+            var normalBolus = sut.Subject.NormalBolus;
+            sut.CurrentSugar.BloodSugar = "100";
+            Assert.AreEqual(normalBolus, sut.Subject.NormalBolus);
+            facade.DidNotReceiveWithAnyArgs().GetReplacementAndEstimatedSugars(null, null, null);
         }
 
         [Test]

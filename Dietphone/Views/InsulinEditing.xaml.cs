@@ -22,7 +22,7 @@ namespace Dietphone.Views
         public InsulinEditing()
         {
             InitializeComponent();
-            viewModel = new InsulinEditingViewModel(MyApp.Factories);
+            viewModel = new InsulinEditingViewModel(MyApp.Factories, CreateFacade());
             viewModel.StateProvider = this;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;
@@ -208,6 +208,24 @@ namespace Dietphone.Views
                     += InsulinCircumstancesSummaryForSelectedItemsDelegate;
             }
             PopulateListPickerWithSelectedInsulinCircumstances();
+        }
+
+        private ReplacementBuilderAndSugarEstimatorFacade CreateFacade()
+        {
+            var patternBuilder = new PatternBuilderImpl(MyApp.Factories,
+                new PatternBuilderImpl.Factor(),
+                new PatternBuilderImpl.PointsForPercentOfEnergy(),
+                new PatternBuilderImpl.PointsForRecentMeal(),
+                new PatternBuilderImpl.PointsForSimillarHour(new HourDifferenceImpl()),
+                new PatternBuilderImpl.PointsForSameCircumstances(),
+                new PatternBuilderImpl.PointsForSimillarSugarBefore(),
+                new PatternBuilderImpl.PointsForFactorCloserToOne());
+            var replacementBuilder = new ReplacementBuilderImpl(new ReplacementBuilderImpl.IsComplete(),
+                new ReplacementBuilderImpl.InsulinTotal());
+            var sugarEstimator = new SugarEstimatorImpl();
+            var facade = new ReplacementBuilderAndSugarEstimatorFacadeImpl(patternBuilder,
+                replacementBuilder, sugarEstimator);
+            return facade;
         }
     }
 
