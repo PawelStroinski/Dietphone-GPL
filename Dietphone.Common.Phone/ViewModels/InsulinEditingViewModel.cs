@@ -11,6 +11,8 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
+        public bool InsulinHeaderCalculatedVisible { get; private set; }
+        public string InsulinHeaderCalculatedText { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
         private bool isBusy;
@@ -20,6 +22,7 @@ namespace Dietphone.ViewModels
             : base(factories)
         {
             this.facade = facade;
+            this.InsulinHeaderCalculatedText = string.Empty;
         }
 
         public string NameOfFirstChoosenCircumstance
@@ -46,14 +49,6 @@ namespace Dietphone.ViewModels
             {
                 isBusy = value;
                 OnPropertyChanged("IsBusy");
-            }
-        }
-
-        public bool InsulinHeaderCalculatedVisible
-        {
-            get
-            {
-                return false;
             }
         }
 
