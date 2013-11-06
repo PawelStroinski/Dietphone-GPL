@@ -174,5 +174,12 @@ namespace Dietphone.ViewModels
                 this.circumstances = null;
             }
         }
+
+        public void NotifyBolusChange()
+        {
+            OnPropertyChanged("NormalBolus");
+            OnPropertyChanged("SquareWaveBolus");
+            OnPropertyChanged("SquareWaveBolusHours");
+        }
     }
 }

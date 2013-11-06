@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ComponentModel;
+using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
@@ -11,18 +13,25 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
-        public bool InsulinHeaderCalculatedVisible { get; private set; }
-        public string InsulinHeaderCalculatedText { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
+        private Sugar sugarSource;
+        private Sugar sugarCopy;
         private bool isBusy;
+        private bool insulinHeaderCalculatedVisible;
+        private string insulinHeaderCalculatedText;
+        private bool openedWithNoBolus;
+        private Meal meal;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
+        private readonly BackgroundWorkerFactory workerFactory;
 
-        public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade)
+        public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
+            BackgroundWorkerFactory workerFactory)
             : base(factories)
         {
             this.facade = facade;
             this.InsulinHeaderCalculatedText = string.Empty;
+            this.workerFactory = workerFactory;
         }
 
         public string NameOfFirstChoosenCircumstance
@@ -49,6 +58,32 @@ namespace Dietphone.ViewModels
             {
                 isBusy = value;
                 OnPropertyChanged("IsBusy");
+            }
+        }
+
+        public bool InsulinHeaderCalculatedVisible
+        {
+            get
+            {
+                return insulinHeaderCalculatedVisible;
+            }
+            private set
+            {
+                insulinHeaderCalculatedVisible = value;
+                OnPropertyChanged("InsulinHeaderCalculatedVisible");
+            }
+        }
+
+        public string InsulinHeaderCalculatedText
+        {
+            get
+            {
+                return insulinHeaderCalculatedText;
+            }
+            private set
+            {
+                insulinHeaderCalculatedText = value;
+                OnPropertyChanged("InsulinHeaderCalculatedText");
             }
         }
 
@@ -115,12 +150,19 @@ namespace Dietphone.ViewModels
                 modelSource = factories.CreateInsulin();
             else
                 modelSource = finder.FindInsulinById(id);
-            if (modelSource != null)
-            {
-                modelCopy = modelSource.GetCopy();
-                modelCopy.SetOwner(factories);
-                modelCopy.InitializeCircumstances(modelSource.ReadCircumstances().ToList());
-            }
+            modelCopy = modelSource.GetCopy();
+            modelCopy.SetOwner(factories);
+            modelCopy.InitializeCircumstances(modelSource.ReadCircumstances().ToList());
+        }
+
+        protected override void OnModelReady()
+        {
+            openedWithNoBolus = modelSource.NormalBolus == 0 && modelSource.SquareWaveBolus == 0;
+            var relatedMealId = Navigator.GetRelatedMealId();
+            if (relatedMealId == Guid.Empty)
+                meal = finder.FindMealByInsulin(modelSource);
+            else
+                meal = finder.FindMealById(relatedMealId);
         }
 
         protected override void MakeViewModel()
@@ -146,18 +188,69 @@ namespace Dietphone.ViewModels
         private void MakeInsulinViewModelInternal()
         {
             Subject = new InsulinViewModel(modelCopy, factories, allCircumstances: Circumstances);
-            Subject.PropertyChanged += delegate
+            Subject.PropertyChanged += (_, eventArguments) =>
             {
                 IsDirty = true;
+                if (eventArguments.PropertyName == "Circumstances")
+                    SugarOrCircumstancesChanged();
             };
         }
 
         private void MakeSugarViewModel()
         {
-            var sugar = finder.FindSugarBeforeInsulin(modelSource);
-            if (sugar == null)
-                sugar = factories.CreateSugar();
-            CurrentSugar = new SugarViewModel(sugar, factories);
+            sugarSource = finder.FindSugarBeforeInsulin(modelSource);
+            if (sugarSource == null)
+                sugarSource = factories.CreateSugar();
+            sugarCopy = sugarSource.GetCopy();
+            CurrentSugar = new SugarViewModel(sugarCopy, factories);
+            CurrentSugar.PropertyChanged += (_, eventArguments) =>
+            {
+                if (eventArguments.PropertyName == "BloodSugar")
+                    SugarOrCircumstancesChanged();
+            };
+        }
+
+        private void SugarOrCircumstancesChanged()
+        {
+            if (openedWithNoBolus && meal != null)
+                StartCalculation();
+        }
+
+        private void StartCalculation()
+        {
+            var worker = workerFactory.Create();
+            worker.DoWork += DoCalculation;
+            worker.RunWorkerCompleted += CalculationCompleted;
+            IsBusy = true;
+            worker.RunWorkerAsync();
+        }
+
+        private void DoCalculation(object sender, DoWorkEventArgs e)
+        {
+            e.Result = facade.GetReplacementAndEstimatedSugars(meal, modelCopy, sugarCopy);
+        }
+
+        private void CalculationCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            IsBusy = false;
+            var replacementAndEstimatedSugars = e.Result as ReplacementAndEstimatedSugars;
+            var replacement = replacementAndEstimatedSugars.Replacement;
+            if (replacement.Items.Any())
+                ShowCalculation(replacement);
+            else
+                InsulinHeaderCalculatedVisible = false;
+        }
+
+        private void ShowCalculation(Replacement replacement)
+        {
+            var insulin = replacement.InsulinTotal;
+            Subject.Insulin.NormalBolus = insulin.NormalBolus;
+            Subject.Insulin.SquareWaveBolus = insulin.SquareWaveBolus;
+            Subject.Insulin.SquareWaveBolusHours = insulin.SquareWaveBolusHours;
+            Subject.NotifyBolusChange();
+            InsulinHeaderCalculatedVisible = true;
+            InsulinHeaderCalculatedText = replacement.IsComplete
+                ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete;
         }
 
         public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };

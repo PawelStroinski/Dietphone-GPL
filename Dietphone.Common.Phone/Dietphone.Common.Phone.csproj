@@ -47,6 +47,7 @@
     <Compile Include="Tools\GoingToAbout.cs" />
     <Compile Include="Tools\NavigationService.cs" />
     <Compile Include="Tools\StateProvider.cs" />
+    <Compile Include="ViewModels\BackgroundWorker.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\DateViewModel.cs" />
     <Compile Include="ViewModels\EditingViewModelBase.cs" />

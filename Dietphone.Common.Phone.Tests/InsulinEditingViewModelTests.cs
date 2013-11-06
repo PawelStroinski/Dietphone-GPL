@@ -21,6 +21,7 @@ namespace Dietphone.Common.Phone.Tests
         private InsulinEditingViewModel sut;
         private Insulin insulin;
         private ReplacementBuilderAndSugarEstimatorFacade facade;
+        private Sugar sugar;
 
         [SetUp]
         public void TestInitialize()
@@ -29,13 +30,14 @@ namespace Dietphone.Common.Phone.Tests
             navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             facade = Substitute.For<ReplacementBuilderAndSugarEstimatorFacade>();
-            sut = new InsulinEditingViewModel(factories, facade);
+            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory());
             sut.Navigator = navigator;
             sut.StateProvider = stateProvider;
             insulin = new Fixture().Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
+            sugar = new Sugar();
             factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>().ToList());
-            factories.CreateSugar().Returns(new Sugar());
+            factories.CreateSugar().Returns(sugar);
             factories.Settings.Returns(new Settings());
         }
 
@@ -92,7 +94,7 @@ namespace Dietphone.Common.Phone.Tests
             factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
             InitializeViewModel();
             sut.CurrentSugar.BloodSugar = "155";
-            Assert.AreEqual(150, sut.CurrentSugar.BloodSugar);
+            Assert.AreEqual(150, sugar.BloodSugar);
         }
 
         [Test]
@@ -102,7 +104,7 @@ namespace Dietphone.Common.Phone.Tests
             factories.CreateSugar().Returns(sugar);
             InitializeViewModel();
             sut.CurrentSugar.BloodSugar = "155";
-            Assert.AreEqual(150, sut.CurrentSugar.BloodSugar);
+            Assert.AreEqual(150, sugar.BloodSugar);
         }
 
         [Test]
@@ -245,17 +247,13 @@ namespace Dietphone.Common.Phone.Tests
             var previousAll = sut.Circumstances;
             var previousAllIds = sut.Circumstances.Select(circumstance => circumstance.Id).ToList();
             var previousChoosen = sut.Subject.Circumstances;
-            var propertyChanged = false;
-            sut.PropertyChanged += (_, e) =>
+            sut.ChangesProperty("Circumstances", () =>
             {
-                if (e.PropertyName == "Circumstances")
-                    propertyChanged = true;
-            };
-            sut.InvalidateCircumstances();
-            Assert.AreNotSame(previousAll, sut.Circumstances);
-            Assert.AreEqual(previousAllIds, sut.Circumstances.Select(circumstance => circumstance.Id));
-            Assert.AreNotSame(previousChoosen, sut.Subject.Circumstances);
-            Assert.IsTrue(propertyChanged);
+                sut.InvalidateCircumstances();
+                Assert.AreNotSame(previousAll, sut.Circumstances);
+                Assert.AreEqual(previousAllIds, sut.Circumstances.Select(circumstance => circumstance.Id));
+                Assert.AreNotSame(previousChoosen, sut.Subject.Circumstances);
+            });
             Assert.AreEqual(new InsulinCircumstanceViewModel[] { sut.Circumstances.First() }, sut.Subject.Circumstances);
             Assert.AreEqual("foo", sut.NameOfFirstChoosenCircumstance);
             Assert.AreNotEqual("foo", sut.Subject.Circumstances.First().Model.Name, "Should be buffered");
@@ -273,6 +271,7 @@ namespace Dietphone.Common.Phone.Tests
                 {
                     Replacement = new Replacement
                     {
+                        Items = new List<ReplacementItem> { new ReplacementItem() },
                         InsulinTotal
                             = new Insulin { NormalBolus = 2.5f, SquareWaveBolus = 2, SquareWaveBolusHours = 3 }
                     },
@@ -308,7 +307,6 @@ namespace Dietphone.Common.Phone.Tests
             {
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
-                Thread.Sleep(10);
                 facade.DidNotReceiveWithAnyArgs().GetReplacementAndEstimatedSugars(null, null, null);
             }
 
@@ -317,21 +315,30 @@ namespace Dietphone.Common.Phone.Tests
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
-                Thread.Sleep(10);
                 facade.DidNotReceiveWithAnyArgs().GetReplacementAndEstimatedSugars(null, null, null);
             }
 
             [TestCase(true)]
             [TestCase(false)]
-            public void WhenOpenedWithNoBolusCalculatesItAfterSugarOrCircumstanceChange(bool sugarChange)
+            public void WhenOpenedWithNoBolusCalculatesItAfterSugarOrCircumstancesChanged(bool onSugarChange)
             {
+                if (!onSugarChange)
+                    sugar.BloodSugar = 100;
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
-                if (sugarChange)
-                    sut.CurrentSugar.BloodSugar = "100";
-                else
-                    sut.Subject.Circumstances = sut.Subject.Circumstances.ToList();
-                Thread.Sleep(10);
+                sut.Subject.ChangesProperty("NormalBolus", () =>
+                {
+                    sut.Subject.ChangesProperty("SquareWaveBolus", () =>
+                    {
+                        sut.Subject.ChangesProperty("SquareWaveBolusHours", () =>
+                        {
+                            if (onSugarChange)
+                                sut.CurrentSugar.BloodSugar = "100";
+                            else
+                                sut.Subject.Circumstances = sut.Subject.Circumstances.ToList();
+                        });
+                    });
+                });
                 Assert.AreEqual(2.5f, sut.Subject.Insulin.NormalBolus);
                 Assert.AreEqual(2f, sut.Subject.Insulin.SquareWaveBolus);
                 Assert.AreEqual(3f, sut.Subject.Insulin.SquareWaveBolusHours);
@@ -345,7 +352,6 @@ namespace Dietphone.Common.Phone.Tests
                 sut.ChangesProperty("InsulinHeaderCalculatedVisible", () =>
                 {
                     sut.CurrentSugar.BloodSugar = "100";
-                    Thread.Sleep(10);
                 });
                 Assert.IsTrue(sut.InsulinHeaderCalculatedVisible);
             }
@@ -360,11 +366,60 @@ namespace Dietphone.Common.Phone.Tests
                 sut.ChangesProperty("InsulinHeaderCalculatedText", () =>
                 {
                     sut.CurrentSugar.BloodSugar = "100";
-                    Thread.Sleep(10);
                 });
                 Assert.AreEqual(isComplete
                     ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete,
                     sut.InsulinHeaderCalculatedText);
+            }
+
+            [Test]
+            public void SetsIsBusyForTheTimeOfCalculation()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.ChangesProperty("IsBusy", () =>
+                {
+                    sut.CurrentSugar.BloodSugar = "100";
+                });
+                Assert.IsFalse(sut.IsBusy);
+            }
+
+            [Test]
+            public void WhenNoReplacementsFoundDoesNotShowCalculation()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                sut.Subject.Insulin.NormalBolus = 0;
+                sut.Subject.Insulin.SquareWaveBolus = 0;
+                replacementAndEstimatedSugars.Replacement.Items.Clear();
+                sut.Subject.Circumstances = sut.Subject.Circumstances.ToList();
+                Assert.AreEqual(0, sut.Subject.Insulin.NormalBolus);
+                Assert.AreEqual(0, sut.Subject.Insulin.SquareWaveBolus);
+                Assert.IsFalse(sut.InsulinHeaderCalculatedVisible);
+            }
+
+            [Test]
+            public void UsesRelatedMealIdWhenProvided()
+            {
+                var relatedMeal = new Meal { Id = Guid.NewGuid() };
+                navigator.GetRelatedMealId().Returns(relatedMeal.Id);
+                factories.Finder.FindMealById(relatedMeal.Id).Returns(relatedMeal);
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                var replacementAndEstimatedSugars = new ReplacementAndEstimatedSugars
+                {
+                    Replacement = new Replacement
+                    {
+                        InsulinTotal = new Insulin { NormalBolus = 1.5f },
+                        Items = this.replacementAndEstimatedSugars.Replacement.Items
+                    },
+                    EstimatedSugars = this.replacementAndEstimatedSugars.EstimatedSugars
+                };
+                facade.GetReplacementAndEstimatedSugars(relatedMeal, Arg.Any<Insulin>(), Arg.Any<Sugar>())
+                    .Returns(replacementAndEstimatedSugars);
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.AreEqual(1.5f, sut.Subject.Insulin.NormalBolus);
             }
         }
     }

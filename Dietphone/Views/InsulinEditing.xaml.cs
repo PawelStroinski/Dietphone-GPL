@@ -22,7 +22,8 @@ namespace Dietphone.Views
         public InsulinEditing()
         {
             InitializeComponent();
-            viewModel = new InsulinEditingViewModel(MyApp.Factories, CreateFacade());
+            viewModel = new InsulinEditingViewModel(MyApp.Factories, CreateFacade(),
+                new BackgroundWorkerWrapperFactory());
             viewModel.StateProvider = this;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;

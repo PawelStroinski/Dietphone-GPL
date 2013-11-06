@@ -11,9 +11,9 @@ namespace Dietphone.Common.Phone.Tests
             this INotifyPropertyChanged viewModel, string propertyName, Action action)
         {
             var changed = false;
-            var propertyChangedEventHandler = new PropertyChangedEventHandler((_, e) =>
+            var propertyChangedEventHandler = new PropertyChangedEventHandler((_, eventArguments) =>
             {
-                if (e.PropertyName == propertyName)
+                if (eventArguments.PropertyName == propertyName)
                     changed = true;
             });
             viewModel.PropertyChanged += propertyChangedEventHandler;
@@ -25,7 +25,7 @@ namespace Dietphone.Common.Phone.Tests
             {
                 viewModel.PropertyChanged -= propertyChangedEventHandler;
             }
-            Assert.IsTrue(changed);
+            Assert.IsTrue(changed, string.Format("Expected property {0} change", propertyName));
         }
     }
 }
