@@ -146,6 +146,8 @@ namespace Dietphone.ViewModels
                     throw new NullReferenceException("value");
                 if (value == Circumstances)
                     throw new ArgumentException("value");
+                if (value.SequenceEqual(Circumstances))
+                    return;
                 lock (circumstancesLock)
                 {
                     var newItems = value.Except(Circumstances);

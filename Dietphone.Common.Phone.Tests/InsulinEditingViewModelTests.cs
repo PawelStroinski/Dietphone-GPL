@@ -335,7 +335,7 @@ namespace Dietphone.Common.Phone.Tests
                             if (onSugarChange)
                                 sut.CurrentSugar.BloodSugar = "100";
                             else
-                                sut.Subject.Circumstances = sut.Subject.Circumstances.ToList();
+                                ChooseCircumstance();
                         });
                     });
                 });
@@ -393,7 +393,7 @@ namespace Dietphone.Common.Phone.Tests
                 sut.Subject.Insulin.NormalBolus = 0;
                 sut.Subject.Insulin.SquareWaveBolus = 0;
                 replacementAndEstimatedSugars.Replacement.Items.Clear();
-                sut.Subject.Circumstances = sut.Subject.Circumstances.ToList();
+                ChooseCircumstance();
                 Assert.AreEqual(0, sut.Subject.Insulin.NormalBolus);
                 Assert.AreEqual(0, sut.Subject.Insulin.SquareWaveBolus);
                 Assert.IsFalse(sut.InsulinHeaderCalculatedVisible);

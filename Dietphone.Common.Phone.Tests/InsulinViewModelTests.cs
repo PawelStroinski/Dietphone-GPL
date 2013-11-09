@@ -156,5 +156,22 @@ namespace Dietphone.Common.Phone.Tests
             var newValue = sut.Circumstances;
             sut.Circumstances = newValue;
         }
+
+        [Test]
+        public void CircumstancesSetterRaisesOnPropertyChangedOnlyWhenChangeWasMade()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            sut.ChangesProperty("Circumstances", () =>
+            {
+                var newValue = sut.Circumstances.ToList();
+                newValue.Add(allCircumstances.Last());
+                sut.Circumstances = newValue;
+            });
+            sut.NotChangesProperty("Circumstances", () =>
+            {
+                sut.Circumstances = sut.Circumstances.ToList();
+            });
+        }
+
     }
 }
