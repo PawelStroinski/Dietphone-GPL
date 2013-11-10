@@ -304,11 +304,11 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void InsulinIsCalculatedIsFalseAndTextIsEmptyAfterOpen()
+            public void IsCalculatedIsFalseAndTextIsEmptyAfterOpen()
             {
                 InitializeViewModel();
-                Assert.IsFalse(sut.InsulinIsCalculated);
-                Assert.IsEmpty(sut.InsulinIsCalculatedText);
+                Assert.IsFalse(sut.IsCalculated);
+                Assert.IsEmpty(sut.IsCalculatedText);
             }
 
             [Test]
@@ -354,31 +354,31 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void CalculationUpdatesInsulinIsCalculated()
+            public void CalculationUpdatesIsCalculated()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
-                sut.ChangesProperty("InsulinIsCalculated", () =>
+                sut.ChangesProperty("IsCalculated", () =>
                 {
                     sut.CurrentSugar.BloodSugar = "100";
                 });
-                Assert.IsTrue(sut.InsulinIsCalculated);
+                Assert.IsTrue(sut.IsCalculated);
             }
 
             [TestCase(true)]
             [TestCase(false)]
-            public void CalculationUpdatesInsulinIsCalculatedText(bool isComplete)
+            public void CalculationUpdatesIsCalculatedText(bool isComplete)
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 replacementAndEstimatedSugars.Replacement.IsComplete = isComplete;
                 InitializeViewModel();
-                sut.ChangesProperty("InsulinIsCalculatedText", () =>
+                sut.ChangesProperty("IsCalculatedText", () =>
                 {
                     sut.CurrentSugar.BloodSugar = "100";
                 });
                 Assert.AreEqual(isComplete
                     ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete,
-                    sut.InsulinIsCalculatedText);
+                    sut.IsCalculatedText);
             }
 
             [Test]
@@ -406,49 +406,49 @@ namespace Dietphone.Common.Phone.Tests
                 ChooseCircumstance();
                 Assert.AreEqual(0, sut.Subject.Insulin.NormalBolus);
                 Assert.AreEqual(0, sut.Subject.Insulin.SquareWaveBolus);
-                Assert.IsFalse(sut.InsulinIsCalculated);
+                Assert.IsFalse(sut.IsCalculated);
             }
 
             [Test]
-            public void WhenNormalBolusIsEditedSetsInsulinIsCalculatedToFalse()
+            public void WhenNormalBolusIsEditedSetsIsCalculatedToFalse()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
-                Assert.IsTrue(sut.InsulinIsCalculated);
-                sut.ChangesProperty("InsulinIsCalculated", () =>
+                Assert.IsTrue(sut.IsCalculated);
+                sut.ChangesProperty("IsCalculated", () =>
                 {
                     sut.Subject.NormalBolus = "1.5";
                 });
-                Assert.IsFalse(sut.InsulinIsCalculated);
+                Assert.IsFalse(sut.IsCalculated);
             }
 
             [Test]
-            public void WhenSquareWaveBolusIsEditedSetsInsulinIsCalculatedToFalse()
+            public void WhenSquareWaveBolusIsEditedSetsIsCalculatedToFalse()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
-                Assert.IsTrue(sut.InsulinIsCalculated);
-                sut.ChangesProperty("InsulinIsCalculated", () =>
+                Assert.IsTrue(sut.IsCalculated);
+                sut.ChangesProperty("IsCalculated", () =>
                 {
                     sut.Subject.SquareWaveBolus = "1.5";
                 });
-                Assert.IsFalse(sut.InsulinIsCalculated);
+                Assert.IsFalse(sut.IsCalculated);
             }
 
             [Test]
-            public void WhenSquareWaveBolusHoursIsEditedSetsInsulinIsCalculatedToFalse()
+            public void WhenSquareWaveBolusHoursIsEditedSetsIsCalculatedToFalse()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
-                Assert.IsTrue(sut.InsulinIsCalculated);
-                sut.ChangesProperty("InsulinIsCalculated", () =>
+                Assert.IsTrue(sut.IsCalculated);
+                sut.ChangesProperty("IsCalculated", () =>
                 {
                     sut.Subject.SquareWaveBolusHours = "1.5";
                 });
-                Assert.IsFalse(sut.InsulinIsCalculated);
+                Assert.IsFalse(sut.IsCalculated);
             }
 
             [Test]
