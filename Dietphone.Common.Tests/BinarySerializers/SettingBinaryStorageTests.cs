@@ -21,6 +21,15 @@ namespace Dietphone.BinarySerializers.Tests
         }
 
         [Test]
+        public void Default_SugarsAfterInsulinHours()
+        {
+            var settingsToWrite = new Settings();
+            var storage = new SettingsBinaryStorage();
+            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(4, readedSettings.SugarsAfterInsulinHours);
+        }
+
+        [Test]
         public void Default_MaxBolus()
         {
             var settingsToWrite = new Settings();

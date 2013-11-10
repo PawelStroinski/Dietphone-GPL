@@ -57,7 +57,10 @@ namespace Dietphone.BinarySerializers
                 item.MaxBolus = reader.ReadSingle();
             }
             else
+            {
+                item.SugarsAfterInsulinHours = 4;
                 item.MaxBolus = 5;
+            }
         }
     }
 }
