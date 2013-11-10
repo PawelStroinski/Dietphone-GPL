@@ -21,6 +21,7 @@ namespace Dietphone.ViewModels
         private bool isCalculated;
         private string isCalculatedText;
         private bool openedWithNoBolus;
+        private bool bolusEdited;
         private Meal meal;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
@@ -192,7 +193,7 @@ namespace Dietphone.ViewModels
             {
                 IsDirty = true;
                 if (eventArguments.PropertyName == "Circumstances")
-                    SugarOrCircumstancesChanged();
+                    StartCalculation();
                 if (new string[] { "NormalBolus", "SquareWaveBolus", "SquareWaveBolusHours" }
                     .Contains(eventArguments.PropertyName))
                 {
@@ -212,22 +213,31 @@ namespace Dietphone.ViewModels
             CurrentSugar.PropertyChanged += (_, eventArguments) =>
             {
                 if (eventArguments.PropertyName == "BloodSugar")
-                    SugarOrCircumstancesChanged();
+                    StartCalculation();
             };
-        }
-
-        private void SugarOrCircumstancesChanged()
-        {
-            if (openedWithNoBolus && meal != null)
-                StartCalculation();
         }
 
         private void BolusChanged()
         {
             IsCalculated = false;
+            var bolusEdited = modelCopy.NormalBolus != 0 
+                || modelCopy.SquareWaveBolus != 0 
+                || modelCopy.SquareWaveBolusHours != 0;
+            if (this.bolusEdited != bolusEdited)
+            {
+                this.bolusEdited = bolusEdited;
+                if (!bolusEdited)
+                    StartCalculation();
+            }
         }
 
         private void StartCalculation()
+        {
+            if (openedWithNoBolus && meal != null && !bolusEdited)
+                StartCalculationInternal();
+        }
+
+        private void StartCalculationInternal()
         {
             var worker = workerFactory.Create();
             worker.DoWork += DoCalculation;
@@ -249,7 +259,7 @@ namespace Dietphone.ViewModels
             if (replacement.Items.Any())
                 ShowCalculation(replacement);
             else
-                IsCalculated = false;
+                ShowNoCalculation();
         }
 
         private void ShowCalculation(Replacement replacement)
@@ -259,9 +269,18 @@ namespace Dietphone.ViewModels
             Subject.Insulin.SquareWaveBolus = insulin.SquareWaveBolus;
             Subject.Insulin.SquareWaveBolusHours = insulin.SquareWaveBolusHours;
             Subject.NotifyBolusChange();
+            bolusEdited = false;
             IsCalculated = true;
             IsCalculatedText = replacement.IsComplete
                 ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete;
+        }
+
+        private void ShowNoCalculation()
+        {
+            Subject.Insulin.NormalBolus = 0;
+            Subject.Insulin.SquareWaveBolus = 0;
+            Subject.Insulin.SquareWaveBolusHours = 0;
+            IsCalculated = false;
         }
 
         public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };
