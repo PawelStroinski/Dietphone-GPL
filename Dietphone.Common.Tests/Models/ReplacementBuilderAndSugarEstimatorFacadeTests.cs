@@ -23,7 +23,7 @@ namespace Dietphone.Common.Tests.Models
             var patterns = new List<Pattern>();
             var replacement = new Replacement { Items = new List<ReplacementItem>() };
             var estimatedSugars = new List<Sugar>();
-            patternBuilder.GetPatternsFor(insulin, meal).Returns(patterns);
+            patternBuilder.GetPatternsFor(insulin, meal, currentBefore: sugar).Returns(patterns);
             replacementBuilder.GetReplacementFor(meal, patterns).Returns(replacement);
             sugarEstimator.GetEstimatedSugarsAfter(meal, sugar, replacement.Items).Returns(estimatedSugars);
             var result = sut.GetReplacementAndEstimatedSugars(meal, insulin, sugar);

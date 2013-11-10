@@ -6,7 +6,7 @@ namespace Dietphone.Models
 {
     public interface PatternBuilder
     {
-        IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal);
+        IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, Sugar currentBefore = null);
     }
 
     public class PatternBuilderImpl : PatternBuilder
@@ -20,7 +20,7 @@ namespace Dietphone.Models
         private Meal searchedMeal, meal;
         private IList<MealItem> searchedItems;
         private MealItem searchedItem, item;
-        private Sugar sugarBefore;
+        private Sugar searchedSugarBefore, sugarBefore;
         private List<Sugar> sugarsAfter;
         private int percentOfEnergyDiff;
         private Pattern pattern;
@@ -31,7 +31,7 @@ namespace Dietphone.Models
             this.actions = actions;
         }
 
-        public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal)
+        public IList<Pattern> GetPatternsFor(Insulin insulin, Meal meal, Sugar currentBefore = null)
         {
             var patterns = new List<Pattern>();
             finder = factories.Finder;
@@ -39,6 +39,7 @@ namespace Dietphone.Models
             searchedInsulin = insulin;
             searchedMeal = meal;
             searchedItems = meal.NormalizedItems();
+            searchedSugarBefore = currentBefore;
             foreach (var testMeal in factories.Meals.Where(m => m != searchedMeal))
             {
                 var mealHasMatch = testMeal.Items.Any(item =>
@@ -196,7 +197,7 @@ namespace Dietphone.Models
 
             protected override byte Points(PatternBuilderImpl patternBuilder)
             {
-                var searchedSugarBefore = patternBuilder.finder.FindSugarBeforeInsulin(patternBuilder.searchedInsulin);
+                var searchedSugarBefore = patternBuilder.searchedSugarBefore;
                 if (searchedSugarBefore == null)
                     return 0;
                 var left = searchedSugarBefore.BloodSugarInMgdL;

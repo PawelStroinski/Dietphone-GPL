@@ -27,7 +27,8 @@ namespace Dietphone.Models
         public ReplacementAndEstimatedSugars GetReplacementAndEstimatedSugars(Meal meal, Insulin insulin,
             Sugar currentBefore)
         {
-            var patterns = patternBuilder.GetPatternsFor(insulin, meal);
+            var patterns = patternBuilder.GetPatternsFor(insulin, meal,
+                currentBefore: currentBefore);
             var replacement = replacementBuilder.GetReplacementFor(meal, patterns);
             var estimatedSugars = sugarEstimator.GetEstimatedSugarsAfter(meal, currentBefore,
                 usingReplacementItems: replacement.Items);

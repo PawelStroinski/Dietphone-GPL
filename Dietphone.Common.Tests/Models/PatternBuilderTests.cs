@@ -297,9 +297,9 @@ namespace Dietphone.Models.Tests
             var sut = CreateSut(new PatternBuilderImpl.PointsForSimillarSugarBefore());
             var insulin = AddInsulin("12:00 1");
             var meal = AddMeal("12:00 1 100g");
-            AddSugars("12:00 " + currentSugar.ToString());
+            var currentBefore = AddSugars("12:00 " + currentSugar.ToString());
             AddMealInsulinAndSugars("09:00 1 100g", "1", sugarToFind.ToString() + " 100");
-            var patterns = sut.GetPatternsFor(insulin, meal);
+            var patterns = sut.GetPatternsFor(insulin, meal, currentBefore: currentBefore.First());
             Assert.AreEqual(expectedPoints, patterns[0].RightnessPoints);
         }
 
