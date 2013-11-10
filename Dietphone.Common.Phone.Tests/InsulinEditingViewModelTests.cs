@@ -399,12 +399,55 @@ namespace Dietphone.Common.Phone.Tests
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
+                Assert.AreNotEqual(0, sut.Subject.Insulin.NormalBolus);
                 sut.Subject.Insulin.NormalBolus = 0;
                 sut.Subject.Insulin.SquareWaveBolus = 0;
                 replacementAndEstimatedSugars.Replacement.Items.Clear();
                 ChooseCircumstance();
                 Assert.AreEqual(0, sut.Subject.Insulin.NormalBolus);
                 Assert.AreEqual(0, sut.Subject.Insulin.SquareWaveBolus);
+                Assert.IsFalse(sut.InsulinIsCalculated);
+            }
+
+            [Test]
+            public void WhenNormalBolusIsEditedSetsInsulinIsCalculatedToFalse()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsTrue(sut.InsulinIsCalculated);
+                sut.ChangesProperty("InsulinIsCalculated", () =>
+                {
+                    sut.Subject.NormalBolus = "1.5";
+                });
+                Assert.IsFalse(sut.InsulinIsCalculated);
+            }
+
+            [Test]
+            public void WhenSquareWaveBolusIsEditedSetsInsulinIsCalculatedToFalse()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsTrue(sut.InsulinIsCalculated);
+                sut.ChangesProperty("InsulinIsCalculated", () =>
+                {
+                    sut.Subject.SquareWaveBolus = "1.5";
+                });
+                Assert.IsFalse(sut.InsulinIsCalculated);
+            }
+
+            [Test]
+            public void WhenSquareWaveBolusHoursIsEditedSetsInsulinIsCalculatedToFalse()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsTrue(sut.InsulinIsCalculated);
+                sut.ChangesProperty("InsulinIsCalculated", () =>
+                {
+                    sut.Subject.SquareWaveBolusHours = "1.5";
+                });
                 Assert.IsFalse(sut.InsulinIsCalculated);
             }
 

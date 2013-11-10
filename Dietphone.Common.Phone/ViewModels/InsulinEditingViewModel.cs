@@ -193,6 +193,11 @@ namespace Dietphone.ViewModels
                 IsDirty = true;
                 if (eventArguments.PropertyName == "Circumstances")
                     SugarOrCircumstancesChanged();
+                if (new string[] { "NormalBolus", "SquareWaveBolus", "SquareWaveBolusHours" }
+                    .Contains(eventArguments.PropertyName))
+                {
+                    BolusChanged();
+                }
             };
         }
 
@@ -215,6 +220,11 @@ namespace Dietphone.ViewModels
         {
             if (openedWithNoBolus && meal != null)
                 StartCalculation();
+        }
+
+        private void BolusChanged()
+        {
+            InsulinIsCalculated = false;
         }
 
         private void StartCalculation()
