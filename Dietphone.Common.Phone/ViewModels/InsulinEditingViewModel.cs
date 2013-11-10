@@ -202,6 +202,7 @@ namespace Dietphone.ViewModels
             if (sugarSource == null)
                 sugarSource = factories.CreateSugar();
             sugarCopy = sugarSource.GetCopy();
+            sugarCopy.SetOwner(factories);
             CurrentSugar = new SugarViewModel(sugarCopy, factories);
             CurrentSugar.PropertyChanged += (_, eventArguments) =>
             {

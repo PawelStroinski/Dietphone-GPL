@@ -108,6 +108,15 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void MakeViewModelSetsOwnerOfCopiedSugar()
+        {
+            var sugar = new Sugar { BloodSugar = 150 };
+            factories.CreateSugar().Returns(sugar);
+            InitializeViewModel();
+            Assert.AreEqual(150, sut.CurrentSugar.Sugar.BloodSugarInMgdL);
+        }
+
+        [Test]
         public void CurrentSugarCanBeWrittenAndRead()
         {
             factories.Settings.Returns(new Settings());
