@@ -33,6 +33,15 @@ namespace Dietphone.BinarySerializers
             }
         }
 
+        public static void Write(this BinaryWriter writer, IEnumerable<Guid> list)
+        {
+            writer.Write(list.Count());
+            foreach (Guid item in list)
+            {
+                writer.Write(item);
+            }
+        }
+
         public static void Write<T>(this BinaryWriter writer, T value, BinarySerializer<T> serializer)
         {
             if (value != null)
@@ -101,6 +110,17 @@ namespace Dietphone.BinarySerializers
             return list;
         }
 
+        public static List<Guid> ReadGuids(this BinaryReader reader)
+        {
+            List<Guid> list = new List<Guid>();
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                list.Add(reader.ReadGuid());
+            }
+            return list;
+        }
+
         public static DateTime ReadDateTime(this BinaryReader reader)
         {
             var int64 = reader.ReadInt64();
@@ -117,5 +137,6 @@ namespace Dietphone.BinarySerializers
             Byte[] guid = reader.ReadBytes(16);
             return new Guid(guid);
         }
+
     }
 }
