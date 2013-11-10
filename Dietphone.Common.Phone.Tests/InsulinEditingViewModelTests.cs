@@ -304,11 +304,11 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void InsulinHeaderCalculatedVisibleIsFalseAndTextIsEmptyAfterOpen()
+            public void InsulinIsCalculatedIsFalseAndTextIsEmptyAfterOpen()
             {
                 InitializeViewModel();
-                Assert.IsFalse(sut.InsulinHeaderCalculatedVisible);
-                Assert.IsEmpty(sut.InsulinHeaderCalculatedText);
+                Assert.IsFalse(sut.InsulinIsCalculated);
+                Assert.IsEmpty(sut.InsulinIsCalculatedText);
             }
 
             [Test]
@@ -354,31 +354,31 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void CalculationUpdatesInsulinHeaderCalculatedVisible()
+            public void CalculationUpdatesInsulinIsCalculated()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
-                sut.ChangesProperty("InsulinHeaderCalculatedVisible", () =>
+                sut.ChangesProperty("InsulinIsCalculated", () =>
                 {
                     sut.CurrentSugar.BloodSugar = "100";
                 });
-                Assert.IsTrue(sut.InsulinHeaderCalculatedVisible);
+                Assert.IsTrue(sut.InsulinIsCalculated);
             }
 
             [TestCase(true)]
             [TestCase(false)]
-            public void CalculationUpdatesInsulinHeaderCalculatedText(bool isComplete)
+            public void CalculationUpdatesInsulinIsCalculatedText(bool isComplete)
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 replacementAndEstimatedSugars.Replacement.IsComplete = isComplete;
                 InitializeViewModel();
-                sut.ChangesProperty("InsulinHeaderCalculatedText", () =>
+                sut.ChangesProperty("InsulinIsCalculatedText", () =>
                 {
                     sut.CurrentSugar.BloodSugar = "100";
                 });
                 Assert.AreEqual(isComplete
                     ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete,
-                    sut.InsulinHeaderCalculatedText);
+                    sut.InsulinIsCalculatedText);
             }
 
             [Test]
@@ -405,7 +405,7 @@ namespace Dietphone.Common.Phone.Tests
                 ChooseCircumstance();
                 Assert.AreEqual(0, sut.Subject.Insulin.NormalBolus);
                 Assert.AreEqual(0, sut.Subject.Insulin.SquareWaveBolus);
-                Assert.IsFalse(sut.InsulinHeaderCalculatedVisible);
+                Assert.IsFalse(sut.InsulinIsCalculated);
             }
 
             [Test]

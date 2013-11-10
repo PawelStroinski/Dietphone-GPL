@@ -18,8 +18,8 @@ namespace Dietphone.ViewModels
         private Sugar sugarSource;
         private Sugar sugarCopy;
         private bool isBusy;
-        private bool insulinHeaderCalculatedVisible;
-        private string insulinHeaderCalculatedText;
+        private bool insulinIsCalculated;
+        private string insulinIsCalculatedText;
         private bool openedWithNoBolus;
         private Meal meal;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
@@ -30,7 +30,7 @@ namespace Dietphone.ViewModels
             : base(factories)
         {
             this.facade = facade;
-            this.InsulinHeaderCalculatedText = string.Empty;
+            this.InsulinIsCalculatedText = string.Empty;
             this.workerFactory = workerFactory;
         }
 
@@ -61,29 +61,29 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public bool InsulinHeaderCalculatedVisible
+        public bool InsulinIsCalculated
         {
             get
             {
-                return insulinHeaderCalculatedVisible;
+                return insulinIsCalculated;
             }
             private set
             {
-                insulinHeaderCalculatedVisible = value;
-                OnPropertyChanged("InsulinHeaderCalculatedVisible");
+                insulinIsCalculated = value;
+                OnPropertyChanged("InsulinIsCalculated");
             }
         }
 
-        public string InsulinHeaderCalculatedText
+        public string InsulinIsCalculatedText
         {
             get
             {
-                return insulinHeaderCalculatedText;
+                return insulinIsCalculatedText;
             }
             private set
             {
-                insulinHeaderCalculatedText = value;
-                OnPropertyChanged("InsulinHeaderCalculatedText");
+                insulinIsCalculatedText = value;
+                OnPropertyChanged("InsulinIsCalculatedText");
             }
         }
 
@@ -239,7 +239,7 @@ namespace Dietphone.ViewModels
             if (replacement.Items.Any())
                 ShowCalculation(replacement);
             else
-                InsulinHeaderCalculatedVisible = false;
+                InsulinIsCalculated = false;
         }
 
         private void ShowCalculation(Replacement replacement)
@@ -249,8 +249,8 @@ namespace Dietphone.ViewModels
             Subject.Insulin.SquareWaveBolus = insulin.SquareWaveBolus;
             Subject.Insulin.SquareWaveBolusHours = insulin.SquareWaveBolusHours;
             Subject.NotifyBolusChange();
-            InsulinHeaderCalculatedVisible = true;
-            InsulinHeaderCalculatedText = replacement.IsComplete
+            InsulinIsCalculated = true;
+            InsulinIsCalculatedText = replacement.IsComplete
                 ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete;
         }
 

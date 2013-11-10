@@ -56,7 +56,7 @@
                         </telerikInput:RadListPicker>
                     </StackPanel>
                     <!--Header-->
-                    <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding InsulinHeaderCalculatedText}" Visibility="{Binding InsulinHeaderCalculatedVisible, Converter={StaticResource BooleanToVisibility}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,3,24,17" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding InsulinIsCalculatedText}" Visibility="{Binding InsulinIsCalculated, Converter={StaticResource BooleanToVisibility}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,3,24,17" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
                     <!--Normal bolus-->
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
                         <TextBlock Text="{Binding Translations.NormalBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
