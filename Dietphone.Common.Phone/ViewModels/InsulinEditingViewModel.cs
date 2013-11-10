@@ -233,7 +233,9 @@ namespace Dietphone.ViewModels
 
         private void StartCalculation()
         {
-            if (openedWithNoBolus && meal != null && !bolusEdited)
+            var mealPresent = meal != null;
+            var sugarEntered = sugarCopy.BloodSugar != 0;
+            if (openedWithNoBolus && !bolusEdited && mealPresent && sugarEntered)
                 StartCalculationInternal();
         }
 

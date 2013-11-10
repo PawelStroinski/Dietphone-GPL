@@ -354,6 +354,15 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void SugarNeedsToBeEnteredForCalculation()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                ChooseCircumstance();
+                facade.DidNotReceiveWithAnyArgs().GetReplacementAndEstimatedSugars(null, null, null);
+            }
+
+            [Test]
             public void CalculationUpdatesIsCalculated()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
