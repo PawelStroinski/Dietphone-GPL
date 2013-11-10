@@ -533,10 +533,10 @@ So one number gives information on both fat and protein in meal.</value>
     <value>INSULIN</value>
   </data>
   <data name="InsulinHeaderCalculated" xml:space="preserve">
-    <value>Insulin &amp; sugar calculated from your entires</value>
+    <value>Bolus, sugar calculated from previous entries</value>
   </data>
   <data name="InsulinHeaderIncomplete" xml:space="preserve">
-    <value>Insulin &amp; sugar calculated from your entires (incomplete meal)</value>
+    <value>Bolus, sugar calculated from previous entries (incomplete meal)</value>
   </data>
   <data name="InsulinHeaderUser" xml:space="preserve">
     <value>Tap to show calculated insulin</value>

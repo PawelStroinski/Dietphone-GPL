@@ -830,7 +830,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Insulin &amp; sugar calculated from your entires.
+        ///   Looks up a localized string similar to Bolus, sugar calculated from previous entries.
         /// </summary>
         public static string InsulinHeaderCalculated {
             get {
@@ -839,7 +839,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Insulin &amp; sugar calculated from your entires (incomplete meal).
+        ///   Looks up a localized string similar to Bolus, sugar calculated from previous entries (incomplete meal).
         /// </summary>
         public static string InsulinHeaderIncomplete {
             get {
