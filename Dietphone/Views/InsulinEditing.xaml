@@ -83,7 +83,7 @@
                             <chart:DateTimeContinuousAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
                         </chart:RadCartesianChart.HorizontalAxis>
                         <chart:RadCartesianChart.VerticalAxis>
-                            <chart:LinearAxis Visibility="Collapsed" Minimum="70" Maximum="200"/>
+                            <chart:LinearAxis Visibility="Collapsed" Minimum="{Binding SugarChartMinimum}" Maximum="{Binding SugarChartMaximum}"/>
                         </chart:RadCartesianChart.VerticalAxis>
                         <chart:SplineSeries Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="DateTime" ValueBinding="BloodSugar" ShowLabels="True" ItemsSource="{Binding SugarChart}"/>
                     </chart:RadCartesianChart>

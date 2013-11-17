@@ -22,6 +22,7 @@ namespace Dietphone.Common.Phone.Tests
         private Insulin insulin;
         private ReplacementBuilderAndSugarEstimatorFacade facade;
         private Sugar sugar;
+        private Settings settings;
 
         [SetUp]
         public void TestInitialize()
@@ -38,7 +39,8 @@ namespace Dietphone.Common.Phone.Tests
             sugar = new Sugar();
             factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>().ToList());
             factories.CreateSugar().Returns(sugar);
-            factories.Settings.Returns(new Settings { MaxBolus = 5 });
+            settings = new Settings { MaxBolus = 5 };
+            factories.Settings.Returns(settings);
         }
 
         private void InitializeViewModel()
@@ -687,6 +689,77 @@ namespace Dietphone.Common.Phone.Tests
                     Assert.AreEqual(estimatedSugars[0].BloodSugar, sut.SugarChart[1].BloodSugar);
                     Assert.AreEqual(estimatedSugars[1].DateTime, sut.SugarChart[2].DateTime);
                     Assert.AreEqual(estimatedSugars[1].BloodSugar, sut.SugarChart[2].BloodSugar);
+                });
+            }
+
+            [Test]
+            public void SugarChartMinumumReturnsMinimumOfChartMinus10WhenUnitIsMgdL()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                estimatedSugars[1].BloodSugar = 98.1f;
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.AreEqual(88.1f, sut.SugarChartMinimum);
+            }
+
+            [Test]
+            public void SugarChartMinumumReturnsMinimumOfChartMinus0_55WhenUnitIsMmolL()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                estimatedSugars[1].BloodSugar = 95.1f;
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                sugar.BloodSugar = 100;
+                InitializeViewModel();
+                settings.SugarUnit = SugarUnit.mmolL;
+                ChooseCircumstance();
+                Assert.AreEqual(94.55f, sut.SugarChartMinimum, 0.001);
+            }
+
+            [Test]
+            public void SugarChartMaximumReturnsMaximumOfChartPlus50WhenUnitIsMgdL()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                estimatedSugars[1].BloodSugar = 155.1f;
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.AreEqual(205.1f, sut.SugarChartMaximum);
+            }
+
+            [Test]
+            public void SugarChartMaximumReturnsMaximumOfChartPlus2_77WhenUnitIsMmolL()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                estimatedSugars[1].BloodSugar = 155.1f;
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                sugar.BloodSugar = 100;
+                InitializeViewModel();
+                settings.SugarUnit = SugarUnit.mmolL;
+                ChooseCircumstance();
+                Assert.AreEqual(157.87f, sut.SugarChartMaximum, 0.001);
+            }
+
+            [Test]
+            public void SugarChartMinimumAndMaximumReturn100WhenChartIsEmpty()
+            {
+                InitializeViewModel();
+                Assert.AreEqual(100, sut.SugarChartMinimum);
+                Assert.AreEqual(100, sut.SugarChartMaximum);
+            }
+
+            [Test]
+            public void CalculationChangesMinimumAndMaximum()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.ChangesProperty("SugarChartMinimum", () =>
+                {
+                    sut.ChangesProperty("SugarChartMaximum", () =>
+                    {
+                        sut.CurrentSugar.BloodSugar = "100";
+                    });
                 });
             }
         }

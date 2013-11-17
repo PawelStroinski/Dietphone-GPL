@@ -27,6 +27,10 @@ namespace Dietphone.ViewModels
         private Meal meal;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
+        private const float SUGAR_CHART_MARGIN_MINIMUM_MGDL = 10f;
+        private const float SUGAR_CHART_MARGIN_MAXIMUM_MGDL = 50f;
+        private const float SUGAR_CHART_MARGIN_MINIMUM_MMOLL = 0.55f;
+        private const float SUGAR_CHART_MARGIN_MAXIMUM_MMOLL = 2.77f;
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
             BackgroundWorkerFactory workerFactory)
@@ -87,6 +91,26 @@ namespace Dietphone.ViewModels
             {
                 isCalculatedText = value;
                 OnPropertyChanged("IsCalculatedText");
+            }
+        }
+
+        public float SugarChartMinimum
+        {
+            get
+            {
+                return SugarChart.Any() ? SugarChart.Min(sugar => sugar.BloodSugar)
+                    - (factories.Settings.SugarUnit == SugarUnit.mgdL
+                        ? SUGAR_CHART_MARGIN_MINIMUM_MGDL : SUGAR_CHART_MARGIN_MINIMUM_MMOLL) : 100;
+            }
+        }
+
+        public float SugarChartMaximum
+        {
+            get
+            {
+                return SugarChart.Any() ? SugarChart.Max(sugar => sugar.BloodSugar)
+                    + (factories.Settings.SugarUnit == SugarUnit.mgdL
+                        ? SUGAR_CHART_MARGIN_MAXIMUM_MGDL : SUGAR_CHART_MARGIN_MAXIMUM_MMOLL) : 100;
             }
         }
 
@@ -312,6 +336,8 @@ namespace Dietphone.ViewModels
                 .Concat(estimatedSugars)
                 .Select(sugar => new SugarChartItemViewModel(sugar)));
             OnPropertyChanged("SugarChart");
+            OnPropertyChanged("SugarChartMinimum");
+            OnPropertyChanged("SugarChartMaximum");
         }
 
         private void ClearSugarChart()
