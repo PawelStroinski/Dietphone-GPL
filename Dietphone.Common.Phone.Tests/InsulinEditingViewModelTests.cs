@@ -81,8 +81,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void MakeViewModelCreatesSugarIfCantFind()
         {
-            var sugar = new Sugar { BloodSugar = 150 };
-            factories.CreateSugar().Returns(sugar);
+            sugar.BloodSugar = 150;
             InitializeViewModel();
             Assert.AreEqual(sugar.BloodSugar.ToString(), sut.CurrentSugar.BloodSugar);
         }
@@ -100,8 +99,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void MakeViewModelCopiesCreatedSugar()
         {
-            var sugar = new Sugar { BloodSugar = 150 };
-            factories.CreateSugar().Returns(sugar);
+            sugar.BloodSugar = 150;
             InitializeViewModel();
             sut.CurrentSugar.BloodSugar = "155";
             Assert.AreEqual(150, sugar.BloodSugar);
@@ -110,8 +108,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void MakeViewModelSetsOwnerOfCopiedSugar()
         {
-            var sugar = new Sugar { BloodSugar = 150 };
-            factories.CreateSugar().Returns(sugar);
+            sugar.BloodSugar = 150;
             InitializeViewModel();
             Assert.AreEqual(150, sut.CurrentSugar.Sugar.BloodSugarInMgdL);
         }
