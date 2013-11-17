@@ -13,6 +13,7 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
+        public ObservableCollection<SugarChartItemViewModel> SugarChart { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
         private Sugar sugarSource;
@@ -162,16 +163,6 @@ namespace Dietphone.ViewModels
             modelCopy.InitializeCircumstances(modelSource.ReadCircumstances().ToList());
         }
 
-        protected override void OnModelReady()
-        {
-            openedWithNoBolus = modelSource.NormalBolus == 0 && modelSource.SquareWaveBolus == 0;
-            var relatedMealId = Navigator.GetRelatedMealId();
-            if (relatedMealId == Guid.Empty)
-                meal = finder.FindMealByInsulin(modelSource);
-            else
-                meal = finder.FindMealById(relatedMealId);
-        }
-
         protected override void MakeViewModel()
         {
             LoadCircumstances();
@@ -182,6 +173,21 @@ namespace Dietphone.ViewModels
         protected override string Validate()
         {
             return string.Empty;
+        }
+
+        protected override void OnModelReady()
+        {
+            openedWithNoBolus = modelSource.NormalBolus == 0 && modelSource.SquareWaveBolus == 0;
+            var relatedMealId = Navigator.GetRelatedMealId();
+            if (relatedMealId == Guid.Empty)
+                meal = finder.FindMealByInsulin(modelSource);
+            else
+                meal = finder.FindMealById(relatedMealId);
+        }
+
+        protected override void OnCommonUiReady()
+        {
+            SugarChart = new ObservableCollection<SugarChartItemViewModel>();
         }
 
         private void LoadCircumstances()
@@ -230,8 +236,9 @@ namespace Dietphone.ViewModels
         private void BolusChanged()
         {
             IsCalculated = false;
-            var bolusEdited = modelCopy.NormalBolus != 0 
-                || modelCopy.SquareWaveBolus != 0 
+            ClearSugarChart();
+            var bolusEdited = modelCopy.NormalBolus != 0
+                || modelCopy.SquareWaveBolus != 0
                 || modelCopy.SquareWaveBolusHours != 0;
             if (this.bolusEdited != bolusEdited)
             {
@@ -269,13 +276,14 @@ namespace Dietphone.ViewModels
             var replacementAndEstimatedSugars = e.Result as ReplacementAndEstimatedSugars;
             var replacement = replacementAndEstimatedSugars.Replacement;
             if (replacement.Items.Any())
-                ShowCalculation(replacement);
+                ShowCalculation(replacementAndEstimatedSugars);
             else
                 ShowNoCalculation();
         }
 
-        private void ShowCalculation(Replacement replacement)
+        private void ShowCalculation(ReplacementAndEstimatedSugars replacementAndEstimatedSugars)
         {
+            var replacement = replacementAndEstimatedSugars.Replacement;
             var insulin = replacement.InsulinTotal;
             Subject.Insulin.NormalBolus = insulin.NormalBolus;
             Subject.Insulin.SquareWaveBolus = insulin.SquareWaveBolus;
@@ -285,6 +293,7 @@ namespace Dietphone.ViewModels
             IsCalculated = true;
             IsCalculatedText = replacement.IsComplete
                 ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete;
+            PopulateSugarChart(replacementAndEstimatedSugars.EstimatedSugars);
         }
 
         private void ShowNoCalculation()
@@ -293,8 +302,37 @@ namespace Dietphone.ViewModels
             Subject.Insulin.SquareWaveBolus = 0;
             Subject.Insulin.SquareWaveBolusHours = 0;
             IsCalculated = false;
+            ClearSugarChart();
+        }
+
+        private void PopulateSugarChart(IList<Sugar> estimatedSugars)
+        {
+            SugarChart = new ObservableCollection<SugarChartItemViewModel>(
+                new Sugar[] { sugarCopy }
+                .Concat(estimatedSugars)
+                .Select(sugar => new SugarChartItemViewModel(sugar)));
+            OnPropertyChanged("SugarChart");
+        }
+
+        private void ClearSugarChart()
+        {
+            SugarChart.Clear();
+            OnPropertyChanged("SugarChart");
         }
 
         public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };
+
+        public class SugarChartItemViewModel
+        {
+            private readonly Sugar sugar;
+
+            public SugarChartItemViewModel(Sugar sugar)
+            {
+                this.sugar = sugar;
+            }
+
+            public DateTime DateTime { get { return sugar.DateTime; } }
+            public float BloodSugar { get { return sugar.BloodSugar; } }
+        }
     }
 }

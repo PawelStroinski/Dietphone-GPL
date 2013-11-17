@@ -340,6 +340,13 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void SugarChartIsEmptyAfterOpen()
+            {
+                InitializeViewModel();
+                Assert.IsEmpty(sut.SugarChart);
+            }
+
+            [Test]
             public void WhenOpenedWithEnteredBolusNeverRecalculatesIt()
             {
                 InitializeViewModel();
@@ -447,6 +454,16 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void WhenNoReplacementsFoundDoesNotShowSugarChart()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                replacementAndEstimatedSugars.Replacement.Items.Clear();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsEmpty(sut.SugarChart);
+            }
+
+            [Test]
             public void WhenNoReplacementsFoundHidesPreviousCalculation()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
@@ -462,45 +479,75 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void WhenNormalBolusIsEditedSetsIsCalculatedToFalse()
+            public void WhenNoReplacementsFoundHidesPreviousSugarChart()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
-                Assert.IsTrue(sut.IsCalculated);
-                sut.ChangesProperty("IsCalculated", () =>
+                Assert.IsNotEmpty(sut.SugarChart);
+                replacementAndEstimatedSugars.Replacement.Items.Clear();
+                sut.ChangesProperty("SugarChart", () =>
                 {
-                    sut.Subject.NormalBolus = "1.5";
+                    ChooseCircumstance();
                 });
-                Assert.IsFalse(sut.IsCalculated);
+                Assert.IsEmpty(sut.SugarChart);
             }
 
             [Test]
-            public void WhenSquareWaveBolusIsEditedSetsIsCalculatedToFalse()
+            public void WhenNormalBolusIsEditedSetsIsCalculatedToFalseAndClearsSugarChart()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
                 Assert.IsTrue(sut.IsCalculated);
+                Assert.IsNotEmpty(sut.SugarChart);
                 sut.ChangesProperty("IsCalculated", () =>
                 {
-                    sut.Subject.SquareWaveBolus = "1.5";
+                    sut.ChangesProperty("SugarChart", () =>
+                    {
+                        sut.Subject.NormalBolus = "1.5";
+                    });
                 });
                 Assert.IsFalse(sut.IsCalculated);
+                Assert.IsEmpty(sut.SugarChart);
             }
 
             [Test]
-            public void WhenSquareWaveBolusHoursIsEditedSetsIsCalculatedToFalse()
+            public void WhenSquareWaveBolusIsEditedSetsIsCalculatedToFalseAndClearsSugarChart()
             {
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
                 Assert.IsTrue(sut.IsCalculated);
+                Assert.IsNotEmpty(sut.SugarChart);
                 sut.ChangesProperty("IsCalculated", () =>
                 {
-                    sut.Subject.SquareWaveBolusHours = "1.5";
+                    sut.ChangesProperty("SugarChart", () =>
+                    {
+                        sut.Subject.SquareWaveBolus = "1.5";
+                    });
                 });
                 Assert.IsFalse(sut.IsCalculated);
+                Assert.IsEmpty(sut.SugarChart);
+            }
+
+            [Test]
+            public void WhenSquareWaveBolusHoursIsEditedSetsIsCalculatedToFalseAndClearsSugarChart()
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsTrue(sut.IsCalculated);
+                Assert.IsNotEmpty(sut.SugarChart);
+                sut.ChangesProperty("IsCalculated", () =>
+                {
+                    sut.ChangesProperty("SugarChart", () =>
+                    {
+                        sut.Subject.SquareWaveBolusHours = "1.5";
+                    });
+                });
+                Assert.IsFalse(sut.IsCalculated);
+                Assert.IsEmpty(sut.SugarChart);
             }
 
             [Test]
@@ -622,6 +669,25 @@ namespace Dietphone.Common.Phone.Tests
                     .Returns(replacementAndEstimatedSugars);
                 sut.CurrentSugar.BloodSugar = "100";
                 Assert.AreEqual(1.5f, sut.Subject.Insulin.NormalBolus);
+            }
+
+            [Test]
+            public void CalculationPopulatesSugarChartWithCurrentAndEstimatedSugarsAfter()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.ChangesProperty("SugarChart", () =>
+                {
+                    sut.CurrentSugar.BloodSugar = "100";
+                    Assert.AreEqual(3, sut.SugarChart.Count);
+                    Assert.AreEqual(sugar.DateTime, sut.SugarChart[0].DateTime);
+                    Assert.AreEqual(100, sut.SugarChart[0].BloodSugar);
+                    Assert.AreEqual(estimatedSugars[0].DateTime, sut.SugarChart[1].DateTime);
+                    Assert.AreEqual(estimatedSugars[0].BloodSugar, sut.SugarChart[1].BloodSugar);
+                    Assert.AreEqual(estimatedSugars[1].DateTime, sut.SugarChart[2].DateTime);
+                    Assert.AreEqual(estimatedSugars[1].BloodSugar, sut.SugarChart[2].BloodSugar);
+                });
             }
         }
     }

@@ -27,13 +27,6 @@ namespace Dietphone.Views
             viewModel.StateProvider = this;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;
-            Chart.Series[0].ItemsSource = new ChartDataObject[]
-            {
-                new ChartDataObject(DateTime.Now, 100),
-                new ChartDataObject(DateTime.Now.AddMinutes(60), 150),
-                new ChartDataObject(DateTime.Now.AddMinutes(120), 90),
-                new ChartDataObject(DateTime.Now.AddMinutes(180), 120)
-            };
             Save = this.GetIcon(0);
             TranslateApplicationBar();
             InsulinCircumstances.SummaryForSelectedItemsDelegate
@@ -232,26 +225,6 @@ namespace Dietphone.Views
             var facade = new ReplacementBuilderAndSugarEstimatorFacadeImpl(patternBuilder,
                 replacementBuilder, sugarEstimator);
             return facade;
-        }
-    }
-
-    public class ChartDataObject
-    {
-        public ChartDataObject(DateTime date, double value)
-        {
-            Date = date;
-            Value = value;
-        }
-
-        public DateTime Date
-        {
-            get;
-            set;
-        }
-        public double Value
-        {
-            get;
-            set;
         }
     }
 }

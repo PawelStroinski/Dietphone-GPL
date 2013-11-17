@@ -85,7 +85,7 @@
                         <chart:RadCartesianChart.VerticalAxis>
                             <chart:LinearAxis Visibility="Collapsed" Minimum="70" Maximum="200"/>
                         </chart:RadCartesianChart.VerticalAxis>
-                        <chart:SplineSeries Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="Date" ValueBinding="Value" ShowLabels="True"/>
+                        <chart:SplineSeries Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="DateTime" ValueBinding="BloodSugar" ShowLabels="True" ItemsSource="{Binding SugarChart}"/>
                     </chart:RadCartesianChart>
                 </Grid>
             </controls:PivotItem>
