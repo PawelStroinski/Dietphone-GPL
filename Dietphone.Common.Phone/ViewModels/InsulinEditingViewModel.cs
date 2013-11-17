@@ -213,7 +213,10 @@ namespace Dietphone.ViewModels
             sugarSource = finder.FindSugarBeforeInsulin(modelSource);
             sugarIsNew = sugarSource == null;
             if (sugarIsNew)
+            {
                 sugarSource = factories.CreateSugar();
+                sugarSource.DateTime = modelSource.DateTime;
+            }
             sugarCopy = sugarSource.GetCopy();
             sugarCopy.SetOwner(factories);
             CurrentSugar = new SugarViewModel(sugarCopy, factories);

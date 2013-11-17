@@ -114,6 +114,21 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void WhenMakeViewModelCreatesSugarItSetsItsDateToInsulinsDate()
+        {
+            InitializeViewModel();
+            Assert.AreEqual(insulin.DateTime, sugar.DateTime);
+        }
+
+        [Test]
+        public void WhenMakeViewModelFindsSugarItDoesntChangeItsDate()
+        {
+            factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+            InitializeViewModel();
+            Assert.AreNotEqual(insulin.DateTime, sugar.DateTime);
+        }
+
+        [Test]
         public void CurrentSugarCanBeWrittenAndRead()
         {
             factories.Settings.Returns(new Settings());
