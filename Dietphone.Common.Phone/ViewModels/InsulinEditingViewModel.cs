@@ -98,9 +98,9 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                return SugarChart.Any() ? SugarChart.Min(sugar => sugar.BloodSugar)
-                    - (factories.Settings.SugarUnit == SugarUnit.mgdL
-                        ? SUGAR_CHART_MARGIN_MINIMUM_MGDL : SUGAR_CHART_MARGIN_MINIMUM_MMOLL) : 100;
+                var margin = factories.Settings.SugarUnit == SugarUnit.mgdL
+                    ? SUGAR_CHART_MARGIN_MINIMUM_MGDL : SUGAR_CHART_MARGIN_MINIMUM_MMOLL;
+                return SugarChart.Any() ? SugarChart.Min(sugar => sugar.BloodSugar) - margin : 100;
             }
         }
 
@@ -108,9 +108,9 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                return SugarChart.Any() ? SugarChart.Max(sugar => sugar.BloodSugar)
-                    + (factories.Settings.SugarUnit == SugarUnit.mgdL
-                        ? SUGAR_CHART_MARGIN_MAXIMUM_MGDL : SUGAR_CHART_MARGIN_MAXIMUM_MMOLL) : 100;
+                var margin = factories.Settings.SugarUnit == SugarUnit.mgdL
+                    ? SUGAR_CHART_MARGIN_MAXIMUM_MGDL : SUGAR_CHART_MARGIN_MAXIMUM_MMOLL;
+                return SugarChart.Any() ? SugarChart.Max(sugar => sugar.BloodSugar) + margin : 100;
             }
         }
 
