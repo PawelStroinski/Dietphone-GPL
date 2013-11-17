@@ -22,6 +22,7 @@ namespace Dietphone.ViewModels
         private string isCalculatedText;
         private bool openedWithNoBolus;
         private bool bolusEdited;
+        private bool sugarIsNew;
         private Meal meal;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
@@ -144,6 +145,11 @@ namespace Dietphone.ViewModels
             OnPropertyChanged("Circumstances");
         }
 
+        public bool ShouldFocusSugar()
+        {
+            return sugarIsNew;
+        }
+
         protected override void FindAndCopyModel()
         {
             var id = Navigator.GetInsulinIdToEdit();
@@ -205,7 +211,8 @@ namespace Dietphone.ViewModels
         private void MakeSugarViewModel()
         {
             sugarSource = finder.FindSugarBeforeInsulin(modelSource);
-            if (sugarSource == null)
+            sugarIsNew = sugarSource == null;
+            if (sugarIsNew)
                 sugarSource = factories.CreateSugar();
             sugarCopy = sugarSource.GetCopy();
             sugarCopy.SetOwner(factories);

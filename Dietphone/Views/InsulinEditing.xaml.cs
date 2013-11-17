@@ -38,6 +38,11 @@ namespace Dietphone.Views
             TranslateApplicationBar();
             InsulinCircumstances.SummaryForSelectedItemsDelegate
                 += InsulinCircumstancesSummaryForSelectedItemsDelegate;
+            Loaded += delegate
+            {
+                if (viewModel.ShouldFocusSugar())
+                    CurrentSugar.Focus();
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

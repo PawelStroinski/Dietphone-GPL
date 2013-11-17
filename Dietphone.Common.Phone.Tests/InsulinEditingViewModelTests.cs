@@ -268,6 +268,22 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreNotEqual("foo", sut.Subject.Circumstances.First().Model.Name, "Should be buffered");
         }
 
+        [Test]
+        public void ShouldFocusSugarWhenNewSugar()
+        {
+            InitializeViewModel();
+            Assert.IsTrue(sut.ShouldFocusSugar());
+        }
+
+        [Test]
+        public void ShouldNotFocusSugarWhenExistingSugar()
+        {
+            var sugar = new Sugar { BloodSugar = 150 };
+            factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+            InitializeViewModel();
+            Assert.IsFalse(sut.ShouldFocusSugar());
+        }
+
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests
         {
             private ReplacementAndEstimatedSugars replacementAndEstimatedSugars;
