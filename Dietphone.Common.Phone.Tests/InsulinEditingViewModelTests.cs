@@ -220,6 +220,29 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void SaveWithUpdatedTimeAndReturn()
+        {
+            insulin.DateTime = DateTime.Now.AddSeconds(-10);
+            InitializeViewModel();
+            sut.CurrentSugar.BloodSugar = "140";
+            ChooseCircumstance();
+            sut.Subject.NormalBolus = "2.1";
+            sut.Subject.SquareWaveBolus = "2.2";
+            sut.Subject.SquareWaveBolusHours = "2.3";
+            sut.Subject.Note = "note";
+            sut.SaveWithUpdatedTimeAndReturn();
+            Assert.AreEqual(140, sugar.BloodSugar);
+            Assert.AreEqual(1, insulin.Circumstances.Count());
+            Assert.AreEqual(sut.Circumstances.First().Id, insulin.Circumstances.First().Id);
+            Assert.AreEqual(2.1, insulin.NormalBolus);
+            Assert.AreEqual(2.2, insulin.SquareWaveBolus);
+            Assert.AreEqual(2.3, insulin.SquareWaveBolusHours);
+            Assert.AreEqual("note", insulin.Note);
+            Assert.AreEqual(DateTime.Now.Ticks, insulin.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
+            navigator.Received().GoBack();
+        }
+
+        [Test]
         public void SummaryForSelectedCircumstances()
         {
             InitializeViewModel();
