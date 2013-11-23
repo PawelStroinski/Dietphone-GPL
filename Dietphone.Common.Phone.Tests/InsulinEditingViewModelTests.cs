@@ -58,270 +58,273 @@ namespace Dietphone.Common.Phone.Tests
             sut.Subject.Circumstances = circumstances;
         }
 
-        [TestCase(true)]
-        [TestCase(false)]
-        public void FindAndCopyModelAndMakeViewModel(bool editingExisting)
+        public class GeneralTests : InsulinEditingViewModelTests
         {
-            if (editingExisting)
+            [TestCase(true)]
+            [TestCase(false)]
+            public void FindAndCopyModelAndMakeViewModel(bool editingExisting)
             {
-                navigator.GetInsulinIdToEdit().Returns(insulin.Id);
-                factories.Finder.FindInsulinById(insulin.Id).Returns(insulin);
+                if (editingExisting)
+                {
+                    navigator.GetInsulinIdToEdit().Returns(insulin.Id);
+                    factories.Finder.FindInsulinById(insulin.Id).Returns(insulin);
+                }
+                else
+                    factories.CreateInsulin().Returns(insulin);
+                sut.Load();
+                Assert.AreEqual(insulin.Id, sut.Subject.Id);
             }
-            else
-                factories.CreateInsulin().Returns(insulin);
-            sut.Load();
-            Assert.AreEqual(insulin.Id, sut.Subject.Id);
-        }
 
-        [Test]
-        public void MakeViewModelFindsSugar()
-        {
-            var sugar = new Sugar { BloodSugar = 150 };
-            factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
-            InitializeViewModel();
-            Assert.AreEqual(sugar.BloodSugar.ToString(), sut.CurrentSugar.BloodSugar);
-        }
-
-        [Test]
-        public void MakeViewModelCreatesSugarIfCantFind()
-        {
-            sugar.BloodSugar = 150;
-            InitializeViewModel();
-            Assert.AreEqual(sugar.BloodSugar.ToString(), sut.CurrentSugar.BloodSugar);
-        }
-
-        [Test]
-        public void MakeViewModelCopiesFoundSugar()
-        {
-            var sugar = new Sugar { BloodSugar = 150 };
-            factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
-            InitializeViewModel();
-            sut.CurrentSugar.BloodSugar = "155";
-            Assert.AreEqual(150, sugar.BloodSugar);
-        }
-
-        [Test]
-        public void MakeViewModelCopiesCreatedSugar()
-        {
-            sugar.BloodSugar = 150;
-            InitializeViewModel();
-            sut.CurrentSugar.BloodSugar = "155";
-            Assert.AreEqual(150, sugar.BloodSugar);
-        }
-
-        [Test]
-        public void MakeViewModelSetsOwnerOfCopiedSugar()
-        {
-            sugar.BloodSugar = 150;
-            InitializeViewModel();
-            Assert.AreEqual(150, sut.CurrentSugar.Sugar.BloodSugarInMgdL);
-        }
-
-        [Test]
-        public void WhenMakeViewModelCreatesSugarItSetsItsDateToInsulinsDate()
-        {
-            InitializeViewModel();
-            Assert.AreEqual(insulin.DateTime, sugar.DateTime);
-        }
-
-        [Test]
-        public void WhenMakeViewModelFindsSugarItDoesntChangeItsDate()
-        {
-            factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
-            InitializeViewModel();
-            Assert.AreNotEqual(insulin.DateTime, sugar.DateTime);
-        }
-
-        [Test]
-        public void CurrentSugarCanBeWrittenAndRead()
-        {
-            factories.Settings.Returns(new Settings());
-            InitializeViewModel();
-            sut.CurrentSugar.BloodSugar = "110";
-            Assert.AreEqual("110", sut.CurrentSugar.BloodSugar);
-        }
-
-        [Test]
-        public void CircumstancesCanBeRead()
-        {
-            InitializeViewModel();
-            var expected = factories.InsulinCircumstances;
-            var actual = sut.Circumstances;
-            Assert.AreEqual(expected.Count, actual.Count);
-        }
-
-        [Test]
-        public void CircumstancesAreBuffered()
-        {
-            InitializeViewModel();
-            var expected = factories.InsulinCircumstances.First();
-            var actual = sut.Circumstances.First(circumstance => circumstance.Id == expected.Id);
-            Assert.AreEqual(expected.Name, actual.Name);
-            expected.Name = "foo";
-            Assert.AreNotEqual(expected.Name, actual.Name);
-        }
-
-        [Test]
-        public void AddCircumstance()
-        {
-            var newCircumstance = new InsulinCircumstance();
-            factories.CreateInsulinCircumstance()
-                .Returns(newCircumstance)
-                .AndDoes(delegate { factories.InsulinCircumstances.Add(newCircumstance); });
-            InitializeViewModel();
-            var factoriesCountBefore = factories.InsulinCircumstances.Count;
-            var sutCountBefore = sut.Circumstances.Count;
-            var insulinCountBefore = sut.Subject.Circumstances.Count;
-            sut.AddCircumstance("new");
-            Assert.AreEqual(factoriesCountBefore, factories.InsulinCircumstances.Count);
-            Assert.AreEqual(sutCountBefore + 1, sut.Circumstances.Count);
-            Assert.AreEqual(insulinCountBefore, sut.Subject.Circumstances.Count);
-            Assert.AreEqual("new", sut.Circumstances.Last().Name);
-        }
-
-        [Test]
-        public void CanEditCircumstance()
-        {
-            InitializeViewModel();
-            Assert.IsFalse(sut.CanEditCircumstance());
-            ChooseCircumstance();
-            Assert.IsTrue(sut.CanEditCircumstance());
-        }
-
-        [Test]
-        public void CanDeleteCircumstance()
-        {
-            InitializeViewModel();
-            Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoCircumstanceChoosen,
-                sut.CanDeleteCircumstance());
-            ChooseCircumstance();
-            Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.Yes,
-                sut.CanDeleteCircumstance());
-        }
-
-        [Test]
-        public void CanDeleteCircumstanceWhenOnlyOne()
-        {
-            factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(1).ToList());
-            InitializeViewModel();
-            ChooseCircumstance();
-            Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance,
-                sut.CanDeleteCircumstance());
-        }
-
-        [Test]
-        public void DeleteCircumstance()
-        {
-            InitializeViewModel();
-            ChooseCircumstance();
-            ChooseCircumstance();
-            var expected = sut.Subject.Circumstances.Skip(1).ToList();
-            sut.DeleteCircumstance();
-            var actual = sut.Subject.Circumstances;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void SaveWithUpdatedTimeAndReturn()
-        {
-            insulin.DateTime = DateTime.Now.AddSeconds(-10);
-            InitializeViewModel();
-            sut.CurrentSugar.BloodSugar = "140";
-            ChooseCircumstance();
-            sut.Subject.NormalBolus = "2.1";
-            sut.Subject.SquareWaveBolus = "2.2";
-            sut.Subject.SquareWaveBolusHours = "2.3";
-            sut.Subject.Note = "note";
-            sut.SaveWithUpdatedTimeAndReturn();
-            Assert.AreEqual(140, sugar.BloodSugar);
-            Assert.AreEqual(1, insulin.Circumstances.Count());
-            Assert.AreEqual(sut.Circumstances.First().Id, insulin.ReadCircumstances().First());
-            Assert.AreEqual(2.1, insulin.NormalBolus, 0.01);
-            Assert.AreEqual(2.2, insulin.SquareWaveBolus, 0.01);
-            Assert.AreEqual(2.3, insulin.SquareWaveBolusHours, 0.01);
-            Assert.AreEqual("note", insulin.Note);
-            Assert.AreEqual(DateTime.Now.Ticks, insulin.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
-            Assert.AreEqual(DateTime.Now.Ticks, sugar.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
-            navigator.Received().GoBack();
-        }
-
-        [Test]
-        public void SummaryForSelectedCircumstances()
-        {
-            InitializeViewModel();
-            ChooseCircumstance();
-            ChooseCircumstance();
-            var circumstances = sut.Subject.Circumstances;
-            var expected = circumstances.First().Name + ", " + circumstances.Last().Name;
-            Assert.AreEqual(expected, sut.SummaryForSelectedCircumstances());
-        }
-
-        [Test]
-        public void NameOfFirstChoosenCircumstanceGetter()
-        {
-            InitializeViewModel();
-            Assert.AreEqual(string.Empty, sut.NameOfFirstChoosenCircumstance);
-            ChooseCircumstance();
-            ChooseCircumstance();
-            var expected = sut.Subject.Circumstances.First().Name;
-            var actual = sut.NameOfFirstChoosenCircumstance;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void NameOfFirstChoosenCircumstanceSetter()
-        {
-            InitializeViewModel();
-            Assert.Throws<InvalidOperationException>(() =>
+            [Test]
+            public void MakeViewModelFindsSugar()
             {
-                sut.NameOfFirstChoosenCircumstance = "newname1";
-            });
-            ChooseCircumstance();
-            ChooseCircumstance();
-            sut.NameOfFirstChoosenCircumstance = "newname";
-            var actual = sut.Subject.Circumstances.First().Name;
-            Assert.AreEqual("newname", actual);
-        }
+                var sugar = new Sugar { BloodSugar = 150 };
+                factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+                InitializeViewModel();
+                Assert.AreEqual(sugar.BloodSugar.ToString(), sut.CurrentSugar.BloodSugar);
+            }
 
-        [Test]
-        public void InvalidateCircumstancesInvalidatesWithoutChangingAnything()
-        {
-            factories.CreateInsulinCircumstance().Returns(new InsulinCircumstance());
-            InitializeViewModel();
-            ChooseCircumstance();
-            ChooseCircumstance();
-            sut.AddCircumstance(string.Empty);
-            sut.DeleteCircumstance();
-            sut.NameOfFirstChoosenCircumstance = "foo";
-            var previousAll = sut.Circumstances;
-            var previousAllIds = sut.Circumstances.Select(circumstance => circumstance.Id).ToList();
-            var previousChoosen = sut.Subject.Circumstances;
-            sut.ChangesProperty("Circumstances", () =>
+            [Test]
+            public void MakeViewModelCreatesSugarIfCantFind()
             {
-                sut.InvalidateCircumstances();
-                Assert.AreNotSame(previousAll, sut.Circumstances);
-                Assert.AreEqual(previousAllIds, sut.Circumstances.Select(circumstance => circumstance.Id));
-                Assert.AreNotSame(previousChoosen, sut.Subject.Circumstances);
-            });
-            Assert.AreEqual(new InsulinCircumstanceViewModel[] { sut.Circumstances.First() }, sut.Subject.Circumstances);
-            Assert.AreEqual("foo", sut.NameOfFirstChoosenCircumstance);
-            Assert.AreNotEqual("foo", sut.Subject.Circumstances.First().Model.Name, "Should be buffered");
-        }
+                sugar.BloodSugar = 150;
+                InitializeViewModel();
+                Assert.AreEqual(sugar.BloodSugar.ToString(), sut.CurrentSugar.BloodSugar);
+            }
 
-        [Test]
-        public void ShouldFocusSugarWhenNewSugar()
-        {
-            InitializeViewModel();
-            Assert.IsTrue(sut.ShouldFocusSugar());
-        }
+            [Test]
+            public void MakeViewModelCopiesFoundSugar()
+            {
+                var sugar = new Sugar { BloodSugar = 150 };
+                factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "155";
+                Assert.AreEqual(150, sugar.BloodSugar);
+            }
 
-        [Test]
-        public void ShouldNotFocusSugarWhenExistingSugar()
-        {
-            var sugar = new Sugar { BloodSugar = 150 };
-            factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
-            InitializeViewModel();
-            Assert.IsFalse(sut.ShouldFocusSugar());
+            [Test]
+            public void MakeViewModelCopiesCreatedSugar()
+            {
+                sugar.BloodSugar = 150;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "155";
+                Assert.AreEqual(150, sugar.BloodSugar);
+            }
+
+            [Test]
+            public void MakeViewModelSetsOwnerOfCopiedSugar()
+            {
+                sugar.BloodSugar = 150;
+                InitializeViewModel();
+                Assert.AreEqual(150, sut.CurrentSugar.Sugar.BloodSugarInMgdL);
+            }
+
+            [Test]
+            public void WhenMakeViewModelCreatesSugarItSetsItsDateToInsulinsDate()
+            {
+                InitializeViewModel();
+                Assert.AreEqual(insulin.DateTime, sugar.DateTime);
+            }
+
+            [Test]
+            public void WhenMakeViewModelFindsSugarItDoesntChangeItsDate()
+            {
+                factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+                InitializeViewModel();
+                Assert.AreNotEqual(insulin.DateTime, sugar.DateTime);
+            }
+
+            [Test]
+            public void CurrentSugarCanBeWrittenAndRead()
+            {
+                factories.Settings.Returns(new Settings());
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "110";
+                Assert.AreEqual("110", sut.CurrentSugar.BloodSugar);
+            }
+
+            [Test]
+            public void CircumstancesCanBeRead()
+            {
+                InitializeViewModel();
+                var expected = factories.InsulinCircumstances;
+                var actual = sut.Circumstances;
+                Assert.AreEqual(expected.Count, actual.Count);
+            }
+
+            [Test]
+            public void CircumstancesAreBuffered()
+            {
+                InitializeViewModel();
+                var expected = factories.InsulinCircumstances.First();
+                var actual = sut.Circumstances.First(circumstance => circumstance.Id == expected.Id);
+                Assert.AreEqual(expected.Name, actual.Name);
+                expected.Name = "foo";
+                Assert.AreNotEqual(expected.Name, actual.Name);
+            }
+
+            [Test]
+            public void AddCircumstance()
+            {
+                var newCircumstance = new InsulinCircumstance();
+                factories.CreateInsulinCircumstance()
+                    .Returns(newCircumstance)
+                    .AndDoes(delegate { factories.InsulinCircumstances.Add(newCircumstance); });
+                InitializeViewModel();
+                var factoriesCountBefore = factories.InsulinCircumstances.Count;
+                var sutCountBefore = sut.Circumstances.Count;
+                var insulinCountBefore = sut.Subject.Circumstances.Count;
+                sut.AddCircumstance("new");
+                Assert.AreEqual(factoriesCountBefore, factories.InsulinCircumstances.Count);
+                Assert.AreEqual(sutCountBefore + 1, sut.Circumstances.Count);
+                Assert.AreEqual(insulinCountBefore, sut.Subject.Circumstances.Count);
+                Assert.AreEqual("new", sut.Circumstances.Last().Name);
+            }
+
+            [Test]
+            public void CanEditCircumstance()
+            {
+                InitializeViewModel();
+                Assert.IsFalse(sut.CanEditCircumstance());
+                ChooseCircumstance();
+                Assert.IsTrue(sut.CanEditCircumstance());
+            }
+
+            [Test]
+            public void CanDeleteCircumstance()
+            {
+                InitializeViewModel();
+                Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoCircumstanceChoosen,
+                    sut.CanDeleteCircumstance());
+                ChooseCircumstance();
+                Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.Yes,
+                    sut.CanDeleteCircumstance());
+            }
+
+            [Test]
+            public void CanDeleteCircumstanceWhenOnlyOne()
+            {
+                factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(1).ToList());
+                InitializeViewModel();
+                ChooseCircumstance();
+                Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance,
+                    sut.CanDeleteCircumstance());
+            }
+
+            [Test]
+            public void DeleteCircumstance()
+            {
+                InitializeViewModel();
+                ChooseCircumstance();
+                ChooseCircumstance();
+                var expected = sut.Subject.Circumstances.Skip(1).ToList();
+                sut.DeleteCircumstance();
+                var actual = sut.Subject.Circumstances;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [Test]
+            public void SaveWithUpdatedTimeAndReturn()
+            {
+                insulin.DateTime = DateTime.Now.AddSeconds(-10);
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "140";
+                ChooseCircumstance();
+                sut.Subject.NormalBolus = "2.1";
+                sut.Subject.SquareWaveBolus = "2.2";
+                sut.Subject.SquareWaveBolusHours = "2.3";
+                sut.Subject.Note = "note";
+                sut.SaveWithUpdatedTimeAndReturn();
+                Assert.AreEqual(140, sugar.BloodSugar);
+                Assert.AreEqual(1, insulin.Circumstances.Count());
+                Assert.AreEqual(sut.Circumstances.First().Id, insulin.ReadCircumstances().First());
+                Assert.AreEqual(2.1, insulin.NormalBolus, 0.01);
+                Assert.AreEqual(2.2, insulin.SquareWaveBolus, 0.01);
+                Assert.AreEqual(2.3, insulin.SquareWaveBolusHours, 0.01);
+                Assert.AreEqual("note", insulin.Note);
+                Assert.AreEqual(DateTime.Now.Ticks, insulin.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
+                Assert.AreEqual(DateTime.Now.Ticks, sugar.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
+                navigator.Received().GoBack();
+            }
+
+            [Test]
+            public void SummaryForSelectedCircumstances()
+            {
+                InitializeViewModel();
+                ChooseCircumstance();
+                ChooseCircumstance();
+                var circumstances = sut.Subject.Circumstances;
+                var expected = circumstances.First().Name + ", " + circumstances.Last().Name;
+                Assert.AreEqual(expected, sut.SummaryForSelectedCircumstances());
+            }
+
+            [Test]
+            public void NameOfFirstChoosenCircumstanceGetter()
+            {
+                InitializeViewModel();
+                Assert.AreEqual(string.Empty, sut.NameOfFirstChoosenCircumstance);
+                ChooseCircumstance();
+                ChooseCircumstance();
+                var expected = sut.Subject.Circumstances.First().Name;
+                var actual = sut.NameOfFirstChoosenCircumstance;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [Test]
+            public void NameOfFirstChoosenCircumstanceSetter()
+            {
+                InitializeViewModel();
+                Assert.Throws<InvalidOperationException>(() =>
+                {
+                    sut.NameOfFirstChoosenCircumstance = "newname1";
+                });
+                ChooseCircumstance();
+                ChooseCircumstance();
+                sut.NameOfFirstChoosenCircumstance = "newname";
+                var actual = sut.Subject.Circumstances.First().Name;
+                Assert.AreEqual("newname", actual);
+            }
+
+            [Test]
+            public void InvalidateCircumstancesInvalidatesWithoutChangingAnything()
+            {
+                factories.CreateInsulinCircumstance().Returns(new InsulinCircumstance());
+                InitializeViewModel();
+                ChooseCircumstance();
+                ChooseCircumstance();
+                sut.AddCircumstance(string.Empty);
+                sut.DeleteCircumstance();
+                sut.NameOfFirstChoosenCircumstance = "foo";
+                var previousAll = sut.Circumstances;
+                var previousAllIds = sut.Circumstances.Select(circumstance => circumstance.Id).ToList();
+                var previousChoosen = sut.Subject.Circumstances;
+                sut.ChangesProperty("Circumstances", () =>
+                {
+                    sut.InvalidateCircumstances();
+                    Assert.AreNotSame(previousAll, sut.Circumstances);
+                    Assert.AreEqual(previousAllIds, sut.Circumstances.Select(circumstance => circumstance.Id));
+                    Assert.AreNotSame(previousChoosen, sut.Subject.Circumstances);
+                });
+                Assert.AreEqual(new InsulinCircumstanceViewModel[] { sut.Circumstances.First() }, sut.Subject.Circumstances);
+                Assert.AreEqual("foo", sut.NameOfFirstChoosenCircumstance);
+                Assert.AreNotEqual("foo", sut.Subject.Circumstances.First().Model.Name, "Should be buffered");
+            }
+
+            [Test]
+            public void ShouldFocusSugarWhenNewSugar()
+            {
+                InitializeViewModel();
+                Assert.IsTrue(sut.ShouldFocusSugar());
+            }
+
+            [Test]
+            public void ShouldNotFocusSugarWhenExistingSugar()
+            {
+                var sugar = new Sugar { BloodSugar = 150 };
+                factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+                InitializeViewModel();
+                Assert.IsFalse(sut.ShouldFocusSugar());
+            }
         }
 
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests
