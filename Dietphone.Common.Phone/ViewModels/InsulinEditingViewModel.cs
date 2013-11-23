@@ -236,6 +236,24 @@ namespace Dietphone.ViewModels
             modelSource.CopyCircumstancesFrom(modelCopy);
             sugarSource.CopyFrom(sugarCopy);
             sugarSource.DateTime = modelSource.DateTime;
+            SaveCircumstances();
+        }
+
+        private void SaveCircumstances()
+        {
+            foreach (var viewModel in Circumstances)
+            {
+                viewModel.FlushBuffer();
+            }
+            var models = factories.InsulinCircumstances;
+            foreach (var viewModel in addedCircumstances)
+            {
+                models.Add(viewModel.Model);
+            }
+            foreach (var viewModel in deletedCircumstances)
+            {
+                models.Remove(viewModel.Model);
+            }
         }
 
         private void LoadCircumstances()

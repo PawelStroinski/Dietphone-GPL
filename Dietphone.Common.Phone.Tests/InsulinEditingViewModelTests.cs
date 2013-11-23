@@ -248,6 +248,27 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void SaveWithUpdatedTimeAndReturnSavesCircumstances()
+            {
+                InitializeViewModel();
+                var deletedCircumstanceId = sut.Circumstances.First().Id;
+                var renamedCircumstanceId = sut.Circumstances.Skip(1).First().Id;
+                var newCircumstance = new InsulinCircumstance();
+                factories.CreateInsulinCircumstance().Returns(newCircumstance);
+                ChooseCircumstance();
+                sut.DeleteCircumstance();
+                ChooseCircumstance();
+                sut.NameOfFirstChoosenCircumstance = "newname";
+                sut.AddCircumstance("foo");
+                sut.SaveWithUpdatedTimeAndReturn();
+                Assert.IsFalse(factories.InsulinCircumstances
+                    .Any(circumstance => circumstance.Id == deletedCircumstanceId));
+                Assert.AreEqual("newname", factories.InsulinCircumstances
+                    .First(circumstance => circumstance.Id == renamedCircumstanceId).Name);
+                Assert.IsTrue(factories.InsulinCircumstances.Contains(newCircumstance));
+            }
+
+            [Test]
             public void SummaryForSelectedCircumstances()
             {
                 InitializeViewModel();
