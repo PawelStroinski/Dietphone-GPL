@@ -10,6 +10,7 @@ namespace Dietphone.ViewModels
         where TModel : EntityWithId
         where TViewModel : ViewModelWithDate
     {
+        public Func<DateTime> dateTimeNow = () => DateTime.Now;
         protected bool isLockedDateTime;
         protected bool updatingLockedDateTime;
         private const byte LOCKED_DATE_TIME_RECENT_MINUTES = 3;
@@ -64,7 +65,7 @@ namespace Dietphone.ViewModels
 
         private void LockRecentDateTime()
         {
-            var difference = (DateTime.Now - Subject.DateTime).Duration();
+            var difference = (dateTimeNow() - Subject.DateTime).Duration();
             isLockedDateTime = difference <= TimeSpan.FromMinutes(LOCKED_DATE_TIME_RECENT_MINUTES);
         }
 
@@ -73,7 +74,7 @@ namespace Dietphone.ViewModels
             if (isLockedDateTime)
             {
                 updatingLockedDateTime = true;
-                Subject.DateTime = DateTime.Now;
+                Subject.DateTime = dateTimeNow();
                 updatingLockedDateTime = false;
             }
         }

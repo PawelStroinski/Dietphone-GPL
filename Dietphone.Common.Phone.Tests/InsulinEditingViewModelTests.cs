@@ -269,6 +269,44 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void TombstoneAndUntombstone()
+            {
+                stateProvider.State.Returns(new Dictionary<string, object>());
+                InitializeViewModel();
+                sut.NotIsLockedDateTime = false;
+                sut.CurrentSugar.BloodSugar = "120";
+                sut.Tombstone();
+                sut.dateTimeNow = () => DateTime.Now.AddHours(-1.5);
+                InitializeViewModel();
+                Assert.IsFalse(sut.NotIsLockedDateTime);
+                Assert.AreEqual("120", sut.CurrentSugar.BloodSugar);
+            }
+
+            [Test]
+            public void TombstoneAndUntombstoneTombstonesCircumstances()
+            {
+                stateProvider.State.Returns(new Dictionary<string, object>());
+                InitializeViewModel();
+                var deletedCircumstanceId = sut.Circumstances.First().Id;
+                var renamedCircumstanceId = sut.Circumstances.Skip(1).First().Id;
+                var newCircumstance = new InsulinCircumstance();
+                factories.CreateInsulinCircumstance().Returns(newCircumstance);
+                ChooseCircumstance();
+                sut.DeleteCircumstance();
+                ChooseCircumstance();
+                sut.NameOfFirstChoosenCircumstance = "newname";
+                sut.AddCircumstance("foo");
+                sut.Tombstone();
+                InitializeViewModel();
+                sut.SaveWithUpdatedTimeAndReturn();
+                Assert.IsFalse(factories.InsulinCircumstances
+                    .Any(circumstance => circumstance.Id == deletedCircumstanceId));
+                Assert.AreEqual("newname", factories.InsulinCircumstances
+                    .First(circumstance => circumstance.Id == renamedCircumstanceId).Name);
+                Assert.IsTrue(factories.InsulinCircumstances.Contains(newCircumstance));
+            }
+
+            [Test]
             public void SummaryForSelectedCircumstances()
             {
                 InitializeViewModel();

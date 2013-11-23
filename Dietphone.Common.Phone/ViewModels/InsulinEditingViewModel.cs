@@ -31,6 +31,8 @@ namespace Dietphone.ViewModels
         private const float SUGAR_CHART_MARGIN_MAXIMUM_MGDL = 50f;
         private const float SUGAR_CHART_MARGIN_MINIMUM_MMOLL = 0.55f;
         private const float SUGAR_CHART_MARGIN_MAXIMUM_MMOLL = 2.77f;
+        private const string INSULIN_SUGAR = "INSULIN_SUGAR";
+        private const string CIRCUMSTANCES = "CIRCUMSTANCES";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
             BackgroundWorkerFactory workerFactory)
@@ -196,6 +198,7 @@ namespace Dietphone.ViewModels
         protected override void MakeViewModel()
         {
             LoadCircumstances();
+            UntombstoneCircumstances();
             MakeInsulinViewModelInternal();
             MakeSugarViewModel();
             base.MakeViewModel();
@@ -208,10 +211,15 @@ namespace Dietphone.ViewModels
 
         protected override void TombstoneOtherThings()
         {
+            base.TombstoneOtherThings();
+            TombstoneSugar();
+            TombstoneCircumstances();
         }
 
         protected override void UntombstoneOtherThings()
         {
+            base.UntombstoneOtherThings();
+            UntombstoneSugar();
         }
 
         protected override void OnModelReady()
@@ -297,6 +305,64 @@ namespace Dietphone.ViewModels
                 if (eventArguments.PropertyName == "BloodSugar")
                     StartCalculation();
             };
+        }
+
+        private void TombstoneSugar()
+        {
+            var state = StateProvider.State;
+            state[INSULIN_SUGAR] = sugarCopy;
+        }
+
+        private void UntombstoneSugar()
+        {
+            var state = StateProvider.State;
+            if (state.ContainsKey(INSULIN_SUGAR))
+            {
+                var untombstoned = state[INSULIN_SUGAR] as Sugar;
+                if (untombstoned != null)
+                    sugarCopy.CopyFrom(untombstoned);
+            }
+        }
+
+        private void TombstoneCircumstances()
+        {
+            var circumstances = new List<InsulinCircumstance>();
+            foreach (var circumstance in Circumstances)
+                circumstance.AddModelTo(circumstances);
+            var state = StateProvider.State;
+            state[CIRCUMSTANCES] = circumstances;
+        }
+
+        private void UntombstoneCircumstances()
+        {
+            var state = StateProvider.State;
+            if (state.ContainsKey(CIRCUMSTANCES))
+            {
+                var untombstoned = (List<InsulinCircumstance>)state[CIRCUMSTANCES];
+                addedCircumstances.Clear();
+                var notUntombstoned = from circumstance in Circumstances
+                                      where untombstoned.FindById(circumstance.Id) == null
+                                      select circumstance;
+                deletedCircumstances = notUntombstoned.ToList();
+                foreach (var deletedCircumstance in deletedCircumstances)
+                {
+                    Circumstances.Remove(deletedCircumstance);
+                }
+                foreach (var model in untombstoned)
+                {
+                    var existingViewModel = Circumstances.FindById(model.Id);
+                    if (existingViewModel != null)
+                    {
+                        existingViewModel.CopyFromModel(model);
+                    }
+                    else
+                    {
+                        var addedViewModel = new InsulinCircumstanceViewModel(model, factories);
+                        Circumstances.Add(addedViewModel);
+                        addedCircumstances.Add(addedViewModel);
+                    }
+                }
+            }
         }
 
         private void BolusChanged()
