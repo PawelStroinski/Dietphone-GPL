@@ -149,6 +149,12 @@ namespace Dietphone.ViewModels
             deletedCircumstances.Add(toDelete);
         }
 
+        public void SaveWithUpdatedTimeAndReturn()
+        {
+            SaveWithUpdatedTime();
+            Navigator.GoBack();
+        }
+
         public string SummaryForSelectedCircumstances()
         {
             return string.Join(", ",
@@ -192,6 +198,7 @@ namespace Dietphone.ViewModels
             LoadCircumstances();
             MakeInsulinViewModelInternal();
             MakeSugarViewModel();
+            base.MakeViewModel();
         }
 
         protected override string Validate()
@@ -212,6 +219,15 @@ namespace Dietphone.ViewModels
         protected override void OnCommonUiReady()
         {
             SugarChart = new ObservableCollection<SugarChartItemViewModel>();
+        }
+
+        private void SaveWithUpdatedTime()
+        {
+            UpdateLockedDateTime();
+            modelSource.CopyFrom(modelCopy);
+            modelSource.CopyCircumstancesFrom(modelCopy);
+            sugarSource.CopyFrom(sugarCopy);
+            sugarSource.DateTime = modelSource.DateTime;
         }
 
         private void LoadCircumstances()

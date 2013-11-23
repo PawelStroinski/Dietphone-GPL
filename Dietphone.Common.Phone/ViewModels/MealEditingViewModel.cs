@@ -194,7 +194,7 @@ namespace Dietphone.ViewModels
             LoadNames();
             UntombstoneNames();
             MakeMealViewModelInternal();
-            LockRecentDateTime();
+            base.MakeViewModel();
         }
 
         protected override string Validate()

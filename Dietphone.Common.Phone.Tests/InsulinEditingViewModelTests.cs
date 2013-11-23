@@ -36,7 +36,9 @@ namespace Dietphone.Common.Phone.Tests
             sut.StateProvider = stateProvider;
             insulin = new Fixture().Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
+            insulin.SetOwner(factories);
             sugar = new Sugar();
+            sugar.SetOwner(factories);
             factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>().ToList());
             factories.CreateSugar().Returns(sugar);
             settings = new Settings { MaxBolus = 5 };
@@ -233,12 +235,13 @@ namespace Dietphone.Common.Phone.Tests
             sut.SaveWithUpdatedTimeAndReturn();
             Assert.AreEqual(140, sugar.BloodSugar);
             Assert.AreEqual(1, insulin.Circumstances.Count());
-            Assert.AreEqual(sut.Circumstances.First().Id, insulin.Circumstances.First().Id);
-            Assert.AreEqual(2.1, insulin.NormalBolus);
-            Assert.AreEqual(2.2, insulin.SquareWaveBolus);
-            Assert.AreEqual(2.3, insulin.SquareWaveBolusHours);
+            Assert.AreEqual(sut.Circumstances.First().Id, insulin.ReadCircumstances().First());
+            Assert.AreEqual(2.1, insulin.NormalBolus, 0.01);
+            Assert.AreEqual(2.2, insulin.SquareWaveBolus, 0.01);
+            Assert.AreEqual(2.3, insulin.SquareWaveBolusHours, 0.01);
             Assert.AreEqual("note", insulin.Note);
             Assert.AreEqual(DateTime.Now.Ticks, insulin.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
+            Assert.AreEqual(DateTime.Now.Ticks, sugar.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
             navigator.Received().GoBack();
         }
 

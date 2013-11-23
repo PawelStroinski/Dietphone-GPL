@@ -57,7 +57,12 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected void LockRecentDateTime()
+        protected override void MakeViewModel()
+        {
+            LockRecentDateTime();
+        }
+
+        private void LockRecentDateTime()
         {
             var difference = (DateTime.Now - Subject.DateTime).Duration();
             isLockedDateTime = difference <= TimeSpan.FromMinutes(LOCKED_DATE_TIME_RECENT_MINUTES);
