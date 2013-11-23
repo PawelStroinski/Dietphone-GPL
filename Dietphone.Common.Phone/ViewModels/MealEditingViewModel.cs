@@ -258,9 +258,9 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected override void TombstoneOthers()
+        protected override void TombstoneOtherThings()
         {
-            base.TombstoneOthers();
+            base.TombstoneOtherThings();
             TombstoneNames();
             TombstoneItemEditing();
         }

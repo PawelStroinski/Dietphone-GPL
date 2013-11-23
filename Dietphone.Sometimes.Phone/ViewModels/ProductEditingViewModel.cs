@@ -150,7 +150,7 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected override void TombstoneOthers()
+        protected override void TombstoneOtherThings()
         {
             TombstoneCategories();
         }

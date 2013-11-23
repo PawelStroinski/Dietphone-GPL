@@ -65,7 +65,7 @@ namespace Dietphone.ViewModels
                 UntombstoneModel();
                 OnModelReady();
                 MakeViewModel();
-                UntombstoneOthers();
+                UntombstoneOtherThings();
                 UntombstoneCommonUi();
                 OnCommonUiReady();
             }
@@ -74,7 +74,7 @@ namespace Dietphone.ViewModels
         public override void Tombstone()
         {
             TombstoneModel();
-            TombstoneOthers();
+            TombstoneOtherThings();
             TombstoneCommonUi();
         }
 
@@ -129,11 +129,11 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected virtual void TombstoneOthers()
+        protected virtual void TombstoneOtherThings()
         {
         }
 
-        protected virtual void UntombstoneOthers()
+        protected virtual void UntombstoneOtherThings()
         {
         }
 

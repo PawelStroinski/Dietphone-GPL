@@ -78,13 +78,13 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected override void TombstoneOthers()
+        protected override void TombstoneOtherThings()
         {
             var state = StateProvider.State;
             state[NOT_IS_LOCKED_DATE_TIME] = NotIsLockedDateTime;
         }
 
-        protected override void UntombstoneOthers()
+        protected override void UntombstoneOtherThings()
         {
             var state = StateProvider.State;
             if (state.ContainsKey(NOT_IS_LOCKED_DATE_TIME))

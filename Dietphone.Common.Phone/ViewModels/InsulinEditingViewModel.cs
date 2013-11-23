@@ -206,6 +206,14 @@ namespace Dietphone.ViewModels
             return string.Empty;
         }
 
+        protected override void TombstoneOtherThings()
+        {
+        }
+
+        protected override void UntombstoneOtherThings()
+        {
+        }
+
         protected override void OnModelReady()
         {
             openedWithNoBolus = modelSource.NormalBolus == 0 && modelSource.SquareWaveBolus == 0;
