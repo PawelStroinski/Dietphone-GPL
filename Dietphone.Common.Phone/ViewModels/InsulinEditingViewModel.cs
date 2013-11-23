@@ -33,6 +33,9 @@ namespace Dietphone.ViewModels
         private const float SUGAR_CHART_MARGIN_MAXIMUM_MMOLL = 2.77f;
         private const string INSULIN_SUGAR = "INSULIN_SUGAR";
         private const string CIRCUMSTANCES = "CIRCUMSTANCES";
+        private const string IS_CALCULATED = "IS_CALCULATED";
+        private const string IS_CALCULATED_TEXT = "IS_CALCULATED_TEXT";
+        private const string SUGAR_CHART = "SUGAR_CHART";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
             BackgroundWorkerFactory workerFactory)
@@ -214,6 +217,7 @@ namespace Dietphone.ViewModels
             base.TombstoneOtherThings();
             TombstoneSugar();
             TombstoneCircumstances();
+            TombstoneCalculation();
         }
 
         protected override void UntombstoneOtherThings()
@@ -235,6 +239,7 @@ namespace Dietphone.ViewModels
         protected override void OnCommonUiReady()
         {
             SugarChart = new ObservableCollection<SugarChartItemViewModel>();
+            UntombstoneCalculation();
         }
 
         private void SaveWithUpdatedTime()
@@ -249,6 +254,7 @@ namespace Dietphone.ViewModels
 
         private void SaveCircumstances()
         {
+            // TODO: This is duplicate of same stuff in product and meal editing view models, refactor it.
             foreach (var viewModel in Circumstances)
             {
                 viewModel.FlushBuffer();
@@ -335,6 +341,7 @@ namespace Dietphone.ViewModels
 
         private void UntombstoneCircumstances()
         {
+            // TODO: This is duplicate of same stuff in product and meal editing view models, refactor it.
             var state = StateProvider.State;
             if (state.ContainsKey(CIRCUMSTANCES))
             {
@@ -362,6 +369,33 @@ namespace Dietphone.ViewModels
                         addedCircumstances.Add(addedViewModel);
                     }
                 }
+            }
+        }
+
+        private void TombstoneCalculation()
+        {
+            var state = StateProvider.State;
+            state[IS_CALCULATED] = IsCalculated;
+            state[IS_CALCULATED_TEXT] = IsCalculatedText;
+            var sugars = new List<Sugar>();
+            foreach (var item in SugarChart)
+                item.AddModelTo(sugars);
+            state[SUGAR_CHART] = sugars;
+        }
+
+        private void UntombstoneCalculation()
+        {
+            var state = StateProvider.State;
+            if (state.ContainsKey(IS_CALCULATED))
+                IsCalculated = (bool)state[IS_CALCULATED];
+            if (state.ContainsKey(IS_CALCULATED_TEXT))
+                IsCalculatedText = (string)state[IS_CALCULATED_TEXT];
+            if (state.ContainsKey(SUGAR_CHART))
+            {
+                var sugars = state[SUGAR_CHART] as List<Sugar>;
+                if (sugars != null)
+                    SugarChart = new ObservableCollection<SugarChartItemViewModel>(
+                        sugars.Select(sugar => new SugarChartItemViewModel(sugar)).ToList());
             }
         }
 
@@ -434,6 +468,7 @@ namespace Dietphone.ViewModels
             Subject.Insulin.SquareWaveBolus = 0;
             Subject.Insulin.SquareWaveBolusHours = 0;
             IsCalculated = false;
+            IsCalculatedText = string.Empty;
             ClearSugarChart();
         }
 
@@ -467,6 +502,11 @@ namespace Dietphone.ViewModels
 
             public DateTime DateTime { get { return sugar.DateTime; } }
             public float BloodSugar { get { return sugar.BloodSugar; } }
+
+            public void AddModelTo(List<Sugar> target)
+            {
+                target.Add(sugar);
+            }
         }
     }
 }

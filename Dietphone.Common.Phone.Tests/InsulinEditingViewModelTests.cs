@@ -850,6 +850,22 @@ namespace Dietphone.Common.Phone.Tests
                     });
                 });
             }
+
+            [Test]
+            public void TombstoneAndUntombstoneCalculation()
+            {
+                stateProvider.State.Returns(new Dictionary<string, object>());
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                sut.Tombstone();
+                sut.Subject.NormalBolus = "1";
+                InitializeViewModel();
+                Assert.IsTrue(sut.IsCalculated);
+                Assert.IsNotEmpty(sut.IsCalculatedText);
+                Assert.AreEqual(3, sut.SugarChart.Count);
+                Assert.AreEqual(100, sut.SugarChart[0].BloodSugar);
+            }
         }
     }
 }
