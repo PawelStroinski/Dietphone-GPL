@@ -503,7 +503,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Czy na pewno chcesz zapisać tę insulinę?</value>
   </data>
   <data name="CurrentSugar" xml:space="preserve">
-    <value>Aktualny cukier</value>
+    <value>Cukier przed</value>
   </data>
   <data name="InsulinCircumstances" xml:space="preserve">
     <value>Okoliczności insuliny</value>

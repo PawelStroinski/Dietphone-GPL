@@ -503,7 +503,7 @@ So one number gives information on both fat and protein in meal.</value>
     <value>Are you sure you want to save this insulin?</value>
   </data>
   <data name="CurrentSugar" xml:space="preserve">
-    <value>Current sugar</value>
+    <value>Sugar before</value>
   </data>
   <data name="InsulinCircumstances" xml:space="preserve">
     <value>Insulin circumstances</value>

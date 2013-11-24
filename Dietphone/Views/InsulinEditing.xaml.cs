@@ -152,10 +152,19 @@ namespace Dietphone.Views
 
         private void Save_Click(object sender, EventArgs e)
         {
+            Focus();
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (viewModel.CanSave())
+                {
+                    viewModel.SaveWithUpdatedTimeAndReturn();
+                }
+            });
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
+            viewModel.CancelAndReturn();
         }
 
         private void Delete_Click(object sender, EventArgs e)
