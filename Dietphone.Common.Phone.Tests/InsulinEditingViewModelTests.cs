@@ -302,6 +302,7 @@ namespace Dietphone.Common.Phone.Tests
                 ChooseCircumstance();
                 sut.NameOfFirstChoosenCircumstance = "newname";
                 sut.AddCircumstance("foo");
+                sut.Subject.NormalBolus = "1";
                 sut.Tombstone();
                 CreateSut();
                 InitializeViewModel();
@@ -311,6 +312,9 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreEqual("newname", factories.InsulinCircumstances
                     .First(circumstance => circumstance.Id == renamedCircumstanceId).Name);
                 Assert.IsTrue(factories.InsulinCircumstances.Contains(newCircumstance));
+                Assert.AreEqual(1, sut.Subject.Circumstances.Count());
+                Assert.AreEqual("newname", sut.NameOfFirstChoosenCircumstance);
+                Assert.AreEqual("1", sut.Subject.NormalBolus);
             }
 
             [Test]

@@ -31,6 +31,7 @@ namespace Dietphone.ViewModels
         private const float SUGAR_CHART_MARGIN_MAXIMUM_MGDL = 50f;
         private const float SUGAR_CHART_MARGIN_MINIMUM_MMOLL = 0.55f;
         private const float SUGAR_CHART_MARGIN_MAXIMUM_MMOLL = 2.77f;
+        private const string INSULIN = "INSULIN";
         private const string INSULIN_SUGAR = "INSULIN_SUGAR";
         private const string CIRCUMSTANCES = "CIRCUMSTANCES";
         private const string IS_CALCULATED = "IS_CALCULATED";
@@ -210,6 +211,30 @@ namespace Dietphone.ViewModels
         protected override string Validate()
         {
             return string.Empty;
+        }
+
+        protected override void TombstoneModel()
+        {
+            var state = StateProvider.State;
+            var dto = new InsulinDTO();
+            dto.CopyFrom(modelCopy);
+            dto.CopyCircumstancesFrom(modelCopy);
+            state[INSULIN] = dto.Serialize(string.Empty);
+        }
+
+        protected override void UntombstoneModel()
+        {
+            var state = StateProvider.State;
+            if (state.ContainsKey(INSULIN))
+            {
+                var dtoState = (string)state[INSULIN];
+                var dto = dtoState.Deserialize<InsulinDTO>(string.Empty);
+                if (dto.Id == modelCopy.Id)
+                {
+                    modelCopy.CopyFrom(dto);
+                    modelCopy.CopyCircumstancesFrom(dto);
+                }
+            }
         }
 
         protected override void TombstoneOtherThings()

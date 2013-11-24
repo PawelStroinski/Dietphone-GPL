@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dietphone.Tools;
 
 namespace Dietphone.Models
@@ -158,6 +159,21 @@ namespace Dietphone.Models
         public void DTOCopyItemsFrom(Meal source)
         {
             InternalCopyItemsFrom(source);
+        }
+    }
+
+    public sealed class InsulinDTO : Insulin
+    {
+        public new List<Guid> Circumstances
+        {
+            get
+            {
+                return circumstances;
+            }
+            set
+            {
+                circumstances = value;
+            }
         }
     }
 }
