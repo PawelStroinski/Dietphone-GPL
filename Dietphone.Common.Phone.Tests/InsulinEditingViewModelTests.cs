@@ -31,9 +31,7 @@ namespace Dietphone.Common.Phone.Tests
             navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             facade = Substitute.For<ReplacementBuilderAndSugarEstimatorFacade>();
-            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory());
-            sut.Navigator = navigator;
-            sut.StateProvider = stateProvider;
+            CreateSut();
             insulin = new Fixture().Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
             insulin.SetOwner(factories);
@@ -43,6 +41,13 @@ namespace Dietphone.Common.Phone.Tests
             factories.CreateSugar().Returns(sugar);
             settings = new Settings { MaxBolus = 5 };
             factories.Settings.Returns(settings);
+        }
+
+        private void CreateSut()
+        {
+            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory());
+            sut.Navigator = navigator;
+            sut.StateProvider = stateProvider;
         }
 
         private void InitializeViewModel()
@@ -276,6 +281,7 @@ namespace Dietphone.Common.Phone.Tests
                 sut.NotIsLockedDateTime = false;
                 sut.CurrentSugar.BloodSugar = "120";
                 sut.Tombstone();
+                CreateSut();
                 sut.dateTimeNow = () => DateTime.Now.AddHours(-1.5);
                 InitializeViewModel();
                 Assert.IsFalse(sut.NotIsLockedDateTime);
@@ -283,7 +289,7 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void TombstoneAndUntombstoneTombstonesCircumstances()
+            public void TombstoneAndUntombstoneCircumstances()
             {
                 stateProvider.State.Returns(new Dictionary<string, object>());
                 InitializeViewModel();
@@ -297,6 +303,7 @@ namespace Dietphone.Common.Phone.Tests
                 sut.NameOfFirstChoosenCircumstance = "newname";
                 sut.AddCircumstance("foo");
                 sut.Tombstone();
+                CreateSut();
                 InitializeViewModel();
                 sut.SaveWithUpdatedTimeAndReturn();
                 Assert.IsFalse(factories.InsulinCircumstances
@@ -852,19 +859,37 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void TombstoneAndUntombstoneCalculation()
+            public void TombstoneAndUntombstoneCalculationResults()
             {
                 stateProvider.State.Returns(new Dictionary<string, object>());
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
                 sut.Tombstone();
-                sut.Subject.NormalBolus = "1";
+                CreateSut();
                 InitializeViewModel();
                 Assert.IsTrue(sut.IsCalculated);
                 Assert.IsNotEmpty(sut.IsCalculatedText);
                 Assert.AreEqual(3, sut.SugarChart.Count);
                 Assert.AreEqual(100, sut.SugarChart[0].BloodSugar);
+            }
+
+            [Test]
+            public void CalculationWorksAfterTombstoneAndUntombstone()
+            {
+                stateProvider.State.Returns(new Dictionary<string, object>());
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                sut.Tombstone();
+                CreateSut();
+                InitializeViewModel();
+                sut.Subject.NormalBolus = "1";
+                Assert.IsFalse(sut.IsCalculated);
+                sut.Subject.NormalBolus = "";
+                sut.Subject.SquareWaveBolus = "";
+                sut.Subject.SquareWaveBolusHours = "";
+                Assert.IsTrue(sut.IsCalculated);
             }
         }
     }
