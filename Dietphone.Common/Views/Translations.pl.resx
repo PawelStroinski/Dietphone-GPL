@@ -533,10 +533,10 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>INSULINA</value>
   </data>
   <data name="InsulinHeaderCalculated" xml:space="preserve">
-    <value>Bolus, cukier wyliczone z poprzednich wpisów</value>
+    <value>Bolus i cukier wynikają z poprzednich wpisów</value>
   </data>
   <data name="InsulinHeaderIncomplete" xml:space="preserve">
-    <value>Bolus, cukier wyliczone z poprzednich wpisów (niekompletny posiłek)</value>
+    <value>Bolus i cukier wynikają z poprzednich wpisów (niekompletny posiłek)</value>
   </data>
   <data name="InsulinHeaderUser" xml:space="preserve">
     <value>Naciśnij, aby pokazać wyliczoną insulinę</value>
