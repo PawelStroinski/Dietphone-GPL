@@ -308,7 +308,6 @@ namespace Dietphone.ViewModels
             Subject = new InsulinViewModel(modelCopy, factories, allCircumstances: Circumstances);
             Subject.PropertyChanged += (_, eventArguments) =>
             {
-                IsDirty = true;
                 if (eventArguments.PropertyName == "Circumstances")
                     StartCalculation();
                 if (new string[] { "NormalBolus", "SquareWaveBolus", "SquareWaveBolusHours" }
@@ -333,6 +332,7 @@ namespace Dietphone.ViewModels
             CurrentSugar = new SugarViewModel(sugarCopy, factories);
             CurrentSugar.PropertyChanged += (_, eventArguments) =>
             {
+                IsDirty = true;
                 if (eventArguments.PropertyName == "BloodSugar")
                     StartCalculation();
             };

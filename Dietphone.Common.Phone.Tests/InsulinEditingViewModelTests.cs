@@ -395,6 +395,33 @@ namespace Dietphone.Common.Phone.Tests
                 InitializeViewModel();
                 Assert.IsFalse(sut.ShouldFocusSugar());
             }
+
+            [Test]
+            public void ChoosingCircumstanceSignalsIsDirty()
+            {
+                InitializeViewModel();
+                Assert.IsFalse(sut.IsDirty);
+                ChooseCircumstance();
+                Assert.IsTrue(sut.IsDirty);
+            }
+
+            [Test]
+            public void ChangingBolusSignalsIsDirty()
+            {
+                InitializeViewModel();
+                Assert.IsFalse(sut.IsDirty);
+                sut.Subject.NormalBolus = "1";
+                Assert.IsTrue(sut.IsDirty);
+            }
+
+            [Test]
+            public void ChangingCurrentSugarSignalsIsDirty()
+            {
+                InitializeViewModel();
+                Assert.IsFalse(sut.IsDirty);
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsTrue(sut.IsDirty);
+            }
         }
 
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests
