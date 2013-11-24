@@ -28,9 +28,9 @@ namespace Dietphone.ViewModels
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
         private const float SUGAR_CHART_MARGIN_MINIMUM_MGDL = 10f;
-        private const float SUGAR_CHART_MARGIN_MAXIMUM_MGDL = 50f;
+        private const float SUGAR_CHART_MARGIN_MAXIMUM_MGDL = 55f;
         private const float SUGAR_CHART_MARGIN_MINIMUM_MMOLL = 0.55f;
-        private const float SUGAR_CHART_MARGIN_MAXIMUM_MMOLL = 2.77f;
+        private const float SUGAR_CHART_MARGIN_MAXIMUM_MMOLL = 3.05f;
         private const string INSULIN = "INSULIN";
         private const string INSULIN_SUGAR = "INSULIN_SUGAR";
         private const string CIRCUMSTANCES = "CIRCUMSTANCES";

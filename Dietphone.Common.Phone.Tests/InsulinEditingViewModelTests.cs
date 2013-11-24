@@ -816,18 +816,18 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void SugarChartMaximumReturnsMaximumOfChartPlus50WhenUnitIsMgdL()
+            public void SugarChartMaximumReturnsMaximumOfChartPlus55WhenUnitIsMgdL()
             {
                 var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
                 estimatedSugars[1].BloodSugar = 155.1f;
                 insulin.NormalBolus = insulin.SquareWaveBolus = 0;
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
-                Assert.AreEqual(205.1f, sut.SugarChartMaximum);
+                Assert.AreEqual(210.1f, sut.SugarChartMaximum);
             }
 
             [Test]
-            public void SugarChartMaximumReturnsMaximumOfChartPlus2_77WhenUnitIsMmolL()
+            public void SugarChartMaximumReturnsMaximumOfChartPlus3_05WhenUnitIsMmolL()
             {
                 var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
                 estimatedSugars[1].BloodSugar = 155.1f;
@@ -836,7 +836,7 @@ namespace Dietphone.Common.Phone.Tests
                 InitializeViewModel();
                 settings.SugarUnit = SugarUnit.mmolL;
                 ChooseCircumstance();
-                Assert.AreEqual(157.87f, sut.SugarChartMaximum, 0.001);
+                Assert.AreEqual(158.15f, sut.SugarChartMaximum, 0.001);
             }
 
             [Test]

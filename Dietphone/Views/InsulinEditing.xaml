@@ -78,7 +78,7 @@
                         <TextBox Height="72" InputScope="Text" Text="{Binding Subject.Note}"/>
                     </StackPanel>
                     <!--Chart-->
-                    <chart:RadCartesianChart x:Name="Chart" Height="117" EmptyContent="" Margin="0 10 0 0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
+                    <chart:RadCartesianChart x:Name="Chart" Height="117" EmptyContent="" Margin="24 10 24 0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
                         <chart:RadCartesianChart.HorizontalAxis>
                             <chart:DateTimeContinuousAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
                         </chart:RadCartesianChart.HorizontalAxis>
