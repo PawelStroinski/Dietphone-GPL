@@ -89,5 +89,14 @@ namespace Dietphone.Common.Phone.Tests
         {
             Assert.IsTrue(sut.DateFormat.Contains("yy"));
         }
+
+        [Test]
+        public void GoToInsulinEditingSetsIsDirtyToFalse()
+        {
+            sut.Load();
+            sut.IsDirty = true;
+            sut.GoToInsulinEditing();
+            Assert.IsFalse(sut.IsDirty);
+        }
     }
 }

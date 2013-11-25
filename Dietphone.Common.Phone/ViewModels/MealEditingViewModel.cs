@@ -108,6 +108,7 @@ namespace Dietphone.ViewModels
         public void GoToInsulinEditing()
         {
             SaveWithUpdatedTime();
+            IsDirty = false;
             var insulin = finder.FindInsulinByMeal(modelSource);
             if (insulin == null)
                 Navigator.GoToNewInsulinRelatedToMeal(modelSource.Id);
