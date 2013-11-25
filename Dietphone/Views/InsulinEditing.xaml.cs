@@ -169,6 +169,13 @@ namespace Dietphone.Views
 
         private void Delete_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show(
+                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisInsulin,
+                viewModel.Subject.DateAndTime),
+                Translations.DeleteInsulin, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+                viewModel.DeleteAndSaveAndReturn();
+            }
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)

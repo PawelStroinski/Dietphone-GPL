@@ -422,6 +422,25 @@ namespace Dietphone.Common.Phone.Tests
                 sut.CurrentSugar.BloodSugar = "100";
                 Assert.IsTrue(sut.IsDirty);
             }
+
+            [Test]
+            public void DeleteAndSaveAndReturn()
+            {
+                var insulins = new List<Insulin> { insulin };
+                factories.Insulins.Returns(insulins);
+                InitializeViewModel();
+                ChooseCircumstance();
+                var circumtanceId = sut.Subject.Circumstances.Single().Id;
+                sut.NameOfFirstChoosenCircumstance = "foo";
+                sut.CurrentSugar.BloodSugar = "100";
+                sut.Subject.NormalBolus = "1";
+                sut.DeleteAndSaveAndReturn();
+                Assert.IsEmpty(insulins);
+                Assert.AreEqual("foo", factories.InsulinCircumstances.FindById(circumtanceId).Name);
+                Assert.AreNotEqual(100, sugar.BloodSugar);
+                Assert.AreNotEqual(1, insulin.NormalBolus);
+                navigator.Received().GoBack();
+            }
         }
 
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests

@@ -182,6 +182,17 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to permanently delete this insulin?
+        ///
+        ///{0}.
+        /// </summary>
+        public static string AreYouSureYouWantToPermanentlyDeleteThisInsulin {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToPermanentlyDeleteThisInsulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to permanently delete this meal?
         ///
         ///{0}.
@@ -491,6 +502,15 @@ namespace Dietphone.Views {
         public static string DeleteCircumstance {
             get {
                 return ResourceManager.GetString("DeleteCircumstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete insulin?.
+        /// </summary>
+        public static string DeleteInsulin {
+            get {
+                return ResourceManager.GetString("DeleteInsulin", resourceCulture);
             }
         }
         

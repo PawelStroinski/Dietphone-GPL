@@ -573,4 +573,12 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="DeleteCircumstance" xml:space="preserve">
     <value>Delete circumstance?</value>
   </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisInsulin" xml:space="preserve">
+    <value>Are you sure you want to permanently delete this insulin?
+
+{0}</value>
+  </data>
+  <data name="DeleteInsulin" xml:space="preserve">
+    <value>Delete insulin?</value>
+  </data>
 </root>

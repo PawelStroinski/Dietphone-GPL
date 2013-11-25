@@ -161,6 +161,14 @@ namespace Dietphone.ViewModels
             Navigator.GoBack();
         }
 
+        public void DeleteAndSaveAndReturn()
+        {
+            var models = factories.Insulins;
+            models.Remove(modelSource);
+            SaveCircumstances();
+            Navigator.GoBack();
+        }
+        
         public string SummaryForSelectedCircumstances()
         {
             return string.Join(", ",

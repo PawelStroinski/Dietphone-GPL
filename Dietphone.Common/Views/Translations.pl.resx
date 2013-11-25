@@ -573,4 +573,12 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="DeleteCircumstance" xml:space="preserve">
     <value>Usunąć okoliczność?</value>
   </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisInsulin" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć tę insulinę?
+
+{0}</value>
+  </data>
+  <data name="DeleteInsulin" xml:space="preserve">
+    <value>Usunąć insulinę?</value>
+  </data>
 </root>
