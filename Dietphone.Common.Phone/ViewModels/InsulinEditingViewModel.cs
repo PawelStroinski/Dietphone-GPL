@@ -198,10 +198,15 @@ namespace Dietphone.ViewModels
         protected override void FindAndCopyModel()
         {
             var id = Navigator.GetInsulinIdToEdit();
-            if (id == Guid.Empty)
+            var modelIsNew = id == Guid.Empty;
+            if (modelIsNew)
                 modelSource = factories.CreateInsulin();
             else
                 modelSource = finder.FindInsulinById(id);
+            FindMeal();
+            var mealFound = meal != null;
+            if (modelIsNew && mealFound)
+                modelSource.DateTime = meal.DateTime;
             modelCopy = modelSource.GetCopy();
             modelCopy.SetOwner(factories);
             modelCopy.InitializeCircumstances(modelSource.ReadCircumstances().ToList());
@@ -262,11 +267,6 @@ namespace Dietphone.ViewModels
         protected override void OnModelReady()
         {
             openedWithNoBolus = modelSource.NormalBolus == 0 && modelSource.SquareWaveBolus == 0;
-            var relatedMealId = Navigator.GetRelatedMealId();
-            if (relatedMealId == Guid.Empty)
-                meal = finder.FindMealByInsulin(modelSource);
-            else
-                meal = finder.FindMealById(relatedMealId);
         }
 
         protected override void OnCommonUiReady()
@@ -430,6 +430,15 @@ namespace Dietphone.ViewModels
                     SugarChart = new ObservableCollection<SugarChartItemViewModel>(
                         sugars.Select(sugar => new SugarChartItemViewModel(sugar)).ToList());
             }
+        }
+
+        private void FindMeal()
+        {
+            var relatedMealId = Navigator.GetRelatedMealId();
+            if (relatedMealId == Guid.Empty)
+                meal = finder.FindMealByInsulin(modelSource);
+            else
+                meal = finder.FindMealById(relatedMealId);
         }
 
         private void BolusChanged()

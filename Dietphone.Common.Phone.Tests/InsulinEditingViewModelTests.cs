@@ -23,24 +23,28 @@ namespace Dietphone.Common.Phone.Tests
         private ReplacementBuilderAndSugarEstimatorFacade facade;
         private Sugar sugar;
         private Settings settings;
+        private Meal meal;
 
         [SetUp]
         public void TestInitialize()
         {
+            var fixture = new Fixture();
             factories = Substitute.For<Factories>();
             navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             facade = Substitute.For<ReplacementBuilderAndSugarEstimatorFacade>();
             CreateSut();
-            insulin = new Fixture().Create<Insulin>();
+            insulin = fixture.Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
             insulin.SetOwner(factories);
             sugar = new Sugar();
             sugar.SetOwner(factories);
-            factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>().ToList());
+            factories.InsulinCircumstances.Returns(fixture.CreateMany<InsulinCircumstance>().ToList());
             factories.CreateSugar().Returns(sugar);
             settings = new Settings { MaxBolus = 5 };
             factories.Settings.Returns(settings);
+            meal = fixture.Create<Meal>();
+            factories.Finder.FindMealByInsulin(insulin).Returns(meal);
         }
 
         private void CreateSut()
@@ -78,6 +82,31 @@ namespace Dietphone.Common.Phone.Tests
                     factories.CreateInsulin().Returns(insulin);
                 sut.Load();
                 Assert.AreEqual(insulin.Id, sut.Subject.Id);
+            }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void FindAndCopyModelCopiesDateTimeFromMealWhenNewInsulin(bool editingExisting)
+            {
+                if (editingExisting)
+                {
+                    navigator.GetInsulinIdToEdit().Returns(insulin.Id);
+                    factories.Finder.FindInsulinById(insulin.Id).Returns(insulin);
+                }
+                else
+                    factories.CreateInsulin().Returns(insulin);
+                sut.Load();
+                if (editingExisting)
+                {
+                    Assert.AreNotEqual(meal.DateTime, insulin.DateTime);
+                    Assert.AreNotEqual(meal.DateTime, sugar.DateTime);
+                }
+                else
+                {
+                    Assert.AreEqual(meal.DateTime, insulin.DateTime);
+                    Assert.AreEqual(meal.DateTime, sugar.DateTime);
+                    Assert.AreEqual(meal.DateTime.ToLocalTime(), sut.Subject.DateTime);
+                }
             }
 
             [Test]
@@ -231,7 +260,7 @@ namespace Dietphone.Common.Phone.Tests
             [Test]
             public void SaveWithUpdatedTimeAndReturn()
             {
-                insulin.DateTime = DateTime.Now.AddSeconds(-10);
+                meal.DateTime = DateTime.Now.AddSeconds(-10);
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "140";
                 ChooseCircumstance();
@@ -446,12 +475,10 @@ namespace Dietphone.Common.Phone.Tests
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests
         {
             private ReplacementAndEstimatedSugars replacementAndEstimatedSugars;
-            private Meal meal;
 
             [SetUp]
             public new void TestInitialize()
             {
-                meal = new Meal();
                 replacementAndEstimatedSugars = new ReplacementAndEstimatedSugars
                 {
                     Replacement = new Replacement
@@ -464,7 +491,6 @@ namespace Dietphone.Common.Phone.Tests
                         = new List<Sugar> { new Sugar { BloodSugar = 100, DateTime = DateTime.Now.AddHours(1) },
                                             new Sugar { BloodSugar = 110, DateTime = DateTime.Now.AddHours(2) } }
                 };
-                factories.Finder.FindMealByInsulin(insulin).Returns(meal);
                 facade.GetReplacementAndEstimatedSugars(meal,
                     Arg.Is<Insulin>(temp => temp.Id == insulin.Id),
                     Arg.Is<Sugar>(temp => temp.BloodSugar == 100f))
