@@ -8,7 +8,7 @@ using Ploeh.AutoFixture;
 
 namespace Dietphone.Common.Phone.Tests
 {
-    public class CircumstancesAndInsulinsLoaderTests
+    public class CircumstancesAndInsulinsAndSugarsLoaderTests
     {
         private Factories factories;
         private Fixture fixture;
@@ -19,13 +19,13 @@ namespace Dietphone.Common.Phone.Tests
             factories = Substitute.For<Factories>();
             fixture = new Fixture();
             factories.InsulinCircumstances.Returns(fixture.CreateMany<InsulinCircumstance>().ToList());
-            viewModel = new InsulinListingViewModel(factories);
+            viewModel = new InsulinAndSugarListingViewModel(factories);
         }
 
         [Test]
         public void LoadsCircumstancesAndReturnsSorted()
         {
-            var sut = new InsulinListingViewModel.CircumstancesAndInsulinsLoader(factories, true);
+            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, true);
             var expected = factories.InsulinCircumstances
                 .OrderBy(circumstance => circumstance.Name);
             var actual = sut.Circumstances;
@@ -36,7 +36,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void LoadsCircumstancesAndReturnsUnsorted()
         {
-            var sut = new InsulinListingViewModel.CircumstancesAndInsulinsLoader(factories, false);
+            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, false);
             var expected = factories.InsulinCircumstances;
             var actual = sut.Circumstances;
             Assert.AreEqual(expected.Select(circumstance => circumstance.Id).ToList(),
@@ -83,9 +83,9 @@ namespace Dietphone.Common.Phone.Tests
             Assert.IsTrue(viewModel.Dates[viewModel.Dates.Count - 1].IsGroupOfOlder);
         }
 
-        class SutAccessor : InsulinListingViewModel.CircumstancesAndInsulinsLoader
+        class SutAccessor : InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader
         {
-            public SutAccessor(InsulinListingViewModel viewModel)
+            public SutAccessor(InsulinAndSugarListingViewModel viewModel)
                 : base(viewModel)
             {
             }
@@ -97,6 +97,6 @@ namespace Dietphone.Common.Phone.Tests
             }
         }
 
-        public InsulinListingViewModel viewModel { get; set; }
+        public InsulinAndSugarListingViewModel viewModel { get; set; }
     }
 }

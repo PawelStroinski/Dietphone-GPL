@@ -6,13 +6,13 @@ using System.Collections.Generic;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinListingViewModel : SubViewModel
+    public class InsulinAndSugarListingViewModel : SubViewModel
     {
         public ObservableCollection<InsulinViewModel> Insulins { get; private set; }
         public ObservableCollection<DateViewModel> Dates { get; private set; }
         private Factories factories;
 
-        public InsulinListingViewModel(Factories factories)
+        public InsulinAndSugarListingViewModel(Factories factories)
         {
             this.factories = factories;
         }
@@ -32,20 +32,20 @@ namespace Dietphone.ViewModels
             throw new NotImplementedException();
         }
 
-        public class CircumstancesAndInsulinsLoader : LoaderBaseWithDates
+        public class CircumstancesAndInsulinsAndSugarsLoader : LoaderBaseWithDates
         {
             private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
             private List<InsulinViewModel> unsortedInsulins;
             private ObservableCollection<InsulinViewModel> sortedInsulins;
             private readonly bool sortCircumstances;
 
-            public CircumstancesAndInsulinsLoader(InsulinListingViewModel viewModel)
+            public CircumstancesAndInsulinsAndSugarsLoader(InsulinAndSugarListingViewModel viewModel)
             {
                 this.viewModel = viewModel;
                 factories = viewModel.factories;
             }
 
-            public CircumstancesAndInsulinsLoader(Factories factories, bool sortCircumstances)
+            public CircumstancesAndInsulinsAndSugarsLoader(Factories factories, bool sortCircumstances)
             {
                 this.factories = factories;
                 this.sortCircumstances = sortCircumstances;
@@ -129,9 +129,9 @@ namespace Dietphone.ViewModels
                 GetViewModel().OnPropertyChanged("Dates");
             }
 
-            private InsulinListingViewModel GetViewModel()
+            private InsulinAndSugarListingViewModel GetViewModel()
             {
-                return viewModel as InsulinListingViewModel;
+                return viewModel as InsulinAndSugarListingViewModel;
             }
         }
     }
