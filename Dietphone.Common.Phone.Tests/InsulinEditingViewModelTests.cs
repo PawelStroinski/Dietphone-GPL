@@ -45,6 +45,7 @@ namespace Dietphone.Common.Phone.Tests
             factories.Settings.Returns(settings);
             meal = fixture.Create<Meal>();
             factories.Finder.FindMealByInsulin(insulin).Returns(meal);
+            factories.Finder.FindInsulinById(insulin.Id).Returns(insulin);
         }
 
         private void CreateSut()
@@ -74,10 +75,7 @@ namespace Dietphone.Common.Phone.Tests
             public void FindAndCopyModelAndMakeViewModel(bool editingExisting)
             {
                 if (editingExisting)
-                {
                     navigator.GetInsulinIdToEdit().Returns(insulin.Id);
-                    factories.Finder.FindInsulinById(insulin.Id).Returns(insulin);
-                }
                 else
                     factories.CreateInsulin().Returns(insulin);
                 sut.Load();
@@ -89,10 +87,7 @@ namespace Dietphone.Common.Phone.Tests
             public void FindAndCopyModelCopiesDateTimeFromMealWhenNewInsulin(bool editingExisting)
             {
                 if (editingExisting)
-                {
                     navigator.GetInsulinIdToEdit().Returns(insulin.Id);
-                    factories.Finder.FindInsulinById(insulin.Id).Returns(insulin);
-                }
                 else
                     factories.CreateInsulin().Returns(insulin);
                 sut.Load();
@@ -315,6 +310,21 @@ namespace Dietphone.Common.Phone.Tests
                 InitializeViewModel();
                 Assert.IsFalse(sut.NotIsLockedDateTime);
                 Assert.AreEqual("120", sut.CurrentSugar.BloodSugar);
+            }
+
+            [Test]
+            public void TombstoneAndUntombstoneDoesntCreateNewInsulin()
+            {
+                stateProvider.State.Returns(new Dictionary<string, object>());
+                InitializeViewModel();
+                sut.Subject.NormalBolus = "1.1";
+                sut.Tombstone();
+                CreateSut();
+                factories.ClearReceivedCalls();
+                InitializeViewModel();
+                factories.DidNotReceive().CreateInsulin();
+                sut.SaveWithUpdatedTimeAndReturn();
+                Assert.AreEqual(1.1f, insulin.NormalBolus);
             }
 
             [Test]
@@ -823,6 +833,16 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void WhenSugarAlreadyExistsCalculatesImmediately()
+            {
+                var sugar = new Sugar { BloodSugar = 100 };
+                factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                Assert.IsTrue(sut.IsCalculated);
+            }
+
+            [Test]
             public void UsesRelatedMealIdWhenProvided()
             {
                 var relatedMeal = new Meal { Id = Guid.NewGuid() };
@@ -960,13 +980,30 @@ namespace Dietphone.Common.Phone.Tests
                 sut.CurrentSugar.BloodSugar = "100";
                 sut.Tombstone();
                 CreateSut();
+                facade.ClearReceivedCalls();
                 InitializeViewModel();
+                facade.DidNotReceive().GetReplacementAndEstimatedSugars(Arg.Any<Meal>(), Arg.Any<Insulin>(),
+                    Arg.Any<Sugar>());
                 sut.Subject.NormalBolus = "1";
                 Assert.IsFalse(sut.IsCalculated);
                 sut.Subject.NormalBolus = "";
                 sut.Subject.SquareWaveBolus = "";
                 sut.Subject.SquareWaveBolusHours = "";
                 Assert.IsTrue(sut.IsCalculated);
+            }
+
+            [Test]
+            public void DoesntCalculateAfterUntombstningWhenBolusWasEdited()
+            {
+                stateProvider.State.Returns(new Dictionary<string, object>());
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                sut.Subject.NormalBolus = "1";
+                sut.Tombstone();
+                CreateSut();
+                InitializeViewModel();
+                Assert.IsFalse(sut.IsCalculated);
             }
         }
     }

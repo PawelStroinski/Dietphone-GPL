@@ -37,6 +37,8 @@ namespace Dietphone.ViewModels
         private const string IS_CALCULATED = "IS_CALCULATED";
         private const string IS_CALCULATED_TEXT = "IS_CALCULATED_TEXT";
         private const string SUGAR_CHART = "SUGAR_CHART";
+        private const string BOLUS_EDITED = "BOLUS_EDITED";
+        private const string INSULIN_ID = "INSULIN_ID";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
             BackgroundWorkerFactory workerFactory)
@@ -168,7 +170,7 @@ namespace Dietphone.ViewModels
             SaveCircumstances();
             Navigator.GoBack();
         }
-        
+
         public string SummaryForSelectedCircumstances()
         {
             return string.Join(", ",
@@ -198,6 +200,8 @@ namespace Dietphone.ViewModels
         protected override void FindAndCopyModel()
         {
             var id = Navigator.GetInsulinIdToEdit();
+            if (id == Guid.Empty)
+                id = UntombstoneInsulinId();
             var modelIsNew = id == Guid.Empty;
             if (modelIsNew)
                 modelSource = factories.CreateInsulin();
@@ -256,6 +260,7 @@ namespace Dietphone.ViewModels
             TombstoneSugar();
             TombstoneCircumstances();
             TombstoneCalculation();
+            TombstoneInsulinId();
         }
 
         protected override void UntombstoneOtherThings()
@@ -273,6 +278,8 @@ namespace Dietphone.ViewModels
         {
             SugarChart = new ObservableCollection<SugarChartItemViewModel>();
             UntombstoneCalculation();
+            if (!IsCalculated)
+                StartCalculation();
         }
 
         private void SaveWithUpdatedTime()
@@ -414,6 +421,7 @@ namespace Dietphone.ViewModels
             foreach (var item in SugarChart)
                 item.AddModelTo(sugars);
             state[SUGAR_CHART] = sugars;
+            state[BOLUS_EDITED] = bolusEdited;
         }
 
         private void UntombstoneCalculation()
@@ -430,6 +438,22 @@ namespace Dietphone.ViewModels
                     SugarChart = new ObservableCollection<SugarChartItemViewModel>(
                         sugars.Select(sugar => new SugarChartItemViewModel(sugar)).ToList());
             }
+            if (state.ContainsKey(BOLUS_EDITED))
+                bolusEdited = (bool)state[BOLUS_EDITED];
+        }
+
+        private void TombstoneInsulinId()
+        {
+            var state = StateProvider.State;
+            state[INSULIN_ID] = modelSource.Id;
+        }
+
+        private Guid UntombstoneInsulinId()
+        {
+            var state = StateProvider.State;
+            if (state.ContainsKey(INSULIN_ID))
+                return (Guid)state[INSULIN_ID];
+            return Guid.Empty;
         }
 
         private void FindMeal()
