@@ -446,11 +446,12 @@ namespace Dietphone.Common.Phone.Tests
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests
         {
             private ReplacementAndEstimatedSugars replacementAndEstimatedSugars;
+            private Meal meal;
 
             [SetUp]
             public new void TestInitialize()
             {
-                var meal = new Meal();
+                meal = new Meal();
                 replacementAndEstimatedSugars = new ReplacementAndEstimatedSugars
                 {
                     Replacement = new Replacement
@@ -828,7 +829,7 @@ namespace Dietphone.Common.Phone.Tests
                 {
                     sut.CurrentSugar.BloodSugar = "100";
                     Assert.AreEqual(3, sut.SugarChart.Count);
-                    Assert.AreEqual(sugar.DateTime, sut.SugarChart[0].DateTime);
+                    Assert.AreEqual(meal.DateTime, sut.SugarChart[0].DateTime);
                     Assert.AreEqual(100, sut.SugarChart[0].BloodSugar);
                     Assert.AreEqual(estimatedSugars[0].DateTime, sut.SugarChart[1].DateTime);
                     Assert.AreEqual(estimatedSugars[0].BloodSugar, sut.SugarChart[1].BloodSugar);

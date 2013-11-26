@@ -507,8 +507,10 @@ namespace Dietphone.ViewModels
 
         private void PopulateSugarChart(IList<Sugar> estimatedSugars)
         {
+            var currentSugar = sugarCopy.GetCopy();
+            currentSugar.DateTime = meal.DateTime;
             SugarChart = new ObservableCollection<SugarChartItemViewModel>(
-                new Sugar[] { sugarCopy }
+                new Sugar[] { currentSugar }
                 .Concat(estimatedSugars)
                 .Select(sugar => new SugarChartItemViewModel(sugar)));
             OnPropertyChanged("SugarChart");
