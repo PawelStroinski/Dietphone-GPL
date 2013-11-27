@@ -12,11 +12,13 @@ namespace Dietphone.ViewModels
         public ObservableCollection<DateViewModel> Dates { get; private set; }
         public event EventHandler DescriptorsUpdating;
         public event EventHandler DescriptorsUpdated;
-        private Factories factories;
+        private readonly Factories factories;
+        private readonly BackgroundWorkerFactory workerFactory;
 
-        public MealListingViewModel(Factories factories)
+        public MealListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
         {
             this.factories = factories;
+            this.workerFactory = workerFactory;
         }
 
         public override void Load()
@@ -102,12 +104,15 @@ namespace Dietphone.ViewModels
             private readonly bool sortNames;
 
             public NamesAndMealsLoader(MealListingViewModel viewModel)
+                : base(viewModel.workerFactory)
             {
                 this.viewModel = viewModel;
                 factories = viewModel.factories;
             }
 
-            public NamesAndMealsLoader(Factories factories, bool sortNames)
+            public NamesAndMealsLoader(Factories factories, bool sortNames,
+                BackgroundWorkerFactory workerFactory)
+                : base(workerFactory)
             {
                 this.factories = factories;
                 this.sortNames = sortNames;

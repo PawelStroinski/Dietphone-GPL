@@ -312,7 +312,8 @@ namespace Dietphone.ViewModels
 
         private void LoadCircumstances()
         {
-            var loader = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, true);
+            var loader = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, true,
+                workerFactory);
             Circumstances = loader.Circumstances;
             foreach (var circumstance in Circumstances)
                 circumstance.MakeBuffer();

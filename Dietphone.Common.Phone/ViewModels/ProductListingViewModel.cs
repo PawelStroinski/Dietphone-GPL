@@ -15,11 +15,13 @@ namespace Dietphone.ViewModels
         public event EventHandler<ChoosedEventArgs> Choosed;
         private readonly Factories factories;
         private readonly MaxCuAndFpuInCategories maxCuAndFpu;
+        private readonly BackgroundWorkerFactory workerFactory;
 
-        public ProductListingViewModel(Factories factories)
+        public ProductListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
         {
             this.factories = factories;
             maxCuAndFpu = new MaxCuAndFpuInCategories(factories.Finder);
+            this.workerFactory = workerFactory;
         }
 
         public override void Load()
@@ -121,13 +123,16 @@ namespace Dietphone.ViewModels
             private MaxCuAndFpuInCategories maxCuAndFpu;
 
             public CategoriesAndProductsLoader(ProductListingViewModel viewModel)
+                : base(viewModel.workerFactory)
             {
                 this.viewModel = viewModel;
                 factories = viewModel.factories;
                 maxCuAndFpu = viewModel.maxCuAndFpu;
             }
 
-            public CategoriesAndProductsLoader(Factories factories)
+            public CategoriesAndProductsLoader(Factories factories,
+                BackgroundWorkerFactory workerFactory)
+                : base(workerFactory)
             {
                 this.factories = factories;
             }

@@ -25,7 +25,8 @@ namespace Dietphone.Views
         public MealListing()
         {
             InitializeComponent();
-            ViewModel = new TelerikMealListingViewModel(MyApp.Factories);
+            ViewModel = new TelerikMealListingViewModel(MyApp.Factories,
+                new BackgroundWorkerWrapperFactory());
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.FilterDescriptors = List.FilterDescriptors;

@@ -8,23 +8,36 @@ namespace Dietphone.ViewModels
 {
     public class InsulinAndSugarListingViewModel : SubViewModel
     {
-        public ObservableCollection<InsulinViewModel> Insulins { get; private set; }
-        public ObservableCollection<DateViewModel> Dates { get; private set; }
-        private Factories factories;
+        public ObservableCollection<InsulinViewModel> Insulins { get; protected set; }
+        public ObservableCollection<SugarViewModel> Sugars { get; protected set; }
+        public ObservableCollection<DateViewModel> Dates { get; protected set; }
+        private readonly Factories factories;
+        private readonly BackgroundWorkerFactory workerFactory;
 
-        public InsulinAndSugarListingViewModel(Factories factories)
+        public InsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
         {
             this.factories = factories;
+            this.workerFactory = workerFactory;
         }
 
         public override void Load()
         {
-            throw new NotImplementedException();
+            if (Dates == null && Insulins == null && Sugars == null)
+            {
+                var loader = new CircumstancesAndInsulinsAndSugarsLoader(this);
+                loader.Loaded += delegate { OnLoaded(); };
+                loader.LoadAsync();
+            }
         }
 
         public override void Refresh()
         {
-            throw new NotImplementedException();
+            if (Dates != null && Insulins != null && Sugars != null)
+            {
+                var loader = new CircumstancesAndInsulinsAndSugarsLoader(this);
+                loader.Loaded += delegate { OnRefreshed(); };
+                loader.LoadAsync();
+            }
         }
 
         protected override void OnSearchChanged()
@@ -40,12 +53,15 @@ namespace Dietphone.ViewModels
             private readonly bool sortCircumstances;
 
             public CircumstancesAndInsulinsAndSugarsLoader(InsulinAndSugarListingViewModel viewModel)
+                : base(viewModel.workerFactory)
             {
                 this.viewModel = viewModel;
                 factories = viewModel.factories;
             }
 
-            public CircumstancesAndInsulinsAndSugarsLoader(Factories factories, bool sortCircumstances)
+            public CircumstancesAndInsulinsAndSugarsLoader(Factories factories, bool sortCircumstances,
+                BackgroundWorkerFactory workerFactory)
+                : base(workerFactory)
             {
                 this.factories = factories;
                 this.sortCircumstances = sortCircumstances;

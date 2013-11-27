@@ -23,7 +23,8 @@ namespace Dietphone.Views
         public ProductListing()
         {
             InitializeComponent();
-            ViewModel = new TelerikProductListingViewModel(MyApp.Factories);
+            ViewModel = new TelerikProductListingViewModel(MyApp.Factories,
+                new BackgroundWorkerWrapperFactory());
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.SortDescriptors = List.SortDescriptors;

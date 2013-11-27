@@ -21,14 +21,16 @@ namespace Dietphone.ViewModels
         private MealItemViewModel editItem;
         private bool wentToSettings;
         private bool setIsDirtyWhenReady;
+        private readonly BackgroundWorkerFactory workerFactory;
         private const string MEAL = "MEAL";
         private const string NAMES = "NAMES";
         private const string ITEM_EDITING = "EDIT_ITEM";
         private const string EDIT_ITEM_INDEX = "EDIT_ITEM_INDEX";
 
-        public MealEditingViewModel(Factories factories)
+        public MealEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
             : base(factories)
         {
+            this.workerFactory = workerFactory;
         }
 
         public MealItemEditingViewModel ItemEditing
@@ -225,7 +227,7 @@ namespace Dietphone.ViewModels
 
         private void LoadNames()
         {
-            var loader = new MealListingViewModel.NamesAndMealsLoader(factories, true);
+            var loader = new MealListingViewModel.NamesAndMealsLoader(factories, true, workerFactory);
             Names = loader.Names;
             foreach (var mealName in Names)
             {

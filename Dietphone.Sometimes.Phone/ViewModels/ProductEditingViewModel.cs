@@ -11,12 +11,14 @@ namespace Dietphone.ViewModels
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
         private List<CategoryViewModel> addedCategories = new List<CategoryViewModel>();
         private List<CategoryViewModel> deletedCategories = new List<CategoryViewModel>();
+        private readonly BackgroundWorkerFactory workerFactory;
         private const string PRODUCT = "PRODUCT";
         private const string CATEGORIES = "CATEGORIES";
 
-        public ProductEditingViewModel(Factories factories)
+        public ProductEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
             : base(factories)
         {
+            this.workerFactory = workerFactory;
         }
 
         public string CategoryName
@@ -122,7 +124,7 @@ namespace Dietphone.ViewModels
 
         private void LoadCategories()
         {
-            var loader = new ProductListingViewModel.CategoriesAndProductsLoader(factories);
+            var loader = new ProductListingViewModel.CategoriesAndProductsLoader(factories, workerFactory);
             Categories = loader.Categories;
             foreach (var category in Categories)
             {

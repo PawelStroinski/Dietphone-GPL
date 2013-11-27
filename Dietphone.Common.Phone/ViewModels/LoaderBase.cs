@@ -13,6 +13,12 @@ namespace Dietphone.ViewModels
         protected Factories factories;
         protected bool isLoading;
         protected SubViewModel viewModel;
+        protected readonly BackgroundWorkerFactory workerFactory;
+
+        public LoaderBase(BackgroundWorkerFactory workerFactory)
+        {
+            this.workerFactory = workerFactory;
+        }
 
         public void LoadAsync()
         {
@@ -24,7 +30,7 @@ namespace Dietphone.ViewModels
             {
                 return;
             }
-            var worker = new BackgroundWorker();
+            var worker = workerFactory.Create();
             worker.DoWork += delegate { DoWork(); };
             worker.RunWorkerCompleted += delegate { WorkCompleted(); };
             viewModel.IsBusy = true;
@@ -54,6 +60,10 @@ namespace Dietphone.ViewModels
     {
         protected ObservableCollection<DateViewModel> dates;
         private const byte DATES_MAX_COUNT = 14 * 3;
+
+        public LoaderBaseWithDates(BackgroundWorkerFactory workerFactory) : base(workerFactory)
+        {
+        }
 
         protected ObservableCollection<T> MakeDatesAndSortItems<T>(List<T> unsortedItems)
             where T : ViewModelWithDate

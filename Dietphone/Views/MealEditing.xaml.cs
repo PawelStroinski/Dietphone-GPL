@@ -19,7 +19,7 @@ namespace Dietphone.Views
         public MealEditing()
         {
             InitializeComponent();
-            ViewModel = new MealEditingViewModel(MyApp.Factories)
+            ViewModel = new MealEditingViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory())
             {
                 StateProvider = this,
                 ItemEditing = ItemEditing.ViewModel

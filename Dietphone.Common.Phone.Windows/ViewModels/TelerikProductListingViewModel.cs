@@ -11,8 +11,8 @@ namespace Dietphone.ViewModels
         public ObservableCollection<DataDescriptor> SortDescriptors { private get; set; }
         public ObservableCollection<DataDescriptor> FilterDescriptors { private get; set; }
 
-        public TelerikProductListingViewModel(Factories factories)
-            : base(factories)
+        public TelerikProductListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
+            : base(factories, workerFactory)
         {
         }
 

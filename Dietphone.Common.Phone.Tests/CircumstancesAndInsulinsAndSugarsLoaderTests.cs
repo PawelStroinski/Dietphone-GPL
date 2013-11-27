@@ -19,13 +19,14 @@ namespace Dietphone.Common.Phone.Tests
             factories = Substitute.For<Factories>();
             fixture = new Fixture();
             factories.InsulinCircumstances.Returns(fixture.CreateMany<InsulinCircumstance>().ToList());
-            viewModel = new InsulinAndSugarListingViewModel(factories);
+            viewModel = new InsulinAndSugarListingViewModel(factories, new BackgroundWorkerSyncFactory());
         }
 
         [Test]
         public void LoadsCircumstancesAndReturnsSorted()
         {
-            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, true);
+            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, true,
+                new BackgroundWorkerSyncFactory());
             var expected = factories.InsulinCircumstances
                 .OrderBy(circumstance => circumstance.Name);
             var actual = sut.Circumstances;
@@ -36,7 +37,8 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void LoadsCircumstancesAndReturnsUnsorted()
         {
-            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, false);
+            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(factories, false,
+                new BackgroundWorkerSyncFactory());
             var expected = factories.InsulinCircumstances;
             var actual = sut.Circumstances;
             Assert.AreEqual(expected.Select(circumstance => circumstance.Id).ToList(),

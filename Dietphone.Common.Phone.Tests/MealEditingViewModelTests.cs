@@ -25,7 +25,7 @@ namespace Dietphone.Common.Phone.Tests
             factories = Substitute.For<Factories>();
             factories.Finder.FindMealById(Guid.Empty).Returns(meal);
             factories.MealNames.Returns(new List<MealName>());
-            sut = new MealEditingViewModel(factories);
+            sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory());
             sut.Navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;

@@ -23,7 +23,7 @@ namespace Dietphone.Common.Phone.Tests
             factories.Meals[1].DateTime = today;
             for (int i = 2; i < 100; i++)
                 factories.Meals[i].DateTime = today.AddDays(-i);
-            var viewModel = new MealListingViewModel(factories);
+            var viewModel = new MealListingViewModel(factories, new BackgroundWorkerSyncFactory());
             var sut = new SutAccessor(viewModel);
             sut.LoadSynchronously();
             Assert.AreEqual(today, viewModel.Dates[0].Date);

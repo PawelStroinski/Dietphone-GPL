@@ -27,7 +27,7 @@ namespace Dietphone.Views
             base.OnNavigatedTo(e);
             var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService),
                 new NavigationContextImpl(NavigationContext));
-            viewModel = new ProductEditingViewModel(MyApp.Factories);
+            viewModel = new ProductEditingViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory());
             viewModel.StateProvider = this;
             viewModel.Navigator = navigator;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
