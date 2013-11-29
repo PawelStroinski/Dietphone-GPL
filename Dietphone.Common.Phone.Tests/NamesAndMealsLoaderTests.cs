@@ -24,28 +24,14 @@ namespace Dietphone.Common.Phone.Tests
             for (int i = 2; i < 100; i++)
                 factories.Meals[i].DateTime = today.AddDays(-i);
             var viewModel = new MealListingViewModel(factories, new BackgroundWorkerSyncFactory());
-            var sut = new SutAccessor(viewModel);
-            sut.LoadSynchronously();
+            var sut = new MealListingViewModel.NamesAndMealsLoader(viewModel);
+            sut.LoadAsync();
             Assert.AreEqual(today, viewModel.Dates[0].Date);
             Assert.AreEqual(yesterday, viewModel.Dates[1].Date);
             Assert.AreEqual(today, viewModel.Meals[0].Date.Date);
             Assert.AreEqual(yesterday, viewModel.Meals[1].Date.Date);
             Assert.IsFalse(viewModel.Dates[viewModel.Dates.Count - 2].IsGroupOfOlder);
             Assert.IsTrue(viewModel.Dates[viewModel.Dates.Count - 1].IsGroupOfOlder);
-        }
-
-        class SutAccessor : MealListingViewModel.NamesAndMealsLoader
-        {
-            public SutAccessor(MealListingViewModel viewModel)
-                : base(viewModel)
-            {
-            }
-
-            public void LoadSynchronously()
-            {
-                base.DoWork();
-                base.WorkCompleted();
-            }
         }
     }
 }
