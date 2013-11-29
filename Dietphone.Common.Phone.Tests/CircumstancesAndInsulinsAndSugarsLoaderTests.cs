@@ -12,6 +12,7 @@ namespace Dietphone.Common.Phone.Tests
     {
         private Factories factories;
         private Fixture fixture;
+        private InsulinAndSugarListingViewModel viewModel;
 
         [SetUp]
         public void TestInitialize()
@@ -49,8 +50,8 @@ namespace Dietphone.Common.Phone.Tests
         public void LoadsInsulins()
         {
             factories.Insulins.Returns(fixture.CreateMany<Insulin>(1).ToList());
-            var sut = new SutAccessor(viewModel);
-            sut.LoadSynchronously();
+            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(viewModel);
+            sut.LoadAsync();
             var expected = factories.Insulins.First().Id;
             var actual = viewModel.Insulins.First().Id;
             Assert.AreEqual(expected, actual);
@@ -60,8 +61,8 @@ namespace Dietphone.Common.Phone.Tests
         public void ProvidesAllCircumstancesToInsulinViewModel()
         {
             factories.Insulins.Returns(fixture.CreateMany<Insulin>(1).ToList());
-            var sut = new SutAccessor(viewModel);
-            sut.LoadSynchronously();
+            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(viewModel);
+            sut.LoadAsync();
             Assert.AreEqual(sut.Circumstances, viewModel.Insulins.First().AllCircumstances());
         }
 
@@ -75,8 +76,8 @@ namespace Dietphone.Common.Phone.Tests
             factories.Insulins[1].DateTime = today;
             for (int i = 2; i < 100; i++)
                 factories.Insulins[i].DateTime = today.AddDays(-i);
-            var sut = new SutAccessor(viewModel);
-            sut.LoadSynchronously();
+            var sut = new InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader(viewModel);
+            sut.LoadAsync();
             Assert.AreEqual(today, viewModel.Dates[0].Date);
             Assert.AreEqual(yesterday, viewModel.Dates[1].Date);
             Assert.AreEqual(today, viewModel.Insulins[0].Date.Date);
@@ -84,21 +85,5 @@ namespace Dietphone.Common.Phone.Tests
             Assert.IsFalse(viewModel.Dates[viewModel.Dates.Count - 2].IsGroupOfOlder);
             Assert.IsTrue(viewModel.Dates[viewModel.Dates.Count - 1].IsGroupOfOlder);
         }
-
-        class SutAccessor : InsulinAndSugarListingViewModel.CircumstancesAndInsulinsAndSugarsLoader
-        {
-            public SutAccessor(InsulinAndSugarListingViewModel viewModel)
-                : base(viewModel)
-            {
-            }
-
-            public void LoadSynchronously()
-            {
-                base.DoWork();
-                base.WorkCompleted();
-            }
-        }
-
-        public InsulinAndSugarListingViewModel viewModel { get; set; }
     }
 }
