@@ -1,9 +1,10 @@
-﻿using Dietphone.Models;
+﻿using System;
+using Dietphone.Models;
 using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
-    public class SugarViewModel : ViewModelBase
+    public class SugarViewModel : ViewModelWithDate
     {
         public Sugar Sugar { get; private set; }
         private readonly Factories factories;
@@ -12,6 +13,24 @@ namespace Dietphone.ViewModels
         {
             Sugar = sugar;
             this.factories = factories;
+        }
+
+        public override DateTime DateTime
+        {
+            get
+            {
+                var universal = Sugar.DateTime;
+                return universal.ToLocalTime();
+            }
+            set
+            {
+                var universal = value.ToUniversalTime();
+                if (Sugar.DateTime != universal)
+                {
+                    Sugar.DateTime = universal;
+                    NotifyDateTimeChange();
+                }
+            }
         }
 
         public string BloodSugar

@@ -33,5 +33,13 @@ namespace Dietphone.ViewModels
                 return DateTime.ToString("t");
             }
         }
+
+        protected void NotifyDateTimeChange()
+        {
+            OnPropertyChanged("DateTime");
+            OnPropertyChanged("DateOnly");
+            OnPropertyChanged("DateAndTime");
+            OnPropertyChanged("Time");
+        }
     }
 }

@@ -48,10 +48,7 @@ namespace Dietphone.ViewModels
                 if (Insulin.DateTime != universal)
                 {
                     Insulin.DateTime = universal;
-                    OnPropertyChanged("DateTime");
-                    OnPropertyChanged("DateOnly");
-                    OnPropertyChanged("DateAndTime");
-                    OnPropertyChanged("Time");
+                    NotifyDateTimeChange();
                 }
             }
         }

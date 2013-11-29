@@ -1,4 +1,5 @@
-﻿using Dietphone.Models;
+﻿using System;
+using Dietphone.Models;
 using Dietphone.ViewModels;
 using NUnit.Framework;
 using NSubstitute;
@@ -28,6 +29,19 @@ namespace Dietphone.Common.Phone.Tests
             var sut = new SugarViewModel(new Models.Sugar(), factories);
             sut.BloodSugar = enteredValue;
             Assert.AreEqual(expectedValue, sut.BloodSugar);
+        }
+
+        [Test]
+        public void DateTimeTest()
+        {
+            var factories = Substitute.For<Factories>();
+            var sut = new SugarViewModel(new Models.Sugar(), factories);
+            var universal = DateTime.UtcNow;
+            sut.ChangesProperty("DateTime", () =>
+            {
+                sut.DateTime = universal;
+            });
+            Assert.AreEqual(universal.ToLocalTime(), sut.DateTime);
         }
     }
 }

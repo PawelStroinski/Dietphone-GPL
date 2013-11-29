@@ -40,7 +40,10 @@ namespace Dietphone.Common.Phone.Tests
             var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
             Assert.AreEqual(insulin.Id, sut.Id);
             var universal = DateTime.UtcNow;
-            sut.DateTime = universal;
+            sut.ChangesProperty("DateTime", () =>
+            {
+                sut.DateTime = universal;
+            });
             Assert.AreEqual(universal.ToLocalTime(), sut.DateTime);
             Assert.AreEqual(universal.ToLocalTime().Date, sut.DateOnly);
             Assert.AreEqual(universal.ToLocalTime().ToShortDateInAlternativeFormat()
