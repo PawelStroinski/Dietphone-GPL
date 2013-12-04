@@ -60,7 +60,6 @@ namespace Dietphone.Common.Phone.Tests
             });
         }
 
-        [Ignore("Need to add sugar to loader")]
         [Test]
         public void RefreshLoadsWhenNotLoadedAlready()
         {

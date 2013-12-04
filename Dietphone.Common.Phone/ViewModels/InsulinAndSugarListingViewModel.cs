@@ -8,7 +8,7 @@ namespace Dietphone.ViewModels
 {
     public class InsulinAndSugarListingViewModel : SubViewModel
     {
-        public ObservableCollection<InsulinViewModel> Insulins { get; protected set; }
+        public ObservableCollection<ViewModelWithDate> InsulinsAndSugars { get; protected set; }
         public ObservableCollection<SugarViewModel> Sugars { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
         private readonly Factories factories;
@@ -22,7 +22,7 @@ namespace Dietphone.ViewModels
 
         public override void Load()
         {
-            if (Dates == null && Insulins == null && Sugars == null)
+            if (Dates == null && InsulinsAndSugars == null)
             {
                 var loader = new CircumstancesAndInsulinsAndSugarsLoader(this);
                 loader.Loaded += delegate { OnLoaded(); };
@@ -32,7 +32,7 @@ namespace Dietphone.ViewModels
 
         public override void Refresh()
         {
-            if (Dates != null && Insulins != null && Sugars != null)
+            if (Dates != null && InsulinsAndSugars != null)
             {
                 var loader = new CircumstancesAndInsulinsAndSugarsLoader(this);
                 loader.Loaded += delegate { OnRefreshed(); };
@@ -49,7 +49,8 @@ namespace Dietphone.ViewModels
         {
             private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
             private List<InsulinViewModel> unsortedInsulins;
-            private ObservableCollection<InsulinViewModel> sortedInsulins;
+            private List<SugarViewModel> unsortedSugars;
+            private ObservableCollection<ViewModelWithDate> sortedInsulinsAndSugars;
             private readonly bool sortCircumstances;
 
             public CircumstancesAndInsulinsAndSugarsLoader(InsulinAndSugarListingViewModel viewModel)
@@ -83,6 +84,7 @@ namespace Dietphone.ViewModels
             {
                 LoadCircumstances();
                 LoadUnsortedInsulins();
+                LoadUnsortedSugars();
                 MakeDatesAndSortInsulins();
             }
 
@@ -128,21 +130,40 @@ namespace Dietphone.ViewModels
                 }
             }
 
+            private void LoadUnsortedSugars()
+            {
+                var models = factories.Sugars;
+                unsortedSugars = new List<SugarViewModel>();
+                foreach (var model in models)
+                {
+                    var viewModel = new SugarViewModel(model, factories);
+                    unsortedSugars.Add(viewModel);
+                }
+            }
+
             private void MakeDatesAndSortInsulins()
             {
-                sortedInsulins = MakeDatesAndSortItems(unsortedInsulins);
+                var unsortedInsulinsAndSugars = new List<ViewModelWithDate>();
+                unsortedInsulinsAndSugars.AddRange(unsortedInsulins.Cast<ViewModelWithDate>());
+                unsortedInsulinsAndSugars.AddRange(unsortedSugars.Cast<ViewModelWithDate>());
+                sortedInsulinsAndSugars = MakeDatesAndSortItems(unsortedInsulinsAndSugars, ThenBy);
             }
 
             private void AssignSortedInsulins()
             {
-                GetViewModel().Insulins = sortedInsulins;
-                GetViewModel().OnPropertyChanged("Insulins");
+                GetViewModel().InsulinsAndSugars = sortedInsulinsAndSugars;
+                GetViewModel().OnPropertyChanged("InsulinsAndSugars");
             }
 
             private void AssignDates()
             {
                 GetViewModel().Dates = dates;
                 GetViewModel().OnPropertyChanged("Dates");
+            }
+
+            private int ThenBy(ViewModelWithDate item)
+            {
+                return item is SugarViewModel ? 1 : 2;
             }
 
             private InsulinAndSugarListingViewModel GetViewModel()

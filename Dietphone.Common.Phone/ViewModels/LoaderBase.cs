@@ -65,7 +65,7 @@ namespace Dietphone.ViewModels
         {
         }
 
-        protected ObservableCollection<T> MakeDatesAndSortItems<T>(List<T> unsortedItems)
+        protected ObservableCollection<T> MakeDatesAndSortItems<T>(List<T> unsortedItems, Func<T, int> thenBy = null)
             where T : ViewModelWithDate
         {
             var itemDatesDescending = from item in unsortedItems
@@ -78,31 +78,35 @@ namespace Dietphone.ViewModels
                 newerCount--;
             }
             var newer = itemDatesDescending.Take(newerCount);
-            var older = from date in itemDatesDescending.Skip(newerCount)
-                        from meal in date
-                        orderby meal.DateTime descending
-                        select meal;
+            var older = (from date in itemDatesDescending.Skip(newerCount)
+                        from item in date
+                        select item)
+                        .OrderByDescending(item => item.DateAndTime);
+            if (thenBy != null)
+                older = older.ThenBy(thenBy);
             dates = new ObservableCollection<DateViewModel>();
             var sortedItems = new ObservableCollection<T>();
             foreach (var date in newer)
             {
                 var normalDate = DateViewModel.CreateNormalDate(date.Key);
                 dates.Add(normalDate);
-                var dateAscending = date.OrderBy(meal => meal.DateTime);
-                foreach (var meal in dateAscending)
+                var dateAscending = date.OrderBy(item => item.DateTime);
+                if (thenBy != null)
+                    dateAscending = dateAscending.ThenBy(thenBy);
+                foreach (var item in dateAscending)
                 {
-                    meal.Date = normalDate;
-                    sortedItems.Add(meal);
+                    item.Date = normalDate;
+                    sortedItems.Add(item);
                 }
             }
             if (older.Count() > 0)
             {
                 var groupOfOlder = DateViewModel.CreateGroupOfOlder();
                 dates.Add(groupOfOlder);
-                foreach (var meal in older)
+                foreach (var item in older)
                 {
-                    meal.Date = groupOfOlder;
-                    sortedItems.Add(meal);
+                    item.Date = groupOfOlder;
+                    sortedItems.Add(item);
                 }
             }
             return sortedItems;
