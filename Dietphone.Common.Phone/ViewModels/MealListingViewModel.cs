@@ -6,12 +6,10 @@ using System.Collections.Generic;
 
 namespace Dietphone.ViewModels
 {
-    public class MealListingViewModel : SubViewModel
+    public class MealListingViewModel : SearchSubViewModel
     {
         public ObservableCollection<MealViewModel> Meals { get; private set; }
         public ObservableCollection<DateViewModel> Dates { get; private set; }
-        public event EventHandler DescriptorsUpdating;
-        public event EventHandler DescriptorsUpdated;
         private readonly Factories factories;
         private readonly BackgroundWorkerFactory workerFactory;
 
@@ -66,33 +64,6 @@ namespace Dietphone.ViewModels
                          where date.Date == value
                          select date;
             return result.FirstOrDefault();
-        }
-
-        protected override void OnSearchChanged()
-        {
-            OnDescriptorsUpdating();
-            UpdateFilterDescriptors();
-            OnDescriptorsUpdated();
-        }
-
-        protected virtual void UpdateFilterDescriptors()
-        {
-        }
-
-        protected void OnDescriptorsUpdating()
-        {
-            if (DescriptorsUpdating != null)
-            {
-                DescriptorsUpdating(this, EventArgs.Empty);
-            }
-        }
-
-        protected void OnDescriptorsUpdated()
-        {
-            if (DescriptorsUpdated != null)
-            {
-                DescriptorsUpdated(this, EventArgs.Empty);
-            }
         }
 
         public class NamesAndMealsLoader : LoaderBaseWithDates

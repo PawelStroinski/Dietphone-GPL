@@ -6,12 +6,10 @@ using System.Collections.Generic;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinAndSugarListingViewModel : SubViewModel
+    public class InsulinAndSugarListingViewModel : SearchSubViewModel
     {
         public ObservableCollection<ViewModelWithDate> InsulinsAndSugars { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
-        public event EventHandler DescriptorsUpdating;
-        public event EventHandler DescriptorsUpdated;
         private readonly Factories factories;
         private readonly BackgroundWorkerFactory workerFactory;
 
@@ -38,33 +36,6 @@ namespace Dietphone.ViewModels
                 var loader = new CircumstancesAndInsulinsAndSugarsLoader(this);
                 loader.Loaded += delegate { OnRefreshed(); };
                 loader.LoadAsync();
-            }
-        }
-
-        protected override void OnSearchChanged()
-        {
-            OnDescriptorsUpdating();
-            UpdateFilterDescriptors();
-            OnDescriptorsUpdated();
-        }
-
-        protected virtual void UpdateFilterDescriptors()
-        {
-        }
-
-        protected void OnDescriptorsUpdating()
-        {
-            if (DescriptorsUpdating != null)
-            {
-                DescriptorsUpdating(this, EventArgs.Empty);
-            }
-        }
-
-        protected void OnDescriptorsUpdated()
-        {
-            if (DescriptorsUpdated != null)
-            {
-                DescriptorsUpdated(this, EventArgs.Empty);
             }
         }
 

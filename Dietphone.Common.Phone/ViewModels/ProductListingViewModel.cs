@@ -6,12 +6,10 @@ using System.Linq;
 
 namespace Dietphone.ViewModels
 {
-    public class ProductListingViewModel : SubViewModel
+    public class ProductListingViewModel : SearchSubViewModel
     {
         public ObservableCollection<ProductViewModel> Products { get; private set; }
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
-        public event EventHandler DescriptorsUpdating;
-        public event EventHandler DescriptorsUpdated;
         public event EventHandler<ChoosedEventArgs> Choosed;
         private readonly Factories factories;
         private readonly MaxCuAndFpuInCategories maxCuAndFpu;
@@ -81,38 +79,11 @@ namespace Dietphone.ViewModels
             return result.FirstOrDefault();
         }
 
-        protected override void OnSearchChanged()
-        {
-            OnDescriptorsUpdating();
-            UpdateFilterDescriptors();
-            OnDescriptorsUpdated();
-        }
-
-        protected virtual void UpdateFilterDescriptors()
-        {
-        }
-
         protected void OnChoosed(ChoosedEventArgs e)
         {
             if (Choosed != null)
             {
                 Choosed(this, e);
-            }
-        }
-
-        protected void OnDescriptorsUpdating()
-        {
-            if (DescriptorsUpdating != null)
-            {
-                DescriptorsUpdating(this, EventArgs.Empty);
-            }
-        }
-
-        protected void OnDescriptorsUpdated()
-        {
-            if (DescriptorsUpdated != null)
-            {
-                DescriptorsUpdated(this, EventArgs.Empty);
             }
         }
 
