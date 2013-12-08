@@ -108,8 +108,8 @@ namespace Dietphone.Common.Phone.Tests
             Assert.IsTrue(viewModel.Dates[viewModel.Dates.Count - 1].IsGroupOfOlder);
             Assert.IsTrue(viewModel.InsulinsAndSugars.IndexOf(
                 viewModel.InsulinsAndSugars.First(vm => vm.DateTime == factories.Insulins[48].DateTime)) >
-                    viewModel.InsulinsAndSugars.IndexOf(
-                viewModel.InsulinsAndSugars.First(vm => vm.DateTime == factories.Insulins[49].DateTime)));
+                viewModel.InsulinsAndSugars.IndexOf(
+                    viewModel.InsulinsAndSugars.First(vm => vm.DateTime == factories.Insulins[49].DateTime)));
             Assert.IsInstanceOf<SugarViewModel>(viewModel.InsulinsAndSugars
                 .ElementAt(viewModel.InsulinsAndSugars.Count - 2));
         }
