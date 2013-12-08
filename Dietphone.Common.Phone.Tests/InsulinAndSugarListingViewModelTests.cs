@@ -72,5 +72,45 @@ namespace Dietphone.Common.Phone.Tests
             });
             Assert.IsTrue(refreshed);
         }
+
+        [Test]
+        public void OnSearchChanged()
+        {
+            var sut = new SutAccessor();
+            var updating = false;
+            var update = true;
+            var updated = false;
+            sut.DescriptorsUpdating += delegate { updating = true; };
+            sut.DescriptorsUpdated += delegate { updated = true; };
+            sut.UpdateFilterDescriptorsEvent += delegate
+            {
+                Assert.IsTrue(updating);
+                Assert.IsFalse(updated);
+                update = true;
+            };
+            sut.OnSearchChanged();
+            Assert.IsTrue(update);
+            Assert.IsTrue(updated);
+        }
+
+        class SutAccessor : InsulinAndSugarListingViewModel
+        {
+            public event EventHandler UpdateFilterDescriptorsEvent;
+
+            public SutAccessor()
+                : base(null, null)
+            {
+            }
+
+            public new void OnSearchChanged()
+            {
+                base.OnSearchChanged();
+            }
+
+            protected override void UpdateFilterDescriptors()
+            {
+                UpdateFilterDescriptorsEvent(null, null);
+            }
+        }
     }
 }
