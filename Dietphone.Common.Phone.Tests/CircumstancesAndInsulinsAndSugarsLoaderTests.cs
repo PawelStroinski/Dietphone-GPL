@@ -53,8 +53,8 @@ namespace Dietphone.Common.Phone.Tests
         {
             factories.Insulins.Returns(fixture.CreateMany<Insulin>(2).ToList());
             factories.Sugars.Returns(fixture.CreateMany<Sugar>(2).ToList());
-            var date1 = DateTime.Now;
-            var date2 = DateTime.Now.AddHours(3);
+            var date1 = DateTime.Today;
+            var date2 = DateTime.Today.AddHours(3);
             factories.Sugars.First().DateTime = date2;
             factories.Insulins.First().DateTime = date2;
             factories.Sugars.ElementAt(1).DateTime = date1;
