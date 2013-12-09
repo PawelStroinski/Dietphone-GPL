@@ -76,6 +76,7 @@
     <Compile Include="ViewModels\ViewModelWithBuffer.cs" />
     <Compile Include="ViewModels\ViewModelWithBufferAcc.cs" />
     <Compile Include="ViewModels\ViewModelWithDate.cs" />
+    <Compile Include="ViewModels\ViewModelWithDateAndText.cs" />
     <Compile Include="Views\TranslationsFactory.cs" />
   </ItemGroup>
   <ItemGroup>

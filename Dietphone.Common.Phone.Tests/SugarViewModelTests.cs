@@ -43,5 +43,14 @@ namespace Dietphone.Common.Phone.Tests
             });
             Assert.AreEqual(universal.ToLocalTime(), sut.DateTime);
         }
+
+        [Test]
+        public void Text()
+        {
+            var factories = Substitute.For<Factories>();
+            factories.Settings.Returns(new Settings());
+            var sut = new SugarViewModel(new Models.Sugar { BloodSugar = 120 }, factories);
+            Assert.AreEqual("120", sut.Text);
+        }
     }
 }

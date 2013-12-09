@@ -4,7 +4,7 @@ using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
-    public class SugarViewModel : ViewModelWithDate
+    public class SugarViewModel : ViewModelWithDateAndText
     {
         public Sugar Sugar { get; private set; }
         private readonly Factories factories;
@@ -49,6 +49,11 @@ namespace Dietphone.ViewModels
                 Sugar.BloodSugar = constrains.Constraint(newValue);
                 OnPropertyChanged("BloodSugar");
             }
+        }
+
+        public override string Text
+        {
+            get { return BloodSugar; }
         }
     }
 }

@@ -7,10 +7,11 @@ using Dietphone.Tools;
 using System.Collections.Generic;
 using Dietphone.Views;
 using System.Collections;
+using System.Text;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinViewModel : ViewModelWithDate
+    public class InsulinViewModel : ViewModelWithDateAndText
     {
         public Insulin Insulin { get; private set; }
         private IList<InsulinCircumstanceViewModel> circumstances;
@@ -157,6 +158,32 @@ namespace Dietphone.ViewModels
                         circumstances = null;
                 }
                 OnPropertyChanged("Circumstances");
+            }
+        }
+
+        public override string Text
+        {
+            get
+            {
+                var builder = new StringBuilder();
+                if (!string.IsNullOrEmpty(NormalBolus))
+                    builder.AppendFormat(Translations.NormalBolusText, NormalBolus);
+                if (!string.IsNullOrEmpty(SquareWaveBolus))
+                {
+                    if (builder.Length > 0)
+                        builder.Append(" ");
+                    var squareWaveBolusHours = SquareWaveBolusHours;
+                    if (string.IsNullOrEmpty(squareWaveBolusHours))
+                        squareWaveBolusHours = "?";
+                    builder.AppendFormat(Translations.SquareWaveBolusText, SquareWaveBolus, squareWaveBolusHours);
+                }
+                if (!string.IsNullOrEmpty(Note))
+                {
+                    if (builder.Length > 0)
+                        builder.Append(" ");
+                    builder.Append(Note);
+                }
+                return builder.ToString();
             }
         }
 

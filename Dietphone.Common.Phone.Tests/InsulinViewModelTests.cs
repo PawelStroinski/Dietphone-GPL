@@ -176,5 +176,24 @@ namespace Dietphone.Common.Phone.Tests
             });
         }
 
+        [Test]
+        public void Text()
+        {
+            insulin = new Insulin();
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            sut.NormalBolus = "1";
+            Assert.AreEqual("1 U", sut.Text);
+            sut.SquareWaveBolus = "2";
+            Assert.AreEqual("1 U 2 U for ? h", sut.Text);
+            sut.SquareWaveBolusHours = "3";
+            Assert.AreEqual("1 U 2 U for 3 h", sut.Text);
+            sut.NormalBolus = "";
+            Assert.AreEqual("2 U for 3 h", sut.Text);
+            sut.Note = "note";
+            Assert.AreEqual("2 U for 3 h note", sut.Text);
+            sut.NormalBolus = "1";
+            sut.SquareWaveBolus = "";
+            Assert.AreEqual("1 U note", sut.Text);
+        }
     }
 }

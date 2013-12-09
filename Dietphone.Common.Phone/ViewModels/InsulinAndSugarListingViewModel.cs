@@ -8,7 +8,7 @@ namespace Dietphone.ViewModels
 {
     public class InsulinAndSugarListingViewModel : SearchSubViewModel
     {
-        public ObservableCollection<ViewModelWithDate> InsulinsAndSugars { get; protected set; }
+        public ObservableCollection<ViewModelWithDateAndText> InsulinsAndSugars { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
         private readonly Factories factories;
         private readonly BackgroundWorkerFactory workerFactory;
@@ -44,7 +44,7 @@ namespace Dietphone.ViewModels
             private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
             private List<InsulinViewModel> unsortedInsulins;
             private List<SugarViewModel> unsortedSugars;
-            private ObservableCollection<ViewModelWithDate> sortedInsulinsAndSugars;
+            private ObservableCollection<ViewModelWithDateAndText> sortedInsulinsAndSugars;
             private readonly bool sortCircumstances;
 
             public CircumstancesAndInsulinsAndSugarsLoader(InsulinAndSugarListingViewModel viewModel)
@@ -137,9 +137,9 @@ namespace Dietphone.ViewModels
 
             private void MakeDatesAndSortInsulins()
             {
-                var unsortedInsulinsAndSugars = new List<ViewModelWithDate>();
-                unsortedInsulinsAndSugars.AddRange(unsortedInsulins.Cast<ViewModelWithDate>());
-                unsortedInsulinsAndSugars.AddRange(unsortedSugars.Cast<ViewModelWithDate>());
+                var unsortedInsulinsAndSugars = new List<ViewModelWithDateAndText>();
+                unsortedInsulinsAndSugars.AddRange(unsortedInsulins.Cast<ViewModelWithDateAndText>());
+                unsortedInsulinsAndSugars.AddRange(unsortedSugars.Cast<ViewModelWithDateAndText>());
                 sortedInsulinsAndSugars = MakeDatesAndSortItems(unsortedInsulinsAndSugars, ThenBy);
             }
 
@@ -155,7 +155,7 @@ namespace Dietphone.ViewModels
                 GetViewModel().OnPropertyChanged("Dates");
             }
 
-            private int ThenBy(ViewModelWithDate item)
+            private int ThenBy(ViewModelWithDateAndText item)
             {
                 return item is SugarViewModel ? 1 : 2;
             }
