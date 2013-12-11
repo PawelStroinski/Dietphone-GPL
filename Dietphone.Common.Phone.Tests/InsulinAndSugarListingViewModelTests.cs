@@ -96,6 +96,17 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void ChooseWhenInsulin()
+        {
+            var navigator = Substitute.For<Navigator>();
+            var insulin = new Insulin { Id = Guid.NewGuid() };
+            var viewModel = new InsulinViewModel(insulin, factories, new List<InsulinCircumstanceViewModel>());
+            sut.Navigator = navigator;
+            sut.Choose(viewModel);
+            navigator.Received().GoToInsulinEditing(insulin.Id);
+        }
+
+        [Test]
         public void OnSearchChanged()
         {
             var sut = new SutAccessor();

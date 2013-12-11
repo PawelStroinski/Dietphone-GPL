@@ -41,7 +41,11 @@ namespace Dietphone.ViewModels
 
         public void Choose(ViewModelWithDateAndText vm)
         {
-            throw new NotImplementedException();
+            if (vm is InsulinViewModel)
+            {
+                Navigator.GoToInsulinEditing((vm as InsulinViewModel).Id);
+                return;
+            }
         }
 
         public override void Add()
