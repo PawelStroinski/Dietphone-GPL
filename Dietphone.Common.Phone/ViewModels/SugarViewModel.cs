@@ -1,10 +1,11 @@
 ﻿using System;
 using Dietphone.Models;
 using Dietphone.Tools;
+using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
-    public class SugarViewModel : ViewModelWithDateAndText
+    public class SugarViewModel : TypedViewModel
     {
         public Sugar Sugar { get; private set; }
         private readonly Factories factories;
@@ -53,7 +54,11 @@ namespace Dietphone.ViewModels
 
         public override string Text
         {
-            get { return BloodSugar; }
+            get
+            {
+                return string.Format(factories.Settings.SugarUnit == SugarUnit.mgdL
+                    ? Translations.BloodSugarMgdL : Translations.BloodSugarMmolL, BloodSugar);
+            }
         }
     }
 }

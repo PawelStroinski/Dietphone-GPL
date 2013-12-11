@@ -38,6 +38,7 @@ namespace Dietphone.Views
             TranslateApplicationBar();
             MealListing.StateProvider = this;
             ProductListing.StateProvider = this;
+            InsulinAndSugarListing.StateProvider = this;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -70,6 +71,7 @@ namespace Dietphone.Views
                 ViewModel.Tombstone();
                 MealListing.Tombstone();
                 ProductListing.Tombstone();
+                InsulinAndSugarListing.Tombstone();
                 TombstoneSearchBeforeExit();
             }
         }
@@ -85,6 +87,11 @@ namespace Dietphone.Views
                 {
                     subConnector.SubViewModel = ProductListing.ViewModel;
                 }
+                else
+                    if (Pivot.SelectedItem == InsulinAndSugars)
+                    {
+                        subConnector.SubViewModel = InsulinAndSugarListing.ViewModel;
+                    }
         }
 
         private void SubConnector_Loaded(object sender, EventArgs e)
@@ -104,6 +111,7 @@ namespace Dietphone.Views
         private void ViewModel_ShowProductsOnly(object sender, EventArgs e)
         {
             Pivot.Items.Remove(Meals);
+            Pivot.Items.Remove(InsulinAndSugars);
         }
 
         private void About_Click(object sender, EventArgs e)
@@ -161,12 +169,22 @@ namespace Dietphone.Views
             HideSearch();
         }
 
+        private void InsulinAndSugarListing_DatesPoppedUp(object sender, EventArgs e)
+        {
+            HideSearch();
+        }
+
         private void ProductListing_MouseEnter(object sender, MouseEventArgs e)
         {
             HideSearchSip();
         }
 
         private void MealListing_MouseEnter(object sender, MouseEventArgs e)
+        {
+            HideSearchSip();
+        }
+
+        private void InsulinAndSugarListing_MouseEnter(object sender, MouseEventArgs e)
         {
             HideSearchSip();
         }

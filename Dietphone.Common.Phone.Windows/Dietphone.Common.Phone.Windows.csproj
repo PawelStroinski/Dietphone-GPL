@@ -95,6 +95,7 @@
     <Compile Include="Tools\UIExtensionMethods.cs" />
     <Compile Include="Tools\Vibration.cs" />
     <Compile Include="Tools\XnaInputBox.cs" />
+    <Compile Include="ViewModels\TelerikInsulinAndSugarListingViewModel.cs" />
     <Compile Include="ViewModels\TelerikMealListingViewModel.cs" />
     <Compile Include="ViewModels\TelerikProductListingViewModel.cs" />
     <Compile Include="Views\BooleanToVisibilityConverter.cs" />

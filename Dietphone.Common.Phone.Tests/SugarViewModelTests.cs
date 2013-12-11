@@ -50,7 +50,10 @@ namespace Dietphone.Common.Phone.Tests
             var factories = Substitute.For<Factories>();
             factories.Settings.Returns(new Settings());
             var sut = new SugarViewModel(new Models.Sugar { BloodSugar = 120 }, factories);
-            Assert.AreEqual("120", sut.Text);
+            Assert.AreEqual("120 mg/dL", sut.Text);
+            factories.Settings.SugarUnit = SugarUnit.mmolL;
+            sut.BloodSugar = "5.5";
+            Assert.AreEqual(sut.BloodSugar + " mmol/L", sut.Text);
         }
     }
 }

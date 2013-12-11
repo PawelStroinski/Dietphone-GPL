@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinViewModel : ViewModelWithDateAndText
+    public class InsulinViewModel : TypedViewModel
     {
         public Insulin Insulin { get; private set; }
         private IList<InsulinCircumstanceViewModel> circumstances;

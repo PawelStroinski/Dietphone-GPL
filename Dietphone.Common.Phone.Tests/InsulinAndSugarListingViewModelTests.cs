@@ -74,6 +74,28 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void FindInsulinOrSugar()
+        {
+            var sugar = new Sugar { DateTime = DateTime.Today };
+            var insulin = new Insulin { DateTime = DateTime.Today.AddMinutes(1) };
+            factories.Sugars.Add(sugar);
+            factories.Insulins.Add(insulin);
+            sut.Load();
+            Assert.IsNull(sut.FindInsulinOrSugar(DateTime.Today.AddHours(1)));
+            Assert.IsInstanceOf<SugarViewModel>(sut.FindInsulinOrSugar(sugar.DateTime));
+            Assert.IsInstanceOf<InsulinViewModel>(sut.FindInsulinOrSugar(insulin.DateTime));
+        }
+
+        [Test]
+        public void FindDate()
+        {
+            var sugar = new Sugar { DateTime = DateTime.Now };
+            factories.Sugars.Add(sugar);
+            sut.Load();
+            Assert.AreEqual(sugar.DateTime.Date, sut.FindDate(sugar.DateTime.Date).Date);
+        }
+
+        [Test]
         public void OnSearchChanged()
         {
             var sut = new SutAccessor();

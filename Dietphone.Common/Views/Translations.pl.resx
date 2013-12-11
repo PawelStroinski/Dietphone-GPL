@@ -587,4 +587,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="SquareWaveBolusText" xml:space="preserve">
     <value>{0} J na {1} h</value>
   </data>
+  <data name="InsulinAndSugars" xml:space="preserve">
+    <value>insulina i cukry</value>
+  </data>
 </root>

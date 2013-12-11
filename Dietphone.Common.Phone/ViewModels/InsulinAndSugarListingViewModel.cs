@@ -39,6 +39,26 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public void Choose(ViewModelWithDateAndText vm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ViewModelWithDateAndText FindInsulinOrSugar(DateTime value)
+        {
+            return InsulinsAndSugars.FirstOrDefault(vm => vm.DateTime == value);
+        }
+
+        public DateViewModel FindDate(DateTime value)
+        {
+            return Dates.FirstOrDefault(date => date.Date == value);
+        }
+
         public class CircumstancesAndInsulinsAndSugarsLoader : LoaderBaseWithDates
         {
             private ObservableCollection<InsulinCircumstanceViewModel> circumstances;

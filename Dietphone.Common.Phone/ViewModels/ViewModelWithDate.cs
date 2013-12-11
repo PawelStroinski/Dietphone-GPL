@@ -34,6 +34,29 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public bool IsNewer
+        {
+            get
+            {
+                if (Date == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return !Date.IsGroupOfOlder;
+                }
+            }
+        }
+
+        public bool IsOlder
+        {
+            get
+            {
+                return !IsNewer;
+            }
+        }
+
         protected void NotifyDateTimeChange()
         {
             OnPropertyChanged("DateTime");

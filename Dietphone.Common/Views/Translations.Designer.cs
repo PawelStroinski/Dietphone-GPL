@@ -253,6 +253,24 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} mg/dL.
+        /// </summary>
+        public static string BloodSugarMgdL {
+            get {
+                return ResourceManager.GetString("BloodSugarMgdL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} mmol/L.
+        /// </summary>
+        public static string BloodSugarMmolL {
+            get {
+                return ResourceManager.GetString("BloodSugarMmolL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Breakfast.
         /// </summary>
         public static string Breakfast {
@@ -837,6 +855,15 @@ namespace Dietphone.Views {
         public static string Insulin {
             get {
                 return ResourceManager.GetString("Insulin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to insulin&amp;sugars.
+        /// </summary>
+        public static string InsulinAndSugars {
+            get {
+                return ResourceManager.GetString("InsulinAndSugars", resourceCulture);
             }
         }
         

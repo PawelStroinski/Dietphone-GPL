@@ -280,21 +280,6 @@ namespace Dietphone.ViewModels
             }
         }
 
-        private bool IsNewer
-        {
-            get
-            {
-                if (Date == null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return !Date.IsGroupOfOlder;
-                }
-            }
-        }
-
         private bool HasName
         {
             get
