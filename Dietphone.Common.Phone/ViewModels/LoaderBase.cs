@@ -81,7 +81,7 @@ namespace Dietphone.ViewModels
             var older = (from date in itemDatesDescending.Skip(newerCount)
                         from item in date
                         select item)
-                        .OrderByDescending(item => item.DateAndTime);
+                        .OrderByDescending(item => item.DateTime);
             if (thenBy != null)
                 older = older.ThenBy(thenBy);
             dates = new ObservableCollection<DateViewModel>();
