@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MealItemEditingViewModelTests.cs" />
     <Compile Include="TypedViewModelTests.cs" />
     <Compile Include="ViewModelWithDateTests.cs" />
     <Compile Include="InsulinAndSugarListingViewModelTests.cs" />

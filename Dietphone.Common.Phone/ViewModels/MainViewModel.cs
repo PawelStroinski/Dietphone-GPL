@@ -107,7 +107,7 @@ namespace Dietphone.ViewModels
             state[MEAL_ITEM_EDITING] = MealItemEditing.IsVisible;
             if (MealItemEditing.IsVisible)
             {
-                var mealItem = MealItemEditing.MealItem;
+                var mealItem = MealItemEditing.Subject;
                 state[MEAL_ITEM_PRODUCT] = mealItem.ProductId;
                 MealItemEditing.Tombstone();
             }

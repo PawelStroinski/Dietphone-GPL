@@ -19,7 +19,7 @@ namespace Dietphone.Views
             ViewModel = new MealItemEditingViewModel();
             ViewModel.NeedToShow += delegate
             {
-                DataContext = ViewModel.MealItem;
+                DataContext = ViewModel.Subject;
                 Delete.IsEnabled = ViewModel.CanDelete;
                 Picker.IsPopupOpen = true;
                 controlledClosing = false;
