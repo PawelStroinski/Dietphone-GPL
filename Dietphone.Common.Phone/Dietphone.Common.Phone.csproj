@@ -50,6 +50,9 @@
     <Compile Include="ViewModels\BackgroundWorker.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\InlineViewModel.cs" />
+    <Compile Include="ViewModels\SugarEditingViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\TypedViewModel.cs" />
     <Compile Include="ViewModels\SearchSubViewModel.cs" />
     <Compile Include="ViewModels\DateViewModel.cs" />
