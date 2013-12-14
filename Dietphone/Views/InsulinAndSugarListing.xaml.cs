@@ -8,7 +8,7 @@ using Dietphone.Tools;
 
 namespace Dietphone.Views
 {
-    public partial class InsulinAndSugarListing : StateProviderPage
+    public partial class InsulinAndSugarListing : UserControl
     {
         public StateProvider StateProvider { private get; set; }
         public TelerikInsulinAndSugarListingViewModel ViewModel { get; private set; }
@@ -26,7 +26,7 @@ namespace Dietphone.Views
         {
             InitializeComponent();
             ViewModel = new TelerikInsulinAndSugarListingViewModel(MyApp.Factories,
-                new BackgroundWorkerWrapperFactory(), new SugarEditingViewModel { StateProvider = this });
+                new BackgroundWorkerWrapperFactory(), SugarEditing.ViewModel);
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.FilterDescriptors = List.FilterDescriptors;
@@ -43,6 +43,7 @@ namespace Dietphone.Views
             {
                 Untombstone();
             }
+            SugarEditing.ViewModel.StateProvider = StateProvider;
         }
 
         public void Tombstone()
