@@ -253,6 +253,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BLOOD SUGAR.
+        /// </summary>
+        public static string BloodSugar {
+            get {
+                return ResourceManager.GetString("BloodSugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} mg/dL.
         /// </summary>
         public static string BloodSugarMgdL {
