@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
+using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
@@ -10,13 +11,19 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<ViewModelWithDateAndText> InsulinsAndSugars { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
+        private Sugar editedSugar;
+        private SugarViewModel editedSugarViewModel;
         private readonly Factories factories;
         private readonly BackgroundWorkerFactory workerFactory;
+        private readonly SugarEditingViewModel sugarEditing;
 
-        public InsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
+        public InsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
+            SugarEditingViewModel sugarEditing)
         {
             this.factories = factories;
             this.workerFactory = workerFactory;
+            this.sugarEditing = sugarEditing;
+            InitializeSugarEditing();
         }
 
         public override void Load()
@@ -46,6 +53,13 @@ namespace Dietphone.ViewModels
                 Navigator.GoToInsulinEditing((vm as InsulinViewModel).Id);
                 return;
             }
+            if (vm is SugarViewModel)
+            {
+                editedSugar = (vm as SugarViewModel).Sugar;
+                var sugarCopy = editedSugar.GetCopy();
+                editedSugarViewModel = new SugarViewModel(sugarCopy, this.factories);
+                sugarEditing.Show(editedSugarViewModel);
+            }
         }
 
         public override void Add()
@@ -61,6 +75,20 @@ namespace Dietphone.ViewModels
         public DateViewModel FindDate(DateTime value)
         {
             return Dates.FirstOrDefault(date => date.Date == value);
+        }
+
+        private void InitializeSugarEditing()
+        {
+            sugarEditing.Confirmed += delegate
+            {
+                editedSugar.CopyFrom(editedSugarViewModel.Sugar);
+            };
+            sugarEditing.NeedToDelete += delegate
+            {
+                factories.Sugars.Remove(editedSugar);
+                Refresh();
+            };
+            sugarEditing.CanDelete = true;
         }
 
         public class CircumstancesAndInsulinsAndSugarsLoader : LoaderBaseWithDates

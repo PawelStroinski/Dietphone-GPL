@@ -22,7 +22,8 @@ namespace Dietphone.Common.Phone.Tests
             fixture = new Fixture();
             factories.InsulinCircumstances.Returns(fixture.CreateMany<InsulinCircumstance>().ToList());
             factories.Sugars.Returns(new List<Sugar>().ToList());
-            viewModel = new InsulinAndSugarListingViewModel(factories, new BackgroundWorkerSyncFactory());
+            var sugarEditing = Substitute.For<SugarEditingViewModel>();
+            viewModel = new InsulinAndSugarListingViewModel(factories, new BackgroundWorkerSyncFactory(), sugarEditing);
         }
 
         [Test]

@@ -18,6 +18,7 @@ namespace Dietphone.Common.Phone.Tests
     {
         private Factories factories;
         private InsulinAndSugarListingViewModel sut;
+        private SugarEditingViewModel sugarEditing;
 
         [SetUp]
         public void TestInitialize()
@@ -26,7 +27,9 @@ namespace Dietphone.Common.Phone.Tests
             factories.InsulinCircumstances.Returns(new List<InsulinCircumstance>());
             factories.Insulins.Returns(new List<Insulin>());
             factories.Sugars.Returns(new List<Sugar>());
-            sut = new InsulinAndSugarListingViewModel(factories, new BackgroundWorkerSyncFactory());
+            factories.Settings.Returns(new Settings());
+            sugarEditing = Substitute.For<SugarEditingViewModel>();
+            sut = new InsulinAndSugarListingViewModel(factories, new BackgroundWorkerSyncFactory(), sugarEditing);
         }
 
         [Test]
@@ -107,6 +110,50 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void ChooseWhenSugar()
+        {
+            var sugar = new Sugar { BloodSugar = 100 };
+            var viewModel = new SugarViewModel(sugar, factories);
+            sut.Choose(viewModel);
+            sugarEditing.Received().Show(Arg.Is<SugarViewModel>(vm => "100" == vm.BloodSugar));
+        }
+
+        [Test]
+        public void ChooseCreatesACopyOfSugar()
+        {
+            var sugar = new Sugar { BloodSugar = 100 };
+            var viewModel = new SugarViewModel(sugar, factories);
+            sut.Choose(viewModel);
+            sugarEditing.Subject.BloodSugar = "110";
+            Assert.AreEqual(100, sugar.BloodSugar);
+        }
+
+        [Test]
+        public void ChooseAndSugarEditingConfirm()
+        {
+            var sugar = new Sugar { BloodSugar = 100 };
+            var viewModel = new SugarViewModel(sugar, factories);
+            sut.Choose(viewModel);
+            sugarEditing.Subject.BloodSugar = "110";
+            sugarEditing.Confirm();
+            Assert.AreEqual(110, sugar.BloodSugar);
+        }
+
+        [Test]
+        public void ChooseAndSugarEditingDelete()
+        {
+            var sugar = new Sugar();
+            factories.Sugars.Add(sugar);
+            sut.Load();
+            var viewModel = new SugarViewModel(sugar, factories);
+            sut.Choose(viewModel);
+            Assert.IsTrue(sugarEditing.CanDelete);
+            sugarEditing.Delete();
+            Assert.IsEmpty(factories.Sugars);
+            Assert.IsEmpty(sut.InsulinsAndSugars);
+        }
+
+        [Test]
         public void OnSearchChanged()
         {
             var sut = new SutAccessor();
@@ -131,7 +178,8 @@ namespace Dietphone.Common.Phone.Tests
             public event EventHandler UpdateFilterDescriptorsEvent;
 
             public SutAccessor()
-                : base(null, null)
+                : base(Substitute.For<Factories>(), Substitute.For<BackgroundWorkerFactory>(),
+                    Substitute.For<SugarEditingViewModel>())
             {
             }
 

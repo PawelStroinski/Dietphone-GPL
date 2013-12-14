@@ -9,8 +9,9 @@ namespace Dietphone.ViewModels
         public ObservableCollection<DataDescriptor> GroupDescriptors { private get; set; }
         public ObservableCollection<DataDescriptor> FilterDescriptors { private get; set; }
 
-        public TelerikInsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
-            : base(factories, workerFactory)
+        public TelerikInsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
+            SugarEditingViewModel sugarEditing)
+            : base(factories, workerFactory, sugarEditing)
         {
         }
 
