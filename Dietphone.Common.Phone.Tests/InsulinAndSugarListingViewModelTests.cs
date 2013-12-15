@@ -132,11 +132,15 @@ namespace Dietphone.Common.Phone.Tests
         public void ChooseAndSugarEditingConfirm()
         {
             var sugar = new Sugar { BloodSugar = 100 };
+            factories.Sugars.Add(sugar);
+            sut.Load();
+            var insulinsAndSugars = sut.InsulinsAndSugars.ToList();
             var viewModel = new SugarViewModel(sugar, factories);
             sut.Choose(viewModel);
             sugarEditing.Subject.BloodSugar = "110";
             sugarEditing.Confirm();
             Assert.AreEqual(110, sugar.BloodSugar);
+            Assert.AreNotEqual(insulinsAndSugars, sut.InsulinsAndSugars, "Should refresh");
         }
 
         [Test]

@@ -56,8 +56,11 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                return string.Format(factories.Settings.SugarUnit == SugarUnit.mgdL
-                    ? Translations.BloodSugarMgdL : Translations.BloodSugarMmolL, BloodSugar);
+                if (BloodSugar == string.Empty)
+                    return string.Empty;
+                else
+                    return string.Format(factories.Settings.SugarUnit == SugarUnit.mgdL
+                        ? Translations.BloodSugarMgdL : Translations.BloodSugarMmolL, BloodSugar);
             }
         }
     }

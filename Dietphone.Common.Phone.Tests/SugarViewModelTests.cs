@@ -54,6 +54,8 @@ namespace Dietphone.Common.Phone.Tests
             factories.Settings.SugarUnit = SugarUnit.mmolL;
             sut.BloodSugar = "5.5";
             Assert.AreEqual(sut.BloodSugar + " mmol/L", sut.Text);
+            sut.BloodSugar = "";
+            Assert.AreEqual("", sut.Text);
         }
     }
 }

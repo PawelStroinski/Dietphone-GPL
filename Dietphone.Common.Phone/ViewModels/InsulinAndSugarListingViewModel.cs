@@ -82,6 +82,7 @@ namespace Dietphone.ViewModels
             sugarEditing.Confirmed += delegate
             {
                 editedSugar.CopyFrom(editedSugarViewModel.Sugar);
+                Refresh();
             };
             sugarEditing.NeedToDelete += delegate
             {
