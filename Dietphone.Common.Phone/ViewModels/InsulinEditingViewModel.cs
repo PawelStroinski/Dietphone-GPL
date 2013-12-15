@@ -160,7 +160,11 @@ namespace Dietphone.ViewModels
         public void SaveWithUpdatedTimeAndReturn()
         {
             SaveWithUpdatedTime();
-            Navigator.GoBack();
+            var relatedMealId = Navigator.GetRelatedMealId();
+            if (relatedMealId == Guid.Empty)
+                Navigator.GoBack();
+            else
+                Navigator.GoToMain();
         }
 
         public void DeleteAndSaveAndReturn()

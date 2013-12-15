@@ -277,6 +277,16 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void SaveWithUpdatedTimeAndReturnGoesForwardToMainPageInsteadOfGoingBackWhenRelatedMealIdGiven()
+            {
+                navigator.GetRelatedMealId().Returns(Guid.NewGuid());
+                InitializeViewModel();
+                sut.SaveWithUpdatedTimeAndReturn();
+                navigator.Received().GoToMain();
+                navigator.DidNotReceive().GoBack();
+            }
+
+            [Test]
             public void SaveWithUpdatedTimeAndReturnSavesCircumstances()
             {
                 InitializeViewModel();

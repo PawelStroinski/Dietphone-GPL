@@ -12,6 +12,7 @@ namespace Dietphone.ViewModels
         void GoToProductEditing(Guid productId);
         void GoToInsulinEditing(Guid insulinId);
         void GoToNewInsulinRelatedToMeal(Guid mealId);
+        void GoToInsulinEditingRelatedToMeal(Guid insulinId, Guid mealId);
         void GoToMain();
         void GoToMainToAddMealItem();
         void GoToAbout();
@@ -96,6 +97,15 @@ namespace Dietphone.ViewModels
             path = "/Views/InsulinEditing.xaml";
             assembly = Assembly.Default;
             NavigateWithId();
+        }
+
+        public void GoToInsulinEditingRelatedToMeal(Guid insulinId, Guid mealId)
+        {
+            var destination = new UriBuilder();
+            destination.Path = "/Views/InsulinEditing.xaml";
+            destination.Query = String.Format("{0}={1}&{2}={3}",
+                INSULIN_ID_TO_EDIT, insulinId, RELATED_MEAL_ID, mealId);
+            Navigate(destination);
         }
         
         public void GoToMain()

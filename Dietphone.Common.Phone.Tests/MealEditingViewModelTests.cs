@@ -20,7 +20,7 @@ namespace Dietphone.Common.Phone.Tests
         [SetUp]
         public void TestInitialize()
         {
-            meal = new Meal();
+            meal = new Meal { Id = Guid.NewGuid() };
             meal.InitializeItems(new List<MealItem>());
             factories = Substitute.For<Factories>();
             factories.Finder.FindMealById(Guid.Empty).Returns(meal);
@@ -97,6 +97,26 @@ namespace Dietphone.Common.Phone.Tests
             sut.IsDirty = true;
             sut.GoToInsulinEditing();
             Assert.IsFalse(sut.IsDirty);
+        }
+
+        [Test]
+        public void GoToInsulinEditingWhenInsulinExists()
+        {
+            sut.Load();
+            sut.IsDirty = true;
+            var insulin = new Insulin { Id = Guid.NewGuid() };
+            factories.Finder.FindInsulinByMeal(meal).Returns(insulin);
+            sut.GoToInsulinEditing();
+            sut.Navigator.Received().GoToInsulinEditingRelatedToMeal(insulin.Id, meal.Id);
+        }
+
+        [Test]
+        public void GoToInsulinEditingWhenInsulinIsNew()
+        {
+            sut.Load();
+            sut.IsDirty = true;
+            sut.GoToInsulinEditing();
+            sut.Navigator.Received().GoToNewInsulinRelatedToMeal(meal.Id);
         }
     }
 }
