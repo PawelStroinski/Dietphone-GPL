@@ -19,6 +19,7 @@ namespace Dietphone.Common.Phone.Tests
         private Factories factories;
         private InsulinAndSugarListingViewModel sut;
         private SugarEditingViewModel sugarEditing;
+        private StateProvider stateProvider;
 
         [SetUp]
         public void TestInitialize()
@@ -30,6 +31,9 @@ namespace Dietphone.Common.Phone.Tests
             factories.Settings.Returns(new Settings());
             sugarEditing = Substitute.For<SugarEditingViewModel>();
             sut = new InsulinAndSugarListingViewModel(factories, new BackgroundWorkerSyncFactory(), sugarEditing);
+            stateProvider = Substitute.For<StateProvider>();
+            stateProvider.State.Returns(new Dictionary<string, object>());
+            sut.StateProvider = stateProvider;
         }
 
         [Test]
@@ -155,6 +159,31 @@ namespace Dietphone.Common.Phone.Tests
             sugarEditing.Delete();
             Assert.IsEmpty(factories.Sugars);
             Assert.IsEmpty(sut.InsulinsAndSugars);
+        }
+
+        [Test]
+        public void TombstoneAndUntombstoneWhenSugarEditing()
+        {
+            var sugar = new Sugar { DateTime = DateTime.Now };
+            factories.Sugars.Add(sugar);
+            var viewModel = new SugarViewModel(sugar, factories);
+            sut.Load();
+            sut.Choose(viewModel);
+            viewModel.BloodSugar = "100";
+            sut.Tombstone();
+            sugarEditing.Cancel();
+            sut.Untombstone();
+            Assert.IsTrue(sugarEditing.IsVisible);
+            sugarEditing.Confirm();
+            Assert.AreEqual(100, sugar.BloodSugar);
+        }
+
+        [Test]
+        public void TombstoneAndUntombstoneWhenNotSugarEditing()
+        {
+            sut.Tombstone();
+            sut.Untombstone();
+            Assert.IsFalse(sugarEditing.IsVisible);
         }
 
         [Test]

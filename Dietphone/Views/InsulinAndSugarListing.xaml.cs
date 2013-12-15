@@ -43,7 +43,6 @@ namespace Dietphone.Views
             {
                 Untombstone();
             }
-            SugarEditing.ViewModel.StateProvider = StateProvider;
         }
 
         public void Tombstone()
@@ -54,6 +53,8 @@ namespace Dietphone.Views
             state[IS_TOP_ITEM_DATE] = isTopItemDate;
             state[TOP_ITEM_INSULIN_AND_SUGAR_DATE] = topItemInsulinAndSugarDate;
             state[TOP_ITEM_DATE] = topItemDate;
+            SetStateProvider();
+            ViewModel.Tombstone();
         }
 
         private void Untombstone()
@@ -67,6 +68,8 @@ namespace Dietphone.Views
                 topItemDate = (DateTime)state[TOP_ITEM_DATE];
                 RestoreTopItem();
             }
+            SetStateProvider();
+            ViewModel.Untombstone();
         }
 
         private void SaveTopItem()
@@ -116,6 +119,12 @@ namespace Dietphone.Views
             {
                 List.BringIntoView(topItem);
             }
+        }
+
+        private void SetStateProvider()
+        {
+            ViewModel.StateProvider = StateProvider;
+            SugarEditing.ViewModel.StateProvider = StateProvider;
         }
 
         private void List_ItemTap(object sender, ListBoxItemTapEventArgs e)

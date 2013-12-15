@@ -9,6 +9,7 @@ namespace Dietphone.ViewModels
 {
     public class InsulinAndSugarListingViewModel : SearchSubViewModel
     {
+        public StateProvider StateProvider { protected get; set; }
         public ObservableCollection<ViewModelWithDateAndText> InsulinsAndSugars { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
         private Sugar editedSugar;
@@ -16,6 +17,8 @@ namespace Dietphone.ViewModels
         private readonly Factories factories;
         private readonly BackgroundWorkerFactory workerFactory;
         private readonly SugarEditingViewModel sugarEditing;
+        private const string SUGAR_EDITING = "SUGAR_EDITING";
+        private const string EDITED_SUGAR_DATE = "EDITED_SUGAR_DATE";
 
         public InsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
             SugarEditingViewModel sugarEditing)
@@ -77,6 +80,16 @@ namespace Dietphone.ViewModels
             return Dates.FirstOrDefault(date => date.Date == value);
         }
 
+        public void Tombstone()
+        {
+            TombstoneSugarEditing();
+        }
+
+        public void Untombstone()
+        {
+            UntombstoneSugarEditing();
+        }
+
         private void InitializeSugarEditing()
         {
             sugarEditing.Confirmed += delegate
@@ -90,6 +103,35 @@ namespace Dietphone.ViewModels
                 Refresh();
             };
             sugarEditing.CanDelete = true;
+        }
+
+        private void TombstoneSugarEditing()
+        {
+            var state = StateProvider.State;
+            state[SUGAR_EDITING] = sugarEditing.IsVisible;
+            if (sugarEditing.IsVisible)
+            {
+                state[EDITED_SUGAR_DATE] = editedSugar.DateTime;
+                sugarEditing.Tombstone();
+            }
+        }
+
+        private void UntombstoneSugarEditing()
+        {
+            var state = StateProvider.State;
+            var sugarEditing = false;
+            if (state.ContainsKey(SUGAR_EDITING))
+            {
+                sugarEditing = (bool)state[SUGAR_EDITING];
+            }
+            if (sugarEditing)
+            {
+                var editedSugarDate = (DateTime)state[EDITED_SUGAR_DATE];
+                var sugar = InsulinsAndSugars.FirstOrDefault(vm => vm.DateTime == editedSugarDate
+                    && vm is SugarViewModel);
+                if (sugar != null)
+                    Choose(sugar);
+            }
         }
 
         public class CircumstancesAndInsulinsAndSugarsLoader : LoaderBaseWithDates
