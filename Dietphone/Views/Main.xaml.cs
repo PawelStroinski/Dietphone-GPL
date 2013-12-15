@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using Microsoft.Phone.Shell;
 
 namespace Dietphone.Views
 {
@@ -16,6 +17,9 @@ namespace Dietphone.Views
         private bool searchShowed;
         private bool searchFocused;
         private bool alreadyRestoredSearch;
+        private ApplicationBarIconButton addIcon;
+        private ApplicationBarIconButton insulinIcon;
+        private ApplicationBarIconButton sugarIcon;
         private const byte BACK_KEY = 27;
         private const string SEARCH = "SEARCH";
         private const string SEARCH_SHOWED = "SEARCH_SHOWED";
@@ -36,6 +40,8 @@ namespace Dietphone.Views
             subConnector.Loaded += SubConnector_Loaded;
             subConnector.Refreshed += delegate { RestoreSearchUi(); };
             TranslateApplicationBar();
+            GetApplicationBarIcons();
+            HideInsulinAndSugarIcons();
             MealListing.StateProvider = this;
             ProductListing.StateProvider = this;
             InsulinAndSugarListing.StateProvider = this;
@@ -81,16 +87,19 @@ namespace Dietphone.Views
             if (Pivot.SelectedItem == Meals)
             {
                 subConnector.SubViewModel = MealListing.ViewModel;
+                HideInsulinAndSugarIcons();
             }
             else
                 if (Pivot.SelectedItem == Products)
                 {
                     subConnector.SubViewModel = ProductListing.ViewModel;
+                    HideInsulinAndSugarIcons();
                 }
                 else
                     if (Pivot.SelectedItem == InsulinAndSugars)
                     {
                         subConnector.SubViewModel = InsulinAndSugarListing.ViewModel;
+                        ShowInsulinAndSugarIcons();
                     }
         }
 
@@ -105,7 +114,12 @@ namespace Dietphone.Views
 
         private void Add_Click(object sender, EventArgs e)
         {
-            subConnector.Add();
+            AddCommand command = new DefaultAddCommand();
+            if (sender == insulinIcon)
+                command = new InsulinAndSugarListingViewModel.AddInsulinCommand();
+            if (sender == sugarIcon)
+                command = new InsulinAndSugarListingViewModel.AddSugarCommand();
+            subConnector.Add(command);
         }
 
         private void ViewModel_ShowProductsOnly(object sender, EventArgs e)
@@ -321,10 +335,39 @@ namespace Dietphone.Views
         private void TranslateApplicationBar()
         {
             this.GetIcon(0).Text = Translations.Add;
-            this.GetIcon(1).Text = Translations.Search;
+            this.GetIcon(1).Text = Translations.Insulin;
+            this.GetIcon(2).Text = Translations.Sugar;
+            this.GetIcon(3).Text = Translations.Search;
             this.GetMenuItem(0).Text = Translations.Settings;
             this.GetMenuItem(1).Text = Translations.ExportAndImportData;
             this.GetMenuItem(2).Text = Translations.About;
+        }
+
+        private void GetApplicationBarIcons()
+        {
+            addIcon = this.GetIcon(0);
+            insulinIcon = this.GetIcon(1);
+            sugarIcon = this.GetIcon(2);
+        }
+
+        private void HideInsulinAndSugarIcons()
+        {
+            if (this.ApplicationBar.Buttons.Contains(insulinIcon))
+                this.ApplicationBar.Buttons.Remove(insulinIcon);
+            if (this.ApplicationBar.Buttons.Contains(sugarIcon))
+                this.ApplicationBar.Buttons.Remove(sugarIcon);
+            if (!this.ApplicationBar.Buttons.Contains(addIcon))
+                this.ApplicationBar.Buttons.Insert(0, addIcon);
+        }
+
+        private void ShowInsulinAndSugarIcons()
+        {
+            if (!this.ApplicationBar.Buttons.Contains(insulinIcon))
+                this.ApplicationBar.Buttons.Insert(0, insulinIcon);
+            if (!this.ApplicationBar.Buttons.Contains(sugarIcon))
+                this.ApplicationBar.Buttons.Insert(1, sugarIcon);
+            if (this.ApplicationBar.Buttons.Contains(addIcon))
+                this.ApplicationBar.Buttons.Remove(addIcon);
         }
     }
 }

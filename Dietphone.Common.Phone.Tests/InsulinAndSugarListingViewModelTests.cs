@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Threading;
 using Dietphone.Views;
 using System.Collections.ObjectModel;
+using Moq;
 
 namespace Dietphone.Common.Phone.Tests
 {
@@ -20,6 +21,7 @@ namespace Dietphone.Common.Phone.Tests
         private InsulinAndSugarListingViewModel sut;
         private SugarEditingViewModel sugarEditing;
         private StateProvider stateProvider;
+        private Navigator navigator;
 
         [SetUp]
         public void TestInitialize()
@@ -34,6 +36,8 @@ namespace Dietphone.Common.Phone.Tests
             stateProvider = Substitute.For<StateProvider>();
             stateProvider.State.Returns(new Dictionary<string, object>());
             sut.StateProvider = stateProvider;
+            navigator = Substitute.For<Navigator>();
+            sut.Navigator = navigator;
         }
 
         [Test]
@@ -105,12 +109,12 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void ChooseWhenInsulin()
         {
-            var navigator = Substitute.For<Navigator>();
+            var navigator = new Mock<Navigator>(); // Why this test isn't stable with NSubstitute instead of Moq?
+            sut.Navigator = navigator.Object;
             var insulin = new Insulin { Id = Guid.NewGuid() };
             var viewModel = new InsulinViewModel(insulin, factories, new List<InsulinCircumstanceViewModel>());
-            sut.Navigator = navigator;
             sut.Choose(viewModel);
-            navigator.Received().GoToInsulinEditing(insulin.Id);
+            navigator.Verify(Navigator => Navigator.GoToInsulinEditing(insulin.Id));
         }
 
         [Test]
@@ -159,6 +163,28 @@ namespace Dietphone.Common.Phone.Tests
             sugarEditing.Delete();
             Assert.IsEmpty(factories.Sugars);
             Assert.IsEmpty(sut.InsulinsAndSugars);
+        }
+
+        [Test]
+        public void AddInsulin()
+        {
+            var command = new InsulinAndSugarListingViewModel.AddInsulinCommand();
+            sut.Add(command);
+            navigator.Received().GoToNewInsulin();
+            factories.DidNotReceive().CreateSugar();
+        }
+
+        [Test]
+        public void AddSugar()
+        {
+            var sugar = new Sugar { BloodSugar = 110 };
+            factories.CreateSugar().Returns(sugar).AndDoes(_ => factories.Sugars.Add(sugar));
+            sut.Load();
+            var command = new InsulinAndSugarListingViewModel.AddSugarCommand();
+            sut.Add(command);
+            sugarEditing.Received().Show(Arg.Is<SugarViewModel>(vm => "110" == vm.BloodSugar));
+            Assert.AreEqual(1, sut.InsulinsAndSugars.Count);
+            navigator.DidNotReceive().GoToNewInsulin();
         }
 
         [Test]

@@ -44,7 +44,7 @@ namespace Dietphone.ViewModels
 
         public abstract void Refresh();
 
-        public virtual void Add()
+        public virtual void Add(AddCommand command)
         {
         }
 
@@ -114,11 +114,11 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public void Add()
+        public void Add(AddCommand command)
         {
             if (subViewModel != null)
             {
-                subViewModel.Add();
+                subViewModel.Add(command);
             }
         }
 
@@ -177,6 +177,18 @@ namespace Dietphone.ViewModels
             {
                 Refreshed(sender, e);
             }
+        }
+    }
+
+    public abstract class AddCommand
+    {
+        public abstract void Execute(SubViewModel subViewModel);
+    }
+
+    public class DefaultAddCommand : AddCommand
+    {
+        public override void Execute(SubViewModel subViewModel)
+        {
         }
     }
 }

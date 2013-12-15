@@ -593,4 +593,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="BloodSugar" xml:space="preserve">
     <value>POZIOM CUKRU</value>
   </data>
+  <data name="Sugar" xml:space="preserve">
+    <value>cukier</value>
+  </data>
 </root>

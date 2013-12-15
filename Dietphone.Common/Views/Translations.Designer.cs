@@ -1356,6 +1356,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to sugar.
+        /// </summary>
+        public static string Sugar {
+            get {
+                return ResourceManager.GetString("Sugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The product does not exist..
         /// </summary>
         public static string TheProductDoesNotExist {

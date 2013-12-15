@@ -65,9 +65,9 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public override void Add()
+        public override void Add(AddCommand command)
         {
-            throw new NotImplementedException();
+            command.Execute(this);
         }
 
         public ViewModelWithDateAndText FindInsulinOrSugar(DateTime value)
@@ -131,6 +131,27 @@ namespace Dietphone.ViewModels
                     && vm is SugarViewModel);
                 if (sugar != null)
                     Choose(sugar);
+            }
+        }
+
+        public class AddInsulinCommand : AddCommand
+        {
+            public override void Execute(SubViewModel subViewModel)
+            {
+                var viewModel = subViewModel as InsulinAndSugarListingViewModel;
+                viewModel.Navigator.GoToNewInsulin();
+            }
+        }
+
+        public class AddSugarCommand : AddCommand
+        {
+            public override void Execute(SubViewModel subViewModel)
+            {
+                var viewModel = subViewModel as InsulinAndSugarListingViewModel;
+                var sugar = viewModel.factories.CreateSugar();
+                var sugarViewModel = new SugarViewModel(sugar, viewModel.factories);
+                viewModel.Choose(sugarViewModel);
+                viewModel.Refresh();
             }
         }
 

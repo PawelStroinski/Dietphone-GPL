@@ -44,7 +44,7 @@ namespace Dietphone.ViewModels
             Navigator.GoToMealEditing(meal.Id);
         }
 
-        public override void Add()
+        public override void Add(AddCommand command)
         {
             var meal = factories.CreateMeal();
             Navigator.GoToMealEditing(meal.Id);

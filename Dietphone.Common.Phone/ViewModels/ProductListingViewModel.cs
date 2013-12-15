@@ -56,7 +56,7 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public override void Add()
+        public override void Add(AddCommand command)
         {
             var product = factories.CreateProduct();
             product.AddedByUser = true;

@@ -599,4 +599,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="BloodSugar" xml:space="preserve">
     <value>BLOOD SUGAR</value>
   </data>
+  <data name="Sugar" xml:space="preserve">
+    <value>sugar</value>
+  </data>
 </root>
