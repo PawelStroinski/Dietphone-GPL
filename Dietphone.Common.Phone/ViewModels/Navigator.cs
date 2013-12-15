@@ -15,6 +15,7 @@ namespace Dietphone.ViewModels
         void GoToInsulinEditingRelatedToMeal(Guid insulinId, Guid mealId);
         void GoToMain();
         void GoToMainToAddMealItem();
+        void GoToMainToInsulinAndSugarTab();
         void GoToAbout();
         void GoToExportAndImport();
         void GoToSettings();
@@ -23,6 +24,7 @@ namespace Dietphone.ViewModels
         Guid GetInsulinIdToEdit();
         Guid GetRelatedMealId();
         bool ShouldAddMealItem();
+        bool ShouldGoToInsulinAndSugarTab();
     }
 
     public enum Assembly { Default, Sometimes, Rarely };
@@ -42,6 +44,7 @@ namespace Dietphone.ViewModels
         private const string INSULIN_ID_TO_EDIT = "ProductIdToEdit";
         private const string RELATED_MEAL_ID = "RelatedMealId";
         private const string ADD_MEAL_ITEM = "AddMealItem";
+        private const string GO_TO_INSULIN_AND_SUGAR_TAB = "GoToInsulinAndSugarTab";
         private const string ABOUT_MAIL = "wp7@pabloware.com";
         private const string ABOUT_PATH_TO_LICENSE = "/Dietphone.Rarely.Phone;component/documents/license.{0}.txt";
         private const string ABOUT_CHANGELOG_URL = "http://www.pabloware.com/wp7/dietphone.changelog.{0}.xaml";
@@ -123,6 +126,14 @@ namespace Dietphone.ViewModels
             NavigateWithAction();
         }
 
+        public void GoToMainToInsulinAndSugarTab()
+        {
+            action = GO_TO_INSULIN_AND_SUGAR_TAB;
+            path = "/Views/Main.xaml";
+            assembly = Assembly.Default;
+            NavigateWithAction();
+        }
+
         public void GoToAbout()
         {
             FillAboutDto();
@@ -170,6 +181,12 @@ namespace Dietphone.ViewModels
         public bool ShouldAddMealItem()
         {
             action = ADD_MEAL_ITEM;
+            return GetAction();
+        }
+
+        public bool ShouldGoToInsulinAndSugarTab()
+        {
+            action = GO_TO_INSULIN_AND_SUGAR_TAB;
             return GetAction();
         }
 

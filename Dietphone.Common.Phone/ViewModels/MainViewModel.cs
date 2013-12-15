@@ -15,6 +15,7 @@ namespace Dietphone.ViewModels
         private Navigator navigator;
         private MealItem tempMealItem;
         private bool addMealItem;
+        private bool wentToInsulinAndSugarTab;
         private readonly Factories factories;
         private const string MEAL_ITEM_EDITING = "MEAL_ITEM_EDITING";
         private const string MEAL_ITEM_PRODUCT = "MEAL_ITEM_PRODUCT";
@@ -88,6 +89,11 @@ namespace Dietphone.ViewModels
             if (navigator.ShouldAddMealItem())
             {
                 AddingMealItem();
+            }
+            if (navigator.ShouldGoToInsulinAndSugarTab() && !wentToInsulinAndSugarTab)
+            {
+                Pivot = 2;
+                wentToInsulinAndSugarTab = true;
             }
         }
 

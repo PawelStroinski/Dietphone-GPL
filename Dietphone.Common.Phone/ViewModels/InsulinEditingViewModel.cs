@@ -164,7 +164,7 @@ namespace Dietphone.ViewModels
             if (relatedMealId == Guid.Empty)
                 Navigator.GoBack();
             else
-                Navigator.GoToMain();
+                Navigator.GoToMainToInsulinAndSugarTab();
         }
 
         public void DeleteAndSaveAndReturn()
