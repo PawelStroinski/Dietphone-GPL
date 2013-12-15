@@ -75,7 +75,7 @@
                     <!--Note-->
                     <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="3">
                         <TextBlock Text="{Binding Translations.Note, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
-                        <TextBox Height="72" Text="{Binding Subject.Note}"/>
+                        <TextBox Height="72" Text="{Binding Subject.Note, Mode=TwoWay}"/>
                     </StackPanel>
                     <!--Chart-->
                     <chart:RadCartesianChart x:Name="Chart" Height="117" EmptyContent="" Margin="24 10 24 0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
