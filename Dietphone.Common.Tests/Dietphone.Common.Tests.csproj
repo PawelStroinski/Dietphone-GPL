@@ -83,6 +83,7 @@
     <Compile Include="Models\MealItemTests.cs" />
     <Compile Include="Models\MealTests.cs" />
     <Compile Include="Models\ModelBasedTests.cs" />
+    <Compile Include="Models\MruProductsTests.cs" />
     <Compile Include="Models\PatternBuilderTests.cs" />
     <Compile Include="Models\ReplacementBuilderTests.cs" />
     <Compile Include="Models\ReplacementBuilderAndSugarEstimatorFacadeTests.cs" />
