@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Dietphone.Models;
 using Dietphone.Tools;
 using Dietphone.Views;
@@ -31,6 +32,15 @@ namespace Dietphone.ViewModels
                     Sugar.DateTime = universal;
                     NotifyDateTimeChange();
                 }
+            }
+        }
+
+        public string DateFormat
+        {
+            get
+            {
+                var culture = CultureInfo.CurrentCulture;
+                return culture.GetShortDateAlternativeFormat();
             }
         }
 

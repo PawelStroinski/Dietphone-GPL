@@ -45,6 +45,14 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void DateFormat()
+        {
+            var factories = Substitute.For<Factories>();
+            var sut = new SugarViewModel(new Models.Sugar(), factories);
+            Assert.IsTrue(sut.DateFormat.Contains("yy"));
+        }
+
+        [Test]
         public void Text()
         {
             var factories = Substitute.For<Factories>();
