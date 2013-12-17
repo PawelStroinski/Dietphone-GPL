@@ -41,7 +41,7 @@
                     </i:Interaction.Behaviors>
                 </TextBox>
                 <!--Jednostka-->
-                <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="13 4 12 0" VerticalAlignment="Top" SelectedItem="{Binding UnitWithDetalis, Mode=TwoWay}" ItemsSource="{Binding AllUsableUnitsWithDetalis}" IsEnabled="{Binding HasManyUsableUnits}" Style="{StaticResource OsListPickerStyle}" x:Name="Unit" x:FieldModifier="private" IsEnabledChanged="Unit_IsEnabledChanged">
+                <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="13 4 12 0" VerticalAlignment="Top" SelectedItem="{Binding UnitWithDetalis, Mode=TwoWay}" ItemsSource="{Binding AllUsableUnitsWithDetalis}" IsEnabled="{Binding HasManyUsableUnits}" Style="{StaticResource OsListPickerStyle}" ItemStyle="{StaticResource ListPickerItemBlackWhenDisabledStyle}" x:Name="Unit" x:FieldModifier="private" IsEnabledChanged="Unit_IsEnabledChanged">
                     <telerikInput:RadListPicker.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" Margin="0 -2 0 2" />
