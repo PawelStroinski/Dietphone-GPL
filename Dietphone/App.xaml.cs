@@ -6,7 +6,6 @@ using Microsoft.Phone.Tasks;
 using Telerik.Windows.Controls;
 using Dietphone.Views;
 using Dietphone.BinarySerializers;
-using System.Linq;
 
 namespace Dietphone
 {
@@ -90,32 +89,6 @@ namespace Dietphone
         private void InitializeStreamProvider()
         {
             MyApp.StreamProvider = new PhoneBinaryStreamProvider();
-            if (!MyApp.Factories.Meals.Any())
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    var meal = MyApp.Factories.CreateMeal();
-                    meal.DateTime = meal.DateTime.AddDays(i - 1);
-                    var item = meal.AddItem();
-                    item.ProductId = MyApp.Factories.Products.First().Id;
-                    item.Value = 500;
-                    if (i == 0)
-                    {
-                        var sugarBefore = MyApp.Factories.CreateSugar();
-                        sugarBefore.BloodSugar = 100;
-                        sugarBefore.DateTime = meal.DateTime;
-                        var insulin = MyApp.Factories.CreateInsulin();
-                        insulin.NormalBolus = 2;
-                        insulin.DateTime = meal.DateTime;
-                        var sugarAfter1 = MyApp.Factories.CreateSugar();
-                        sugarAfter1.DateTime = meal.DateTime.AddMinutes(30);
-                        sugarAfter1.BloodSugar = 120;
-                        var sugarAfter2 = MyApp.Factories.CreateSugar();
-                        sugarAfter2.DateTime = meal.DateTime.AddHours(2);
-                        sugarAfter2.BloodSugar = 140;
-                    }
-                }
-            }
         }
 
         private static void SaveFactories()
