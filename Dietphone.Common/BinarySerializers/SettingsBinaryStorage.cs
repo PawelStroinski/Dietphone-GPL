@@ -58,11 +58,6 @@ namespace Dietphone.BinarySerializers
                 item.MaxBolus = reader.ReadSingle();
                 item.MruProductIds = reader.ReadGuids();
             }
-            else
-            {
-                item.SugarsAfterInsulinHours = 4;
-                item.MaxBolus = 5;
-            }
         }
     }
 }

@@ -29,6 +29,8 @@ namespace Dietphone.Models
         public Settings()
         {
             MruProductIds = new List<Guid>();
+            SugarsAfterInsulinHours = 4;
+            MaxBolus = 5;
         }
 
         public string CurrentUiCulture

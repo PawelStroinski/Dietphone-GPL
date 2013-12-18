@@ -75,6 +75,7 @@
     <Compile Include="Models\CalculatorTests.cs" />
     <Compile Include="Models\DefaultEntitiesTests.cs" />
     <Compile Include="Models\EntityTests.cs" />
+    <Compile Include="Models\ExportAndImportTests.cs" />
     <Compile Include="Models\FactoriesTests.cs" />
     <Compile Include="Models\FinderTests.cs" />
     <Compile Include="Models\HourDifferenceTests.cs" />
