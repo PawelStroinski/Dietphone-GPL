@@ -393,6 +393,8 @@ namespace Dietphone.ViewModels
                     var viewModel = Subject.AddItem();
                     viewModel.CopyFromModel(AddCopyOfThisItem);
                 }
+                var mruProducts = factories.MruProducts;
+                mruProducts.AddProduct(AddCopyOfThisItem.Product);
                 AddCopyOfThisItem = null;
                 NeedsScrollingItemsDown = true;
             }

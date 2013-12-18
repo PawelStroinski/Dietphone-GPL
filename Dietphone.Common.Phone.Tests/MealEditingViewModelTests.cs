@@ -6,6 +6,7 @@ using Dietphone.Tools;
 using Dietphone.ViewModels;
 using NSubstitute;
 using NUnit.Framework;
+using Ploeh.AutoFixture;
 
 namespace Dietphone.Common.Phone.Tests
 {
@@ -117,6 +118,20 @@ namespace Dietphone.Common.Phone.Tests
             sut.IsDirty = true;
             sut.GoToInsulinEditing();
             sut.Navigator.Received().GoToNewInsulinRelatedToMeal(meal.Id);
+        }
+
+        [Test]
+        public void AddsProductToMruWhenAddsCopyOfItem()
+        {
+            factories.CreateMealItem().Returns(new MealItem());
+            factories.Finder.Returns(new FinderImpl(factories));
+            factories.MruProducts.Returns(new MruProducts(new List<Guid>(), factories));
+            factories.Products.Returns(new Fixture().CreateMany<Product>().ToList());
+            sut.Load();
+            sut.AddCopyOfThisItem = new MealItem { ProductId = factories.Products.First().Id };
+            sut.AddCopyOfThisItem.SetOwner(factories);
+            sut.ReturnedFromNavigation();
+            Assert.AreEqual(factories.Products.Take(1), factories.MruProducts.Products);
         }
     }
 }
