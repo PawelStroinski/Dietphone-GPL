@@ -335,8 +335,8 @@ namespace Dietphone.Views
         private void TranslateApplicationBar()
         {
             this.GetIcon(0).Text = Translations.Add;
-            this.GetIcon(1).Text = Translations.Insulin;
-            this.GetIcon(2).Text = Translations.Sugar;
+            this.GetIcon(1).Text = Translations.Sugar;
+            this.GetIcon(2).Text = Translations.Insulin;
             this.GetIcon(3).Text = Translations.Search;
             this.GetMenuItem(0).Text = Translations.Settings;
             this.GetMenuItem(1).Text = Translations.ExportAndImportData;
@@ -346,26 +346,26 @@ namespace Dietphone.Views
         private void GetApplicationBarIcons()
         {
             addIcon = this.GetIcon(0);
-            insulinIcon = this.GetIcon(1);
-            sugarIcon = this.GetIcon(2);
+            sugarIcon = this.GetIcon(1);
+            insulinIcon = this.GetIcon(2);
         }
 
         private void HideInsulinAndSugarIcons()
         {
-            if (this.ApplicationBar.Buttons.Contains(insulinIcon))
-                this.ApplicationBar.Buttons.Remove(insulinIcon);
             if (this.ApplicationBar.Buttons.Contains(sugarIcon))
                 this.ApplicationBar.Buttons.Remove(sugarIcon);
+            if (this.ApplicationBar.Buttons.Contains(insulinIcon))
+                this.ApplicationBar.Buttons.Remove(insulinIcon);
             if (!this.ApplicationBar.Buttons.Contains(addIcon))
                 this.ApplicationBar.Buttons.Insert(0, addIcon);
         }
 
         private void ShowInsulinAndSugarIcons()
         {
-            if (!this.ApplicationBar.Buttons.Contains(insulinIcon))
-                this.ApplicationBar.Buttons.Insert(0, insulinIcon);
             if (!this.ApplicationBar.Buttons.Contains(sugarIcon))
-                this.ApplicationBar.Buttons.Insert(1, sugarIcon);
+                this.ApplicationBar.Buttons.Insert(0, sugarIcon);
+            if (!this.ApplicationBar.Buttons.Contains(insulinIcon))
+                this.ApplicationBar.Buttons.Insert(1, insulinIcon);
             if (this.ApplicationBar.Buttons.Contains(addIcon))
                 this.ApplicationBar.Buttons.Remove(addIcon);
         }
