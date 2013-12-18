@@ -35,6 +35,7 @@ namespace Dietphone.BinarySerializers
             writer.Write(item.SugarsAfterInsulinHours);
             writer.Write((byte)item.SugarUnit);
             writer.Write(item.MaxBolus);
+            writer.Write(item.MruProductIds);
         }
 
         public override void ReadItem(BinaryReader reader, Settings item)
@@ -55,6 +56,7 @@ namespace Dietphone.BinarySerializers
                 item.SugarsAfterInsulinHours = reader.ReadInt32();
                 item.SugarUnit = (SugarUnit)reader.ReadByte();
                 item.MaxBolus = reader.ReadSingle();
+                item.MruProductIds = reader.ReadGuids();
             }
             else
             {

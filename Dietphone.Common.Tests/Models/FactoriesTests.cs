@@ -118,6 +118,23 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
+        public void Exposes_MruProducts()
+        {
+            factories.CreateProduct();
+            factories.Settings.MruProductIds.Add(factories.Products.First().Id);
+            var mruProducts = factories.MruProducts;
+            Assert.AreEqual(factories.Products.Take(1), mruProducts.Products);
+        }
+
+        [Test]
+        public void Exposes_MruProducts_As_Singleton()
+        {
+            var mruProducts1 = factories.MruProducts;
+            var mruProducts2 = factories.MruProducts;
+            Assert.AreSame(mruProducts1, mruProducts2);
+        }
+
+        [Test]
         public void Creates_Correct_Meal()
         {
             var meal = factories.CreateMeal();

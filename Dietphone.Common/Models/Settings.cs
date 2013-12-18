@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace Dietphone.Models
 {
@@ -14,6 +16,7 @@ namespace Dietphone.Models
         public int SugarsAfterInsulinHours { get; set; }
         public SugarUnit SugarUnit { get; set; }
         public float MaxBolus { get; set; }
+        public List<Guid> MruProductIds { get; set; }
         private string currentUiCulture;
         private string currentProductCulture;
         private string nextUiCulture;
@@ -22,6 +25,11 @@ namespace Dietphone.Models
         private readonly object currentProductCultureLock = new object();
         private readonly object nextUiCultureLock = new object();
         private readonly object nextProductCultureLock = new object();
+
+        public Settings()
+        {
+            MruProductIds = new List<Guid>();
+        }
 
         public string CurrentUiCulture
         {

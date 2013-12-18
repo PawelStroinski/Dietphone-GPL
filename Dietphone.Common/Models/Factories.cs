@@ -18,6 +18,7 @@ namespace Dietphone.Models
         List<Insulin> Insulins { get; }
         List<InsulinCircumstance> InsulinCircumstances { get; }
         Settings Settings { get; }
+        MruProducts MruProducts { get; }
 
         Meal CreateMeal();
         MealName CreateMealName();
@@ -34,6 +35,7 @@ namespace Dietphone.Models
     {
         public Finder Finder { get; private set; }
         public DefaultEntities DefaultEntities { get; private set; }
+        private MruProducts mruProducts;
         private Factory<Meal> mealFactory;
         private Factory<MealName> mealNameFactory;
         private Factory<Product> productFactory;
@@ -43,6 +45,7 @@ namespace Dietphone.Models
         private Factory<InsulinCircumstance> insulinCircumstanceFactory;
         private Factory<Settings> settingsFactory;
         private readonly FactoryCreator factoryCreator;
+        private readonly object mruProductsLock = new object();
         private readonly object mealFactoryLock = new object();
         private readonly object mealNameFactoryLock = new object();
         private readonly object productFactoryLock = new object();
@@ -129,6 +132,21 @@ namespace Dietphone.Models
             {
                 var entities = SettingsFactory.Entities;
                 return entities.First();
+            }
+        }
+
+        public MruProducts MruProducts
+        {
+            get
+            {
+                lock (mruProductsLock)
+                {
+                    if (mruProducts == null)
+                    {
+                        mruProducts = new MruProducts(Settings.MruProductIds, this);
+                    }
+                    return mruProducts;
+                }
             }
         }
 
