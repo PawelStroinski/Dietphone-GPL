@@ -868,7 +868,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to insulin&amp;sugars.
+        ///   Looks up a localized string similar to journal.
         /// </summary>
         public static string InsulinAndSugars {
             get {
@@ -1176,7 +1176,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (recently used).
+        ///   Looks up a localized string similar to 10 recently used.
         /// </summary>
         public static string RecentlyUsed {
             get {

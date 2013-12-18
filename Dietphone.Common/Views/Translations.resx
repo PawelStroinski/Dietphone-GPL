@@ -588,7 +588,7 @@ So one number gives information on both fat and protein in meal.</value>
     <value>{0} U for {1} h</value>
   </data>
   <data name="InsulinAndSugars" xml:space="preserve">
-    <value>insulin&amp;sugars</value>
+    <value>journal</value>
   </data>
   <data name="BloodSugarMgdL" xml:space="preserve">
     <value>{0} mg/dL</value>
@@ -603,6 +603,6 @@ So one number gives information on both fat and protein in meal.</value>
     <value>sugar</value>
   </data>
   <data name="RecentlyUsed" xml:space="preserve">
-    <value>(recently used)</value>
+    <value>10 recently used</value>
   </data>
 </root>
