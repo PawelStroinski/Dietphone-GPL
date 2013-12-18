@@ -11,6 +11,7 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<ProductViewModel> Products { get; private set; }
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
+        public bool AddMru { get; set; }
         public event EventHandler<ChoosedEventArgs> Choosed;
         private readonly Factories factories;
         private readonly MaxCuAndFpuInCategories maxCuAndFpu;
@@ -27,7 +28,7 @@ namespace Dietphone.ViewModels
         {
             if (Categories == null && Products == null)
             {
-                var loader = new CategoriesAndProductsLoader(this, true);
+                var loader = new CategoriesAndProductsLoader(this, AddMru);
                 loader.LoadAsync();
                 loader.Loaded += delegate { OnLoaded(); };
             }
@@ -38,7 +39,7 @@ namespace Dietphone.ViewModels
             if (Categories != null && Products != null)
             {
                 maxCuAndFpu.Reset();
-                var loader = new CategoriesAndProductsLoader(this, true);
+                var loader = new CategoriesAndProductsLoader(this, AddMru);
                 loader.LoadAsync();
                 loader.Loaded += delegate { OnRefreshed(); };
             }

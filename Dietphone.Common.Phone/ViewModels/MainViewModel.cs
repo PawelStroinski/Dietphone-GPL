@@ -101,6 +101,7 @@ namespace Dietphone.ViewModels
         {
             ProductListing.Choosed -= ProductListing_Choosed;
             ProductListing.Choosed += ProductListing_Choosed;
+            ProductListing.AddMru = true;
             MealItemEditing.Confirmed -= MealItemEditing_Confirmed;
             MealItemEditing.Confirmed += MealItemEditing_Confirmed;
             MealItemEditing.StateProvider = StateProvider;

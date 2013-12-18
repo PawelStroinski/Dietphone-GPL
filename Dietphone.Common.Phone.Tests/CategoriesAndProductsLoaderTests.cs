@@ -70,6 +70,20 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual(Translations.RecentlyUsed, sut.Categories.First().Name);
         }
 
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ProductListingViewModelForwardsFlag(bool addMru)
+        {
+            var expectedCategoriesCount = addMru ? factories.Categories.Count + 1 : factories.Categories.Count;
+            factories.MruProducts.AddProduct(factories.Products.First());
+            if (addMru)
+                viewModel.AddMru = true;
+            viewModel.Load();
+            Assert.AreEqual(expectedCategoriesCount, viewModel.Categories.Count);
+            viewModel.Refresh();
+            Assert.AreEqual(expectedCategoriesCount, viewModel.Categories.Count);
+        }
+
         [Test]
         public void AddsMruProductWithMruCategory()
         {
