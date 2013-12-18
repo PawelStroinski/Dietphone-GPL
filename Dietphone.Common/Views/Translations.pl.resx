@@ -596,4 +596,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="Sugar" xml:space="preserve">
     <value>cukier</value>
   </data>
+  <data name="RecentlyUsed" xml:space="preserve">
+    <value>(ostatnio używane)</value>
+  </data>
 </root>

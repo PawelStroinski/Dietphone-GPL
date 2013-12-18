@@ -1176,6 +1176,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (recently used).
+        /// </summary>
+        public static string RecentlyUsed {
+            get {
+                return ResourceManager.GetString("RecentlyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to results.
         /// </summary>
         public static string Results {

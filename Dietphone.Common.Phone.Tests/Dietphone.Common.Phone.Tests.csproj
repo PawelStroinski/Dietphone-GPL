@@ -65,8 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoriesAndProductsLoaderTests.cs" />
     <Compile Include="MainViewModelTests.cs" />
     <Compile Include="MealItemEditingViewModelTests.cs" />
+    <Compile Include="ProductViewModelTests.cs" />
     <Compile Include="SugarEditingViewModelTests.cs">
       <SubType>Code</SubType>
     </Compile>

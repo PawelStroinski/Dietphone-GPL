@@ -602,4 +602,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="Sugar" xml:space="preserve">
     <value>sugar</value>
   </data>
+  <data name="RecentlyUsed" xml:space="preserve">
+    <value>(recently used)</value>
+  </data>
 </root>

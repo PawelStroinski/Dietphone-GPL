@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
@@ -26,7 +27,7 @@ namespace Dietphone.ViewModels
         {
             if (Categories == null && Products == null)
             {
-                var loader = new CategoriesAndProductsLoader(this);
+                var loader = new CategoriesAndProductsLoader(this, true);
                 loader.LoadAsync();
                 loader.Loaded += delegate { OnLoaded(); };
             }
@@ -37,7 +38,7 @@ namespace Dietphone.ViewModels
             if (Categories != null && Products != null)
             {
                 maxCuAndFpu.Reset();
-                var loader = new CategoriesAndProductsLoader(this);
+                var loader = new CategoriesAndProductsLoader(this, true);
                 loader.LoadAsync();
                 loader.Loaded += delegate { OnRefreshed(); };
             }
@@ -92,13 +93,17 @@ namespace Dietphone.ViewModels
             private ObservableCollection<CategoryViewModel> categories;
             private ObservableCollection<ProductViewModel> products;
             private MaxCuAndFpuInCategories maxCuAndFpu;
+            private CategoryViewModel mruCategory;
+            private IList<Product> mruProducts;
+            private bool addMru;
 
-            public CategoriesAndProductsLoader(ProductListingViewModel viewModel)
+            public CategoriesAndProductsLoader(ProductListingViewModel viewModel, bool addMru)
                 : base(viewModel.workerFactory)
             {
                 this.viewModel = viewModel;
                 factories = viewModel.factories;
                 maxCuAndFpu = viewModel.maxCuAndFpu;
+                this.addMru = addMru;
             }
 
             public CategoriesAndProductsLoader(Factories factories,
@@ -124,6 +129,7 @@ namespace Dietphone.ViewModels
             {
                 LoadCategories();
                 LoadProducts();
+                AddMruCategoryAndProducts();
             }
 
             protected override void WorkCompleted()
@@ -165,6 +171,17 @@ namespace Dietphone.ViewModels
                 }
             }
 
+            private void AddMruCategoryAndProducts()
+            {
+                if (!addMru)
+                    return;
+                mruProducts = factories.MruProducts.Products;
+                if (!mruProducts.Any())
+                    return;
+                AddMruCategory();
+                AddMruProducts();
+            }
+
             private void AssignCategories()
             {
                 GetViewModel().Categories = categories;
@@ -180,6 +197,29 @@ namespace Dietphone.ViewModels
             private ProductListingViewModel GetViewModel()
             {
                 return viewModel as ProductListingViewModel;
+            }
+
+            private void AddMruCategory()
+            {
+                var model = factories.CreateCategory();
+                factories.Categories.Remove(model);
+                model.Name = Translations.RecentlyUsed;
+                mruCategory = new CategoryViewModel(model, factories);
+                categories.Insert(0, mruCategory);
+            }
+
+            private void AddMruProducts()
+            {
+                foreach (var model in mruProducts)
+                {
+                    var viewModel = new ProductViewModel(model)
+                    {
+                        Categories = categories,
+                        MaxCuAndFpu = maxCuAndFpu,
+                        OverrideCategory = mruCategory
+                    };
+                    products.Add(viewModel);
+                }
             }
         }
     }

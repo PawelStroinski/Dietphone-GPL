@@ -12,6 +12,7 @@ namespace Dietphone.ViewModels
         public Product Product { get; private set; }
         public IEnumerable<CategoryViewModel> Categories { private get; set; }
         public MaxCuAndFpuInCategories MaxCuAndFpu { private get; set; }
+        public CategoryViewModel OverrideCategory { private get; set; }
         private bool autoCalculatingEnergyPer100g;
         private bool autoCalculatingEnergyPerServing;
         private static readonly Constrains max100g = new Constrains { Max = 100 };
@@ -53,6 +54,8 @@ namespace Dietphone.ViewModels
         {
             get
             {
+                if (OverrideCategory != null)
+                    return OverrideCategory;
                 return FindCategory();
             }
             set
@@ -409,6 +412,7 @@ namespace Dietphone.ViewModels
 
         private void SetCategory(CategoryViewModel value)
         {
+            CheckOverrideCategory();
             var oldCategory = Product.CategoryId;
             Product.CategoryId = value.Id;
             MaxCuAndFpu.ResetCategory(oldCategory);
@@ -449,6 +453,12 @@ namespace Dietphone.ViewModels
                 EnergyPerServing = result.ToString();
                 autoCalculatingEnergyPerServing = true;
             }
+        }
+
+        private void CheckOverrideCategory()
+        {
+            if (OverrideCategory != null)
+                throw new InvalidOperationException("Cannot set Category when OverrideCategory is set");
         }
     }
 
