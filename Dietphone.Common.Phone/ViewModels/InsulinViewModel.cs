@@ -177,14 +177,13 @@ namespace Dietphone.ViewModels
                         squareWaveBolusHours = "?";
                     builder.AppendFormat(Translations.SquareWaveBolusText, SquareWaveBolus, squareWaveBolusHours);
                 }
-                if (!string.IsNullOrEmpty(Note))
-                {
-                    if (builder.Length > 0)
-                        builder.Append(" ");
-                    builder.Append(Note);
-                }
                 return builder.ToString();
             }
+        }
+
+        public override string Text2
+        {
+            get { return Note; }
         }
 
         public IEnumerable<InsulinCircumstanceViewModel> AllCircumstances()

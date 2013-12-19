@@ -53,7 +53,7 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
-        public void Text()
+        public void TextAndText2()
         {
             var factories = Substitute.For<Factories>();
             factories.Settings.Returns(new Settings());
@@ -62,8 +62,10 @@ namespace Dietphone.Common.Phone.Tests
             factories.Settings.SugarUnit = SugarUnit.mmolL;
             sut.BloodSugar = "5.5";
             Assert.AreEqual(sut.BloodSugar + " mmol/L", sut.Text);
+            Assert.IsEmpty(sut.Text2);
             sut.BloodSugar = "";
             Assert.AreEqual("", sut.Text);
+            Assert.IsEmpty(sut.Text2);
         }
     }
 }

@@ -177,23 +177,29 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
-        public void Text()
+        public void TextAndText2()
         {
-            insulin = new Insulin();
+            insulin = new Insulin { Note = string.Empty };
             var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
             sut.NormalBolus = "1";
             Assert.AreEqual("1 U", sut.Text);
+            Assert.IsEmpty(sut.Text2);
             sut.SquareWaveBolus = "2";
             Assert.AreEqual("1 U 2 U for ? h", sut.Text);
+            Assert.IsEmpty(sut.Text2);
             sut.SquareWaveBolusHours = "3";
             Assert.AreEqual("1 U 2 U for 3 h", sut.Text);
+            Assert.IsEmpty(sut.Text2);
             sut.NormalBolus = "";
             Assert.AreEqual("2 U for 3 h", sut.Text);
+            Assert.IsEmpty(sut.Text2);
             sut.Note = "note";
-            Assert.AreEqual("2 U for 3 h note", sut.Text);
+            Assert.AreEqual("2 U for 3 h", sut.Text);
+            Assert.AreEqual("note", sut.Text2);
             sut.NormalBolus = "1";
             sut.SquareWaveBolus = "";
-            Assert.AreEqual("1 U note", sut.Text);
+            Assert.AreEqual("1 U", sut.Text);
+            Assert.AreEqual("note", sut.Text2);
         }
     }
 }

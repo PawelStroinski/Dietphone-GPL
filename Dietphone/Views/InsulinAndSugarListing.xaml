@@ -21,11 +21,13 @@
                         <Grid Visibility="{Binding IsNewer, Converter={StaticResource BooleanToVisibility}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="22*"/>
-                                <ColumnDefinition Width="78*"/>
+                                <ColumnDefinition Width="45*"/>
+                                <ColumnDefinition Width="33*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Foreground="{StaticResource PhoneAccentBrush}" Text="{Binding Time}" VerticalAlignment="Center" Grid.Column="0"/>
                             <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Text="{Binding Text}" VerticalAlignment="Center" Grid.Column="1" Visibility="{Binding IsInsulin, Converter={StaticResource BooleanToVisibility}}"/>
-                            <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}" Text="{Binding Text}" VerticalAlignment="Center" Grid.Column="1" Visibility="{Binding IsSugar, Converter={StaticResource BooleanToVisibility}}"/>
+                            <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}" Text="{Binding Text}" VerticalAlignment="Center" Grid.Column="1" Visibility="{Binding IsSugar, Converter={StaticResource BooleanToVisibility}}" Grid.ColumnSpan="2"/>
+                            <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}" Text="{Binding Text2}" VerticalAlignment="Center" Grid.Column="2" Visibility="{Binding IsInsulin, Converter={StaticResource BooleanToVisibility}}"/>
                         </Grid>
                         <Grid Visibility="{Binding IsOlder, Converter={StaticResource BooleanToVisibility}}">
                             <Grid.ColumnDefinitions>

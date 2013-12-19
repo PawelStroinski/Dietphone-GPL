@@ -73,5 +73,10 @@ namespace Dietphone.ViewModels
                         ? Translations.BloodSugarMgdL : Translations.BloodSugarMmolL, BloodSugar);
             }
         }
+
+        public override string Text2
+        {
+            get { return string.Empty; }
+        }
     }
 }
