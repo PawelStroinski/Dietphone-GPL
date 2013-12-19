@@ -41,7 +41,7 @@ namespace Dietphone.Views
             subConnector.Refreshed += delegate { RestoreSearchUi(); };
             TranslateApplicationBar();
             GetApplicationBarIcons();
-            HideInsulinAndSugarIcons();
+            ShowInsulinAndSugarIcons();
             MealListing.StateProvider = this;
             ProductListing.StateProvider = this;
             InsulinAndSugarListing.StateProvider = this;

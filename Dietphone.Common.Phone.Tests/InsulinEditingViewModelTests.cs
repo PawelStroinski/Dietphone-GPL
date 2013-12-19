@@ -282,7 +282,7 @@ namespace Dietphone.Common.Phone.Tests
                 navigator.GetRelatedMealId().Returns(Guid.NewGuid());
                 InitializeViewModel();
                 sut.SaveWithUpdatedTimeAndReturn();
-                navigator.Received().GoToMainToInsulinAndSugarTab();
+                navigator.Received().GoToMain();
                 navigator.DidNotReceive().GoBack();
             }
 
