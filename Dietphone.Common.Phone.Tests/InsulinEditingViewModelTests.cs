@@ -271,8 +271,8 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreEqual(2.2, insulin.SquareWaveBolus, 0.01);
                 Assert.AreEqual(2.3, insulin.SquareWaveBolusHours, 0.01);
                 Assert.AreEqual("note", insulin.Note);
-                Assert.AreEqual(DateTime.Now.Ticks, insulin.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
-                Assert.AreEqual(DateTime.Now.Ticks, sugar.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
+                Assert.AreEqual(DateTime.UtcNow.Ticks, insulin.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
+                Assert.AreEqual(DateTime.UtcNow.Ticks, sugar.DateTime.Ticks, TimeSpan.TicksPerSecond * 5);
                 navigator.Received().GoBack();
             }
 
