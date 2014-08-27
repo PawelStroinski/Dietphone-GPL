@@ -1558,6 +1558,33 @@
             </summary>
             <param name="context">The context that holds information about the animation.</param>
         </member>
+        <member name="M:Telerik.Windows.Controls.ContextMenu.ContextMenuOpenAnimation.OnEnded(Telerik.Windows.Controls.Animation.PlayAnimationInfo)">
+            <summary>
+            Fires the <see cref="E:Telerik.Windows.Controls.RadAnimation.Ended" /> event for the specific target provided
+            in the <see cref="T:Telerik.Windows.Controls.Animation.PlayAnimationInfo" /> object.
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="T:Telerik.Windows.Controls.ContextMenuOpenFailedReason">
+            <summary>
+            Reasons for whic RadContextMenu may fail to open.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ContextMenuOpenFailedReason.Unloaded">
+            <summary>
+            The context menu was unloaded before it finished opening.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ContextMenuOpenFailedReason.PageNotFound">
+            <summary>
+            The root PhoneApplicationPage is missing.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ContextMenuOpenFailedReason.PageClosed">
+            <summary>
+            The user closed the page by going back.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.ContextMenuOpeningEventArgs">
             <summary>
             Event arguments for RadContextMenu's opening event.
@@ -1572,6 +1599,22 @@
         <member name="P:Telerik.Windows.Controls.ContextMenuOpeningEventArgs.FocusedElement">
             <summary>
             Get the UIElement which is focused under RadContextMenu.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.OpenFailedEventArgs">
+            <summary>
+            Event arguments for the OpenFailed event of <see cref="T:Telerik.Windows.Controls.RadContextMenu"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.OpenFailedEventArgs.#ctor(Telerik.Windows.Controls.ContextMenuOpenFailedReason)">
+            <summary>
+            Creates a new instance of the OpenFailedEventArgs class.
+            </summary>
+            <param name="reason">The reason for the open failure.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.OpenFailedEventArgs.Reason">
+            <summary>
+            Gets the reason of the open failure.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.OpenGesture">
@@ -1789,6 +1832,11 @@
             Fires right after the context menu has closed.
             </summary>
         </member>
+        <member name="E:Telerik.Windows.Controls.RadContextMenu.OpenFailed">
+            <summary>
+            Fired if <see cref="T:Telerik.Windows.Controls.RadContextMenu"/> fails to open.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Controls.RadContextMenu.PortraitAlignment">
             <summary>
             Gets or sets a vertical alignment that will determine the menu location when the phone is in portrait mode.
@@ -1911,6 +1959,23 @@
             </summary>
             <value></value>
         </member>
+        <member name="T:Telerik.Windows.Controls.HeaderFooterDisplayMode">
+            <summary>
+            Lists the possible display modes for <see cref="T:Telerik.Windows.Controls.RadDataBoundListBox"/>
+            list header or list footer.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.HeaderFooterDisplayMode.AlwaysVisible">
+            <summary>
+            The list header or footer is always visible no matter whether the items source is empty or not.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.HeaderFooterDisplayMode.WithDataItems">
+            <summary>
+            Header or footer is shown only when there are items in the source currently 
+            attached to the <see cref="T:Telerik.Windows.Controls.RadDataBoundListBox"/> instance.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.DataBoundListBox.ItemReorderControl">
             <summary>
             Represents a control that allows the user to reorder items in <see cref="T:Telerik.Windows.Controls.RadDataBoundListBox"/>.
@@ -1965,6 +2030,29 @@
             <value>
             <c>True</c> if this instance is properly templated; otherwise, <c>false</c>.
             </value>
+        </member>
+        <member name="T:Telerik.Windows.Controls.ItemReorderStateChangedEventArgs">
+            <summary>
+            Contains information about the <see cref="E:Telerik.Windows.Controls.RadDataBoundListBox.ItemReorderStateChanged"/> event.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ItemReorderStateChangedEventArgs.#ctor(System.Boolean,Telerik.Windows.Controls.RadDataBoundListBoxItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.ItemReorderStateChangedEventArgs"/> class.
+            </summary>
+            <param name="isActive">if set to <c>true</c> [is active].</param>
+            <param name="container">The container.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ItemReorderStateChangedEventArgs.IsReorderActive">
+            <summary>
+            Gets a boolean value determining whether the <see cref="E:Telerik.Windows.Controls.RadDataBoundListBox.ItemReorderStateChanged"/> event
+            is fired in result of activating or deactivating the reorder functionality.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ItemReorderStateChangedEventArgs.PivotItem">
+            <summary>
+            The container that is being reordered.
+            </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.RadDataBoundListBox">
             <summary>
@@ -2483,6 +2571,11 @@
             Identifies the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.PullToRefreshIndicatorStyle"/> dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.RadDataBoundListBox.ShowPullToRefreshWhenNoDataProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.ShowPullToRefreshWhenNoData"/> dependency property.
+            </summary>
+        </member>
         <member name="F:Telerik.Windows.Controls.RadDataBoundListBox.IsPullToRefreshEnabledProperty">
             <summary>
             Identifies the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.IsPullToRefreshEnabled"/> dependency property.
@@ -2497,6 +2590,17 @@
             <param name="animate">Indicates whether the pull to refresh indicator will be hidden
             by animating it.</param>
             <param name="updateRefreshLabel">Indicates whether the refresh label is updated.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadDataBoundListBox.StopPullToRefreshLoading(System.Boolean,System.Boolean,System.Nullable{System.DateTime})">
+            <summary>
+            Stops the loading indicator in the pull-to-refresh element and hides the element by updating
+            the last refresh time if required. By default the DateTime.Now value is used but supplying a different value
+            is possible via the customRefreshDate attribute.
+            </summary>
+            <param name="animate">Indicates whether the pull to refresh indicator will be hidden
+            by animating it.</param>
+            <param name="updateRefreshLabel">Indicates whether the refresh label is updated.</param>
+            <param name="customRefreshDate">Indicates the time at which the loading has been stopped.</param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadDataBoundListBox.StopPullToRefreshLoading(System.Boolean)">
             <summary>
@@ -2652,6 +2756,16 @@
             Identifies the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.DataVirtualizationMode"/> dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.RadDataBoundListBox.ListHeaderDisplayModeProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.ListHeaderDisplayMode"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadDataBoundListBox.ListFooterDisplayModeProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.ListFooterDisplayMode"/> property.
+            </summary>
+        </member>
         <member name="F:Telerik.Windows.Controls.RadDataBoundListBox.SelectedValueProperty">
             <summary>
             Defines the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.SelectedValue"/> dependency property.
@@ -2728,6 +2842,15 @@
             </summary>
             <param name="sender"></param>
             <param name="e"></param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadDataBoundListBox.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Provides the behavior for the Arrange pass of Windows Phone layout. Classes can override this method to define their own Arrange pass behavior.
+            </summary>
+            <param name="finalSize">The final area within the parent that this object should use to arrange itself and its children.</param>
+            <returns>
+            The actual size that is used after the element is arranged in layout.
+            </returns>
         </member>
         <member name="M:Telerik.Windows.Controls.RadDataBoundListBox.OnDataRequested">
             <summary>
@@ -2834,6 +2957,11 @@
             the target item down in the source collection.
             </summary>
         </member>
+        <member name="E:Telerik.Windows.Controls.RadDataBoundListBox.ItemReorderStateChanged">
+            <summary>
+            Fired when the Item Reorder functionality is either activated or deactivated.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Controls.RadDataBoundListBox.ItemReorderControlStyle">
             <summary>
             Gets or sets an instance of the <see cref="T:System.Windows.Style"/> class
@@ -2844,6 +2972,12 @@
             <summary>
             Gets or sets a boolean value that identifies whether the Item Reorder
             feature in <see cref="T:Telerik.Windows.Controls.RadDataBoundListBox"/> is enabled.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadDataBoundListBox.ShowPullToRefreshWhenNoData">
+            <summary>
+            Gets or sets a boolean value determining whether the Pull to Refresh indicator is
+            visible when there is no data to display in the <see cref="T:Telerik.Windows.Controls.RadDataBoundListBox"/> instance.
             </summary>
         </member>
         <member name="E:Telerik.Windows.Controls.RadDataBoundListBox.IsCheckModeActiveChanged">
@@ -2938,6 +3072,18 @@
             <summary>
             Gets or sets an instance of the <see cref="T:System.Windows.Style"/> class that
             defines the visual appearance of the pull-to-refresh indicator element.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadDataBoundListBox.ListFooterDisplayMode">
+            <summary>
+            Gets or sets a value from the <see cref="T:Telerik.Windows.Controls.HeaderFooterDisplayMode"/> enum
+            that defines the way the footer is displayed depending on the state of the items source.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadDataBoundListBox.ListHeaderDisplayMode">
+            <summary>
+            Gets or sets a value from the <see cref="P:Telerik.Windows.Controls.RadDataBoundListBox.ListHeaderDisplayMode"/> enum
+            that defines the way the header is displayed depending on the state of the items source.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadDataBoundListBox.IsPullToRefreshEnabled">
@@ -3336,6 +3482,14 @@
             Fires when the <see cref="P:Telerik.Windows.Controls.RadExpanderControl.IsExpanded"/> property is has changed.
             </summary>
         </member>
+        <member name="P:Telerik.Windows.Controls.RadExpanderControl.UseOptimizedMeasure">
+            <summary>
+            Gets or sets a boolean value which determines whether the expandable content is measured
+            only when the control is being expanded or at the initial layout pass for the whole control. When
+            an optimized measure pass is used, some delays in the expansion may occur depending on the complexity of 
+            the expandable content's template.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Controls.RadExpanderControl.IsExpanded">
             <summary>
             Gets or sets a boolean value determining whether the expandable content is visible or not.
@@ -3636,6 +3790,11 @@
             Identifies the Title dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.HubTileBase.TitleTemplateProperty">
+            <summary>
+            Identifies the TitleTemplate dependency property.
+            </summary>
+        </member>
         <member name="F:Telerik.Windows.Controls.HubTileBase.UpdateIntervalProperty">
             <summary>
             Identifies the UpdateInterval dependency property.
@@ -3779,6 +3938,11 @@
             Gets or sets the Title.
             </summary>
         </member>
+        <member name="P:Telerik.Windows.Controls.HubTileBase.TitleTemplate">
+            <summary>
+            Gets or sets the title template.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Controls.HubTileBase.IsFrozen">
             <summary>
             Gets or sets the IsFrozen property. Freezing a hub tile means that it will cease to
@@ -3919,11 +4083,6 @@
             Identifies the Picture dependency property.
             </summary>
         </member>
-        <member name="F:Telerik.Windows.Controls.RadSlideHubTile.TitleTemplateProperty">
-            <summary>
-            Identifies the TitleTemplate dependency property.
-            </summary>
-        </member>
         <member name="M:Telerik.Windows.Controls.RadSlideHubTile.#ctor">
             <summary>
             Initializes a new instance of the RadSlideHubTile class.
@@ -3960,11 +4119,6 @@
         <member name="P:Telerik.Windows.Controls.RadSlideHubTile.Picture">
             <summary>
             Gets or sets the contact picture.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadSlideHubTile.TitleTemplate">
-            <summary>
-            Gets or sets the DataTemplate that is used to visualize the Title property.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadSlideHubTile.ShouldClip">
@@ -4401,6 +4555,11 @@
             Identifies the <see cref="P:Telerik.Windows.Controls.RadImageButton.IsChecked"/> dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.RadImageButton.ImageStretchProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadImageButton.ImageStretch"/> dependency property.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadImageButton.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadImageButton"/> class.
@@ -4413,7 +4572,7 @@
         </member>
         <member name="M:Telerik.Windows.Controls.RadImageButton.UpdateVisualState(System.Boolean)">
             <summary>
-            Updates the state of the visual. This method is used internally and should not be called manually.
+            Updates the state of the visual. This method is used internally and should not be called manually!
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.RadImageButton.OnManipulationStarted(System.Windows.Input.ManipulationStartedEventArgs)">
@@ -4479,9 +4638,14 @@
             Gets or sets a value indicating whether the button is checked if it is a ToggleButton.
             </summary>
         </member>
+        <member name="P:Telerik.Windows.Controls.RadImageButton.ImageStretch">
+            <summary>
+            Gets or sets a value indicating the type of Stretch that will be used for the image in this image button.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Controls.RadImageButton.IsButtonPressed">
             <summary>
-            Gets or sets a value indicating whether the button is currently pressed. This property is used internally and should not be set manually.
+            Gets or sets a value indicating whether the button is currently pressed. This property is used internally and should not be set manually!
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.ImageButton.ThicknessToDoubleConverter">
@@ -4532,32 +4696,25 @@
             <summary>
             Provides information when RadInputPrompt is closed.
             The information consists of the input of the prompt, the result of it - OK or Cancel,
-            the button that was clicked and if the checkbox in the message box is checked.
+            the button that was clicked and if the checkbox in the input prompt is checked.
             </summary>
         </member>
-        <member name="T:Telerik.Windows.Controls.MessageBoxClosedEventArgs">
-            <summary>
-            Provides information when RadMessageBox is closed.
-            The information consists of the result of the message box - OK or Cancel.
-            Also provided are the button that was clicked and if the checkbox in the message box is checked.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.ClickedButton">
+        <member name="P:Telerik.Windows.Controls.InputPromptClosedEventArgs.ClickedButton">
             <summary>
             Gets the button that was clicked. This property can return null if the message box is closed when the user presses the device back button.
             </summary>
         </member>
-        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.IsCheckBoxChecked">
+        <member name="P:Telerik.Windows.Controls.InputPromptClosedEventArgs.IsCheckBoxChecked">
             <summary>
             Gets a value indicating whether the checkbox in the message box is checked.
             </summary>
         </member>
-        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.Result">
+        <member name="P:Telerik.Windows.Controls.InputPromptClosedEventArgs.Result">
             <summary>
             Gets the result from the message box.
             </summary>
         </member>
-        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.ButtonIndex">
+        <member name="P:Telerik.Windows.Controls.InputPromptClosedEventArgs.ButtonIndex">
             <summary>
             Gets the index of the button in the button's parent Children collection.
             </summary>
@@ -4619,6 +4776,87 @@
             <summary>
             This class defines a type of a MessageBox that contains an input field for a password or for a plain text.
             </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadInputPrompt.ShowAsync(Telerik.Windows.Controls.InputPromptSettings,System.Object,Telerik.Windows.Controls.MessageBoxButtons,System.Object,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment,System.Action{System.Windows.Input.KeyEventArgs})">
+            <summary>
+            Shows RadInputPrompt.
+            </summary>
+            <param name="settings">An instance of type <see cref="T:Telerik.Windows.Controls.InputPromptSettings"/> that specifies the fields that are used by this input prompt.</param>
+            <param name="title">The title of the input prompt.</param>
+            <param name="buttons">The button configuration of RadInputPrompt.</param>
+            <param name="message">The message of the input prompt.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines whether the checkbox will checked initially.</param>
+            <param name="vibrate">Determines if the device will vibrate when the input prompt is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the input promt on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the input promt on the device page.</param>
+            <param name="keyDownHandler">A callback that will be invoked when a key is pressed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadInputPrompt.ShowAsync(System.Object,Telerik.Windows.Controls.MessageBoxButtons,System.Object,Telerik.Windows.Controls.InputMode,System.Windows.Style,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment,System.Action{System.Windows.Input.KeyEventArgs})">
+            <summary>
+            Shows RadInputPrompt.
+            </summary>
+            <param name="title">The title of the input prompt.</param>
+            <param name="buttons">The button configuration of RadInputPrompt.</param>
+            <param name="message">The message of the input prompt.</param>
+            <param name="inputMode">The type of field that is used for input - text or password.</param>
+            <param name="inputStyle">The style of the input field.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines whether the checkbox will checked initially.</param>
+            <param name="vibrate">Determines if the device will vibrate when the input prompt is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the input promt on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the input promt on the device page.</param>
+            <param name="keyDownHandler">A callback that will be invoked when a key is pressed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadInputPrompt.ShowAsync(System.Collections.Generic.IEnumerable{System.Object},System.Object,System.Object,Telerik.Windows.Controls.InputMode,System.Windows.Style,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment,System.Action{System.Windows.Input.KeyEventArgs})">
+            <summary>
+            Shows RadInputPrompt.
+            </summary>
+            <param name="buttonsContent">An enumerable of objects that will be used as the contents of the buttons in the input prompt.</param>
+            <param name="title">The title of the input prompt.</param>
+            <param name="message">The message of the input prompt.</param>
+            <param name="inputMode">The type of field that is used for input - text or password.</param>
+            <param name="inputStyle">The style of the input field.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines whether the checkbox will checked initially.</param>
+            <param name="vibrate">Determines if the device will vibrate when the input prompt is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the input promt on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the input promt on the device page.</param>
+            <param name="keyDownHandler">A callback that will be invoked when a key is pressed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadInputPrompt.ShowAsync(System.Windows.DataTemplate,System.Object,System.Collections.Generic.IEnumerable{System.Object},System.Object,Telerik.Windows.Controls.InputMode,System.Windows.Style,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment,System.Action{System.Windows.Input.KeyEventArgs})">
+            <summary>
+            Shows RadInputPrompt.
+            </summary>
+            <param name="buttonsTemplate">A DataTemplate that will be used to define the number of buttons and their layout in RadInputPrompt.</param>
+            <param name="title">The title of the input prompt.</param>
+            <param name="buttonsContent">An enumerable of objects that will be used as the contents of the buttons in the input prompt.</param>
+            <param name="message">The message of the input prompt.</param>
+            <param name="inputMode">The type of field that is used for input - text or password.</param>
+            <param name="inputStyle">The style of the input field.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines whether the checkbox will checked initially.</param>
+            <param name="vibrate">Determines if the device will vibrate when the input prompt is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the input promt on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the input promt on the device page.</param>
+            <param name="keyDownHandler">A callback that will be invoked when a key is pressed.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadInputPrompt.ShowAsync(System.Windows.Controls.ControlTemplate,System.Object,System.Collections.Generic.IEnumerable{System.Object},System.Object,Telerik.Windows.Controls.InputMode,System.Windows.Style,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment,System.Action{System.Windows.Input.KeyEventArgs})">
+            <summary>
+            Shows RadInputPrompt.
+            </summary>
+            <param name="template">A control template that will completely changed the look and feel of the input prompt.</param>
+            <param name="title">The title of the input prompt.</param>
+            <param name="buttonsContent">An enumerable of objects that will be used as the contents of the buttons in the input prompt.</param>
+            <param name="message">The message of the input prompt.</param>
+            <param name="inputMode">The type of field that is used for input - text or password.</param>
+            <param name="inputStyle">The style of the input field.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines whether the checkbox will checked initially.</param>
+            <param name="vibrate">Determines if the device will vibrate when the input prompt is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the input promt on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the input promt on the device page.</param>
+            <param name="keyDownHandler">A callback that will be invoked when a key is pressed.</param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadInputPrompt.Show(Telerik.Windows.Controls.InputPromptSettings,System.Object,Telerik.Windows.Controls.MessageBoxButtons,System.Object,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment,System.Action{Telerik.Windows.Controls.InputPromptClosedEventArgs},System.Action{System.Windows.Input.KeyEventArgs})">
             <summary>
@@ -4803,6 +5041,100 @@
         <member name="F:Telerik.Windows.Controls.SnapPosition.Far">
             <summary>
             Positions the selected item at the far side of the viewport.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.MultiResolutionImage.MultiResolutionSourceConverter">
+            <summary>
+            Represents a converter that may convert value of type <see cref="T:System.Windows.Media.ImageSource"/> to a new value of the same type.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MultiResolutionImage.MultiResolutionSourceConverter.ScreenWvgaName">
+            <summary>
+            Gets the string included in the names of images that should be used on WVGA Screens.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MultiResolutionImage.MultiResolutionSourceConverter.ScreenWxgaName">
+            <summary>
+            Gets the string included in the names of images that should be used on WXGA Screens.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MultiResolutionImage.MultiResolutionSourceConverter.Screen720pName">
+            <summary>
+            Gets the string included in the names of images that should be used on 720p Screens.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.MultiResolutionImage.MultiResolutionSourceConverter.Separator">
+            <summary>
+            Gets the file name separator character.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.MultiResolutionImage.MultiResolutionSourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Modifies the source data before passing it to the target for display in the UI.
+            </summary>
+            <param name="value">The source data being passed to the target.</param>
+            <param name="targetType">The <see cref="T:System.Type"/> of data expected by the target dependency property.</param>
+            <param name="parameter">An optional parameter to be used in the converter logic.</param>
+            <param name="culture">The culture of the conversion.</param>
+            <returns>
+            The value to be passed to the target dependency property.
+            </returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.MultiResolutionImage.MultiResolutionSourceConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Modifies the target data before passing it to the source object.  This method is called only in <see cref="F:System.Windows.Data.BindingMode.TwoWay"/> bindings.
+            </summary>
+            <param name="value">The target data being passed to the source.</param>
+            <param name="targetType">The <see cref="T:System.Type"/> of data expected by the source object.</param>
+            <param name="parameter">An optional parameter to be used in the converter logic.</param>
+            <param name="culture">The culture of the conversion.</param>
+            <returns>
+            The value to be passed to the source object.
+            </returns>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadMultiResolutionImage">
+            <summary>
+            Represents a control that provides a different image depending on the resolution of the device.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadMultiResolutionImage.SourceProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadMultiResolutionImage.Source"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadMultiResolutionImage.StretchProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadMultiResolutionImage.Stretch"/> dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMultiResolutionImage.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadMultiResolutionImage"/> class.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMultiResolutionImage.OnApplyTemplate">
+            <summary>
+            When overridden in a derived class, is invoked whenever application code or internal processes (such as a rebuilding layout pass) call <see cref="M:System.Windows.Controls.Control.ApplyTemplate"/>. In simplest terms, this means the method is called just before a UI element displays in an application. For more information, see Remarks.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.RadMultiResolutionImage.ImageFailed">
+            <summary>
+            Occurs when there is an error associated with image retrieval or format.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.RadMultiResolutionImage.ImageOpened">
+            <summary>
+            Occurs when this image source is downloaded and decoded with no failure. You can use this event to determine the size of an image before rendering it.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMultiResolutionImage.Source">
+            <summary>
+            Gets or sets the source for the image.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadMultiResolutionImage.Stretch">
+            <summary>
+            Gets or sets a value that describes how an <see cref="T:Telerik.Windows.Controls.RadMultiResolutionImage"/> should be stretched to fill the destination rectangle.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.GridLayoutPosition">
@@ -5369,6 +5701,111 @@
             Represents a control that brings additional functionality like watermark, action button and header to the standart PasswordBox.
             </summary>
         </member>
+        <member name="T:Telerik.Windows.Controls.ITextBox">
+            <summary>
+            Represents an inferface which contains the common functionality between RadTextBox and RadPasswordBox.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITextBox.ChangeValidationState(Telerik.Windows.Controls.PhoneTextBox.ValidationState,System.String)">
+            <summary>
+            Used to change the ValidationState of the control and provide a custom message that will be displayed to clarify the state.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITextBox.EvaluateElementsVisibility">
+            <summary>
+            Intended for internal use only.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITextBox.SetSecondaryButtonVisibility">
+            <summary>
+            Intended for internal use only.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITextBox.GoToState(System.String,System.Boolean)">
+            <summary>
+            Intended for internal use only.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITextBox.SetValidationState(Telerik.Windows.Controls.PhoneTextBox.ValidationState)">
+            <summary>
+            Intended for internal use only.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.ITextBox.SetValidationMessage(System.String)">
+            <summary>
+            Intended for internal use only.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.Header">
+            <summary>
+            Gets or sets a string representing the header of the <see cref="T:Telerik.Windows.Controls.ITextBox"/> implementor.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.IsTemplateApplied">
+            <summary>
+            Determines whether the <see cref="M:System.Windows.Controls.Control.ApplyTemplate"/> method has been called for this instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.IsFocused">
+            <summary>
+            Determines whether the control is currently Focused (has the keyboard input).
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.HeaderTemplate">
+            <summary>
+            Gets or sets the header template.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.HeaderStyle">
+            <summary>
+            Gets or sets the header style.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.Watermark">
+            <summary>
+            Gets or sets the watermark that will be used when the input box is empty.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.ValidationState">
+            <summary>
+            Gets the current ValidationState of this instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.ValidationMessage">
+            <summary>
+            Gets the current ValidationMessage of this instance.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.ActionButtonStyle">
+            <summary>
+            Gets or sets the style for the action button.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.ActionButtonVisibility">
+            <summary>
+            Gets or sets the visibility for the action button.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.ActionButtonCommand">
+            <summary>
+            Gets or sets the command for the action button.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.ExecuteActionOnReturn">
+            <summary>
+            Gets or sets a value indicating whether when the Enter key is pressed the ActionButtonCommand will be executed.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.ActionButtonCommandParameter">
+            <summary>
+            Gets or sets the command parameter for the action button.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ITextBox.HideWatermarkOnFocus">
+            <summary>
+            Gets or sets a value indicating whether the watermarks will hide on focus, or when the text box is not empty.
+            </summary>
+        </member>
         <member name="F:Telerik.Windows.Controls.RadPasswordBox.PasswordProperty">
             <summary>
             Identifies the <see cref="P:Telerik.Windows.Controls.RadPasswordBox.Password"/> dependency property.
@@ -5520,12 +5957,6 @@
             Used to change the ValidationState of the control and provide a custom message that will be displayed to clarify the state.
             </summary>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadPasswordBox.OnManipulationStarted(System.Windows.Input.ManipulationStartedEventArgs)">
-            <summary>
-            Called before the <see cref="E:System.Windows.UIElement.ManipulationStarted"/> event occurs.
-            </summary>
-            <param name="e">Event data for the event.</param>
-        </member>
         <member name="M:Telerik.Windows.Controls.RadPasswordBox.OnActionButtonTap(System.Windows.Input.GestureEventArgs)">
             <summary>
             Raises the <see cref="E:ActionButtonTap"/> event.
@@ -5567,9 +5998,10 @@
             </summary>
             <param name="e">The data for the event.</param>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadPasswordBox.MoveFocusToPasswordElement">
+        <member name="M:Telerik.Windows.Controls.RadPasswordBox.MoveFocusToPasswordElement(System.Boolean)">
             <summary>
             This method is used to set the focus to the Password element if it is currently visible, or the TextBox element otherwise.
+            The invertChoice parameter should be set to true, when the focus is moved away from the checkbox which is about to change the visible element.
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.RadPasswordBox.RevealPassword">
@@ -7259,6 +7691,11 @@
             Fires the <see cref="E:Telerik.Windows.Controls.RadSlideView.SlideAnimationCompleted"/> event.
             </summary>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadSlideView.OnSlideViewStateChanged(Telerik.Windows.Controls.SlideViewState,Telerik.Windows.Controls.SlideViewState)">
+            <summary>
+            Fires the <see cref="E:Telerik.Windows.Controls.RadSlideView.SlideViewStateChanged"/> event.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadSlideView.CreateManipulationBehavior">
             <summary>
             Creates the core <see cref="T:Telerik.Windows.Controls.SlideView.SlideViewManipulationBehavior"/> depending on the current <see cref="P:Telerik.Windows.Controls.RadSlideView.TransitionMode"/> value.
@@ -7341,6 +7778,13 @@
             <summary>
             Fires when the user pulls down the scrollable list to refresh the data. This event will fire
             when the <see cref="P:Telerik.Windows.Controls.RadSlideView.IsPullToRefreshEnabled"/> property is set to true.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.RadSlideView.SlideViewStateChanged">
+            <summary>
+            Fires when <see cref="T:Telerik.Windows.Controls.RadSlideView"/> changes. 
+            When the control's ItemTemplate contains <see cref="T:Telerik.Windows.Controls.SlideView.PanAndZoomImage"/> it can go to PanAndZoom state. 
+            When the control's <see cref="P:Telerik.Windows.Controls.RadSlideView.IsFilmstripModeEnabled"/> is set to true, it can go to Filmstrip state.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadSlideView.AdjacentItemsPreviewMode">
@@ -7465,6 +7909,48 @@
             <value>
             	<c>True</c> if this instance is properly templated; otherwise, <c>false</c>.
             </value>
+        </member>
+        <member name="T:Telerik.Windows.Controls.SlideViewState">
+            <summary>
+            Defines possible states of <see cref="T:Telerik.Windows.Controls.RadSlideView"/>.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.SlideViewState.Standard">
+            <summary>
+            The standard state that the control has when its loaded.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.SlideViewState.PanAndZoom">
+            <summary>
+            The pan and zoom state which occurs when an image is zoomed in.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.SlideViewState.Filmstrip">
+            <summary>
+            The filmstrip state which occurs when an image that is fully displayed is zoomed further out.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.SlideViewStateChangedArgs">
+            <summary>
+            Event arguments for the SlideViewStateChanged event in <see cref="T:Telerik.Windows.Controls.RadSlideView"/>.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.SlideViewStateChangedArgs.#ctor(Telerik.Windows.Controls.SlideViewState,Telerik.Windows.Controls.SlideViewState)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.SlideViewStateChangedArgs"/> class.
+            </summary>
+            <param name="oldState">The old state.</param>
+            <param name="newState">The new state.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.SlideViewStateChangedArgs.OldState">
+            <summary>
+            Gets the old state.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.SlideViewStateChangedArgs.NewState">
+            <summary>
+            Gets the new state.
+            </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.SlideView.ZoomableListBox">
             <summary>
@@ -7808,6 +8294,65 @@
             This means that the check has passed and the text was found to be invalid.
             </summary>
         </member>
+        <member name="T:Telerik.Windows.Controls.RadZoomTransition">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadZoomTransition"/> class.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.RadTransition">
+            <summary>
+            Specifies the transition that will be used when changing content.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTransition.ForwardInAnimation">
+            <summary>
+            Animation that will be played when the content has been loaded, when going forward.
+            </summary>
+            /// <remarks>
+            If not specified the animation will be autogenerated as a clone of the ForwardOutAnimation.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTransition.ForwardOutAnimation">
+            <summary>
+            Animation that will be played when the content has been unloaded, when going forward.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTransition.BackwardInAnimation">
+            <summary>
+            Animation that will be played when the content has been loaded, when going backward.
+            </summary>
+            <remarks>
+            If not specified the animation will be autogenerated as opposite to the ForwardOutAnimation.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTransition.BackwardOutAnimation">
+            <summary>
+            Animation that will be played when the content has been loaded, when going forward.
+            </summary>
+            <remarks>
+            If not specified the animation will be autogenerated as opposite to the ForwardInAnimation.
+            </remarks>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadTransition.PlayMode">
+            <summary>
+            Gets or sets the play mode to be used when playing content animations.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadZoomTransition.ZoomPointProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadZoomTransition.ZoomPoint"/> dependency property.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadZoomTransition.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadZoomTransition"/> class.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadZoomTransition.ZoomPoint">
+            <summary>
+            Gets or sets the point that will be zoomed to or zoomed out of.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.CollectionChangeItemReorderMode">
             <summary>
             Lists the possible item reordering directions when
@@ -7823,6 +8368,96 @@
             <summary>
             Moves the affected items up to make space for the new item.
             </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.VirtualizationStrategy">
+            <summary>
+            Represents a base class for all virtualization strategies supported by
+            <see cref="T:Telerik.Windows.Controls.RadVirtualizingDataControl"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.VirtualizationStrategy.Orientation">
+            <summary>
+            Gets an instance of the <see cref="P:Telerik.Windows.Controls.VirtualizationStrategy.Orientation"/> enum
+            that represents the stack.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.VirtualizationStrategy.LayoutOrientation">
+            <summary>
+            This property returns a value from the Orientation enumeration
+            that represents the direction in which containers are virtualized.
+            In the case of the Wrap Strategy Horizontal orientaiton means Vertical layout orientation.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.DynamicGridVirtualizationStrategyDefinition">
+            <summary>
+            Represents a UI virtualization strategy definition for a <see cref="T:Telerik.Windows.Controls.DynamicGridVirtualizationStrategy"/> instance.
+            This virtualizatino strategy orders the visual items in a wrapped grid in which each wrapped item is exactly below or next to its stack predecessor.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition">
+            <summary>
+            Represents a base class for a definition of a UI virtualization strategy for <see cref="T:Telerik.Windows.Controls.RadDataBoundListBox"/>.
+            A UI virtualization strategy definition is a set of properties describing the configuration of a UI strategy. A definition
+            exposes an API to create an actual UI strategy based on the values set to these properties.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.VirtualizationStrategyDefinition.SynchStrategyProperties(Telerik.Windows.Controls.VirtualizationStrategy)">
+            <summary>
+            Synchronizes the properties of the provided <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance
+            with the current definition.
+            </summary>
+            <param name="strategy">The <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance which property values will
+            be synchronized with the ones defined by this <see cref="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition"/> instance.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.VirtualizationStrategyDefinition.CreateStrategy">
+            <summary>
+            Creates an actual <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance
+            based on the properties defined on this <see cref="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition"/> instance.
+            </summary>
+            <returns>An instance of the <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> class that
+            represents the UI virtualization strategy.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.VirtualizationStrategyDefinition.OnPropertyChanged(System.String)">
+            <summary>
+            Called when a property of this instance changes. Fires the <see cref="E:Telerik.Windows.Controls.VirtualizationStrategyDefinition.PropertyChanged"/> event.
+            </summary>
+            <param name="propertyName">Name of the property.</param>
+        </member>
+        <member name="E:Telerik.Windows.Controls.VirtualizationStrategyDefinition.PropertyChanged">
+            <summary>
+            Fired when a property of this instance changes.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.VirtualizationStrategyDefinition.Orientation">
+            <summary>
+            Gets or sets the orientation that the UI virtualization mechanism will use to order visual items.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.DynamicGridVirtualizationStrategyDefinition.SynchStrategyProperties(Telerik.Windows.Controls.VirtualizationStrategy)">
+            <summary>
+            Synchronizes the properties of the provided <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance
+            with the current definition.
+            </summary>
+            <param name="strategy">The <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance which property values will
+            be synchronized with the ones defined by this <see cref="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition"/> instance.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.DynamicGridVirtualizationStrategyDefinition.CreateStrategy">
+            <summary>
+            Creates an actual <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance
+            based on the properties defined on this <see cref="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition"/> instance.
+            </summary>
+            <returns>
+            An instance of the <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> class that
+            represents the UI virtualization strategy.
+            </returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.DynamicGridVirtualizationStrategyDefinition.StackCount">
+            <summary>
+            Gets or sets the item extent.
+            </summary>
+            <value>
+            The item extent.
+            </value>
         </member>
         <member name="T:Telerik.Windows.Controls.WindowOpenFailedEventArgs">
             <summary>
@@ -10065,6 +10700,69 @@
             This class defines a highly customizable message box component.
             </summary>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadMessageBox.ShowAsync(System.String,System.String,Telerik.Windows.Controls.MessageBoxButtons)">
+            <summary>
+            Shows RadMessageBox.
+            </summary>
+            <param name="message">The message of the message box.</param>
+            <param name="title">The title of the message box.</param>
+            <param name="buttons">The button configuration of RadMessageBox.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMessageBox.ShowAsync(System.Object,Telerik.Windows.Controls.MessageBoxButtons,System.Object,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment)">
+            <summary>
+            Shows RadMessageBox.
+            </summary>
+            <param name="message">The message of the message box.</param>
+            <param name="buttons">The button configuration of RadMessageBox.</param>
+            <param name="title">The title of the message box.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines if the checkbox will checked initially or not.</param>
+            <param name="vibrate">Determines if the device will vibrate when the message box is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the message box on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the message box on the device page.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMessageBox.ShowAsync(System.Collections.Generic.IEnumerable{System.Object},System.Object,System.Object,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment)">
+            <summary>
+            Shows RadMessageBox.
+            </summary>
+            <param name="message">The message of the message box.</param>
+            <param name="buttonsContent">An enumerable of objects that will be used as the contents of the buttons in the message box.</param>
+            <param name="title">The title of the message box.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines if the checkbox will checked initially or not.</param>
+            <param name="vibrate">Determines if the device will vibrate when the message box is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the message box on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the message box on the device page.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMessageBox.ShowAsync(System.Windows.DataTemplate,System.Object,System.Collections.Generic.IEnumerable{System.Object},System.Object,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment)">
+            <summary>
+            Shows RadMessageBox.
+            </summary>
+            <param name="message">The message of the message box.</param>
+            <param name="buttonsTemplate">A DataTemplate that will be used to define the number of buttons and their layout in RadMessageBox.</param>
+            <param name="title">The title of the message box.</param>
+            <param name="buttonsContent">An enumerable of objects that will be used as the contents of the buttons in the message box.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines if the checkbox will checked initially or not.</param>
+            <param name="vibrate">Determines if the device will vibrate when the message box is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the message box on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the message box on the device page.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadMessageBox.ShowAsync(System.Windows.Controls.ControlTemplate,System.Object,System.Collections.Generic.IEnumerable{System.Object},System.Object,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment)">
+            <summary>
+            Shows RadMessageBox.
+            </summary>
+            <param name="template">A control template that will completely changed the look and feel of the message box.</param>
+            <param name="title">The title of the message box.</param>
+            <param name="message">The message of the message box.</param>
+            <param name="buttonsContent">An enumerable of objects that will be used as the contents of the buttons in the message box.</param>
+            <param name="checkBoxContent">Determines the content of the checkbox. A null value hides the check box and a non-null value shows it.</param>
+            <param name="isCheckBoxChecked">Determines if the checkbox will checked initially or not.</param>
+            <param name="vibrate">Determines if the device will vibrate when the message box is shown.</param>
+            <param name="horizontalAlignment">The horizontal alignment of the message box on the device page.</param>
+            <param name="verticalAlignment">The vertical alignment of the message box on the device page.</param>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadMessageBox.Show(System.Object,Telerik.Windows.Controls.MessageBoxButtons,System.Object,System.Object,System.Boolean,System.Boolean,System.Windows.HorizontalAlignment,System.Windows.VerticalAlignment,System.Action{Telerik.Windows.Controls.MessageBoxClosedEventArgs})">
             <summary>
             Shows RadMessageBox.
@@ -10147,6 +10845,36 @@
             <summary>
             Show Yes and No buttons.
             </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.MessageBoxClosedEventArgs">
+            <summary>
+            Provides information when RadMessageBox is closed.
+            The information consists of the result of the message box - OK or Cancel.
+            Also provided are the button that was clicked and if the checkbox in the message box is checked.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.ClickedButton">
+            <summary>
+            Gets the button that was clicked. This property can return null if the message box is closed when the user presses the device back button.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.IsCheckBoxChecked">
+            <summary>
+            Gets a value indicating whether the checkbox in the message box is checked.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.Result">
+            <summary>
+            Gets the result from the message box.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.MessageBoxClosedEventArgs.ButtonIndex">
+            <summary>
+            Gets the index of the button in the button's parent Children collection.
+            </summary>
+            <remarks>
+            If the parent is not a panel or if ClickedButton is null, -1 is returned.
+            </remarks>
         </member>
         <member name="T:Telerik.Windows.Controls.Dock">
             <summary>
@@ -11691,45 +12419,6 @@
             
             </summary>
         </member>
-        <member name="T:Telerik.Windows.Controls.RadTransition">
-            <summary>
-            Specifies the transition that will be used when changing content.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTransition.ForwardInAnimation">
-            <summary>
-            Animation that will be played when the content has been loaded, when going forward.
-            </summary>
-            /// <remarks>
-            If not specified the animation will be autogenerated as a clone of the ForwardOutAnimation.
-            </remarks>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTransition.ForwardOutAnimation">
-            <summary>
-            Animation that will be played when the content has been unloaded, when going forward.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTransition.BackwardInAnimation">
-            <summary>
-            Animation that will be played when the content has been loaded, when going backward.
-            </summary>
-            <remarks>
-            If not specified the animation will be autogenerated as opposite to the ForwardOutAnimation.
-            </remarks>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTransition.BackwardOutAnimation">
-            <summary>
-            Animation that will be played when the content has been loaded, when going forward.
-            </summary>
-            <remarks>
-            If not specified the animation will be autogenerated as opposite to the ForwardInAnimation.
-            </remarks>
-        </member>
-        <member name="P:Telerik.Windows.Controls.RadTransition.PlayMode">
-            <summary>
-            Gets or sets the play mode to be used when playing content animations.
-            </summary>
-        </member>
         <member name="M:Telerik.Windows.Controls.RadEmptyTransition.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadEmptyTransition"/> class.
@@ -12574,67 +13263,9 @@
             Supports vertical and horizontal stack orientation.
             </summary>
         </member>
-        <member name="T:Telerik.Windows.Controls.VirtualizationStrategy">
-            <summary>
-            Represents a base class for all virtualization strategies supported by
-            <see cref="T:Telerik.Windows.Controls.RadVirtualizingDataControl"/>.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.VirtualizationStrategy.Orientation">
-            <summary>
-            Gets an instance of the <see cref="P:Telerik.Windows.Controls.VirtualizationStrategy.Orientation"/> enum
-            that represents the stack.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.VirtualizationStrategy.LayoutOrientation">
-            <summary>
-            This property returns a value from the Orientation enumeration
-            that represents the direction in which containers are virtualized.
-            In the case of the Wrap Strategy Horizontal orientaiton means Vertical layout orientation.
-            </summary>
-        </member>
         <member name="T:Telerik.Windows.Controls.StackVirtualizationStrategyDefinition">
             <summary>
             Represents a UI virtualization strategy definition for a <see cref="T:Telerik.Windows.Controls.StackVirtualizationStrategy"/> instance.
-            </summary>
-        </member>
-        <member name="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition">
-            <summary>
-            Represents a base class for a definition of a UI virtualization strategy for <see cref="T:Telerik.Windows.Controls.RadDataBoundListBox"/>.
-            A UI virtualization strategy definition is a set of properties describing the configuration of a UI strategy. A definition
-            exposes an API to create an actual UI strategy based on the values set to these properties.
-            </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.VirtualizationStrategyDefinition.SynchStrategyProperties(Telerik.Windows.Controls.VirtualizationStrategy)">
-            <summary>
-            Synchronizes the properties of the provided <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance
-            with the current definition.
-            </summary>
-            <param name="strategy">The <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance which property values will
-            be synchronized with the ones defined by this <see cref="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition"/> instance.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.VirtualizationStrategyDefinition.CreateStrategy">
-            <summary>
-            Creates an actual <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> instance
-            based on the properties defined on this <see cref="T:Telerik.Windows.Controls.VirtualizationStrategyDefinition"/> instance.
-            </summary>
-            <returns>An instance of the <see cref="T:Telerik.Windows.Controls.VirtualizationStrategy"/> class that
-            represents the UI virtualization strategy.</returns>
-        </member>
-        <member name="M:Telerik.Windows.Controls.VirtualizationStrategyDefinition.OnPropertyChanged(System.String)">
-            <summary>
-            Called when a property of this instance changes. Fires the <see cref="E:Telerik.Windows.Controls.VirtualizationStrategyDefinition.PropertyChanged"/> event.
-            </summary>
-            <param name="propertyName">Name of the property.</param>
-        </member>
-        <member name="E:Telerik.Windows.Controls.VirtualizationStrategyDefinition.PropertyChanged">
-            <summary>
-            Fired when a property of this instance changes.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.VirtualizationStrategyDefinition.Orientation">
-            <summary>
-            Gets or sets the orientation that the UI virtualization mechanism will use to order visual items.
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.StackVirtualizationStrategyDefinition.CreateStrategy">
@@ -12728,6 +13359,11 @@
         <member name="T:Telerik.Windows.Controls.RadWindow">
             <summary>
             RadWindow provides users with the ability to show arbitrary content at an arbitrary location on the screen with a convenient high level API.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadWindow.ShouldHandleApplicationBarProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadWindow.ShouldHandleApplicationBar"/> dependency property.
             </summary>
         </member>
         <member name="F:Telerik.Windows.Controls.RadWindow.ApplicationBarInfoProperty">
@@ -12895,13 +13531,6 @@
             </summary>
             <returns>Returns a value that indicates if this type allows closing on outside tap.</returns>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadWindow.ShouldHandleApplicationBar">
-            <summary>
-            This method is used to determine if RadWindow will insert a custom application bar when shown and
-            restore the previous app bar when closed.
-            </summary>
-            <returns>Returns true if the application bar should be changed and false otherwise.</returns>
-        </member>
         <member name="M:Telerik.Windows.Controls.RadWindow.OnOpenFailed(Telerik.Windows.Controls.WindowOpenFailedReason)">
             <summary>
             A virtual callback that is called when RadWindow fails to open. This method
@@ -13029,6 +13658,12 @@
             Gets or sets the content that will be shown inside RadWindow.
             </summary>
         </member>
+        <member name="P:Telerik.Windows.Controls.RadWindow.ShouldHandleApplicationBar">
+            <summary>
+            Gets or sets a value used to determine if RadWindow will insert a custom application bar when shown and
+            restore the previous app bar when closed.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Controls.RadWindow.AppBarOffset">
             <summary>
             Exposed for testing purposes.
@@ -13048,13 +13683,6 @@
             <summary>
             Initializes a new instance of the RadModalWindow class.
             </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.RadModalWindow.ShouldHandleApplicationBar">
-            <summary>
-            This method is used to determine if RadWindow will insert a custom application bar when shown and
-            restore the previous app bar when closed.
-            </summary>
-            <returns>Returns true if the application bar should be changed and false otherwise.</returns>
         </member>
         <member name="M:Telerik.Windows.Controls.RadModalWindow.AddCanvas(System.Windows.Controls.Panel)">
             <summary>
@@ -13077,6 +13705,12 @@
         <member name="P:Telerik.Windows.Controls.RadModalWindow.ShouldHideSiblings">
             <summary>
             Gets a value that determines whether the window should hide all root elements (Performance optimization).
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadModalWindow.ShouldHandleApplicationBar">
+            <summary>
+            Gets or sets a value used to determine if RadWindow will insert a custom application bar when shown and
+            restore the previous app bar when closed.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.WindowSizeMode">

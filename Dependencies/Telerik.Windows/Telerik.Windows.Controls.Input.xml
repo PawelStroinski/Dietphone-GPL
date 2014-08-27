@@ -4,44 +4,6 @@
         <name>Telerik.Windows.Controls.Input</name>
     </assembly>
     <members>
-        <member name="T:Telerik.Windows.Controls.AppointmentSource">
-            <summary>
-            Defines basic logic for retrieving a collection of IAppointment objects.
-            </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.AppointmentSource.GetAppointments(System.Func{Telerik.Windows.Controls.IAppointment,System.Boolean})">
-            <summary>
-            Creates a collection of IAppointment objects based on an appointment predicate.
-            </summary>
-            <param name="appointmentFilter">A predicate that determines which appointments will be present in the resulting collection.</param>
-            <returns>Returns a collection of IAppointment objects.</returns>
-            <remarks>
-            Inheritors must populate the AllAppointments list, otherwise this method will always return an empty collection.
-            </remarks>
-        </member>
-        <member name="M:Telerik.Windows.Controls.AppointmentSource.FetchData(System.DateTime,System.DateTime)">
-            <summary>
-            An abstract method that inheritors must implement in order to
-            fetch new appointments from the native appointment source.
-            </summary>
-            <param name="startDate">The start date for the new appointments.</param>
-            <param name="endDate">The end date for the new appointments.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.AppointmentSource.OnDataLoaded">
-            <summary>
-            A method that must be called after the FetchData operation is finished.
-            </summary>
-        </member>
-        <member name="E:Telerik.Windows.Controls.AppointmentSource.DataLoaded">
-            <summary>
-            Occurs when appointment data has been loaded.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.AppointmentSource.AllAppointments">
-            <summary>
-            Gets a list of all the appointments from the real data source wrapped in IAppointment objects.
-            </summary>
-        </member>
         <member name="T:Telerik.Windows.Controls.AppointmentTemplateSelector">
             <summary>
             A template selector that is used by the date/time pickers/selectors to
@@ -59,67 +21,6 @@
         <member name="P:Telerik.Windows.Controls.AppointmentTemplateSelector.AppointmentTemplate">
             <summary>
             Gets or sets the template which is returned from the SelectTemplate() method.
-            </summary>
-        </member>
-        <member name="T:Telerik.Windows.Controls.DateTimeAppointment">
-            <summary>
-            A base Appointment class that implements IAppointment.
-            </summary>
-        </member>
-        <member name="T:Telerik.Windows.Controls.IAppointment">
-            <summary>
-            An interface that defines the minimum properties that an appointment can have.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAppointment.StartDate">
-            <summary>
-            Gets the start date of the appointment.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAppointment.EndDate">
-            <summary>
-            Gets the end date of the appointment.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAppointment.Subject">
-            <summary>
-            Gets or sets the subject.
-            </summary>
-            <value>The subject.</value>
-        </member>
-        <member name="M:Telerik.Windows.Controls.DateTimeAppointment.#ctor(System.DateTime,System.DateTime)">
-            <summary>
-            Initializes a new instance of the DateTimeAppointment class.
-            </summary>
-            <param name="start">The start date of the appointment.</param>
-            <param name="end">The end date of the appointment.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.DateTimeAppointment.#ctor(System.DateTime,System.DateTime,System.String)">
-            <summary>
-            Initializes a new instance of the DateTimeAppointment class.
-            </summary>
-            <param name="start">The start date of the appointment.</param>
-            <param name="end">The end date of the appointment.</param>
-            <param name="description">The appointment description.</param>
-        </member>
-        <member name="P:Telerik.Windows.Controls.DateTimeAppointment.StartDate">
-            <summary>
-            Gets the start date of this appointment.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.DateTimeAppointment.EndDate">
-            <summary>
-            Gets the end date of this appointment.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.DateTimeAppointment.Description">
-            <summary>
-            Gets the description of this appointment.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.DateTimeAppointment.Subject">
-            <summary>
-            Gets the description of this appointment.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.AutoCompleteBoxWindow">
@@ -225,91 +126,6 @@
             and a data source that contains a set of predefined suggestions.
             </summary>
         </member>
-        <member name="T:Telerik.Windows.Controls.IAutoCompleteProvider">
-            <summary>
-            An interface used by <see cref="T:Telerik.Windows.Controls.RadAutoCompleteBox"/> to access.
-            </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.Reset">
-            <summary>
-            Resets the state of the current provider.
-            </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.Input(System.Int32,System.Int32,System.String)">
-            <summary>
-            Inputs a string starting at the given position by purging the text described
-            by the start position with the given length.
-            </summary>
-            <param name="start">The start position where the text will be input.</param>
-            <param name="selectionLength">The length of the text from the starting position which will be purged.</param>
-            <param name="c">The input text.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.Delete(System.Int32,System.Int32)">
-            <summary>
-            Deletes the string starting at a given position with a given length.
-            </summary>
-            <param name="start">The position where to start deleting.</param>
-            <param name="selectionLength">The length of the text which is to be deleted.</param>
-        </member>
-        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.GetFilterKey(System.Object)">
-            <summary>
-            Gets a string that represents the key based on which the
-            corresponding item has been filtered as a valid suggestion.
-            </summary>
-            <param name="item">The item for which to get the filter key.</param>
-            <returns>The filter key.</returns>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilterDelay">
-            <summary>
-            Gets or sets an instance of the <see cref="T:System.TimeSpan"/> struct that
-            represents the time interval after the last user input after which
-            the FilteredSuggestions value is updated.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.ComparisonMode">
-            <summary>
-            Gets or sets the mode used to compare 
-            the current input string with the filter
-            key of each <see cref="P:Telerik.Windows.Controls.IAutoCompleteProvider.SuggestionsSource"/> item.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilterKeyPath">
-            <summary>
-            Gets or sets a string representing a property path
-            on a single object from the <see cref="P:Telerik.Windows.Controls.IAutoCompleteProvider.SuggestionsSource"/>
-            that is used to filter the suggestions.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.SuggestionsSource">
-            <summary>
-            Gets or sets an <see cref="T:System.Collections.IEnumerable"/> implementation
-            containing the items available for auto-complete suggestions.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilterKeyProvider">
-            <summary>
-            Gets or sets a function that is used to retrieve
-            the key from the suggestions source object, 
-            based on which suggestions are filtered.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.HasSuggestions">
-            <summary>
-            Gets a boolean value determining whether there 
-            are any suggestions available based on the current
-            input in the <see cref="T:Telerik.Windows.Controls.IAutoCompleteProvider"/>.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilteredSuggestions">
-            <summary>
-            Gets an <see cref="T:System.Collections.IEnumerable"/> implementation containing the currently filtered autocomplete suggestions.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.InputString">
-            <summary>
-            Gets the current input string.
-            </summary>
-        </member>
         <member name="M:Telerik.Windows.Controls.AutoCompleteProvider.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.AutoCompleteProvider"/> class.
@@ -384,6 +200,13 @@
         <member name="E:Telerik.Windows.Controls.AutoCompleteProvider.PropertyChanged">
             <summary>
             Fires when a property of this <see cref="T:Telerik.Windows.Controls.AutoCompleteProvider"/> changes.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.AutoCompleteProvider.AllSuggestionsWhenNoInput">
+            <summary>
+            Gets or sets a boolean value determining whether all available suggestions
+            from the source will be returned in the Filtered Suggestions collection
+            when no input is available. By default this property returns false.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.AutoCompleteProvider.FilterDelay">
@@ -635,6 +458,91 @@
             in an AutoCompleteBoxItem.
             </summary>
         </member>
+        <member name="T:Telerik.Windows.Controls.IAutoCompleteProvider">
+            <summary>
+            An interface used by <see cref="T:Telerik.Windows.Controls.RadAutoCompleteBox"/> to access.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.Reset">
+            <summary>
+            Resets the state of the current provider.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.Input(System.Int32,System.Int32,System.String)">
+            <summary>
+            Inputs a string starting at the given position by purging the text described
+            by the start position with the given length.
+            </summary>
+            <param name="start">The start position where the text will be input.</param>
+            <param name="selectionLength">The length of the text from the starting position which will be purged.</param>
+            <param name="c">The input text.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.Delete(System.Int32,System.Int32)">
+            <summary>
+            Deletes the string starting at a given position with a given length.
+            </summary>
+            <param name="start">The position where to start deleting.</param>
+            <param name="selectionLength">The length of the text which is to be deleted.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.IAutoCompleteProvider.GetFilterKey(System.Object)">
+            <summary>
+            Gets a string that represents the key based on which the
+            corresponding item has been filtered as a valid suggestion.
+            </summary>
+            <param name="item">The item for which to get the filter key.</param>
+            <returns>The filter key.</returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilterDelay">
+            <summary>
+            Gets or sets an instance of the <see cref="T:System.TimeSpan"/> struct that
+            represents the time interval after the last user input after which
+            the FilteredSuggestions value is updated.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.ComparisonMode">
+            <summary>
+            Gets or sets the mode used to compare 
+            the current input string with the filter
+            key of each <see cref="P:Telerik.Windows.Controls.IAutoCompleteProvider.SuggestionsSource"/> item.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilterKeyPath">
+            <summary>
+            Gets or sets a string representing a property path
+            on a single object from the <see cref="P:Telerik.Windows.Controls.IAutoCompleteProvider.SuggestionsSource"/>
+            that is used to filter the suggestions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.SuggestionsSource">
+            <summary>
+            Gets or sets an <see cref="T:System.Collections.IEnumerable"/> implementation
+            containing the items available for auto-complete suggestions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilterKeyProvider">
+            <summary>
+            Gets or sets a function that is used to retrieve
+            the key from the suggestions source object, 
+            based on which suggestions are filtered.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.HasSuggestions">
+            <summary>
+            Gets a boolean value determining whether there 
+            are any suggestions available based on the current
+            input in the <see cref="T:Telerik.Windows.Controls.IAutoCompleteProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.FilteredSuggestions">
+            <summary>
+            Gets an <see cref="T:System.Collections.IEnumerable"/> implementation containing the currently filtered autocomplete suggestions.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.IAutoCompleteProvider.InputString">
+            <summary>
+            Gets the current input string.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.RadAutoCompleteBox">
             <summary>
             Represents an input control that can use a collection of items to display suggestions while the end-user types. Essentially, this is
@@ -711,6 +619,16 @@
             Identifies the <see cref="P:Telerik.Windows.Controls.RadAutoCompleteBox.FilterStartThreshold"/> dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelectedCommandProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelectedCommand"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelectedCommandParameterProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelectedCommandParameter"/> dependency property.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadAutoCompleteBox.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.RadAutoCompleteBox"/> class.
@@ -740,7 +658,7 @@
             specified <see cref="T:System.Windows.Controls.TextBlock"/>.
             </summary>
         </member>
-        <member name="M:Telerik.Windows.Controls.RadAutoCompleteBox.InitSuggestionsProvider(Telerik.Windows.Controls.IAutoCompleteProvider)">
+        <member name="M:Telerik.Windows.Controls.RadAutoCompleteBox.InitSuggestionsProvider(Telerik.Windows.Controls.AutoCompleteProvider)">
             <summary>
             Initializes the specific <see cref="T:Telerik.Windows.Controls.IAutoCompleteProvider"/> implementation
             for this <see cref="T:Telerik.Windows.Controls.RadAutoCompleteBox"/> instance.
@@ -788,6 +706,20 @@
         <member name="E:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelected">
             <summary>
             Fires when the end-user selects a suggestion from the suggestions popup.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelectedCommand">
+            <summary>
+            Gets or sets an implementation of the <see cref="T:System.Windows.Input.ICommand"/>
+            interface that represents a command that will be executed
+            when a suggestion has been selected from the auto-complete
+            suggestions list.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelectedCommandParameter">
+            <summary>
+            Gets or sets the parameter that will be passed to the
+            <c>Execute</c> method of the <see cref="P:Telerik.Windows.Controls.RadAutoCompleteBox.SuggestionSelectedCommand"/>.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadAutoCompleteBox.FilterStartThreshold">
@@ -1896,6 +1828,16 @@
             Identifies the CancelButtonIconUri dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.ValuePickerControl.OkButtonTextProperty">
+            <summary>
+            Identifies the OkButtonText dependency property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.ValuePickerControl.CancelButtonTextProperty">
+            <summary>
+            Identifies the CancelButtonText dependency property.
+            </summary>
+        </member>
         <member name="F:Telerik.Windows.Controls.ValuePickerControl.PopupHeaderProperty">
             <summary>
             Identifies the <see cref="P:Telerik.Windows.Controls.ValuePickerControl.PopupHeader"/> dependency property.
@@ -2022,6 +1964,16 @@
         <member name="P:Telerik.Windows.Controls.ValuePickerControl.CancelButtonIconUri">
             <summary>
             Gets or sets the uri that points to the icon of the Cancel button in RadTimePicker and RadDatePicker.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ValuePickerControl.OkButtonText">
+            <summary>
+            Gets or sets the text of the Ok button in RadTimePicker and RadDatePicker.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.ValuePickerControl.CancelButtonText">
+            <summary>
+            Gets or sets the text of the Cancel button in RadTimePicker and RadDatePicker.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.ValuePickerControl.ValueString">
@@ -2461,6 +2413,13 @@
         <member name="M:Telerik.Windows.Controls.DataForm.DataFormField.Validate">
             <summary>
             Called by the owning <see cref="T:Telerik.Windows.Controls.RadDataForm"/> instance before
+            committing the currently input values.
+            </summary>
+            <returns>True if the validation succeeds; false otherwise.</returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.DataForm.DataFormField.ValidateAsync">
+            <summary>
+            Called asynchronously by the owning <see cref="T:Telerik.Windows.Controls.RadDataForm"/> instance before
             committing the currently input values.
             </summary>
             <returns>True if the validation succeeds; false otherwise.</returns>
@@ -2981,7 +2940,7 @@
         </member>
         <member name="T:Telerik.Windows.Controls.DataForm.AutomaticEditorCreationMode">
             <summary>
-            Lists the possible modes.
+            Lists the possible modes
             </summary>
         </member>
         <member name="F:Telerik.Windows.Controls.DataForm.AutomaticEditorCreationMode.IgnoreByDefault">
@@ -3051,6 +3010,24 @@
             A <see cref="T:Telerik.Windows.Controls.RadDatePicker"/> and <see cref="T:Telerik.Windows.Controls.RadTimePicker"/> will be created for the property.
             </summary>
         </member>
+        <member name="T:Telerik.Windows.Controls.DataForm.PropertyIterationMode">
+            <summary>
+            Defines the modes for <see cref="T:Telerik.Windows.Controls.RadDataForm"/> iterating properties exposed by
+            the object set to the <see cref="P:Telerik.Windows.Controls.RadDataForm.CurrentItem"/> property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.DataForm.PropertyIterationMode.FlattenHierarchy">
+            <summary>
+            All public properties exposed by the current item, including the inherited ones, will
+            be considered when creating the editors.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.DataForm.PropertyIterationMode.DefiningOnly">
+            <summary>
+            All public properties exposed by the type of the current item will be considered when
+            creating the editors.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.ValidationMode">
             <summary>
             Defines the different modes in which
@@ -3086,6 +3063,32 @@
         <member name="F:Telerik.Windows.Controls.ValidationSummaryMode.Form">
             <summary>
             Validation information is displayed in a layout panel above all fields in the <see cref="T:Telerik.Windows.Controls.RadDataForm"/> instance.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.CommittingDataFieldEventArgs">
+            <summary>
+            Contains information about the <see cref="T:Telerik.Windows.Controls.CommittingDataFieldEventArgs"/>.
+            Can be used to prevent a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> from being committed.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.CommittingDataFieldEventArgs.#ctor(Telerik.Windows.Controls.DataForm.DataFormField)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.CommittingDataFieldEventArgs"/> class.
+            </summary>
+            <param name="targetField">The target field.</param>
+        </member>
+        <member name="P:Telerik.Windows.Controls.CommittingDataFieldEventArgs.TargetField">
+            <summary>
+            Gets the target field.
+            </summary>
+            <value>
+            The target field.
+            </value>
+        </member>
+        <member name="P:Telerik.Windows.Controls.CommittingDataFieldEventArgs.Value">
+            <summary>
+            The value that is being committed to the corresponding property on the
+            business entity.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.DataFieldCreatedEventArgs">
@@ -3148,6 +3151,16 @@
             </summary>
             <value>The associated field.</value>
         </member>
+        <member name="T:Telerik.Windows.Controls.DataForm.CommittingDataFieldEventHandler">
+            <summary>
+            Defines the signature of handlers of the <see cref="E:CommittingDataFieldAsync"/> event.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.DataForm.ValidatingDataFieldEventHandler">
+            <summary>
+            Defines the signature of handlers of the <see cref="E:ValidatingDataFieldAsync"/> event.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.ValidatingDataFieldEventArgs">
             <summary>
             Contains information about <see cref="E:Telerik.Windows.Controls.RadDataForm.ValidatingDataField"/> event.
@@ -3193,6 +3206,11 @@
             Identifies the <see cref="P:Telerik.Windows.Controls.DataField.ErrorInfoMessage"/> dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.DataField.IsEnabledProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.DataField.IsEnabled"/> dependency property.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.DataField.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.DataField"/> class.
@@ -3205,10 +3223,14 @@
             to which this <see cref="T:Telerik.Windows.Controls.DataField"/> instance corresponds.
             </summary>
         </member>
+        <member name="P:Telerik.Windows.Controls.DataField.IsEnabled">
+            <summary>
+            Gets or sets a value that indicates if this button is enabled.
+            </summary>
+        </member>
         <member name="P:Telerik.Windows.Controls.DataField.Validators">
             <summary>
-            Gets a collection of <see cref="T:Telerik.Windows.Controls.DataFormValidator"/> instances
-            that are used to validate the input in the corresponding <see cref="T:Telerik.Windows.Controls.DataField"/>.
+            Gets the list of validators.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.DataField.EditorStyles">
@@ -3309,63 +3331,37 @@
             <param name="value">The value.</param>
             <returns></returns>
         </member>
-        <member name="T:Telerik.Windows.Controls.FieldRelation">
-            <summary>
-            Represents a field relation. A field relation is a <see cref="T:System.Windows.Data.Binding"/>
-            between given properties of two fields.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.FieldRelation.SourceField">
-            <summary>
-            Gets or sets the source field of the relation.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.FieldRelation.SourceFieldProperty">
-            <summary>
-            Gets or sets the name of the property on the
-            source field editor which will be target of the binding.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.FieldRelation.TargetField">
-            <summary>
-            Gets or sets the target field of the relation.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.FieldRelation.TargetFieldProperty">
-            <summary>
-            Gets or sets the name of the property on the
-            target field editor which will be target of the binding.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.FieldRelation.Converter">
-            <summary>
-            Gets or sets an implementation of the <see cref="T:System.Windows.Data.IValueConverter"/> interface
-            that is used to convert values between the two binding properties.
-            </summary>
-        </member>
-        <member name="P:Telerik.Windows.Controls.FieldRelation.ConverterParameter">
-            <summary>
-            Gets or sets an object representing the parameter
-            used by the <see cref="T:System.Windows.Data.IValueConverter"/>.
-            </summary>
-        </member>
-        <member name="T:Telerik.Windows.Controls.DataFormValidator">
-            <summary>
-            Represents an object used to validate the input for a given
-            <see cref="T:Telerik.Windows.Controls.RadDataForm"/> instance.
-            </summary>
-        </member>
-        <member name="M:Telerik.Windows.Controls.DataFormValidator.Validate(Telerik.Windows.Controls.ValidatingDataFieldEventArgs)">
-            <summary>
-            Called to validate a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> instance.
-            </summary>
-            <param name="args">An instance of the <see cref="T:Telerik.Windows.Controls.ValidatingDataFieldEventArgs"/> class that holds information about the validation event.</param>
-        </member>
         <member name="T:Telerik.Windows.Controls.RadDataForm">
             <summary>
             Represents a data form control that automatically generates its input fields based
             on the public properties of a data object set as current item.
             </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadDataForm.CommitAsync">
+            <summary>
+            Commits all data changes by saving the values to the
+            corresponding properties of the <see cref="P:Telerik.Windows.Controls.RadDataForm.CurrentItem"/> asynchronously.
+            Used only when the <see cref="P:Telerik.Windows.Controls.RadDataForm.ValidationMode"/> property
+            is set to be Manual.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadDataForm.ValidateAsync">
+            <summary>
+            Performs an asynchronous validation of the input of each editor in the
+            current <see cref="T:Telerik.Windows.Controls.RadDataForm"/> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadDataForm.OnCommittingDataFieldAsync(Telerik.Windows.Controls.CommittingDataFieldEventArgs)">
+            <summary>
+            Raises the <see cref="E:CommittingDataFieldAsync"/> event asynchronously.
+            </summary>
+            <param name="args">The <see cref="T:Telerik.Windows.Controls.CommittingDataFieldEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadDataForm.OnValidatingDataFieldAsync(Telerik.Windows.Controls.ValidatingDataFieldEventArgs)">
+            <summary>
+            Raises the <see cref="E:ValidatingDataField"/> event asynchronously.
+            </summary>
+            <param name="args">The <see cref="T:Telerik.Windows.Controls.ValidatingDataFieldEventArgs"/> instance containing the event data.</param>
         </member>
         <member name="F:Telerik.Windows.Controls.RadDataForm.ApplicationBarInfoProperty">
             <summary>
@@ -3383,6 +3379,11 @@
             </summary>
         </member>
         <member name="F:Telerik.Windows.Controls.RadDataForm.ValidationModeProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadDataForm.ValidationMode"/> dependency property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadDataForm.PropertyIterationModeProperty">
             <summary>
             Identifies the <see cref="P:Telerik.Windows.Controls.RadDataForm.ValidationMode"/> dependency property.
             </summary>
@@ -3475,6 +3476,12 @@
             </summary>
             <param name="args">The <see cref="T:Telerik.Windows.Controls.ValidatingDataFieldEventArgs"/> instance containing the event data.</param>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadDataForm.OnCommittingDataField(Telerik.Windows.Controls.CommittingDataFieldEventArgs)">
+            <summary>
+            Raises the <see cref="E:CommittingDataFieldAsync"/> event.
+            </summary>
+            <param name="args">The <see cref="T:Telerik.Windows.Controls.CommittingDataFieldEventArgs"/> instance containing the event data.</param>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadDataForm.CreateEditorProvider">
             <summary>
             Creates the editor provider.
@@ -3526,6 +3533,16 @@
             property is changed.
             </summary>
         </member>
+        <member name="E:Telerik.Windows.Controls.RadDataForm.ValidatingDataFieldAsync">
+            <summary>
+            Fires when a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> is beign validated asynchronously.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.RadDataForm.CommittingDataFieldAsync">
+            <summary>
+            Fires when a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> is being committed asynchronously.
+            </summary>
+        </member>
         <member name="E:Telerik.Windows.Controls.RadDataForm.RetrievingAttribute">
             <summary>
             Fires when a CLR attribute is retrieved for a property.
@@ -3556,6 +3573,11 @@
         <member name="E:Telerik.Windows.Controls.RadDataForm.ValidatingDataField">
             <summary>
             Fires when a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> is being validated.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.RadDataForm.CommittingDataField">
+            <summary>
+            Fires when a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> is being comitted.
             </summary>
         </member>
         <member name="E:Telerik.Windows.Controls.RadDataForm.DataFieldValueChanged">
@@ -3592,6 +3614,12 @@
             Gets or sets a value from the <see cref="P:Telerik.Windows.Controls.RadDataForm.CommitMode"/>
             enum which determines when editor values are stored on the 
             corresponding business object set as a <see cref="P:Telerik.Windows.Controls.RadDataForm.CurrentItem"/>.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadDataForm.PropertyIterationMode">
+            <summary>
+            Determines how the public properties exposed by the object set to the <see cref="P:Telerik.Windows.Controls.RadDataForm.CurrentItem"/>
+            property will be iterated.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadDataForm.ApplicationBarInfo">
@@ -3651,6 +3679,63 @@
             <c>True</c> if this instance is properly templated; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="T:Telerik.Windows.Controls.FieldRelation">
+            <summary>
+            Represents a field relation. A field relation is a <see cref="T:System.Windows.Data.Binding"/>
+            between given properties of two fields.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldRelation.SourceField">
+            <summary>
+            Gets or sets the source field of the relation.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldRelation.SourceFieldProperty">
+            <summary>
+            Gets or sets the name of the property on the
+            source field editor which will be target of the binding.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldRelation.TargetField">
+            <summary>
+            Gets or sets the target field of the relation.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldRelation.TargetFieldProperty">
+            <summary>
+            Gets or sets the name of the property on the
+            target field editor which will be target of the binding.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldRelation.Converter">
+            <summary>
+            Gets or sets an implementation of the <see cref="T:System.Windows.Data.IValueConverter"/> interface
+            that is used to convert values between the two binding properties.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.FieldRelation.ConverterParameter">
+            <summary>
+            Gets or sets an object representing the parameter
+            used by the <see cref="T:System.Windows.Data.IValueConverter"/>.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.DataFormValidator">
+            <summary>
+            Represents an object used to validate the input for a given
+            <see cref="T:Telerik.Windows.Controls.RadDataForm"/> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.DataFormValidator.Validate(Telerik.Windows.Controls.ValidatingDataFieldEventArgs)">
+            <summary>
+            Called to validate a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> instance.
+            </summary>
+            <param name="args">An instance of the <see cref="T:Telerik.Windows.Controls.ValidatingDataFieldEventArgs"/> class that holds information about the validation event.</param>
+        </member>
+        <member name="E:Telerik.Windows.Controls.DataFormValidator.ValidateAsync">
+            <summary>
+            Fires when the validator is called asynchronously.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.DataForm.DataFormValidatorCombinator">
             <summary>
             Represents a group of <see cref="T:Telerik.Windows.Controls.DataFormValidator"/> instances that are used to validate
@@ -3676,6 +3761,12 @@
             </summary>
             <param name="args">An instance of the <see cref="T:Telerik.Windows.Controls.ValidatingDataFieldEventArgs"/> class that holds information about the validation event.</param>
         </member>
+        <member name="M:Telerik.Windows.Controls.DataForm.DataFormValidatorCombinator.ValidateAsync(Telerik.Windows.Controls.ValidatingDataFieldEventArgs)">
+            <summary>
+            Called to asynchronously validate a <see cref="T:Telerik.Windows.Controls.DataForm.DataFormField"/> instance.
+            </summary>
+            <param name="args">An instance of the <see cref="T:Telerik.Windows.Controls.ValidatingDataFieldEventArgs"/> class that holds information about the validation event.</param>
+        </member>
         <member name="T:Telerik.Windows.Controls.EmailValidator">
             <summary>
             Represents a <see cref="T:Telerik.Windows.Controls.RadDataForm"/> validator used to validate text input against an email pattern.
@@ -3696,6 +3787,11 @@
             <summary>
             Represents a <see cref="T:Telerik.Windows.Controls.RadDataForm"/> validator used to
             ensure that a string is non-empty.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.NonEmptyStringValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Telerik.Windows.Controls.NonEmptyStringValidator"/> class.
             </summary>
         </member>
         <member name="M:Telerik.Windows.Controls.NonEmptyStringValidator.Validate(Telerik.Windows.Controls.ValidatingDataFieldEventArgs)">
@@ -3804,6 +3900,16 @@
             <summary>
             Each value in the looping selector is generated by adding the <see cref="P:Telerik.Windows.Controls.DateTimePicker.Step"/> value
             to each previous value starting from the base value.
+            </summary>
+        </member>
+        <member name="T:Telerik.Windows.Controls.DateTimeListItem">
+            <summary>
+            This type is required because a specfic style is necessary for the datetime items.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.DateTimeListItem.#ctor">
+            <summary>
+            Initializes a new instance of the DateTimeListItem class.
             </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.DateTimeValueChangedEventHandler">
@@ -4255,6 +4361,16 @@
             This count can be either 12 or 24.
             </summary>
         </member>
+        <member name="M:Telerik.Windows.Controls.DateTimeHelper.GetMinSupportedDateTime(System.Globalization.Calendar)">
+            <summary>
+            Gets the min supported date time for the provided calendar.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.DateTimeHelper.GetMaxSupportedDateTime(System.Globalization.Calendar)">
+            <summary>
+            Gets the max supported date time for the provided calendar.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.DateTimeItem">
             <summary>
             Represents a data item within a DateTimeList.
@@ -4545,6 +4661,12 @@
             </summary>
             <param name="oldValue">The old value.</param>
             <param name="newValue">The new value.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.DateTimeList.CreateVisualItemInstance">
+            <summary>
+            Creates the core <see cref="T:Telerik.Windows.Controls.DateTimeListItem"/> instance.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Telerik.Windows.Controls.DateTimeList.UpdateSelection(System.Int32,Telerik.Windows.Controls.LoopingListSelectionChangeReason)">
             <summary>
@@ -5182,11 +5304,26 @@
             Initializes a new instance of the RadListPickerItem class.
             </summary>
         </member>
+        <member name="M:Telerik.Windows.Controls.RadListPickerItem.OnAttached">
+            <summary>
+            Occurs when the item is successfully attached to a <see cref="T:Telerik.Windows.Controls.RadSelector" /> instance.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadListPickerItem.OnDetached">
+            <summary>
+            Occurs when the item has been detached from its owning <see cref="T:Telerik.Windows.Controls.RadSelector" /> instance.
+            </summary>
+        </member>
         <member name="M:Telerik.Windows.Controls.RadListPickerItem.ComposeVisualStateName">
             <summary>
             Composes the name of the visual state.
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadListPickerItem.ListPicker">
+            <summary>
+            Returns the owner of this item. An instance of the <see cref="T:Telerik.Windows.Controls.RadListPicker"/> class.
+            </summary>
         </member>
         <member name="T:Telerik.Windows.Controls.ListPickerMode">
             <summary>
@@ -5250,6 +5387,11 @@
             A control that allows for selecting an item from a predefined set of items.
             Two modes are available - if the picker contains up to 5 items they are displayed inline.
             If items are more than five, they are displayed in a separate popup RadWindow.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadListPicker.ShouldHandleApplicationBarProperty">
+            <summary>
+            Identifies the <see cref="P:Telerik.Windows.Controls.RadListPicker.ShouldHandleApplicationBar"/> dependency property.
             </summary>
         </member>
         <member name="F:Telerik.Windows.Controls.RadListPicker.PopupStyleProperty">
@@ -5332,6 +5474,16 @@
             Identifies the CancelButtonIconUri dependency property.
             </summary>
         </member>
+        <member name="F:Telerik.Windows.Controls.RadListPicker.OkButtonTextProperty">
+            <summary>
+            Identifies the OkButtonText dependency property.
+            </summary>
+        </member>
+        <member name="F:Telerik.Windows.Controls.RadListPicker.CancelButtonTextProperty">
+            <summary>
+            Identifies the CancelButtonText dependency property.
+            </summary>
+        </member>
         <member name="F:Telerik.Windows.Controls.RadListPicker.ActionButtonVisibilityProperty">
             <summary>
             Identifies the <see cref="P:Telerik.Windows.Controls.RadListPicker.ActionButtonVisibility"/> dependency property.
@@ -5380,6 +5532,20 @@
             </summary>
             <param name="data"></param>
             <returns></returns>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadListPicker.OnPopupItemCheckedStateChanging(System.Object,System.Boolean)">
+            <summary>
+            Fires the <see cref="E:Telerik.Windows.Controls.RadListPicker.PopupItemCheckedStateChanging"/> event.
+            </summary>
+            <param name="item">The item which checked state is about to be changed.</param>
+            <param name="isChecked">True if the item will be checked, otherwise false.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.RadListPicker.OnPopupItemCheckedStateChanged(System.Object,System.Boolean)">
+            <summary>
+            Fires the <see cref="E:Telerik.Windows.Controls.RadListPicker.PopupItemCheckedStateChanged"/> event.
+            </summary>
+            <param name="item">The item which checked state has changed.</param>
+            <param name="isChecked">True if the item has been checked, otherwise false.</param>
         </member>
         <member name="M:Telerik.Windows.Controls.RadListPicker.OnItemClick(Telerik.Windows.Controls.SelectorItem)">
             <summary>
@@ -5501,9 +5667,25 @@
             Occurs when the <see cref="P:Telerik.Windows.Controls.RadListPicker.State"/> property has changed.
             </summary>
         </member>
+        <member name="E:Telerik.Windows.Controls.RadListPicker.PopupItemCheckedStateChanging">
+            <summary>
+            Fires when an item in the popup is about to be checked or unchecked.
+            </summary>
+        </member>
+        <member name="E:Telerik.Windows.Controls.RadListPicker.PopupItemCheckedStateChanged">
+            <summary>
+            Fires when an item in the popup has been checked or unchecked.
+            </summary>
+        </member>
         <member name="E:Telerik.Windows.Controls.RadListPicker.ActionButtonTap">
             <summary>
             Occurs when the ActionButton is tapped.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadListPicker.ShouldHandleApplicationBar">
+            <summary>
+            Gets or sets a value used to determine if RadWindow will insert a custom application bar when shown and
+            restore the previous app bar when closed.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadListPicker.PopupStyle">
@@ -5545,6 +5727,16 @@
         <member name="P:Telerik.Windows.Controls.RadListPicker.CancelButtonIconUri">
             <summary>
             Gets or sets the uri that points to the icon of the Cancel button in the popup of ListPicker when in mutliselect mode.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadListPicker.OkButtonText">
+            <summary>
+            Gets or sets the text of the Ok button.
+            </summary>
+        </member>
+        <member name="P:Telerik.Windows.Controls.RadListPicker.CancelButtonText">
+            <summary>
+            Gets or sets the text of the Cancel button.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadListPicker.State">
@@ -5594,7 +5786,7 @@
         </member>
         <member name="P:Telerik.Windows.Controls.RadListPicker.SelectedItems">
             <summary>
-            Gets or sets the selected items.
+            Gets the selected items.
             </summary>
         </member>
         <member name="P:Telerik.Windows.Controls.RadListPicker.SelectedVisualItem">
@@ -6480,6 +6672,16 @@
             <see cref="T:Telerik.Windows.Controls.TimeSpanPicker.NumericDataItem"/> instance.
             </summary>
         </member>
+        <member name="T:Telerik.Windows.Controls.TimeSpanListItem">
+            <summary>
+            This type is required because a specfic style is necessary for the datetime items.
+            </summary>
+        </member>
+        <member name="M:Telerik.Windows.Controls.TimeSpanListItem.#ctor">
+            <summary>
+            Initializes a new instance of the TimeSpanListItem class.
+            </summary>
+        </member>
         <member name="T:Telerik.Windows.Controls.TimeSpanPicker.TimeSpanLoopingList">
             <summary>
             Represents a <see cref="T:Telerik.Windows.Controls.RadLoopingList"/> instance that loops
@@ -6518,6 +6720,12 @@
             </summary>
             <param name="newSelectedIndex">The desired selected index.</param>
             <param name="reason">The reason of the change.</param>
+        </member>
+        <member name="M:Telerik.Windows.Controls.TimeSpanPicker.TimeSpanLoopingList.CreateVisualItemInstance">
+            <summary>
+            Creates the core Telerik.Windows.Controls.LoopingList.LoopingListItem instance.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Telerik.Windows.Controls.TimeSpanPicker.TimeSpanLoopingList.GetLogicalCount">
             <summary>
