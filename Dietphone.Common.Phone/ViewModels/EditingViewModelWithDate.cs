@@ -23,6 +23,10 @@ namespace Dietphone.ViewModels
 
         public override TViewModel Subject
         {
+            get
+            {
+                return base.Subject;
+            }
             protected set
             {
                 base.Subject = value;
