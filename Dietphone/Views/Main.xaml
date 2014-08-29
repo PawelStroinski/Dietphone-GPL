@@ -31,14 +31,14 @@
     <Grid Background="Transparent">
         <controls:Pivot Title="{Binding Translations.Dietphone, Source={StaticResource Translations}}" x:Name="Pivot" x:FieldModifier="private" SelectedIndex="{Binding Pivot, Mode=TwoWay}" SelectionChanged="Pivot_SelectionChanged">
             <controls:PivotItem Header="{Binding Path=Translations.InsulinAndSugars, Source={StaticResource Translations}}" x:Name="InsulinAndSugars" x:FieldModifier="private">
-                <views:InsulinAndSugarListing HorizontalAlignment="Left" VerticalAlignment="Top" Width="480" Height="535" Margin="-12 0 -12 0" x:Name="InsulinAndSugarListing" x:FieldModifier="private" DatesPoppedUp="InsulinAndSugarListing_DatesPoppedUp" MouseEnter="InsulinAndSugarListing_MouseEnter" />
+                <views:InsulinAndSugarListing HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="InsulinAndSugarListing" x:FieldModifier="private" DatesPoppedUp="InsulinAndSugarListing_DatesPoppedUp" MouseEnter="InsulinAndSugarListing_MouseEnter" />
             </controls:PivotItem>
             <controls:PivotItem Header="{Binding Path=Translations.Meals, Source={StaticResource Translations}}" x:Name="Meals" x:FieldModifier="private">
-                <views:MealListing HorizontalAlignment="Left" VerticalAlignment="Top" Width="480" Height="535" Margin="-12 0 -12 0" x:Name="MealListing" x:FieldModifier="private" DatesPoppedUp="MealListing_DatesPoppedUp" MouseEnter="MealListing_MouseEnter" />
+                <views:MealListing HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="MealListing" x:FieldModifier="private" DatesPoppedUp="MealListing_DatesPoppedUp" MouseEnter="MealListing_MouseEnter" />
             </controls:PivotItem>
             <controls:PivotItem Header="{Binding Path=Translations.Products, Source={StaticResource Translations}}" x:Name="Products" x:FieldModifier="private">
                 <!--Width="480" Height="535" Margin="-12 0 -12 0"     /         Width="456" Height="535"-->
-                <views:ProductListing HorizontalAlignment="Left" VerticalAlignment="Top" Width="480" Height="535" Margin="-12 0 -12 0" x:Name="ProductListing" x:FieldModifier="private" CategoriesPoppedUp="ProductListing_CategoriesPoppedUp" MouseEnter="ProductListing_MouseEnter" />
+                <views:ProductListing HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="ProductListing" x:FieldModifier="private" CategoriesPoppedUp="ProductListing_CategoriesPoppedUp" MouseEnter="ProductListing_MouseEnter" />
             </controls:PivotItem>
         </controls:Pivot>
         <Border Name="SearchBorder" x:FieldModifier="private" Height="60" Margin="{StaticResource PhoneHorizontalMargin}" VerticalAlignment="Top" Padding="0" BorderThickness="0" Background="{StaticResource PhoneBackgroundBrush}" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed">
