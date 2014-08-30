@@ -150,7 +150,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.ServingSizeValue, Mode=TwoWay}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="0 0 -3 0"/>
-                            <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="9 4 12 0" VerticalAlignment="Top" SelectedItem="{Binding Subject.ServingSizeUnit, Mode=TwoWay}" ItemsSource="{Binding AllServingSizeUnits}" Style="{StaticResource OsListPickerStyle}">
+                            <telerikInput:RadListPicker Grid.Column="1" Grid.Row="0" Margin="9 -25 12 0" VerticalAlignment="Top" SelectedItem="{Binding Subject.ServingSizeUnit, Mode=TwoWay}" ItemsSource="{Binding AllServingSizeUnits}" Style="{StaticResource OsListPickerStyle}">
                                 <telerikInput:RadListPicker.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding}" Margin="0 -2 0 2"/>
