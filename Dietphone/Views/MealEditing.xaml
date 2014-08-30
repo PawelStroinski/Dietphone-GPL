@@ -47,11 +47,11 @@
                     </commonViews:InteractionEffectContainer>
                     <!--0-->
                     <commonViews:InteractionEffectContainer Grid.Row="1" MouseLeftButtonUp="Score_Click">
-                        <TextBlock Text="{Binding Subject.Scores.Third}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Visibility="{Binding Subject.Scores.ThirdVisibility}"/>
+                        <TextBlock Text="{Binding Subject.Scores.Third}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Visibility="{Binding Subject.Scores.ThirdExists, Converter={StaticResource BooleanToVisibility}}"/>
                     </commonViews:InteractionEffectContainer>
                     <!--0-->
                     <commonViews:InteractionEffectContainer Grid.Row="1" Grid.Column="1" MouseLeftButtonUp="Score_Click">
-                        <TextBlock Text="{Binding Subject.Scores.Fourth}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" TextAlignment="Center" Visibility="{Binding Subject.Scores.ThirdVisibility}" />
+                        <TextBlock Text="{Binding Subject.Scores.Fourth}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" TextAlignment="Center" Visibility="{Binding Subject.Scores.ThirdExists, Converter={StaticResource BooleanToVisibility}}" />
                     </commonViews:InteractionEffectContainer>
                     <!--+-->
                     <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddItem_Click" Grid.Column="2" Margin="-10 -2 0 0"/>
