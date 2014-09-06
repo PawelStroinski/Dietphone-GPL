@@ -23,12 +23,14 @@ namespace Dietphone.BinarySerializers
 
         public override void WriteItem(BinaryWriter writer, Sugar sugar)
         {
+            writer.Write(sugar.Id);
             writer.Write(sugar.DateTime);
             writer.Write(sugar.BloodSugar);
         }
 
         public override void ReadItem(BinaryReader reader, Sugar sugar)
         {
+            sugar.Id = reader.ReadGuid();
             sugar.DateTime = reader.ReadDateTime();
             sugar.BloodSugar = reader.ReadSingle();
         }
