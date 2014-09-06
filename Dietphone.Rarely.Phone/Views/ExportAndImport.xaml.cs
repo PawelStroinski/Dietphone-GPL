@@ -68,7 +68,15 @@ namespace Dietphone.Views
             });
         }
 
-        private void Export_Click(object sender, RoutedEventArgs e)
+        private void ExportToOneDrive_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void ImportFromOneDrive_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void ExportByEmail_Click(object sender, RoutedEventArgs e)
         {
             exportMode = true;
             Info.Text = Translations.SendToAnEMailAddress;
@@ -77,7 +85,7 @@ namespace Dietphone.Views
             Window.IsOpen = true;
         }
 
-        private void Import_Click(object sender, RoutedEventArgs e)
+        private void ImportFromAddress_Click(object sender, RoutedEventArgs e)
         {
             exportMode = false;
             Info.Text = Translations.DownloadFileFromAddress;
@@ -139,10 +147,14 @@ namespace Dietphone.Views
 
         private void TranslateButtons()
         {
-            Export.Line1 = Translations.Export;
-            Export.Line2 = Translations.AllowsSendingDataAttachedToAnEMail;
-            Import.Line1 = Translations.Import;
-            Import.Line2 = Translations.AllowsToRetrieveDataFromAFileInXmlFormat;
+            ExportToOneDrive.Line1 = Translations.ExportToOneDrive;
+            ExportToOneDrive.Line2 = Translations.AutomaticallySavesDataToOneDriveOnceAWeek;
+            ImportFromOneDrive.Line1 = Translations.ImportFromOneDrive;
+            ImportFromOneDrive.Line2 = Translations.RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive;
+            ExportByEmail.Line1 = Translations.ExportByEmail;
+            ExportByEmail.Line2 = Translations.AllowsSendingDataAttachedToAnEMail;
+            ImportFromAddress.Line1 = Translations.ImportFromAddress;
+            ImportFromAddress.Line2 = Translations.AllowsToRetrieveDataFromAFileInXmlFormat;
         }
     }
 }

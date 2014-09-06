@@ -34,11 +34,17 @@
 
         <StackPanel Grid.Row="1">
             <StackPanel Margin="12,14,12,0">
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="Export_Click">
-                    <views:MultiLineItem x:Name="Export"/>
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToOneDrive_Click">
+                    <views:MultiLineItem x:Name="ExportToOneDrive"/>
                 </Button>
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="Import_Click">
-                    <views:MultiLineItem x:Name="Import"/>
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromOneDrive_Click">
+                    <views:MultiLineItem x:Name="ImportFromOneDrive"/>
+                </Button>
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportByEmail_Click">
+                    <views:MultiLineItem x:Name="ExportByEmail"/>
+                </Button>
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromAddress_Click">
+                    <views:MultiLineItem x:Name="ImportFromAddress"/>
                 </Button>
                 <TextBlock
                            Text=" " />

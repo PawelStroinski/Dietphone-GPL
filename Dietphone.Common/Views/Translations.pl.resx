@@ -225,14 +225,14 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="ExportAndImport" xml:space="preserve">
     <value>eksport import</value>
   </data>
-  <data name="Export" xml:space="preserve">
-    <value>eksportuj</value>
+  <data name="ExportByEmail" xml:space="preserve">
+    <value>eksportuj poprzez e-mail</value>
   </data>
   <data name="AllowsSendingDataAttachedToAnEMail" xml:space="preserve">
     <value>Umożliwia wysłanie danych w załączniku e-maila. Dane będą w formacie XML.</value>
   </data>
-  <data name="Import" xml:space="preserve">
-    <value>importuj</value>
+  <data name="ImportFromAddress" xml:space="preserve">
+    <value>importuj z adresu</value>
   </data>
   <data name="ExportCompletedSuccessfully" xml:space="preserve">
     <value>Eksport zakończony sukcesem.</value>
@@ -598,5 +598,17 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   </data>
   <data name="RecentlyUsed" xml:space="preserve">
     <value>10 ostatnio używanych</value>
+  </data>
+  <data name="AutomaticallySavesDataToOneDriveOnceAWeek" xml:space="preserve">
+    <value>Automatycznie raz w tygodniu zapisuje dane na OneDrive. Dane zostaną zapisanie w folderze Aplikacje w formacie XML.</value>
+  </data>
+  <data name="ExportToOneDrive" xml:space="preserve">
+    <value>eksportuj na OneDrive</value>
+  </data>
+  <data name="ImportFromOneDrive" xml:space="preserve">
+    <value>importuj z OneDrive</value>
+  </data>
+  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
+    <value>Pobiera i dodaje do aplikacji dane poprzednio zapisane na OneDrive.</value>
   </data>
 </root>

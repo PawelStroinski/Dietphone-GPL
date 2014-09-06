@@ -225,14 +225,14 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="ExportAndImport" xml:space="preserve">
     <value>export&amp;import</value>
   </data>
-  <data name="Export" xml:space="preserve">
-    <value>export</value>
+  <data name="ExportByEmail" xml:space="preserve">
+    <value>export by e-mail</value>
   </data>
   <data name="AllowsSendingDataAttachedToAnEMail" xml:space="preserve">
     <value>Allows sending data attached to an e-mail. The data will be in XML format.</value>
   </data>
-  <data name="Import" xml:space="preserve">
-    <value>import</value>
+  <data name="ImportFromAddress" xml:space="preserve">
+    <value>import from address</value>
   </data>
   <data name="ExportCompletedSuccessfully" xml:space="preserve">
     <value>Export completed successfully.</value>
@@ -604,5 +604,17 @@ So one number gives information on both fat and protein in meal.</value>
   </data>
   <data name="RecentlyUsed" xml:space="preserve">
     <value>10 recently used</value>
+  </data>
+  <data name="AutomaticallySavesDataToOneDriveOnceAWeek" xml:space="preserve">
+    <value>Automatically saves data to OneDrive once a week. The data will be saved in Applications folder in XML format.</value>
+  </data>
+  <data name="ExportToOneDrive" xml:space="preserve">
+    <value>export to OneDrive</value>
+  </data>
+  <data name="ImportFromOneDrive" xml:space="preserve">
+    <value>import from OneDrive</value>
+  </data>
+  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
+    <value>Retrieves and adds to application data previously saved to OneDrive.</value>
   </data>
 </root>
