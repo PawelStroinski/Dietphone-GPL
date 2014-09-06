@@ -197,6 +197,7 @@ namespace Dietphone.Models
         public Sugar CreateSugar()
         {
             var sugar = SugarFactory.CreateEntity();
+            sugar.Id = Guid.NewGuid();
             sugar.DateTime = DateTime.UtcNow;
             return sugar;
         }

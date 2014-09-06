@@ -184,6 +184,7 @@ namespace Dietphone.Models.Tests
         {
             var sugar = factories.CreateSugar();
             Assert.IsInstanceOf<Sugar>(sugar);
+            Assert.AreNotEqual(Guid.Empty, sugar.Id);
             Assert.AreNotEqual(default(DateTime), sugar.DateTime);
             Assert.AreEqual(DateTimeKind.Utc, sugar.DateTime.Kind);
         }

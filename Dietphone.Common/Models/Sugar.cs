@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace Dietphone.Models
 {
-    public class Sugar : Entity
+    public class Sugar : EntityWithId
     {
         private const int UNIT_CONVERSION = 18;
         public DateTime DateTime { get; set; }
