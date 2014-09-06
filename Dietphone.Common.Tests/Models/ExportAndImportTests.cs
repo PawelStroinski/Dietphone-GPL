@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Dietphone.Models;
 using NSubstitute;
@@ -19,6 +20,8 @@ namespace Dietphone.Common.Tests.Models
             SetupMealNames();
             SetupProducts();
             SetupCategories();
+            SetupSugars();
+            SetupInsulins();
             factories.Settings.Returns(new Settings());
         }
 
@@ -63,6 +66,33 @@ namespace Dietphone.Common.Tests.Models
             factories.CreateCategory().Returns(_ => { factories.Categories.Add(category); return category; });
         }
 
+        private void SetupSugars()
+        {
+            var sugar = new Sugar();
+            sugar.SetOwner(factories);
+            sugar.Id = Guid.NewGuid();
+            factories.Sugars.Returns(new List<Sugar> { sugar });
+            factories.CreateSugar().Returns(_ => { factories.Sugars.Add(sugar); return sugar; });
+        }
+
+        private void SetupInsulins()
+        {
+            var insulin = new Insulin();
+            insulin.SetOwner(factories);
+            insulin.Id = Guid.NewGuid();
+            insulin.InitializeCircumstances(new List<Guid>());
+            factories.Insulins.Returns(new List<Insulin> { insulin });
+            factories.CreateInsulin().Returns(_ => { factories.Insulins.Add(insulin); return insulin; });
+            var insulinCircumstance = new InsulinCircumstance();
+            insulinCircumstance.SetOwner(factories);
+            insulinCircumstance.Id = Guid.NewGuid();
+            insulin.AddCircumstance(insulinCircumstance);
+            factories.InsulinCircumstances.Returns(new List<InsulinCircumstance> { insulinCircumstance });
+            factories.CreateInsulinCircumstance()
+                .Returns(_ => { factories.InsulinCircumstances.Add(insulinCircumstance); return insulinCircumstance; });
+
+        }
+
         [Test]
         public void ExportsAndImportsMealsAndMealNamesAndProductsAndCategories()
         {
@@ -91,6 +121,32 @@ namespace Dietphone.Common.Tests.Models
             Assert.AreEqual(1, factories.MealNames.Count);
             Assert.AreEqual(1, factories.Products.Count);
             Assert.AreEqual(1, factories.Categories.Count);
+        }
+
+        [Test]
+        public void ExportsAndImportsSugarsAndInsulinsAndInsulinCircumstances()
+        {
+            var sugar = factories.Sugars[0];
+            var insulin = factories.Insulins[0];
+            var insulinCircumstance = factories.InsulinCircumstances[0];
+            var sut = new ExportAndImport(factories);
+            var data = sut.Export();
+            factories.Sugars.Clear();
+            factories.Insulins.Clear();
+            factories.InsulinCircumstances.Clear();
+            var empty = new Insulin();
+            empty.InitializeCircumstances(new List<Guid>());
+            insulin.CopyCircumstancesFrom(empty);
+            Assert.IsEmpty(insulin.Circumstances);
+            sut.Import(data);
+            Assert.AreEqual(sugar.Id, factories.Sugars[0].Id);
+            Assert.AreEqual(insulin.Id, factories.Insulins[0].Id);
+            Assert.AreSame(factories.InsulinCircumstances[0], factories.Insulins[0].Circumstances.Single());
+            Assert.AreEqual(insulinCircumstance.Id, factories.InsulinCircumstances[0].Id);
+            sut.Import(data);
+            Assert.AreEqual(1, factories.Sugars.Count);
+            Assert.AreEqual(1, factories.Insulins.Count);
+            Assert.AreEqual(1, factories.InsulinCircumstances.Count);
         }
 
         [Test]

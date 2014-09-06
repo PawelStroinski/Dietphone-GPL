@@ -27,6 +27,9 @@ namespace Dietphone.Models
                 MealNames = factories.MealNames,
                 Products = finder.FindProductsAddedByUser(),
                 Categories = factories.Categories,
+                Sugars = factories.Sugars,
+                Insulins = ExportInsulins(),
+                InsulinCircumstances = factories.InsulinCircumstances,
                 Settings = factories.Settings
             };
             return dto.Serialize(NAMESPACE);
@@ -39,6 +42,9 @@ namespace Dietphone.Models
             ImportMealNames();
             ImportProducts();
             ImportCategories();
+            ImportSugars();
+            ImportInsulins();
+            ImportInsulinCircumstances();
             ImportSettings();
         }
 
@@ -50,6 +56,19 @@ namespace Dietphone.Models
                 var target = new MealDTO();
                 target.CopyFrom(source);
                 target.DTOCopyItemsFrom(source);
+                targets.Add(target);
+            }
+            return targets;
+        }
+
+        private List<InsulinDTO> ExportInsulins()
+        {
+            var targets = new List<InsulinDTO>();
+            foreach (var source in factories.Insulins)
+            {
+                var target = new InsulinDTO();
+                target.CopyFrom(source);
+                target.CopyCircumstancesFrom(source);
                 targets.Add(target);
             }
             return targets;
@@ -102,6 +121,42 @@ namespace Dietphone.Models
             importer.Execute();
         }
 
+        private void ImportSugars()
+        {
+            var importer = new GenericImporter<Sugar>
+            {
+                Sources = dto.Sugars,
+                Targets = factories.Sugars
+            };
+            importer.Create += factories.CreateSugar;
+            importer.Execute();
+        }
+
+        private void ImportInsulins()
+        {
+            foreach (var source in dto.Insulins)
+            {
+                var target = finder.FindInsulinById(source.Id);
+                if (target == null)
+                {
+                    target = factories.CreateInsulin();
+                }
+                target.CopyFrom(source);
+                target.CopyCircumstancesFrom(source);
+            }
+        }
+
+        private void ImportInsulinCircumstances()
+        {
+            var importer = new GenericImporter<InsulinCircumstance>
+            {
+                Sources = dto.InsulinCircumstances,
+                Targets = factories.InsulinCircumstances
+            };
+            importer.Create += factories.CreateInsulinCircumstance;
+            importer.Execute();
+        }
+
         private void ImportSettings()
         {
             var source = dto.Settings;
@@ -116,6 +171,9 @@ namespace Dietphone.Models
             public List<MealName> MealNames { get; set; }
             public List<Product> Products { get; set; }
             public List<Category> Categories { get; set; }
+            public List<Sugar> Sugars { get; set; }
+            public List<InsulinDTO> Insulins { get; set; }
+            public List<InsulinCircumstance> InsulinCircumstances { get; set; }
             public Settings Settings { get; set; }
         }
 
