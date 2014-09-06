@@ -34,6 +34,12 @@
 
         <StackPanel Grid.Row="1">
             <StackPanel Margin="12,14,12,0">
+                <TextBlock TextWrapping="Wrap" 
+                           Visibility="{Binding IsBusyAsVisibility}"
+                           Style="{StaticResource PhoneTextTitle2Style}"
+                           Text="{Binding Translations.PleaseWait, Source={StaticResource Translations}}"/>
+                <TextBlock Visibility="{Binding IsBusyAsVisibility}"
+                           Text=" " />
                 <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToOneDrive_Click">
                     <views:MultiLineItem x:Name="ExportToOneDrive"/>
                 </Button>
@@ -46,13 +52,6 @@
                 <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromAddress_Click">
                     <views:MultiLineItem x:Name="ImportFromAddress"/>
                 </Button>
-                <TextBlock
-                           Text=" " />
-                <TextBlock TextWrapping="Wrap" 
-                           Visibility="{Binding IsBusyAsVisibility}"
-                           Style="{StaticResource PhoneTextTitle2Style}"
-                           Text="{Binding Translations.PleaseWait, Source={StaticResource Translations}}"/>
-
             </StackPanel>
         </StackPanel>
         <toolkit:PerformanceProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}"/>
