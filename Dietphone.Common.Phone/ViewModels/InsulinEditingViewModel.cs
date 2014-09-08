@@ -573,7 +573,7 @@ namespace Dietphone.ViewModels
                 this.sugar = sugar;
             }
 
-            public DateTime DateTime { get { return sugar.DateTime; } }
+            public DateTime DateTime { get { return sugar.DateTime.ToLocalTime(); } }
             public float BloodSugar { get { return sugar.BloodSugar; } }
 
             public void AddModelTo(List<Sugar> target)

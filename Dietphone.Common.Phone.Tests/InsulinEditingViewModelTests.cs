@@ -885,7 +885,7 @@ namespace Dietphone.Common.Phone.Tests
                 {
                     sut.CurrentSugar.BloodSugar = "100";
                     Assert.AreEqual(3, sut.SugarChart.Count);
-                    Assert.AreEqual(meal.DateTime, sut.SugarChart[0].DateTime);
+                    Assert.AreEqual(meal.DateTime, sut.SugarChart[0].DateTime.ToUniversalTime());
                     Assert.AreEqual(100, sut.SugarChart[0].BloodSugar);
                     Assert.AreEqual(estimatedSugars[0].DateTime, sut.SugarChart[1].DateTime);
                     Assert.AreEqual(estimatedSugars[0].BloodSugar, sut.SugarChart[1].BloodSugar);
@@ -1014,6 +1014,17 @@ namespace Dietphone.Common.Phone.Tests
                 CreateSut();
                 InitializeViewModel();
                 Assert.IsFalse(sut.IsCalculated);
+            }
+        }
+
+        public class SugarChartItemViewModelTests
+        {
+            [Test]
+            public void ConvertsTimeToLocal()
+            {
+                var sugar = new Sugar { DateTime = DateTime.UtcNow };
+                var sut = new InsulinEditingViewModel.SugarChartItemViewModel(sugar);
+                Assert.AreEqual(sugar.DateTime.ToLocalTime(), sut.DateTime);
             }
         }
     }
