@@ -37,7 +37,8 @@
                 <TextBlock TextWrapping="Wrap" 
                            Visibility="{Binding IsBusyAsVisibility}"
                            Style="{StaticResource PhoneTextTitle2Style}"
-                           Text="{Binding Translations.PleaseWait, Source={StaticResource Translations}}"/>
+                           Text="{Binding Translations.PleaseWait, Source={StaticResource Translations}}"
+                           Foreground="{StaticResource PhoneAccentBrush}"/>
                 <TextBlock Visibility="{Binding IsBusyAsVisibility}"
                            Text=" " />
                 <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToOneDrive_Click">
