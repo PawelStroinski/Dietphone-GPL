@@ -183,7 +183,7 @@ namespace Dietphone.Views
             HideSearch();
         }
 
-        private void Journal_DatesPoppedUp(object sender, EventArgs e)
+        private void JournalListing_DatesPoppedUp(object sender, EventArgs e)
         {
             HideSearch();
         }

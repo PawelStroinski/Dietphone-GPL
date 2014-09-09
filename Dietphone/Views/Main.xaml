@@ -31,7 +31,7 @@
     <Grid Background="Transparent">
         <controls:Pivot Title="{Binding Translations.Dietphone, Source={StaticResource Translations}}" x:Name="Pivot" x:FieldModifier="private" SelectedIndex="{Binding Pivot, Mode=TwoWay}" SelectionChanged="Pivot_SelectionChanged">
             <controls:PivotItem Header="{Binding Path=Translations.Journal, Source={StaticResource Translations}}" x:Name="Journal" x:FieldModifier="private">
-                <views:Journal HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="JournalListing" x:FieldModifier="private" DatesPoppedUp="Journal_DatesPoppedUp" MouseEnter="JournalListing_MouseEnter" />
+                <views:Journal HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="JournalListing" x:FieldModifier="private" DatesPoppedUp="JournalListing_DatesPoppedUp" MouseEnter="JournalListing_MouseEnter" />
             </controls:PivotItem>
             <controls:PivotItem Header="{Binding Path=Translations.Meals, Source={StaticResource Translations}}" x:Name="Meals" x:FieldModifier="private">
                 <views:MealListing HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="MealListing" x:FieldModifier="private" DatesPoppedUp="MealListing_DatesPoppedUp" MouseEnter="MealListing_MouseEnter" />

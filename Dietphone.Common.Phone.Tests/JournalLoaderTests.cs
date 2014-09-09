@@ -29,8 +29,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void LoadsCircumstancesAndReturnsSorted()
         {
-            var sut = new JournalViewModel.JournalLoader(factories, true,
-                new BackgroundWorkerSyncFactory());
+            var sut = new JournalViewModel.JournalLoader(factories, true, new BackgroundWorkerSyncFactory());
             var expected = factories.InsulinCircumstances
                 .OrderBy(circumstance => circumstance.Name);
             var actual = sut.Circumstances;
@@ -41,8 +40,7 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void LoadsCircumstancesAndReturnsUnsorted()
         {
-            var sut = new JournalViewModel.JournalLoader(factories, false,
-                new BackgroundWorkerSyncFactory());
+            var sut = new JournalViewModel.JournalLoader(factories, false, new BackgroundWorkerSyncFactory());
             var expected = factories.InsulinCircumstances;
             var actual = sut.Circumstances;
             Assert.AreEqual(expected.Select(circumstance => circumstance.Id).ToList(),
@@ -82,8 +80,7 @@ namespace Dietphone.Common.Phone.Tests
             factories.Insulins.Returns(fixture.CreateMany<Insulin>(1).ToList());
             var sut = new JournalViewModel.JournalLoader(viewModel);
             sut.LoadAsync();
-            Assert.AreEqual(sut.Circumstances, viewModel.Items.Cast<InsulinViewModel>()
-                .First().AllCircumstances());
+            Assert.AreEqual(sut.Circumstances, viewModel.Items.Cast<InsulinViewModel>().First().AllCircumstances());
         }
 
         [Test]
@@ -107,12 +104,10 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual(yesterday, viewModel.Items[1].Date.Date);
             Assert.IsFalse(viewModel.Dates[viewModel.Dates.Count - 2].IsGroupOfOlder);
             Assert.IsTrue(viewModel.Dates[viewModel.Dates.Count - 1].IsGroupOfOlder);
-            Assert.IsTrue(viewModel.Items.IndexOf(
-                viewModel.Items.First(vm => vm.DateTime == factories.Insulins[48].DateTime)) >
-                viewModel.Items.IndexOf(
-                    viewModel.Items.First(vm => vm.DateTime == factories.Insulins[49].DateTime)));
-            Assert.IsInstanceOf<SugarViewModel>(viewModel.Items
-                .ElementAt(viewModel.Items.Count - 2));
+            Assert.IsTrue(
+                viewModel.Items.IndexOf(viewModel.Items.First(vm => vm.DateTime == factories.Insulins[48].DateTime)) >
+                viewModel.Items.IndexOf(viewModel.Items.First(vm => vm.DateTime == factories.Insulins[49].DateTime)));
+            Assert.IsInstanceOf<SugarViewModel>(viewModel.Items.ElementAt(viewModel.Items.Count - 2));
         }
     }
 }

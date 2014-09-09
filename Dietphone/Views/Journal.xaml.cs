@@ -25,8 +25,8 @@ namespace Dietphone.Views
         public Journal()
         {
             InitializeComponent();
-            ViewModel = new TelerikJournalViewModel(MyApp.Factories,
-                new BackgroundWorkerWrapperFactory(), SugarEditing.ViewModel);
+            ViewModel = new TelerikJournalViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory(),
+                SugarEditing.ViewModel);
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.FilterDescriptors = List.FilterDescriptors;
