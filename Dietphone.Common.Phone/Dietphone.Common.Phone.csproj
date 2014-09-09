@@ -60,7 +60,7 @@
     <Compile Include="ViewModels\EditingViewModelWithDate.cs" />
     <Compile Include="ViewModels\InsulinCircumstanceViewModel.cs" />
     <Compile Include="ViewModels\InsulinEditingViewModel.cs" />
-    <Compile Include="ViewModels\InsulinAndSugarListingViewModel.cs" />
+    <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="ViewModels\InsulinViewModel.cs" />
     <Compile Include="ViewModels\LoaderBase.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

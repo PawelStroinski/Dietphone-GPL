@@ -155,8 +155,8 @@
     <Compile Include="Views\SugarEditing.xaml.cs">
       <DependentUpon>SugarEditing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\InsulinAndSugarListing.xaml.cs">
-      <DependentUpon>InsulinAndSugarListing.xaml</DependentUpon>
+    <Compile Include="Views\Journal.xaml.cs">
+      <DependentUpon>Journal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
@@ -188,7 +188,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\InsulinAndSugarListing.xaml">
+    <Page Include="Views\Journal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

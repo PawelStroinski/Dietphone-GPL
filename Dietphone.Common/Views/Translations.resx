@@ -587,7 +587,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="SquareWaveBolusText" xml:space="preserve">
     <value>{0} U for {1} h</value>
   </data>
-  <data name="InsulinAndSugars" xml:space="preserve">
+  <data name="Journal" xml:space="preserve">
     <value>journal</value>
   </data>
   <data name="BloodSugarMgdL" xml:space="preserve">

@@ -7,10 +7,10 @@ using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinAndSugarListingViewModel : SearchSubViewModel
+    public class JournalViewModel : SearchSubViewModel
     {
         public StateProvider StateProvider { protected get; set; }
-        public ObservableCollection<ViewModelWithDateAndText> InsulinsAndSugars { get; protected set; }
+        public ObservableCollection<ViewModelWithDateAndText> Items { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
         private Sugar editedSugar;
         private SugarViewModel editedSugarViewModel;
@@ -20,7 +20,7 @@ namespace Dietphone.ViewModels
         private const string SUGAR_EDITING = "SUGAR_EDITING";
         private const string EDITED_SUGAR_DATE = "EDITED_SUGAR_DATE";
 
-        public InsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
+        public JournalViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
             SugarEditingViewModel sugarEditing)
         {
             this.factories = factories;
@@ -31,9 +31,9 @@ namespace Dietphone.ViewModels
 
         public override void Load()
         {
-            if (Dates == null && InsulinsAndSugars == null)
+            if (Dates == null && Items == null)
             {
-                var loader = new CircumstancesAndInsulinsAndSugarsLoader(this);
+                var loader = new JournalLoader(this);
                 loader.Loaded += delegate { OnLoaded(); };
                 loader.LoadAsync();
             }
@@ -41,9 +41,9 @@ namespace Dietphone.ViewModels
 
         public override void Refresh()
         {
-            if (Dates != null && InsulinsAndSugars != null)
+            if (Dates != null && Items != null)
             {
-                var loader = new CircumstancesAndInsulinsAndSugarsLoader(this);
+                var loader = new JournalLoader(this);
                 loader.Loaded += delegate { OnRefreshed(); };
                 loader.LoadAsync();
             }
@@ -72,7 +72,7 @@ namespace Dietphone.ViewModels
 
         public ViewModelWithDateAndText FindInsulinOrSugar(DateTime value)
         {
-            return InsulinsAndSugars.FirstOrDefault(vm => vm.DateTime == value);
+            return Items.FirstOrDefault(vm => vm.DateTime == value);
         }
 
         public DateViewModel FindDate(DateTime value)
@@ -127,7 +127,7 @@ namespace Dietphone.ViewModels
             if (sugarEditing)
             {
                 var editedSugarDate = (DateTime)state[EDITED_SUGAR_DATE];
-                var sugar = InsulinsAndSugars.FirstOrDefault(vm => vm.DateTime == editedSugarDate
+                var sugar = Items.FirstOrDefault(vm => vm.DateTime == editedSugarDate
                     && vm is SugarViewModel);
                 if (sugar != null)
                     Choose(sugar);
@@ -138,7 +138,7 @@ namespace Dietphone.ViewModels
         {
             public override void Execute(SubViewModel subViewModel)
             {
-                var viewModel = subViewModel as InsulinAndSugarListingViewModel;
+                var viewModel = subViewModel as JournalViewModel;
                 viewModel.Navigator.GoToNewInsulin();
             }
         }
@@ -147,7 +147,7 @@ namespace Dietphone.ViewModels
         {
             public override void Execute(SubViewModel subViewModel)
             {
-                var viewModel = subViewModel as InsulinAndSugarListingViewModel;
+                var viewModel = subViewModel as JournalViewModel;
                 var sugar = viewModel.factories.CreateSugar();
                 var sugarViewModel = new SugarViewModel(sugar, viewModel.factories);
                 viewModel.Choose(sugarViewModel);
@@ -155,22 +155,22 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public class CircumstancesAndInsulinsAndSugarsLoader : LoaderBaseWithDates
+        public class JournalLoader : LoaderBaseWithDates
         {
             private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
             private List<InsulinViewModel> unsortedInsulins;
             private List<SugarViewModel> unsortedSugars;
-            private ObservableCollection<ViewModelWithDateAndText> sortedInsulinsAndSugars;
+            private ObservableCollection<ViewModelWithDateAndText> sortedItems;
             private readonly bool sortCircumstances;
 
-            public CircumstancesAndInsulinsAndSugarsLoader(InsulinAndSugarListingViewModel viewModel)
+            public JournalLoader(JournalViewModel viewModel)
                 : base(viewModel.workerFactory)
             {
                 this.viewModel = viewModel;
                 factories = viewModel.factories;
             }
 
-            public CircumstancesAndInsulinsAndSugarsLoader(Factories factories, bool sortCircumstances,
+            public JournalLoader(Factories factories, bool sortCircumstances,
                 BackgroundWorkerFactory workerFactory)
                 : base(workerFactory)
             {
@@ -253,16 +253,16 @@ namespace Dietphone.ViewModels
 
             private void MakeDatesAndSortInsulins()
             {
-                var unsortedInsulinsAndSugars = new List<ViewModelWithDateAndText>();
-                unsortedInsulinsAndSugars.AddRange(unsortedInsulins.Cast<ViewModelWithDateAndText>());
-                unsortedInsulinsAndSugars.AddRange(unsortedSugars.Cast<ViewModelWithDateAndText>());
-                sortedInsulinsAndSugars = MakeDatesAndSortItems(unsortedInsulinsAndSugars, ThenBy);
+                var unsortedItems = new List<ViewModelWithDateAndText>();
+                unsortedItems.AddRange(unsortedInsulins.Cast<ViewModelWithDateAndText>());
+                unsortedItems.AddRange(unsortedSugars.Cast<ViewModelWithDateAndText>());
+                sortedItems = MakeDatesAndSortItems(unsortedItems, ThenBy);
             }
 
             private void AssignSortedInsulins()
             {
-                GetViewModel().InsulinsAndSugars = sortedInsulinsAndSugars;
-                GetViewModel().OnPropertyChanged("InsulinsAndSugars");
+                GetViewModel().Items = sortedItems;
+                GetViewModel().OnPropertyChanged("Items");
             }
 
             private void AssignDates()
@@ -276,9 +276,9 @@ namespace Dietphone.ViewModels
                 return item is SugarViewModel ? 1 : 2;
             }
 
-            private InsulinAndSugarListingViewModel GetViewModel()
+            private JournalViewModel GetViewModel()
             {
-                return viewModel as InsulinAndSugarListingViewModel;
+                return viewModel as JournalViewModel;
             }
         }
     }

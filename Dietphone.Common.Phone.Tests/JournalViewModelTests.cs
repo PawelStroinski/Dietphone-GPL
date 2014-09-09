@@ -15,10 +15,10 @@ using Moq;
 
 namespace Dietphone.Common.Phone.Tests
 {
-    public class InsulinAndSugarListingViewModelTests
+    public class JournalViewModelTests
     {
         private Factories factories;
-        private InsulinAndSugarListingViewModel sut;
+        private JournalViewModel sut;
         private SugarEditingViewModel sugarEditing;
         private StateProvider stateProvider;
         private Navigator navigator;
@@ -32,7 +32,7 @@ namespace Dietphone.Common.Phone.Tests
             factories.Sugars.Returns(new List<Sugar>());
             factories.Settings.Returns(new Settings());
             sugarEditing = Substitute.For<SugarEditingViewModel>();
-            sut = new InsulinAndSugarListingViewModel(factories, new BackgroundWorkerSyncFactory(), sugarEditing);
+            sut = new JournalViewModel(factories, new BackgroundWorkerSyncFactory(), sugarEditing);
             stateProvider = Substitute.For<StateProvider>();
             stateProvider.State.Returns(new Dictionary<string, object>());
             sut.StateProvider = stateProvider;
@@ -142,13 +142,13 @@ namespace Dietphone.Common.Phone.Tests
             var sugar = new Sugar { BloodSugar = 100 };
             factories.Sugars.Add(sugar);
             sut.Load();
-            var insulinsAndSugars = sut.InsulinsAndSugars.ToList();
+            var items = sut.Items.ToList();
             var viewModel = new SugarViewModel(sugar, factories);
             sut.Choose(viewModel);
             sugarEditing.Subject.BloodSugar = "110";
             sugarEditing.Confirm();
             Assert.AreEqual(110, sugar.BloodSugar);
-            Assert.AreNotEqual(insulinsAndSugars, sut.InsulinsAndSugars, "Should refresh");
+            Assert.AreNotEqual(items, sut.Items, "Should refresh");
         }
 
         [Test]
@@ -162,13 +162,13 @@ namespace Dietphone.Common.Phone.Tests
             Assert.IsTrue(sugarEditing.CanDelete);
             sugarEditing.Delete();
             Assert.IsEmpty(factories.Sugars);
-            Assert.IsEmpty(sut.InsulinsAndSugars);
+            Assert.IsEmpty(sut.Items);
         }
 
         [Test]
         public void AddInsulin()
         {
-            var command = new InsulinAndSugarListingViewModel.AddInsulinCommand();
+            var command = new JournalViewModel.AddInsulinCommand();
             sut.Add(command);
             navigator.Received().GoToNewInsulin();
             factories.DidNotReceive().CreateSugar();
@@ -180,10 +180,10 @@ namespace Dietphone.Common.Phone.Tests
             var sugar = new Sugar { BloodSugar = 110 };
             factories.CreateSugar().Returns(sugar).AndDoes(_ => factories.Sugars.Add(sugar));
             sut.Load();
-            var command = new InsulinAndSugarListingViewModel.AddSugarCommand();
+            var command = new JournalViewModel.AddSugarCommand();
             sut.Add(command);
             sugarEditing.Received().Show(Arg.Is<SugarViewModel>(vm => "110" == vm.BloodSugar));
-            Assert.AreEqual(1, sut.InsulinsAndSugars.Count);
+            Assert.AreEqual(1, sut.Items.Count);
             navigator.DidNotReceive().GoToNewInsulin();
         }
 
@@ -232,7 +232,7 @@ namespace Dietphone.Common.Phone.Tests
             Assert.IsTrue(updated);
         }
 
-        class SutAccessor : InsulinAndSugarListingViewModel
+        class SutAccessor : JournalViewModel
         {
             public event EventHandler UpdateFilterDescriptorsEvent;
 

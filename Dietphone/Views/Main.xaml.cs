@@ -41,10 +41,10 @@ namespace Dietphone.Views
             subConnector.Refreshed += delegate { RestoreSearchUi(); };
             TranslateApplicationBar();
             GetApplicationBarIcons();
-            ShowInsulinAndSugarIcons();
+            ShowJournalIcons();
             MealListing.StateProvider = this;
             ProductListing.StateProvider = this;
-            InsulinAndSugarListing.StateProvider = this;
+            JournalListing.StateProvider = this;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -77,7 +77,7 @@ namespace Dietphone.Views
                 ViewModel.Tombstone();
                 MealListing.Tombstone();
                 ProductListing.Tombstone();
-                InsulinAndSugarListing.Tombstone();
+                JournalListing.Tombstone();
                 TombstoneSearchBeforeExit();
             }
         }
@@ -87,19 +87,19 @@ namespace Dietphone.Views
             if (Pivot.SelectedItem == Meals)
             {
                 subConnector.SubViewModel = MealListing.ViewModel;
-                HideInsulinAndSugarIcons();
+                HideJournalIcons();
             }
             else
                 if (Pivot.SelectedItem == Products)
                 {
                     subConnector.SubViewModel = ProductListing.ViewModel;
-                    HideInsulinAndSugarIcons();
+                    HideJournalIcons();
                 }
                 else
-                    if (Pivot.SelectedItem == InsulinAndSugars)
+                    if (Pivot.SelectedItem == Journal)
                     {
-                        subConnector.SubViewModel = InsulinAndSugarListing.ViewModel;
-                        ShowInsulinAndSugarIcons();
+                        subConnector.SubViewModel = JournalListing.ViewModel;
+                        ShowJournalIcons();
                     }
         }
 
@@ -116,16 +116,16 @@ namespace Dietphone.Views
         {
             AddCommand command = new DefaultAddCommand();
             if (sender == insulinIcon)
-                command = new InsulinAndSugarListingViewModel.AddInsulinCommand();
+                command = new JournalViewModel.AddInsulinCommand();
             if (sender == sugarIcon)
-                command = new InsulinAndSugarListingViewModel.AddSugarCommand();
+                command = new JournalViewModel.AddSugarCommand();
             subConnector.Add(command);
         }
 
         private void ViewModel_ShowProductsOnly(object sender, EventArgs e)
         {
             Pivot.Items.Remove(Meals);
-            Pivot.Items.Remove(InsulinAndSugars);
+            Pivot.Items.Remove(Journal);
         }
 
         private void About_Click(object sender, EventArgs e)
@@ -183,7 +183,7 @@ namespace Dietphone.Views
             HideSearch();
         }
 
-        private void InsulinAndSugarListing_DatesPoppedUp(object sender, EventArgs e)
+        private void Journal_DatesPoppedUp(object sender, EventArgs e)
         {
             HideSearch();
         }
@@ -198,7 +198,7 @@ namespace Dietphone.Views
             HideSearchSip();
         }
 
-        private void InsulinAndSugarListing_MouseEnter(object sender, MouseEventArgs e)
+        private void JournalListing_MouseEnter(object sender, MouseEventArgs e)
         {
             HideSearchSip();
         }
@@ -350,7 +350,7 @@ namespace Dietphone.Views
             insulinIcon = this.GetIcon(2);
         }
 
-        private void HideInsulinAndSugarIcons()
+        private void HideJournalIcons()
         {
             if (this.ApplicationBar.Buttons.Contains(sugarIcon))
                 this.ApplicationBar.Buttons.Remove(sugarIcon);
@@ -360,7 +360,7 @@ namespace Dietphone.Views
                 this.ApplicationBar.Buttons.Insert(0, addIcon);
         }
 
-        private void ShowInsulinAndSugarIcons()
+        private void ShowJournalIcons()
         {
             if (!this.ApplicationBar.Buttons.Contains(sugarIcon))
                 this.ApplicationBar.Buttons.Insert(0, sugarIcon);

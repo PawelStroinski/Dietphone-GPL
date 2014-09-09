@@ -4,12 +4,12 @@ using Telerik.Windows.Data;
 
 namespace Dietphone.ViewModels
 {
-    public class TelerikInsulinAndSugarListingViewModel : InsulinAndSugarListingViewModel
+    public class TelerikJournalViewModel : JournalViewModel
     {
         public ObservableCollection<DataDescriptor> GroupDescriptors { private get; set; }
         public ObservableCollection<DataDescriptor> FilterDescriptors { private get; set; }
 
-        public TelerikInsulinAndSugarListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
+        public TelerikJournalViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
             SugarEditingViewModel sugarEditing)
             : base(factories, workerFactory, sugarEditing)
         {

@@ -895,15 +895,6 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to journal.
-        /// </summary>
-        public static string InsulinAndSugars {
-            get {
-                return ResourceManager.GetString("InsulinAndSugars", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Insulin circumstances.
         /// </summary>
         public static string InsulinCircumstances {
@@ -956,6 +947,15 @@ namespace Dietphone.Views {
         public static string IWouldLikeToReportTheFollowingBug {
             get {
                 return ResourceManager.GetString("IWouldLikeToReportTheFollowingBug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to journal.
+        /// </summary>
+        public static string Journal {
+            get {
+                return ResourceManager.GetString("Journal", resourceCulture);
             }
         }
         
