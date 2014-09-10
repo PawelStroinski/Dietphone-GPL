@@ -242,5 +242,10 @@ namespace Dietphone.Views
                 replacementBuilder, sugarEstimator);
             return facade;
         }
+
+        private void Chart_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            MessageBox.Show(viewModel.SugarChartAsText);
+        }
     }
 }

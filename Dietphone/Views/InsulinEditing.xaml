@@ -80,9 +80,9 @@
                         </StackPanel>
                         <!--Chart-->
                         <Border Margin="24 0 24 0" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Height="220">
-                            <chart:RadCartesianChart x:Name="Chart" EmptyContent="">
+                            <chart:RadCartesianChart x:Name="Chart" EmptyContent="" Tap="Chart_Tap">
                                 <chart:RadCartesianChart.HorizontalAxis>
-                                    <chart:DateTimeContinuousAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
+                                    <chart:DateTimeCategoricalAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
                                 </chart:RadCartesianChart.HorizontalAxis>
                                 <chart:RadCartesianChart.VerticalAxis>
                                     <chart:LinearAxis Minimum="{Binding SugarChartMinimum}" Maximum="{Binding SugarChartMaximum}" LineThickness="0" TickThickness="0">

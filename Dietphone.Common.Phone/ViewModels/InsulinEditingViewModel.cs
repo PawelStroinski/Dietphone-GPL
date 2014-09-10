@@ -122,6 +122,20 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public string SugarChartAsText
+        {
+            get
+            {
+                var sugarUnit = factories.Settings.SugarUnit == SugarUnit.mgdL
+                    ? Translations.BloodSugarMgdL : Translations.BloodSugarMmolL;
+                return Translations.EstimatedBloodSugar + Environment.NewLine + Environment.NewLine
+                    + string.Join(Environment.NewLine, SugarChart
+                        .Select(item => string.Format("{0}   {1}",
+                            item.DateTime.ToString("t"),
+                            string.Format(sugarUnit, item.BloodSugar))));
+            }
+        }
+
         public void AddCircumstance(string name)
         {
             var tempModel = factories.CreateInsulinCircumstance();

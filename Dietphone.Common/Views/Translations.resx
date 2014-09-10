@@ -617,4 +617,7 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
     <value>Retrieves and adds to application data previously saved to OneDrive.</value>
   </data>
+  <data name="EstimatedBloodSugar" xml:space="preserve">
+    <value>Estimated blood sugar</value>
+  </data>
 </root>

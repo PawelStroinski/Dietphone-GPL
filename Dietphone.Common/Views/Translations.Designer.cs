@@ -686,6 +686,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Estimated blood sugar.
+        /// </summary>
+        public static string EstimatedBloodSugar {
+            get {
+                return ResourceManager.GetString("EstimatedBloodSugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exercise.
         /// </summary>
         public static string Exercise {

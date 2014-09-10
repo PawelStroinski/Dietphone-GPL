@@ -950,6 +950,31 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreEqual(100, sut.SugarChartMaximum);
             }
 
+            [TestCase(SugarUnit.mgdL)]
+            [TestCase(SugarUnit.mmolL)]
+            public void SugarChartAsTextReturnsTextualRepresentationOfChart(SugarUnit useSugarUnit)
+            {
+                insulin.NormalBolus = insulin.SquareWaveBolus = 0;
+                sugar.BloodSugar = 100;
+                settings.SugarUnit = useSugarUnit;
+                string sugarUnit;
+                if (useSugarUnit == SugarUnit.mgdL)
+                    sugarUnit = Translations.BloodSugarMgdL;
+                else
+                    sugarUnit = Translations.BloodSugarMmolL;
+                InitializeViewModel();
+                var expected = Translations.EstimatedBloodSugar + Environment.NewLine;
+                for (int i = 0; i < sut.SugarChart.Count; i++)
+                {
+                    expected += Environment.NewLine;
+                    expected += sut.SugarChart[i].DateTime.ToString("t")
+                        + "   " + sugarUnit.Replace("{0}", sut.SugarChart[i].BloodSugar.ToString());
+                }
+                Assert.IsNotEmpty(expected);
+                var actual = sut.SugarChartAsText;
+                Assert.AreEqual(expected, actual);
+            }
+
             [Test]
             public void CalculationChangesMinimumAndMaximum()
             {

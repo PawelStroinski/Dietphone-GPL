@@ -611,4 +611,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
     <value>Pobiera i dodaje do aplikacji dane poprzednio zapisane na OneDrive.</value>
   </data>
+  <data name="EstimatedBloodSugar" xml:space="preserve">
+    <value>Estymowany poziom cukru</value>
+  </data>
 </root>
