@@ -158,10 +158,14 @@ namespace Dietphone.ViewModels
         public class JournalLoader : LoaderBaseWithDates
         {
             private ObservableCollection<InsulinCircumstanceViewModel> circumstances;
+            private ObservableCollection<MealNameViewModel> names;
             private List<InsulinViewModel> unsortedInsulins;
             private List<SugarViewModel> unsortedSugars;
+            private List<MealViewModel> unsortedMeals;
             private ObservableCollection<ViewModelWithDateAndText> sortedItems;
+            private MealNameViewModel defaultName;
             private readonly bool sortCircumstances;
+            private readonly bool sortNames;
 
             public JournalLoader(JournalViewModel viewModel)
                 : base(viewModel.workerFactory)
@@ -170,12 +174,13 @@ namespace Dietphone.ViewModels
                 factories = viewModel.factories;
             }
 
-            public JournalLoader(Factories factories, bool sortCircumstances,
+            public JournalLoader(Factories factories, bool sortCircumstances, bool sortNames,
                 BackgroundWorkerFactory workerFactory)
                 : base(workerFactory)
             {
                 this.factories = factories;
                 this.sortCircumstances = sortCircumstances;
+                this.sortNames = sortNames;
             }
 
             public ObservableCollection<InsulinCircumstanceViewModel> Circumstances
@@ -190,18 +195,45 @@ namespace Dietphone.ViewModels
                 }
             }
 
+            public ObservableCollection<MealNameViewModel> Names
+            {
+                get
+                {
+                    if (names == null)
+                    {
+                        LoadNames();
+                    }
+                    return names;
+                }
+            }
+
+            public MealNameViewModel DefaultName
+            {
+                get
+                {
+                    if (defaultName == null)
+                    {
+                        MakeDefaultName();
+                    }
+                    return defaultName;
+                }
+            }
+
             protected override void DoWork()
             {
                 LoadCircumstances();
+                LoadNames();
+                MakeDefaultName();
                 LoadUnsortedInsulins();
                 LoadUnsortedSugars();
-                MakeDatesAndSortInsulins();
+                LoadUnsortedMeals();
+                MakeDatesAndSortItems();
             }
 
             protected override void WorkCompleted()
             {
                 AssignDates();
-                AssignSortedInsulins();
+                AssignSortedItems();
                 base.WorkCompleted();
             }
 
@@ -229,6 +261,37 @@ namespace Dietphone.ViewModels
                 }
             }
 
+            private void LoadNames()
+            {
+                var models = factories.MealNames;
+                var unsortedViewModels = new ObservableCollection<MealNameViewModel>();
+                foreach (var model in models)
+                {
+                    var viewModel = new MealNameViewModel(model, factories);
+                    unsortedViewModels.Add(viewModel);
+                }
+                if (sortNames)
+                {
+                    var sortedViewModels = unsortedViewModels.OrderBy(mealName => mealName.Name);
+                    names = new ObservableCollection<MealNameViewModel>();
+                    foreach (var viewModel in sortedViewModels)
+                    {
+                        names.Add(viewModel);
+                    }
+                }
+                else
+                {
+                    names = unsortedViewModels;
+                }
+            }
+
+            private void MakeDefaultName()
+            {
+                var defaultEntities = factories.DefaultEntities;
+                var model = defaultEntities.MealName;
+                defaultName = new MealNameViewModel(model, factories);
+            }
+
             private void LoadUnsortedInsulins()
             {
                 var models = factories.Insulins;
@@ -251,15 +314,31 @@ namespace Dietphone.ViewModels
                 }
             }
 
-            private void MakeDatesAndSortInsulins()
+            private void LoadUnsortedMeals()
+            {
+                var models = factories.Meals;
+                unsortedMeals = new List<MealViewModel>();
+                foreach (var model in models)
+                {
+                    var viewModel = new MealViewModel(model, factories)
+                    {
+                        Names = names,
+                        DefaultName = defaultName
+                    };
+                    unsortedMeals.Add(viewModel);
+                }
+            }
+
+            private void MakeDatesAndSortItems()
             {
                 var unsortedItems = new List<ViewModelWithDateAndText>();
                 unsortedItems.AddRange(unsortedInsulins.Cast<ViewModelWithDateAndText>());
                 unsortedItems.AddRange(unsortedSugars.Cast<ViewModelWithDateAndText>());
+                unsortedItems.AddRange(unsortedMeals.Cast<ViewModelWithDateAndText>());
                 sortedItems = MakeDatesAndSortItems(unsortedItems, ThenBy);
             }
 
-            private void AssignSortedInsulins()
+            private void AssignSortedItems()
             {
                 GetViewModel().Items = sortedItems;
                 GetViewModel().OnPropertyChanged("Items");
@@ -273,7 +352,7 @@ namespace Dietphone.ViewModels
 
             private int ThenBy(ViewModelWithDateAndText item)
             {
-                return item is SugarViewModel ? 1 : 2;
+                return item is MealViewModel ? 1 : (item is SugarViewModel ? 2 : 3);
             }
 
             private JournalViewModel GetViewModel()

@@ -28,8 +28,10 @@ namespace Dietphone.Common.Phone.Tests
         {
             factories = Substitute.For<Factories>();
             factories.InsulinCircumstances.Returns(new List<InsulinCircumstance>());
+            factories.MealNames.Returns(new List<MealName>());
             factories.Insulins.Returns(new List<Insulin>());
             factories.Sugars.Returns(new List<Sugar>());
+            factories.Meals.Returns(new List<Meal>());
             factories.Settings.Returns(new Settings());
             sugarEditing = Substitute.For<SugarEditingViewModel>();
             sut = new JournalViewModel(factories, new BackgroundWorkerSyncFactory(), sugarEditing);

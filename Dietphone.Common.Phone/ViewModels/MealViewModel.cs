@@ -9,11 +9,11 @@ using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
-    public class MealViewModel : ViewModelWithDate
+    public class MealViewModel : TypedViewModel
     {
         public Meal Meal { get; private set; }
-        public IEnumerable<MealNameViewModel> Names { private get; set; }
-        public MealNameViewModel DefaultName { private get; set; }
+        public IEnumerable<MealNameViewModel> Names { internal get; set; }
+        public MealNameViewModel DefaultName { internal get; set; }
         private ObservableCollection<MealItemViewModel> items;
         private bool isNameCached;
         private bool isProductsHeadCached;
@@ -125,6 +125,16 @@ namespace Dietphone.ViewModels
                     OnPropertyChanged("Note");
                 }
             }
+        }
+
+        public override string Text
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override string Text2
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public ObservableCollection<MealItemViewModel> Items

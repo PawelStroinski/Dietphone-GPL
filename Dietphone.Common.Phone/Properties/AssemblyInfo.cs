@@ -27,3 +27,4 @@ using System.Resources;
 [assembly: AssemblyVersion("1.0")]
 [assembly: AssemblyFileVersion("1.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
+[assembly: InternalsVisibleTo("Dietphone.Common.Phone.Tests")]
