@@ -202,7 +202,7 @@ namespace Dietphone.ViewModels
             Items.Remove(itemViewModel);
         }
 
-        public bool FilterIn(string filter)
+        public override bool FilterIn(string filter)
         {
             var name = Name;
             if (name != DefaultName)

@@ -7,7 +7,7 @@ namespace Dietphone.ViewModels
         public abstract string Text { get; }
         public abstract string Text2 { get; }
 
-        public bool FilterIn(string filter)
+        public virtual bool FilterIn(string filter)
         {
             return Text.ContainsIgnoringCase(filter) || Text2.ContainsIgnoringCase(filter);
         }
