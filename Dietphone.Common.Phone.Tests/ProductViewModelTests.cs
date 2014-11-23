@@ -13,7 +13,6 @@ namespace Dietphone.Common.Phone.Tests
     {
         private Factories factories;
         private Fixture fixture;
-        private ProductListingViewModel viewModel;
         private List<CategoryViewModel> categories;
         private Product product;
         private CategoryViewModel overrideCategory;

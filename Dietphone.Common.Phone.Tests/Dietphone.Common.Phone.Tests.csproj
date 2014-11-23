@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoriesAndProductsLoaderTests.cs" />
+    <Compile Include="MealViewModelTests.cs" />
     <Compile Include="MainViewModelTests.cs" />
     <Compile Include="MealItemEditingViewModelTests.cs" />
     <Compile Include="ProductViewModelTests.cs" />
