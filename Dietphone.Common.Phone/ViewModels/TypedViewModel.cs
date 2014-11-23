@@ -11,5 +11,15 @@
         {
             get { return this is SugarViewModel; }
         }
+
+        public bool IsMeal
+        {
+            get { return this is MealViewModel; }
+        }
+
+        public bool IsNotMeal
+        {
+            get { return !(this is MealViewModel); }
+        }
     }
 }
