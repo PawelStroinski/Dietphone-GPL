@@ -129,12 +129,12 @@ namespace Dietphone.ViewModels
 
         public override string Text
         {
-            get { return HasName ? Name.ToString() : ProductsHead; }
+            get { return string.Empty; }
         }
 
         public override string Text2
         {
-            get { return HasName ? ProductsHead : string.Empty; }
+            get { return string.Empty; }
         }
 
         public ObservableCollection<MealItemViewModel> Items
