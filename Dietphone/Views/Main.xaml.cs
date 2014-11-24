@@ -334,7 +334,6 @@ namespace Dietphone.Views
 
         private void TranslateApplicationBar()
         {
-            this.GetIcon(0).Text = Translations.Add;
             this.GetIcon(1).Text = Translations.Sugar;
             this.GetIcon(2).Text = Translations.Insulin;
             this.GetIcon(3).Text = Translations.Search;
@@ -356,18 +355,22 @@ namespace Dietphone.Views
                 this.ApplicationBar.Buttons.Remove(sugarIcon);
             if (this.ApplicationBar.Buttons.Contains(insulinIcon))
                 this.ApplicationBar.Buttons.Remove(insulinIcon);
-            if (!this.ApplicationBar.Buttons.Contains(addIcon))
-                this.ApplicationBar.Buttons.Insert(0, addIcon);
+            if (this.GetIcon(0).Text != Translations.Add)
+                this.GetIcon(0).Text = Translations.Add;
+            if (!this.GetIcon(0).IconUri.ToString().Contains("add"))
+                this.GetIcon(0).IconUri = new Uri("/images/appbar.add.rest.png", UriKind.Relative);
         }
 
         private void ShowJournalIcons()
         {
             if (!this.ApplicationBar.Buttons.Contains(sugarIcon))
-                this.ApplicationBar.Buttons.Insert(0, sugarIcon);
+                this.ApplicationBar.Buttons.Insert(1, sugarIcon);
             if (!this.ApplicationBar.Buttons.Contains(insulinIcon))
-                this.ApplicationBar.Buttons.Insert(1, insulinIcon);
-            if (this.ApplicationBar.Buttons.Contains(addIcon))
-                this.ApplicationBar.Buttons.Remove(addIcon);
+                this.ApplicationBar.Buttons.Insert(2, insulinIcon);
+            if (this.GetIcon(0).Text != Translations.Meal)
+                this.GetIcon(0).Text = Translations.Meal;
+            if (!this.GetIcon(0).IconUri.ToString().Contains("meal"))
+                this.GetIcon(0).IconUri = new Uri("/images/meal.png", UriKind.Relative);
         }
     }
 }

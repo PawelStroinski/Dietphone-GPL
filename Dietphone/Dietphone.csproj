@@ -273,6 +273,7 @@
     <Content Include="firstrun\insulincircumstances.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="images\meal.png" />
     <Content Include="images\sugar.png" />
     <None Include="app.config" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png">

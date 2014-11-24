@@ -129,7 +129,7 @@
   <data name="Ingredients" xml:space="preserve">
     <value>składniki</value>
   </data>
-  <data name="Meal" xml:space="preserve">
+  <data name="MealUppercase" xml:space="preserve">
     <value>POSIŁEK</value>
   </data>
   <data name="Meals" xml:space="preserve">
@@ -613,5 +613,8 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   </data>
   <data name="EstimatedBloodSugar" xml:space="preserve">
     <value>Estymowany poziom cukru</value>
+  </data>
+  <data name="Meal" xml:space="preserve">
+    <value>posiłek</value>
   </data>
 </root>
