@@ -9,11 +9,11 @@ using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
-    public class MealViewModel : ViewModelWithDate
+    public class MealViewModel : JournalItemViewModel
     {
         public Meal Meal { get; private set; }
-        public IEnumerable<MealNameViewModel> Names { private get; set; }
-        public MealNameViewModel DefaultName { private get; set; }
+        public IEnumerable<MealNameViewModel> Names { internal get; set; }
+        public MealNameViewModel DefaultName { internal get; set; }
         private ObservableCollection<MealItemViewModel> items;
         private bool isNameCached;
         private bool isProductsHeadCached;
@@ -33,7 +33,7 @@ namespace Dietphone.ViewModels
             scores = new MealScoreSelector(this);
         }
 
-        public Guid Id
+        public override Guid Id
         {
             get
             {
@@ -127,6 +127,36 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public override string Text
+        {
+            get { return string.Empty; }
+        }
+
+        public override string Text2
+        {
+            get { return string.Empty; }
+        }
+
+        public override bool IsInsulin
+        {
+            get { return false; }
+        }
+
+        public override bool IsSugar
+        {
+            get { return false; }
+        }
+
+        public override bool IsMeal
+        {
+            get { return true; }
+        }
+
+        public override bool IsNotMeal
+        {
+            get { return false; }
+        }
+
         public ObservableCollection<MealItemViewModel> Items
         {
             get
@@ -192,7 +222,7 @@ namespace Dietphone.ViewModels
             Items.Remove(itemViewModel);
         }
 
-        public bool FilterIn(string filter)
+        public override bool FilterIn(string filter)
         {
             var name = Name;
             if (name != DefaultName)
@@ -222,6 +252,10 @@ namespace Dietphone.ViewModels
             return false;
         }
 
+        public override void Choose(Navigator navigator)
+        {
+            navigator.GoToMealEditing(Id);
+        }
 
         private string Energy
         {

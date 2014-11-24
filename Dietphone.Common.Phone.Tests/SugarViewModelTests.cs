@@ -67,5 +67,14 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual("", sut.Text);
             Assert.IsEmpty(sut.Text2);
         }
+
+        [Test]
+        public void Id()
+        {
+            var factories = Substitute.For<Factories>();
+            var sugar = new Models.Sugar { Id = Guid.NewGuid() };
+            var sut = new SugarViewModel(sugar, factories);
+            Assert.AreEqual(sugar.Id, sut.Id);
+        }
     }
 }

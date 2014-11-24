@@ -129,9 +129,6 @@
   <data name="Ingredients" xml:space="preserve">
     <value>ingredients</value>
   </data>
-  <data name="Meals" xml:space="preserve">
-    <value>meals</value>
-  </data>
   <data name="Products" xml:space="preserve">
     <value>products</value>
   </data>
@@ -144,7 +141,7 @@
   <data name="Settings" xml:space="preserve">
     <value>settings</value>
   </data>
-  <data name="Meal" xml:space="preserve">
+  <data name="MealUppercase" xml:space="preserve">
     <value>MEAL</value>
   </data>
   <data name="Date" xml:space="preserve">
@@ -619,5 +616,8 @@ So one number gives information on both fat and protein in meal.</value>
   </data>
   <data name="EstimatedBloodSugar" xml:space="preserve">
     <value>Estimated blood sugar</value>
+  </data>
+  <data name="Meal" xml:space="preserve">
+    <value>meal</value>
   </data>
 </root>

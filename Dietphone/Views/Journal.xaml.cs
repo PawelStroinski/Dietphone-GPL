@@ -13,13 +13,13 @@ namespace Dietphone.Views
         public StateProvider StateProvider { private get; set; }
         public TelerikJournalViewModel ViewModel { get; private set; }
         public event EventHandler DatesPoppedUp;
-        private bool isTopItemItem;
+        private bool isTopItemJournal;
         private bool isTopItemDate;
-        private DateTime topItemItemDate;
+        private Guid topItemJournalId;
         private DateTime topItemDate;
-        private const string IS_TOP_ITEM_INSULIN_AND_SUGAR = "IS_TOP_ITEM_INSULIN_AND_SUGAR";
+        private const string IS_TOP_ITEM_JOURNAL = "IS_TOP_ITEM_JOURNAL";
         private const string IS_TOP_ITEM_DATE = "IS_TOP_ITEM_DATE";
-        private const string TOP_ITEM_INSULIN_AND_SUGAR_DATE = "TOP_ITEM_INSULIN_AND_SUGAR_DATE";
+        private const string TOP_ITEM_JOURNAL_ID = "TOP_ITEM_JOURNAL_ID";
         private const string TOP_ITEM_DATE = "TOP_ITEM_DATE";
 
         public Journal()
@@ -49,9 +49,9 @@ namespace Dietphone.Views
         {
             SaveTopItem();
             var state = StateProvider.State;
-            state[IS_TOP_ITEM_INSULIN_AND_SUGAR] = isTopItemItem;
+            state[IS_TOP_ITEM_JOURNAL] = isTopItemJournal;
             state[IS_TOP_ITEM_DATE] = isTopItemDate;
-            state[TOP_ITEM_INSULIN_AND_SUGAR_DATE] = topItemItemDate;
+            state[TOP_ITEM_JOURNAL_ID] = topItemJournalId;
             state[TOP_ITEM_DATE] = topItemDate;
             SetStateProvider();
             ViewModel.Tombstone();
@@ -60,11 +60,11 @@ namespace Dietphone.Views
         private void Untombstone()
         {
             var state = StateProvider.State;
-            if (state.ContainsKey(IS_TOP_ITEM_INSULIN_AND_SUGAR))
+            if (state.ContainsKey(IS_TOP_ITEM_JOURNAL))
             {
-                isTopItemItem = (bool)state[IS_TOP_ITEM_INSULIN_AND_SUGAR];
+                isTopItemJournal = (bool)state[IS_TOP_ITEM_JOURNAL];
                 isTopItemDate = (bool)state[IS_TOP_ITEM_DATE];
-                topItemItemDate = (DateTime)state[TOP_ITEM_INSULIN_AND_SUGAR_DATE];
+                topItemJournalId = (Guid)state[TOP_ITEM_JOURNAL_ID];
                 topItemDate = (DateTime)state[TOP_ITEM_DATE];
                 RestoreTopItem();
             }
@@ -74,16 +74,16 @@ namespace Dietphone.Views
 
         private void SaveTopItem()
         {
-            isTopItemItem = false;
+            isTopItemJournal = false;
             isTopItemDate = false;
             var topItem = List.TopVisibleItem;
             if (topItem != null)
             {
-                if (topItem is ViewModelWithDate)
+                if (topItem is JournalItemViewModel)
                 {
-                    var vm = topItem as ViewModelWithDate;
-                    topItemItemDate = vm.DateTime;
-                    isTopItemItem = true;
+                    var vm = topItem as JournalItemViewModel;
+                    topItemJournalId = vm.Id;
+                    isTopItemJournal = true;
                 }
                 else
                     if (topItem is DataGroup)
@@ -102,9 +102,9 @@ namespace Dietphone.Views
         private void RestoreTopItem()
         {
             object topItem = null;
-            if (isTopItemItem)
+            if (isTopItemJournal)
             {
-                topItem = ViewModel.FindInsulinOrSugar(topItemItemDate);
+                topItem = ViewModel.FindItem(topItemJournalId);
             }
             else
                 if (isTopItemDate)
@@ -129,7 +129,7 @@ namespace Dietphone.Views
 
         private void List_ItemTap(object sender, ListBoxItemTapEventArgs e)
         {
-            var vm = List.SelectedItem as ViewModelWithDateAndText;
+            var vm = List.SelectedItem as JournalItemViewModel;
             if (vm != null)
             {
                 ViewModel.Choose(vm);

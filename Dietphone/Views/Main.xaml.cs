@@ -42,7 +42,6 @@ namespace Dietphone.Views
             TranslateApplicationBar();
             GetApplicationBarIcons();
             ShowJournalIcons();
-            MealListing.StateProvider = this;
             ProductListing.StateProvider = this;
             JournalListing.StateProvider = this;
         }
@@ -75,7 +74,6 @@ namespace Dietphone.Views
             if (e.NavigationMode != NavigationMode.Back)
             {
                 ViewModel.Tombstone();
-                MealListing.Tombstone();
                 ProductListing.Tombstone();
                 JournalListing.Tombstone();
                 TombstoneSearchBeforeExit();
@@ -84,23 +82,17 @@ namespace Dietphone.Views
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Pivot.SelectedItem == Meals)
+            if (Pivot.SelectedItem == Products)
             {
-                subConnector.SubViewModel = MealListing.ViewModel;
+                subConnector.SubViewModel = ProductListing.ViewModel;
                 HideJournalIcons();
             }
             else
-                if (Pivot.SelectedItem == Products)
+                if (Pivot.SelectedItem == Journal)
                 {
-                    subConnector.SubViewModel = ProductListing.ViewModel;
-                    HideJournalIcons();
+                    subConnector.SubViewModel = JournalListing.ViewModel;
+                    ShowJournalIcons();
                 }
-                else
-                    if (Pivot.SelectedItem == Journal)
-                    {
-                        subConnector.SubViewModel = JournalListing.ViewModel;
-                        ShowJournalIcons();
-                    }
         }
 
         private void SubConnector_Loaded(object sender, EventArgs e)
@@ -119,12 +111,13 @@ namespace Dietphone.Views
                 command = new JournalViewModel.AddInsulinCommand();
             if (sender == sugarIcon)
                 command = new JournalViewModel.AddSugarCommand();
+            if (sender == addIcon && Pivot.SelectedItem == Journal)
+                command = new JournalViewModel.AddMealCommand();
             subConnector.Add(command);
         }
 
         private void ViewModel_ShowProductsOnly(object sender, EventArgs e)
         {
-            Pivot.Items.Remove(Meals);
             Pivot.Items.Remove(Journal);
         }
 
@@ -178,22 +171,12 @@ namespace Dietphone.Views
             HideSearch();
         }
 
-        private void MealListing_DatesPoppedUp(object sender, EventArgs e)
-        {
-            HideSearch();
-        }
-
         private void JournalListing_DatesPoppedUp(object sender, EventArgs e)
         {
             HideSearch();
         }
 
         private void ProductListing_MouseEnter(object sender, MouseEventArgs e)
-        {
-            HideSearchSip();
-        }
-
-        private void MealListing_MouseEnter(object sender, MouseEventArgs e)
         {
             HideSearchSip();
         }
@@ -334,7 +317,6 @@ namespace Dietphone.Views
 
         private void TranslateApplicationBar()
         {
-            this.GetIcon(0).Text = Translations.Add;
             this.GetIcon(1).Text = Translations.Sugar;
             this.GetIcon(2).Text = Translations.Insulin;
             this.GetIcon(3).Text = Translations.Search;
@@ -356,18 +338,22 @@ namespace Dietphone.Views
                 this.ApplicationBar.Buttons.Remove(sugarIcon);
             if (this.ApplicationBar.Buttons.Contains(insulinIcon))
                 this.ApplicationBar.Buttons.Remove(insulinIcon);
-            if (!this.ApplicationBar.Buttons.Contains(addIcon))
-                this.ApplicationBar.Buttons.Insert(0, addIcon);
+            if (this.GetIcon(0).Text != Translations.Add)
+                this.GetIcon(0).Text = Translations.Add;
+            if (!this.GetIcon(0).IconUri.ToString().Contains("add"))
+                this.GetIcon(0).IconUri = new Uri("/images/appbar.add.rest.png", UriKind.Relative);
         }
 
         private void ShowJournalIcons()
         {
             if (!this.ApplicationBar.Buttons.Contains(sugarIcon))
-                this.ApplicationBar.Buttons.Insert(0, sugarIcon);
+                this.ApplicationBar.Buttons.Insert(1, sugarIcon);
             if (!this.ApplicationBar.Buttons.Contains(insulinIcon))
-                this.ApplicationBar.Buttons.Insert(1, insulinIcon);
-            if (this.ApplicationBar.Buttons.Contains(addIcon))
-                this.ApplicationBar.Buttons.Remove(addIcon);
+                this.ApplicationBar.Buttons.Insert(2, insulinIcon);
+            if (this.GetIcon(0).Text != Translations.Meal)
+                this.GetIcon(0).Text = Translations.Meal;
+            if (!this.GetIcon(0).IconUri.ToString().Contains("meal"))
+                this.GetIcon(0).IconUri = new Uri("/images/meal.png", UriKind.Relative);
         }
     }
 }

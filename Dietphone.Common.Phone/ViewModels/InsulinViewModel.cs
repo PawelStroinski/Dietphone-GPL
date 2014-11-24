@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Dietphone.ViewModels
 {
-    public class InsulinViewModel : TypedViewModel
+    public class InsulinViewModel : JournalItemViewModel
     {
         public Insulin Insulin { get; private set; }
         private IList<InsulinCircumstanceViewModel> circumstances;
@@ -28,7 +28,7 @@ namespace Dietphone.ViewModels
             this.allCircumstances = allCircumstances;
         }
 
-        public Guid Id
+        public override Guid Id
         {
             get
             {
@@ -184,6 +184,31 @@ namespace Dietphone.ViewModels
         public override string Text2
         {
             get { return Note; }
+        }
+
+        public override bool IsInsulin
+        {
+            get { return true;  }
+        }
+
+        public override bool IsSugar
+        {
+            get { return false; }
+        }
+
+        public override bool IsMeal
+        {
+            get { return false; }
+        }
+
+        public override bool IsNotMeal
+        {
+            get { return true; }
+        }
+
+        public override void Choose(Navigator navigator)
+        {
+            navigator.GoToInsulinEditing(Id);
         }
 
         public IEnumerable<InsulinCircumstanceViewModel> AllCircumstances()

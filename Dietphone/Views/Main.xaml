@@ -33,9 +33,6 @@
             <controls:PivotItem Header="{Binding Path=Translations.Journal, Source={StaticResource Translations}}" x:Name="Journal" x:FieldModifier="private">
                 <views:Journal HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="JournalListing" x:FieldModifier="private" DatesPoppedUp="JournalListing_DatesPoppedUp" MouseEnter="JournalListing_MouseEnter" />
             </controls:PivotItem>
-            <controls:PivotItem Header="{Binding Path=Translations.Meals, Source={StaticResource Translations}}" x:Name="Meals" x:FieldModifier="private">
-                <views:MealListing HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="MealListing" x:FieldModifier="private" DatesPoppedUp="MealListing_DatesPoppedUp" MouseEnter="MealListing_MouseEnter" />
-            </controls:PivotItem>
             <controls:PivotItem Header="{Binding Path=Translations.Products, Source={StaticResource Translations}}" x:Name="Products" x:FieldModifier="private">
                 <!--Width="480" Height="535" Margin="-12 0 -12 0"     /         Width="456" Height="535"-->
                 <views:ProductListing HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-12 0 -12 0" x:Name="ProductListing" x:FieldModifier="private" CategoriesPoppedUp="ProductListing_CategoriesPoppedUp" MouseEnter="ProductListing_MouseEnter" />
@@ -57,7 +54,7 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar>
-            <shell:ApplicationBarIconButton IconUri="/images/appbar.add.rest.png" Text="-" Click="Add_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/images/meal.png" Text="-" Click="Add_Click"/>
             <shell:ApplicationBarIconButton IconUri="/images/sugar.png" Text="-" Click="Add_Click"/>
             <shell:ApplicationBarIconButton IconUri="/images/insulin.png" Text="-" Click="Add_Click"/>
             <shell:ApplicationBarIconButton IconUri="/images/appbar.feature.search.rest.png" Text="-" Click="SearchIcon_Click"/>

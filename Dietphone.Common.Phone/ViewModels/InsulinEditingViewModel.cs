@@ -330,7 +330,8 @@ namespace Dietphone.ViewModels
 
         private void LoadCircumstances()
         {
-            var loader = new JournalViewModel.JournalLoader(factories, true, workerFactory);
+            var loader = new JournalViewModel.JournalLoader(factories, sortCircumstances: true, sortNames: false,
+                workerFactory: workerFactory);
             Circumstances = loader.Circumstances;
             foreach (var circumstance in Circumstances)
                 circumstance.MakeBuffer();

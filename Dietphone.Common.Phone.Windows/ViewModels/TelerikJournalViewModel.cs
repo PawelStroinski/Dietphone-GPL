@@ -18,7 +18,7 @@ namespace Dietphone.ViewModels
         public void UpdateGroupDescriptors()
         {
             GroupDescriptors.Clear();
-            var groupByDate = new GenericGroupDescriptor<ViewModelWithDateAndText, DateViewModel>(vm => vm.Date);
+            var groupByDate = new GenericGroupDescriptor<JournalItemViewModel, DateViewModel>(vm => vm.Date);
             GroupDescriptors.Add(groupByDate);
         }
 
@@ -27,7 +27,7 @@ namespace Dietphone.ViewModels
             FilterDescriptors.Clear();
             if (!string.IsNullOrEmpty(search))
             {
-                var filterIn = new GenericFilterDescriptor<ViewModelWithDateAndText>(vm => vm.FilterIn(search));
+                var filterIn = new GenericFilterDescriptor<JournalItemViewModel>(vm => vm.FilterIn(search));
                 FilterDescriptors.Add(filterIn);
             }
         }

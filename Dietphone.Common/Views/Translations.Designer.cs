@@ -1005,7 +1005,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MEAL.
+        ///   Looks up a localized string similar to meal.
         /// </summary>
         public static string Meal {
             get {
@@ -1014,11 +1014,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to meals.
+        ///   Looks up a localized string similar to MEAL.
         /// </summary>
-        public static string Meals {
+        public static string MealUppercase {
             get {
-                return ResourceManager.GetString("Meals", resourceCulture);
+                return ResourceManager.GetString("MealUppercase", resourceCulture);
             }
         }
         
