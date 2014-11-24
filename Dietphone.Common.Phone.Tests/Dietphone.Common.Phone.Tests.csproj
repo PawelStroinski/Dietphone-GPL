@@ -75,7 +75,6 @@
     <Compile Include="JournalLoaderTests.cs" />
     <Compile Include="InsulinViewModelTests.cs" />
     <Compile Include="MealEditingViewModelTests.cs" />
-    <Compile Include="NamesAndMealsLoaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SugarViewModelTests.cs" />
     <Compile Include="Tools\TestsExtensionMethods.cs" />

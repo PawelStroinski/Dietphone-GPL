@@ -42,7 +42,6 @@ namespace Dietphone.Views
             TranslateApplicationBar();
             GetApplicationBarIcons();
             ShowJournalIcons();
-            MealListing.StateProvider = this;
             ProductListing.StateProvider = this;
             JournalListing.StateProvider = this;
         }
@@ -75,7 +74,6 @@ namespace Dietphone.Views
             if (e.NavigationMode != NavigationMode.Back)
             {
                 ViewModel.Tombstone();
-                MealListing.Tombstone();
                 ProductListing.Tombstone();
                 JournalListing.Tombstone();
                 TombstoneSearchBeforeExit();
@@ -84,23 +82,17 @@ namespace Dietphone.Views
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Pivot.SelectedItem == Meals)
+            if (Pivot.SelectedItem == Products)
             {
-                subConnector.SubViewModel = MealListing.ViewModel;
+                subConnector.SubViewModel = ProductListing.ViewModel;
                 HideJournalIcons();
             }
             else
-                if (Pivot.SelectedItem == Products)
+                if (Pivot.SelectedItem == Journal)
                 {
-                    subConnector.SubViewModel = ProductListing.ViewModel;
-                    HideJournalIcons();
+                    subConnector.SubViewModel = JournalListing.ViewModel;
+                    ShowJournalIcons();
                 }
-                else
-                    if (Pivot.SelectedItem == Journal)
-                    {
-                        subConnector.SubViewModel = JournalListing.ViewModel;
-                        ShowJournalIcons();
-                    }
         }
 
         private void SubConnector_Loaded(object sender, EventArgs e)
@@ -126,7 +118,6 @@ namespace Dietphone.Views
 
         private void ViewModel_ShowProductsOnly(object sender, EventArgs e)
         {
-            Pivot.Items.Remove(Meals);
             Pivot.Items.Remove(Journal);
         }
 
@@ -180,22 +171,12 @@ namespace Dietphone.Views
             HideSearch();
         }
 
-        private void MealListing_DatesPoppedUp(object sender, EventArgs e)
-        {
-            HideSearch();
-        }
-
         private void JournalListing_DatesPoppedUp(object sender, EventArgs e)
         {
             HideSearch();
         }
 
         private void ProductListing_MouseEnter(object sender, MouseEventArgs e)
-        {
-            HideSearchSip();
-        }
-
-        private void MealListing_MouseEnter(object sender, MouseEventArgs e)
         {
             HideSearchSip();
         }

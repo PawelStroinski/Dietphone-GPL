@@ -132,9 +132,6 @@
   <data name="MealUppercase" xml:space="preserve">
     <value>POSIŁEK</value>
   </data>
-  <data name="Meals" xml:space="preserve">
-    <value>posiłki</value>
-  </data>
   <data name="Products" xml:space="preserve">
     <value>produkty</value>
   </data>

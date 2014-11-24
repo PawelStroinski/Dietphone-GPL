@@ -165,9 +165,6 @@
     <Compile Include="Views\MealEditing.xaml.cs">
       <DependentUpon>MealEditing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MealListing.xaml.cs">
-      <DependentUpon>MealListing.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\InsulinEditing.xaml.cs">
       <DependentUpon>InsulinEditing.xaml</DependentUpon>
     </Compile>
@@ -197,10 +194,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MealEditing.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MealListing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -227,7 +227,8 @@ namespace Dietphone.ViewModels
 
         private void LoadNames()
         {
-            var loader = new MealListingViewModel.NamesAndMealsLoader(factories, true, workerFactory);
+            var loader = new JournalViewModel.JournalLoader(factories, sortCircumstances: false, sortNames: true,
+                workerFactory: workerFactory);
             Names = loader.Names;
             foreach (var mealName in Names)
             {

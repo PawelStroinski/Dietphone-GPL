@@ -129,9 +129,6 @@
   <data name="Ingredients" xml:space="preserve">
     <value>ingredients</value>
   </data>
-  <data name="Meals" xml:space="preserve">
-    <value>meals</value>
-  </data>
   <data name="Products" xml:space="preserve">
     <value>products</value>
   </data>
