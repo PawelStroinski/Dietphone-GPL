@@ -6,7 +6,7 @@ using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
-    public class SugarViewModel : TypedViewModel
+    public class SugarViewModel : JournalItemViewModel
     {
         public Sugar Sugar { get; private set; }
         private readonly Factories factories;
@@ -15,6 +15,14 @@ namespace Dietphone.ViewModels
         {
             Sugar = sugar;
             this.factories = factories;
+        }
+
+        public override Guid Id
+        {
+            get
+            {
+                return Sugar.Id;
+            }
         }
 
         public override DateTime DateTime
@@ -77,6 +85,26 @@ namespace Dietphone.ViewModels
         public override string Text2
         {
             get { return string.Empty; }
+        }
+
+        public override bool IsInsulin
+        {
+            get { return false; }
+        }
+
+        public override bool IsSugar
+        {
+            get { return true; }
+        }
+
+        public override bool IsMeal
+        {
+            get { return false; }
+        }
+
+        public override bool IsNotMeal
+        {
+            get { return true; }
         }
     }
 }

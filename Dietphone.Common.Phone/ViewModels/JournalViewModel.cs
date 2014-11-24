@@ -10,7 +10,7 @@ namespace Dietphone.ViewModels
     public class JournalViewModel : SearchSubViewModel
     {
         public StateProvider StateProvider { protected get; set; }
-        public ObservableCollection<ViewModelWithDateAndText> Items { get; protected set; }
+        public ObservableCollection<JournalItemViewModel> Items { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
         private Sugar editedSugar;
         private SugarViewModel editedSugarViewModel;
@@ -49,13 +49,8 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public void Choose(ViewModelWithDateAndText vm)
+        public void Choose(JournalItemViewModel vm)
         {
-            if (vm is InsulinViewModel)
-            {
-                Navigator.GoToInsulinEditing((vm as InsulinViewModel).Id);
-                return;
-            }
             if (vm is SugarViewModel)
             {
                 editedSugar = (vm as SugarViewModel).Sugar;
@@ -63,6 +58,8 @@ namespace Dietphone.ViewModels
                 editedSugarViewModel = new SugarViewModel(sugarCopy, this.factories);
                 sugarEditing.Show(editedSugarViewModel);
             }
+            else
+                vm.Choose(Navigator);
         }
 
         public override void Add(AddCommand command)
@@ -70,9 +67,9 @@ namespace Dietphone.ViewModels
             command.Execute(this);
         }
 
-        public ViewModelWithDateAndText FindInsulinOrSugar(DateTime value)
+        public JournalItemViewModel FindItem(Guid id)
         {
-            return Items.FirstOrDefault(vm => vm.DateTime == value);
+            return Items.FirstOrDefault(vm => vm.Id == id);
         }
 
         public DateViewModel FindDate(DateTime value)
@@ -172,7 +169,7 @@ namespace Dietphone.ViewModels
             private List<InsulinViewModel> unsortedInsulins;
             private List<SugarViewModel> unsortedSugars;
             private List<MealViewModel> unsortedMeals;
-            private ObservableCollection<ViewModelWithDateAndText> sortedItems;
+            private ObservableCollection<JournalItemViewModel> sortedItems;
             private MealNameViewModel defaultName;
             private readonly bool sortCircumstances;
             private readonly bool sortNames;
@@ -341,10 +338,10 @@ namespace Dietphone.ViewModels
 
             private void MakeDatesAndSortItems()
             {
-                var unsortedItems = new List<ViewModelWithDateAndText>();
-                unsortedItems.AddRange(unsortedInsulins.Cast<ViewModelWithDateAndText>());
-                unsortedItems.AddRange(unsortedSugars.Cast<ViewModelWithDateAndText>());
-                unsortedItems.AddRange(unsortedMeals.Cast<ViewModelWithDateAndText>());
+                var unsortedItems = new List<JournalItemViewModel>();
+                unsortedItems.AddRange(unsortedInsulins.Cast<JournalItemViewModel>());
+                unsortedItems.AddRange(unsortedSugars.Cast<JournalItemViewModel>());
+                unsortedItems.AddRange(unsortedMeals.Cast<JournalItemViewModel>());
                 sortedItems = MakeDatesAndSortItems(unsortedItems, ThenBy);
             }
 
@@ -360,7 +357,7 @@ namespace Dietphone.ViewModels
                 GetViewModel().OnPropertyChanged("Dates");
             }
 
-            private int ThenBy(ViewModelWithDateAndText item)
+            private int ThenBy(JournalItemViewModel item)
             {
                 return item is MealViewModel ? 1 : (item is SugarViewModel ? 2 : 3);
             }

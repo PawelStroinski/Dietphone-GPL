@@ -87,16 +87,19 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
-        public void FindInsulinOrSugar()
+        public void FindItem()
         {
-            var sugar = new Sugar { DateTime = DateTime.Today };
-            var insulin = new Insulin { DateTime = DateTime.Today.AddMinutes(1) };
+            var sugar = new Sugar { Id = Guid.NewGuid() };
+            var insulin = new Insulin { Id = Guid.NewGuid() };
+            var meal = new Meal { Id = Guid.NewGuid() };
             factories.Sugars.Add(sugar);
             factories.Insulins.Add(insulin);
+            factories.Meals.Add(meal);
             sut.Load();
-            Assert.IsNull(sut.FindInsulinOrSugar(DateTime.Today.AddHours(1)));
-            Assert.IsInstanceOf<SugarViewModel>(sut.FindInsulinOrSugar(sugar.DateTime));
-            Assert.IsInstanceOf<InsulinViewModel>(sut.FindInsulinOrSugar(insulin.DateTime));
+            Assert.IsNull(sut.FindItem(Guid.Empty));
+            Assert.IsInstanceOf<SugarViewModel>(sut.FindItem(sugar.Id));
+            Assert.IsInstanceOf<InsulinViewModel>(sut.FindItem(insulin.Id));
+            Assert.IsInstanceOf<MealViewModel>(sut.FindItem(meal.Id));
         }
 
         [Test]
@@ -126,6 +129,16 @@ namespace Dietphone.Common.Phone.Tests
             var viewModel = new SugarViewModel(sugar, factories);
             sut.Choose(viewModel);
             sugarEditing.Received().Show(Arg.Is<SugarViewModel>(vm => "100" == vm.BloodSugar));
+        }
+
+        [Test]
+        public void ChooseWhenMeal()
+        {
+            var navigator = new Mock<Navigator>();
+            sut.Navigator = navigator.Object;
+            var meal = new MealViewModel(new Meal { Id = Guid.NewGuid() }, factories);
+            sut.Choose(meal);
+            navigator.Verify(Navigator => Navigator.GoToMealEditing(meal.Id));
         }
 
         [Test]

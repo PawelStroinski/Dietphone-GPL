@@ -53,7 +53,7 @@
     <Compile Include="ViewModels\SugarEditingViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\TypedViewModel.cs" />
+    <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\SearchSubViewModel.cs" />
     <Compile Include="ViewModels\DateViewModel.cs" />
     <Compile Include="ViewModels\EditingViewModelBase.cs" />
@@ -81,7 +81,6 @@
     <Compile Include="ViewModels\ViewModelWithBuffer.cs" />
     <Compile Include="ViewModels\ViewModelWithBufferAcc.cs" />
     <Compile Include="ViewModels\ViewModelWithDate.cs" />
-    <Compile Include="ViewModels\ViewModelWithDateAndText.cs" />
     <Compile Include="Views\TranslationsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
