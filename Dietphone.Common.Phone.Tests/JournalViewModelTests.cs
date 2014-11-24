@@ -190,6 +190,16 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void AddMeal()
+        {
+            var meal = new Meal { Id = Guid.NewGuid() };
+            factories.CreateMeal().Returns(meal);
+            var command = new JournalViewModel.AddMealCommand();
+            sut.Add(command);
+            navigator.Received().GoToMealEditing(meal.Id);
+        }
+
+        [Test]
         public void TombstoneAndUntombstoneWhenSugarEditing()
         {
             var sugar = new Sugar { DateTime = DateTime.Now };

@@ -155,6 +155,16 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public class AddMealCommand : AddCommand
+        {
+            public override void Execute(SubViewModel subViewModel)
+            {
+                var viewModel = subViewModel as JournalViewModel;
+                var meal = viewModel.factories.CreateMeal();
+                viewModel.Navigator.GoToMealEditing(meal.Id);
+            }
+        }
+
         public class JournalLoader : LoaderBaseWithDates
         {
             private ObservableCollection<InsulinCircumstanceViewModel> circumstances;

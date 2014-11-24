@@ -119,6 +119,8 @@ namespace Dietphone.Views
                 command = new JournalViewModel.AddInsulinCommand();
             if (sender == sugarIcon)
                 command = new JournalViewModel.AddSugarCommand();
+            if (sender == addIcon && Pivot.SelectedItem == Journal)
+                command = new JournalViewModel.AddMealCommand();
             subConnector.Add(command);
         }
 
