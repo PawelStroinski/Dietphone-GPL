@@ -36,6 +36,9 @@ namespace Dietphone.BinarySerializers
             writer.Write((byte)item.SugarUnit);
             writer.Write(item.MaxBolus);
             writer.Write(item.MruProductIds);
+            writer.Write(item.CloudSecret);
+            writer.Write(item.CloudToken);
+            writer.Write(item.CloudExportDue);
         }
 
         public override void ReadItem(BinaryReader reader, Settings item)
@@ -57,6 +60,9 @@ namespace Dietphone.BinarySerializers
                 item.SugarUnit = (SugarUnit)reader.ReadByte();
                 item.MaxBolus = reader.ReadSingle();
                 item.MruProductIds = reader.ReadGuids();
+                item.CloudSecret = reader.ReadString();
+                item.CloudToken = reader.ReadString();
+                item.CloudExportDue = reader.ReadDateTime();
             }
         }
     }

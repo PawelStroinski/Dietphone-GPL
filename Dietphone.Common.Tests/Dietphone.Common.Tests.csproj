@@ -67,6 +67,7 @@
     <Compile Include="BinarySerializers\SettingBinaryStorageTests.cs" />
     <Compile Include="BinarySerializers\SugarBinaryStorageTests.cs" />
     <Compile Include="Models\CalculatorTests.cs" />
+    <Compile Include="Models\CloudTests.cs" />
     <Compile Include="Models\DefaultEntitiesTests.cs" />
     <Compile Include="Models\EntityTests.cs" />
     <Compile Include="Models\ExportAndImportTests.cs" />

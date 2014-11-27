@@ -26,7 +26,7 @@ namespace Dietphone.ViewModels
 
         public ExportAndImportViewModel(Factories factories)
         {
-            exportAndImport = new ExportAndImport(factories);
+            exportAndImport = new ExportAndImportImpl(factories);
         }
 
         public bool IsBusy

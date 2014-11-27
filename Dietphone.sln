@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone.Windows", "Dietphone.Common.Phone.Windows\Dietphone.Common.Phone.Windows.csproj", "{5B491308-7819-405D-9F2F-D6949A7022AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Dropbox", "Dietphone.Dropbox\Dietphone.Dropbox.csproj", "{D5F64748-4E67-4BFE-A9C7-80739672C21A}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dietphone.vsmdi
@@ -123,6 +125,14 @@ Global
 		{5B491308-7819-405D-9F2F-D6949A7022AD}.Release|ARM.Build.0 = Release|ARM
 		{5B491308-7819-405D-9F2F-D6949A7022AD}.Release|x86.ActiveCfg = Release|x86
 		{5B491308-7819-405D-9F2F-D6949A7022AD}.Release|x86.Build.0 = Release|x86
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Release|ARM.ActiveCfg = Release|Any CPU
+		{D5F64748-4E67-4BFE-A9C7-80739672C21A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

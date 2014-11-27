@@ -4,7 +4,13 @@ using Dietphone.Tools;
 
 namespace Dietphone.Models
 {
-    public class ExportAndImport
+    public interface ExportAndImport
+    {
+        string Export();
+        void Import(string data);
+    }
+
+    public class ExportAndImportImpl : ExportAndImport
     {
         private ExportAndImportDTO dto;
         private readonly Factories factories;
@@ -12,7 +18,7 @@ namespace Dietphone.Models
         private readonly AppVersion appVersion = new AppVersion();
         private const string NAMESPACE = "http://www.pabloware.com/wp7";
 
-        public ExportAndImport(Factories factories)
+        public ExportAndImportImpl(Factories factories)
         {
             this.factories = factories;
             finder = factories.Finder;
