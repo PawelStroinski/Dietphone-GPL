@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Dietphone.Tools;
 
 namespace Dietphone.Models
 {
@@ -89,17 +90,5 @@ namespace Dietphone.Models
             var data = provider.DownloadFile(name);
             exportAndImport.Import(data);
         }
-    }
-
-    public interface CloudProvider
-    {
-        void UploadFile(string name, string data);
-        List<string> ListFiles();
-        string DownloadFile(string name);
-    }
-
-    public interface CloudProviderFactory
-    {
-        CloudProvider Create();
-    }
+    }    
 }

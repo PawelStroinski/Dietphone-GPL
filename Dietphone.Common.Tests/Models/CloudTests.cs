@@ -2,7 +2,7 @@
 using System;
 using NSubstitute;
 using System.Linq;
-using Dietphone.Views;
+using Dietphone.Tools;
 
 namespace Dietphone.Models.Tests
 {
