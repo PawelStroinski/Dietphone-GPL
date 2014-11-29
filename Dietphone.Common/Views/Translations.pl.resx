@@ -596,17 +596,17 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="RecentlyUsed" xml:space="preserve">
     <value>10 ostatnio używanych</value>
   </data>
-  <data name="AutomaticallySavesDataToOneDriveOnceAWeek" xml:space="preserve">
-    <value>Automatycznie raz w tygodniu zapisuje dane na OneDrive. Dane zostaną zapisanie w folderze Aplikacje w formacie XML.</value>
+  <data name="AutomaticallySavesDataToDropboxOnceAWeek" xml:space="preserve">
+    <value>Automatycznie raz w tygodniu zapisuje dane na Dropboksie. Dane zostaną zapisanie w folderze Aplikacje w formacie XML.</value>
   </data>
-  <data name="ExportToOneDrive" xml:space="preserve">
-    <value>eksportuj na OneDrive</value>
+  <data name="ExportToDropbox" xml:space="preserve">
+    <value>eksportuj na Dropboksa</value>
   </data>
-  <data name="ImportFromOneDrive" xml:space="preserve">
-    <value>importuj z OneDrive</value>
+  <data name="ImportFromDropbox" xml:space="preserve">
+    <value>importuj z Dropboksa</value>
   </data>
-  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
-    <value>Pobiera i dodaje do aplikacji dane poprzednio zapisane na OneDrive.</value>
+  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox" xml:space="preserve">
+    <value>Pobiera i dodaje do aplikacji dane poprzednio zapisane na Dropboksie.</value>
   </data>
   <data name="EstimatedBloodSugar" xml:space="preserve">
     <value>Estymowany poziom cukru</value>

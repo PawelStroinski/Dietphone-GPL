@@ -602,17 +602,17 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="RecentlyUsed" xml:space="preserve">
     <value>10 recently used</value>
   </data>
-  <data name="AutomaticallySavesDataToOneDriveOnceAWeek" xml:space="preserve">
-    <value>Automatically saves data to OneDrive once a week. The data will be saved in Applications folder in XML format.</value>
+  <data name="AutomaticallySavesDataToDropboxOnceAWeek" xml:space="preserve">
+    <value>Automatically saves data to Dropbox once a week. The data will be saved in Applications folder in XML format.</value>
   </data>
-  <data name="ExportToOneDrive" xml:space="preserve">
-    <value>export to OneDrive</value>
+  <data name="ExportToDropbox" xml:space="preserve">
+    <value>export to Dropbox</value>
   </data>
-  <data name="ImportFromOneDrive" xml:space="preserve">
-    <value>import from OneDrive</value>
+  <data name="ImportFromDropbox" xml:space="preserve">
+    <value>import from Dropbox</value>
   </data>
-  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
-    <value>Retrieves and adds to application data previously saved to OneDrive.</value>
+  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox" xml:space="preserve">
+    <value>Retrieves and adds to application data previously saved to Dropbox.</value>
   </data>
   <data name="EstimatedBloodSugar" xml:space="preserve">
     <value>Estimated blood sugar</value>

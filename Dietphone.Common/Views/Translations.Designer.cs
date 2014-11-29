@@ -253,11 +253,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically saves data to OneDrive once a week. The data will be saved in Applications folder in XML format..
+        ///   Looks up a localized string similar to Automatically saves data to Dropbox once a week. The data will be saved in Applications folder in XML format..
         /// </summary>
-        public static string AutomaticallySavesDataToOneDriveOnceAWeek {
+        public static string AutomaticallySavesDataToDropboxOnceAWeek {
             get {
-                return ResourceManager.GetString("AutomaticallySavesDataToOneDriveOnceAWeek", resourceCulture);
+                return ResourceManager.GetString("AutomaticallySavesDataToDropboxOnceAWeek", resourceCulture);
             }
         }
         
@@ -740,11 +740,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to export to OneDrive.
+        ///   Looks up a localized string similar to export to Dropbox.
         /// </summary>
-        public static string ExportToOneDrive {
+        public static string ExportToDropbox {
             get {
-                return ResourceManager.GetString("ExportToOneDrive", resourceCulture);
+                return ResourceManager.GetString("ExportToDropbox", resourceCulture);
             }
         }
         
@@ -840,11 +840,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to import from OneDrive.
+        ///   Looks up a localized string similar to import from Dropbox.
         /// </summary>
-        public static string ImportFromOneDrive {
+        public static string ImportFromDropbox {
             get {
-                return ResourceManager.GetString("ImportFromOneDrive", resourceCulture);
+                return ResourceManager.GetString("ImportFromDropbox", resourceCulture);
             }
         }
         
@@ -1230,11 +1230,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retrieves and adds to application data previously saved to OneDrive..
+        ///   Looks up a localized string similar to Retrieves and adds to application data previously saved to Dropbox..
         /// </summary>
-        public static string RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive {
+        public static string RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox {
             get {
-                return ResourceManager.GetString("RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive", resourceCulture);
+                return ResourceManager.GetString("RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox", resourceCulture);
             }
         }
         

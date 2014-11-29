@@ -68,11 +68,11 @@ namespace Dietphone.Views
             });
         }
 
-        private void ExportToOneDrive_Click(object sender, RoutedEventArgs e)
+        private void ExportToCloud_Click(object sender, RoutedEventArgs e)
         {
         }
 
-        private void ImportFromOneDrive_Click(object sender, RoutedEventArgs e)
+        private void ImportFromCloud_Click(object sender, RoutedEventArgs e)
         {
         }
 
@@ -147,10 +147,10 @@ namespace Dietphone.Views
 
         private void TranslateButtons()
         {
-            ExportToOneDrive.Line1 = Translations.ExportToOneDrive;
-            ExportToOneDrive.Line2 = Translations.AutomaticallySavesDataToOneDriveOnceAWeek;
-            ImportFromOneDrive.Line1 = Translations.ImportFromOneDrive;
-            ImportFromOneDrive.Line2 = Translations.RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive;
+            ExportToCloud.Line1 = Translations.ExportToDropbox;
+            ExportToCloud.Line2 = Translations.AutomaticallySavesDataToDropboxOnceAWeek;
+            ImportFromCloud.Line1 = Translations.ImportFromDropbox;
+            ImportFromCloud.Line2 = Translations.RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox;
             ExportByEmail.Line1 = Translations.ExportByEmail;
             ExportByEmail.Line2 = Translations.AllowsSendingDataAttachedToAnEMail;
             ImportFromAddress.Line1 = Translations.ImportFromAddress;

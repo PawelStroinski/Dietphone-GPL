@@ -41,11 +41,11 @@
                            Foreground="{StaticResource PhoneAccentBrush}"/>
                 <TextBlock Visibility="{Binding IsBusyAsVisibility}"
                            Text=" " />
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToOneDrive_Click">
-                    <views:MultiLineItem x:Name="ExportToOneDrive"/>
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToCloud_Click">
+                    <views:MultiLineItem x:Name="ExportToCloud"/>
                 </Button>
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromOneDrive_Click">
-                    <views:MultiLineItem x:Name="ImportFromOneDrive"/>
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromCloud_Click">
+                    <views:MultiLineItem x:Name="ImportFromCloud"/>
                 </Button>
                 <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportByEmail_Click">
                     <views:MultiLineItem x:Name="ExportByEmail"/>
