@@ -749,6 +749,24 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export to Dropbox activation was successful..
+        /// </summary>
+        public static string ExportToDropboxActivationWasSuccessful {
+            get {
+                return ResourceManager.GetString("ExportToDropboxActivationWasSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to Dropbox is active. Do you want to turn it off?.
+        /// </summary>
+        public static string ExportToDropboxIsActiveDoYouWantToTurnItOff {
+            get {
+                return ResourceManager.GetString("ExportToDropboxIsActiveDoYouWantToTurnItOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} fat.
         /// </summary>
         public static string Fat {

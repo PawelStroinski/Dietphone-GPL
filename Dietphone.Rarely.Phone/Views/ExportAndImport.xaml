@@ -21,7 +21,7 @@
         <ResourceDictionary Source="Resources.xaml"/>
     </phone:PhoneApplicationPage.Resources>
 
-    <Grid Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -73,6 +73,15 @@
             </Border>
             <telerikPrimitives:RadModalWindow.OpenAnimation>
                 <telerikCore:RadSlideAnimation MoveDirection="BottomIn" Duration="0:0:0.2" Ended="WindowAnimation_Ended"/>
+            </telerikPrimitives:RadModalWindow.OpenAnimation>
+        </telerikPrimitives:RadModalWindow>
+        <telerikPrimitives:RadModalWindow Name="BrowserWindow"
+                                          Placement="TopCenter"
+                                          HorizontalContentAlignment="Stretch"
+                                          IsOpen="{Binding BrowserVisible, Mode=TwoWay}">
+            <phone:WebBrowser x:Name="Browser" IsScriptEnabled="True" Navigating="Browser_Navigating"/>
+            <telerikPrimitives:RadModalWindow.OpenAnimation>
+                <telerikCore:RadSlideAnimation MoveDirection="BottomIn" Duration="0:0:0.2"/>
             </telerikPrimitives:RadModalWindow.OpenAnimation>
         </telerikPrimitives:RadModalWindow>
     </Grid>

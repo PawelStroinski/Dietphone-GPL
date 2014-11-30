@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone
 {
     public static class TestsExtensionMethods
     {

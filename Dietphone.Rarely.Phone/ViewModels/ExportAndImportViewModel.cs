@@ -17,16 +17,26 @@ namespace Dietphone.ViewModels
         public event EventHandler SendingFailedDuringExport;
         public event EventHandler DownloadingFailedDuringImport;
         public event EventHandler ReadingFailedDuringImport;
+        public event EventHandler<string> NavigateInBrowser;
+        public event EventHandler<ConfirmEventArgs> ConfirmExportToCloudDeactivation;
+        public event EventHandler ExportToCloudActivationSuccessful;
         private string data;
         private bool isBusy;
+        private bool browserVisible { get; set; }
         private bool readingFailedDuringImport;
+        private CloudProvider cloudProvider;
+        private readonly Factories factories;
         private readonly ExportAndImport exportAndImport;
+        private readonly CloudProviderFactory cloudProviderFactory;
         private const string MAILEXPORT_URL = "http://www.bizmaster.pl/varia/dietphone/MailExport.aspx";
         private const string MAILEXPORT_SUCCESS_RESULT = "Success!";
+        internal const string TOKEN_ACQUIRING_CALLBACK_URL = "http://localhost/HelloTestingSuccess";
 
-        public ExportAndImportViewModel(Factories factories)
+        public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory)
         {
+            this.factories = factories;
             exportAndImport = new ExportAndImportImpl(factories);
+            this.cloudProviderFactory = cloudProviderFactory;
         }
 
         public bool IsBusy
@@ -40,6 +50,19 @@ namespace Dietphone.ViewModels
                 isBusy = value;
                 OnPropertyChanged("IsBusy");
                 OnPropertyChanged("IsBusyAsVisibility");
+            }
+        }
+
+        public bool BrowserVisible
+        {
+            get
+            {
+                return browserVisible;
+            }
+            set
+            {
+                browserVisible = value;
+                OnPropertyChanged("BrowserVisible");
             }
         }
 
@@ -82,6 +105,30 @@ namespace Dietphone.ViewModels
                 return;
             }
             Download();
+        }
+
+        public void ExportToCloud()
+        {
+            var settings = factories.Settings;
+            if (settings.CloudSecret == string.Empty && settings.CloudToken == string.Empty)
+                ActivateExportToCloud();
+            else
+                DeactivateExportToCloud();
+        }
+
+        public void BrowserIsNavigating(string url)
+        {
+            if (!IsThisUrlTheTokenAcquiringCallbackUrl(url))
+                return;
+            CheckCloudProvider();
+            var worker = new BackgroundWorker();
+            worker.DoWork += delegate { StoreAcquiredToken(); };
+            worker.RunWorkerCompleted += delegate
+            {
+                BrowserVisible = false;
+                OnExportToCloudActivationSuccessful();
+            };
+            worker.RunWorkerAsync();
         }
 
         private void Send()
@@ -162,6 +209,57 @@ namespace Dietphone.ViewModels
             }
         }
 
+        private void ActivateExportToCloud()
+        {
+            var worker = new BackgroundWorker();
+            var url = string.Empty;
+            worker.DoWork += delegate
+            {
+                cloudProvider = cloudProviderFactory.Create();
+                url = cloudProvider.GetTokenAcquiringUrl(TOKEN_ACQUIRING_CALLBACK_URL);
+            };
+            worker.RunWorkerCompleted += delegate
+            {
+                OnNavigateInBrowser(url);
+                BrowserVisible = true;
+                IsBusy = false;
+            };
+            IsBusy = true;
+            worker.RunWorkerAsync();
+        }
+
+        private void DeactivateExportToCloud()
+        {
+            var eventArgs = new ConfirmEventArgs();
+            OnConfirmExportToCloudDeactivation(eventArgs);
+            if (eventArgs.Confirm)
+            {
+                var settings = factories.Settings;
+                settings.CloudSecret = string.Empty;
+                settings.CloudToken = string.Empty;
+            }
+        }
+
+        private void StoreAcquiredToken()
+        {
+            var token = cloudProvider.GetAcquiredToken();
+            var settings = factories.Settings;
+            settings.CloudSecret = token.Secret;
+            settings.CloudToken = token.Token;
+        }
+
+        private bool IsThisUrlTheTokenAcquiringCallbackUrl(string url)
+        {
+            return url != null
+                && url.ToUpper().StartsWith(TOKEN_ACQUIRING_CALLBACK_URL.ToUpper());
+        }
+
+        private void CheckCloudProvider()
+        {
+            if (cloudProvider == null)
+                throw new InvalidOperationException("ExportToCloud should be invoked first.");
+        }
+
         private void NotifyAfterImport()
         {
             if (readingFailedDuringImport)
@@ -213,5 +311,34 @@ namespace Dietphone.ViewModels
                 ReadingFailedDuringImport(this, EventArgs.Empty);
             }
         }
+
+        protected void OnNavigateInBrowser(string url)
+        {
+            if (NavigateInBrowser != null)
+            {
+                NavigateInBrowser(this, url);
+            }
+        }
+
+        protected void OnConfirmExportToCloudDeactivation(ConfirmEventArgs e)
+        {
+            if (ConfirmExportToCloudDeactivation != null)
+            {
+                ConfirmExportToCloudDeactivation(this, e);
+            }
+        }
+
+        protected void OnExportToCloudActivationSuccessful()
+        {
+            if (ExportToCloudActivationSuccessful != null)
+            {
+                ExportToCloudActivationSuccessful(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    public class ConfirmEventArgs : EventArgs
+    {
+        public bool Confirm { get; set; }
     }
 }

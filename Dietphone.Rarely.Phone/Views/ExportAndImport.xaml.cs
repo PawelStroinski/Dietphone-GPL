@@ -1,4 +1,5 @@
-﻿using System;
+﻿// The GetSystemTrayHeight method is from http://stackoverflow.com/a/24059163
+using System;
 using System.Windows;
 using Microsoft.Phone.Controls;
 using Dietphone.ViewModels;
@@ -16,12 +17,16 @@ namespace Dietphone.Views
         public ExportAndImport()
         {
             InitializeComponent();
-            ViewModel = new ExportAndImportViewModel(MyApp.Factories);
+            ViewModel = new ExportAndImportViewModel(MyApp.Factories,
+                new DropboxProviderFactory(MyApp.Factories));
             ViewModel.ExportAndSendSuccessful += ViewModel_ExportAndSendSuccessful;
             ViewModel.DownloadAndImportSuccessful += ViewModel_DownloadAndImportSuccessful;
             ViewModel.SendingFailedDuringExport += ViewModel_SendingFailedDuringExport;
             ViewModel.DownloadingFailedDuringImport += ViewModel_DownloadingFailedDuringImport;
             ViewModel.ReadingFailedDuringImport += ViewModel_ReadingFailedDuringImport;
+            ViewModel.NavigateInBrowser += ViewModel_NavigateInBrowser;
+            ViewModel.ConfirmExportToCloudDeactivation += ViewModel_ConfirmExportToCloudDeactivation;
+            ViewModel.ExportToCloudActivationSuccessful += ViewModel_ExportToCloudActivationSuccessful;
             DataContext = ViewModel;
             SetWindowBackground();
             SetWindowSize();
@@ -68,8 +73,28 @@ namespace Dietphone.Views
             });
         }
 
+        private void ViewModel_NavigateInBrowser(object sender, string e)
+        {
+            Browser.Navigate(new Uri(e));
+        }
+
+        private void ViewModel_ConfirmExportToCloudDeactivation(object sender, ConfirmEventArgs e)
+        {
+            e.Confirm = MessageBox.Show(Translations.ExportToDropboxIsActiveDoYouWantToTurnItOff, string.Empty,
+                MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+        }
+
+        private void ViewModel_ExportToCloudActivationSuccessful(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show(Translations.ExportToDropboxActivationWasSuccessful);
+            });
+        }
+
         private void ExportToCloud_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.ExportToCloud();
         }
 
         private void ImportFromCloud_Click(object sender, RoutedEventArgs e)
@@ -122,6 +147,11 @@ namespace Dietphone.Views
             Window.IsOpen = false;
         }
 
+        private void Browser_Navigating(object sender, NavigatingEventArgs e)
+        {
+            ViewModel.BrowserIsNavigating(e.Uri.ToString());
+        }
+
         private void SetWindowBackground()
         {
             Color color;
@@ -133,15 +163,21 @@ namespace Dietphone.Views
             {
                 color = Color.FromArgb(0xCC, 255, 255, 255);
             }
-            Window.Background = new SolidColorBrush(color);
+            var brush = new SolidColorBrush(color);
+            Window.Background = brush;
+            BrowserWindow.Background = brush;
         }
 
         private void SetWindowSize()
         {
             Loaded += (sender, args) =>
             {
-                var size = new Size(Application.Current.RootVisual.RenderSize.Width, double.NaN);
-                Window.WindowSize = size;
+                var renderSize = Application.Current.RootVisual.RenderSize;
+                var windowSize = new Size(renderSize.Width, double.NaN);
+                var browserWindowSize = new Size(renderSize.Width, renderSize.Height - GetSystemTrayHeight());
+                Window.WindowSize = windowSize;
+                BrowserWindow.WindowSize = browserWindowSize;
+                Browser.Height = browserWindowSize.Height;
             };
         }
 
@@ -155,6 +191,13 @@ namespace Dietphone.Views
             ExportByEmail.Line2 = Translations.AllowsSendingDataAttachedToAnEMail;
             ImportFromAddress.Line1 = Translations.ImportFromAddress;
             ImportFromAddress.Line2 = Translations.AllowsToRetrieveDataFromAFileInXmlFormat;
+        }
+
+        private double GetSystemTrayHeight()
+        {
+            GeneralTransform transform = LayoutRoot.TransformToVisual(Application.Current.RootVisual as UIElement);
+            Point offset = transform.Transform(new Point(0, 0));
+            return offset.Y;
         }
     }
 }

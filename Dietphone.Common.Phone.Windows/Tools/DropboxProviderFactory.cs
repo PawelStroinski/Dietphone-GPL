@@ -1,19 +1,21 @@
-﻿namespace Dietphone.Tools
+﻿using Dietphone.Models;
+
+namespace Dietphone.Tools
 {
     public class DropboxProviderFactory : CloudProviderFactory
     {
-        private readonly string secret;
-        private readonly string token;
+        private readonly Factories factories;
 
-        public DropboxProviderFactory(string secret, string token)
+        public DropboxProviderFactory(Factories factories)
         {
-            this.secret = secret;
-            this.token = token;
+            this.factories = factories;
         }
 
         public CloudProvider Create()
         {
-            return new DropboxProvider(secret: secret, token: token);
+            var settings = factories.Settings;
+            var token = new CloudToken { Secret = settings.CloudSecret, Token = settings.CloudToken };
+            return new DropboxProvider(token);
         }
     }
 }

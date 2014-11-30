@@ -620,4 +620,10 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="Meal" xml:space="preserve">
     <value>meal</value>
   </data>
+  <data name="ExportToDropboxIsActiveDoYouWantToTurnItOff" xml:space="preserve">
+    <value>Export to Dropbox is active. Do you want to turn it off?</value>
+  </data>
+  <data name="ExportToDropboxActivationWasSuccessful" xml:space="preserve">
+    <value>Export to Dropbox activation was successful.</value>
+  </data>
 </root>

@@ -13,12 +13,15 @@ namespace Dietphone.Tools
         private const string PATH = "/";
         private readonly DropNetClient client;
 
-        public DropboxProvider(string secret, string token)
+        public DropboxProvider(CloudToken token)
         {
             client = new DropNetClient(apiKey: API_KEY, appSecret: APP_SECRET);
             client.UseSandbox = true;
-            var accessToken = new UserLogin { Secret = secret, Token = token };
-            client.SetUserToken(accessToken);
+            if (token.Secret != string.Empty || token.Token != string.Empty)
+            {
+                var accessToken = new UserLogin { Secret = token.Secret, Token = token.Token };
+                client.SetUserToken(accessToken);
+            }
         }
 
         public void UploadFile(string name, string data)
@@ -40,6 +43,18 @@ namespace Dietphone.Tools
             var filepath = PATH + name;
             var file = client.GetFile(filepath).Result;
             return Encoding.UTF8.GetString(file, 0, file.Length);
+        }
+
+        public string GetTokenAcquiringUrl(string callbackUrl)
+        {
+            var requestToken = client.GetRequestToken().Result;
+            return client.BuildAuthorizeUrl(requestToken, callbackUrl);
+        }
+
+        public CloudToken GetAcquiredToken()
+        {
+            var accessToken = client.GetAccessToken().Result;
+            return new CloudToken { Secret = accessToken.Secret, Token = accessToken.Token };
         }
     }
 }

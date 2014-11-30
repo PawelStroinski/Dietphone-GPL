@@ -614,4 +614,10 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="Meal" xml:space="preserve">
     <value>posiłek</value>
   </data>
+  <data name="ExportToDropboxIsActiveDoYouWantToTurnItOff" xml:space="preserve">
+    <value>Eksport na Dropboksa jest aktywny. Czy chcesz go wyłączyć?</value>
+  </data>
+  <data name="ExportToDropboxActivationWasSuccessful" xml:space="preserve">
+    <value>Aktywacja eksportu na Dropboksa przebiegła pomyślnie.</value>
+  </data>
 </root>
