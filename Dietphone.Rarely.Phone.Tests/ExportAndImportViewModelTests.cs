@@ -15,6 +15,7 @@ namespace Dietphone.Rarely.Phone.Tests
         private CloudProviderFactory cloudProviderFactory;
         private CloudProvider cloudProvider;
         private Settings settings;
+        private Vibration vibration;
         private ExportAndImportViewModel sut;
 
         [SetUp]
@@ -26,7 +27,8 @@ namespace Dietphone.Rarely.Phone.Tests
             cloudProviderFactory.Create().Returns(cloudProvider);
             settings = new Settings();
             factories.Settings.Returns(settings);
-            sut = new ExportAndImportViewModel(factories, cloudProviderFactory);
+            vibration = Substitute.For<Vibration>();
+            sut = new ExportAndImportViewModel(factories, cloudProviderFactory, vibration);
         }
 
         public class ExportToCloud : ExportAndImportViewModelTests
@@ -104,6 +106,39 @@ namespace Dietphone.Rarely.Phone.Tests
             {
                 sut.BrowserIsNavigating(ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL);
                 Thread.Sleep(10);
+            }
+
+            [TestCase("foo")]
+            [TestCase("")]
+            public void Vibrates(string token)
+            {
+                settings.CloudToken = token;
+                sut.ExportToCloud();
+                vibration.Received().VibrateOnButtonPress();
+            }
+
+            [TestCase(true, "foo", "", true)]
+            [TestCase(true, "", "bar", false)]
+            [TestCase(true, "foo", "bar", false)]
+            [TestCase(false, "", "", false)]
+            public void IsExportToCloudActive(bool expected, string secret, string token, bool confirmedDeactivation)
+            {
+                var propertyName = "IsExportToCloudActive";
+                settings.CloudSecret = secret;
+                settings.CloudToken = token;
+                Assert.AreEqual(expected, sut.IsExportToCloudActive);
+                sut.ConfirmExportToCloudDeactivation += (_, eventArgs) => { eventArgs.Confirm = confirmedDeactivation; };
+                sut.ChangesProperty(propertyName, () => sut.ExportToCloud());
+                if (!expected)
+                {
+                    Thread.Sleep(10);
+                    cloudProvider.GetAcquiredToken().Returns(new CloudToken { Secret = "foo", Token = "bar" });
+                    sut.ChangesProperty(propertyName, () =>
+                    {
+                        sut.BrowserIsNavigating(ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL);
+                        Thread.Sleep(10);
+                    });
+                }
             }
         }
 

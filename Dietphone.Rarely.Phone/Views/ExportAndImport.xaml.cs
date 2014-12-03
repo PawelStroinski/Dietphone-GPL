@@ -18,7 +18,8 @@ namespace Dietphone.Views
         {
             InitializeComponent();
             ViewModel = new ExportAndImportViewModel(MyApp.Factories,
-                new DropboxProviderFactory(MyApp.Factories));
+                new DropboxProviderFactory(MyApp.Factories),
+                new VibrationImpl());
             ViewModel.ExportAndSendSuccessful += ViewModel_ExportAndSendSuccessful;
             ViewModel.DownloadAndImportSuccessful += ViewModel_DownloadAndImportSuccessful;
             ViewModel.SendingFailedDuringExport += ViewModel_SendingFailedDuringExport;

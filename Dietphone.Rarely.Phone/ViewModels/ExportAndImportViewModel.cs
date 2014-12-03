@@ -28,15 +28,18 @@ namespace Dietphone.ViewModels
         private readonly Factories factories;
         private readonly ExportAndImport exportAndImport;
         private readonly CloudProviderFactory cloudProviderFactory;
+        private readonly Vibration vibration;
         private const string MAILEXPORT_URL = "http://www.bizmaster.pl/varia/dietphone/MailExport.aspx";
         private const string MAILEXPORT_SUCCESS_RESULT = "Success!";
         internal const string TOKEN_ACQUIRING_CALLBACK_URL = "http://localhost/HelloTestingSuccess";
 
-        public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory)
+        public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory,
+            Vibration vibration)
         {
             this.factories = factories;
             exportAndImport = new ExportAndImportImpl(factories);
             this.cloudProviderFactory = cloudProviderFactory;
+            this.vibration = vibration;
         }
 
         public bool IsBusy
@@ -63,6 +66,15 @@ namespace Dietphone.ViewModels
             {
                 browserVisible = value;
                 OnPropertyChanged("BrowserVisible");
+            }
+        }
+
+        public bool IsExportToCloudActive
+        {
+            get
+            {
+                var settings = factories.Settings;
+                return settings.CloudSecret != string.Empty || settings.CloudToken != string.Empty;
             }
         }
 
@@ -109,11 +121,12 @@ namespace Dietphone.ViewModels
 
         public void ExportToCloud()
         {
-            var settings = factories.Settings;
-            if (settings.CloudSecret == string.Empty && settings.CloudToken == string.Empty)
-                ActivateExportToCloud();
-            else
+            vibration.VibrateOnButtonPress();
+            if (IsExportToCloudActive)
                 DeactivateExportToCloud();
+            else
+                ActivateExportToCloud();
+            NotifyIsExportToCloudActive();
         }
 
         public void BrowserIsNavigating(string url)
@@ -127,6 +140,7 @@ namespace Dietphone.ViewModels
             {
                 BrowserVisible = false;
                 OnExportToCloudActivationSuccessful();
+                NotifyIsExportToCloudActive();
             };
             worker.RunWorkerAsync();
         }
@@ -334,6 +348,11 @@ namespace Dietphone.ViewModels
             {
                 ExportToCloudActivationSuccessful(this, EventArgs.Empty);
             }
+        }
+
+        private void NotifyIsExportToCloudActive()
+        {
+            OnPropertyChanged("IsExportToCloudActive");
         }
     }
 

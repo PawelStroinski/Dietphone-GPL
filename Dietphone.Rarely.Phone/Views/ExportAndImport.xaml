@@ -41,9 +41,9 @@
                            Foreground="{StaticResource PhoneAccentBrush}"/>
                 <TextBlock Visibility="{Binding IsBusyAsVisibility}"
                            Text=" " />
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToCloud_Click">
+                <ToggleButton ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToCloud_Click" IsChecked="{Binding IsExportToCloudActive, Mode=TwoWay}">
                     <views:MultiLineItem x:Name="ExportToCloud"/>
-                </Button>
+                </ToggleButton>
                 <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromCloud_Click">
                     <views:MultiLineItem x:Name="ImportFromCloud"/>
                 </Button>
