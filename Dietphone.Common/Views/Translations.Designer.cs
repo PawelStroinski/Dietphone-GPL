@@ -1501,6 +1501,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was an error during the export to Dropbox..
+        /// </summary>
+        public static string ThereWasAnErrorDuringTheExportToDropbox {
+            get {
+                return ResourceManager.GetString("ThereWasAnErrorDuringTheExportToDropbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This category includes other products. Change their category and try again..
         /// </summary>
         public static string ThisCategoryIncludesOtherProducts {

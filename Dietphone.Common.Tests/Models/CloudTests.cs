@@ -41,6 +41,7 @@ namespace Dietphone.Models.Tests
                 settings.CloudSecret = secret;
                 settings.CloudToken = token;
                 settings.CloudExportDue = DateTime.Today.AddDays(addDays);
+                Assert.AreEqual(does, sut.ShouldExport());
                 sut.Export();
                 if (does)
                     providerFactory.Received().Create();

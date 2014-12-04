@@ -1,7 +1,7 @@
 ﻿using System;
 using Dietphone.Models;
-using System.Collections.Generic;
 using Dietphone.Tools;
+using System.Threading;
 
 namespace Dietphone.ViewModels
 {
@@ -11,17 +11,25 @@ namespace Dietphone.ViewModels
         public MealItemEditingViewModel MealItemEditing { private get; set; }
         public MealEditingViewModel MealEditing { private get; set; }
         public event EventHandler ShowProductsOnly;
+        public event EventHandler ExportToCloudError;
         private string search = string.Empty;
         private Navigator navigator;
         private MealItem tempMealItem;
         private bool addMealItem;
         private readonly Factories factories;
+        private readonly Cloud cloud;
+        private readonly TimerFactory timerFactory;
+        private readonly BackgroundWorkerFactory workerFactory;
         private const string MEAL_ITEM_EDITING = "MEAL_ITEM_EDITING";
         private const string MEAL_ITEM_PRODUCT = "MEAL_ITEM_PRODUCT";
 
-        public MainViewModel(Factories factories)
+        public MainViewModel(Factories factories, Cloud cloud, TimerFactory timerFactory,
+            BackgroundWorkerFactory workerFactory)
         {
             this.factories = factories;
+            this.cloud = cloud;
+            this.timerFactory = timerFactory;
+            this.workerFactory = workerFactory;
         }
 
         public string Search
@@ -81,6 +89,8 @@ namespace Dietphone.ViewModels
         public void UiRendered()
         {
             UntombstoneMealItemEditing();
+            if (cloud.ShouldExport())
+                CreateTimerToExportToCloud();
         }
 
         protected void OnNavigatorChanged()
@@ -89,6 +99,18 @@ namespace Dietphone.ViewModels
             {
                 AddingMealItem();
             }
+        }
+
+        private void CreateTimerToExportToCloud()
+        {
+            Timer timer = null;
+            timer = timerFactory.Create(callback: _ =>
+            {
+                var worker = workerFactory.Create();
+                worker.DoWork += delegate { ExportToCloud(); };
+                worker.RunWorkerCompleted += delegate { timer.Dispose(); };
+                worker.RunWorkerAsync();
+            }, state: null, dueTime: 500, period: -1);
         }
 
         private void AddingMealItem()
@@ -134,6 +156,18 @@ namespace Dietphone.ViewModels
             }
         }
 
+        private void ExportToCloud()
+        {
+            try
+            {
+                cloud.Export();
+            }
+            catch (Exception)
+            {
+                OnExportToCloudError();
+            }
+        }
+
         private void ProductListing_Choosed(object sender, ChoosedEventArgs e)
         {
             AddMealItemWithProduct(e.Product);
@@ -159,6 +193,14 @@ namespace Dietphone.ViewModels
             if (ShowProductsOnly != null)
             {
                 ShowProductsOnly(this, EventArgs.Empty);
+            }
+        }
+
+        protected void OnExportToCloudError()
+        {
+            if (ExportToCloudError != null)
+            {
+                ExportToCloudError(this, EventArgs.Empty);
             }
         }
     }

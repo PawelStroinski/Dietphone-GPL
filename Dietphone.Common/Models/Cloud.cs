@@ -8,6 +8,7 @@ namespace Dietphone.Models
 {
     public interface Cloud
     {
+        bool ShouldExport();
         void Export();
         List<string> ListImports();
         void Import(string name);
@@ -26,6 +27,16 @@ namespace Dietphone.Models
             this.providerFactory = providerFactory;
             this.factories = factories;
             this.exportAndImport = exportAndImport;
+        }
+
+        public bool ShouldExport()
+        {
+            var settings = this.factories.Settings;
+            if (settings.CloudSecret == string.Empty && settings.CloudToken == string.Empty)
+                return false;
+            if (settings.CloudExportDue > DateTime.Today)
+                return false;
+            return true;
         }
 
         public void Export()
@@ -47,16 +58,6 @@ namespace Dietphone.Models
         {
             CreateProvider();
             DownloadAndImportFile(name);
-        }
-
-        private bool ShouldExport()
-        {
-            var settings = this.factories.Settings;
-            if (settings.CloudSecret == string.Empty && settings.CloudToken == string.Empty)
-                return false;
-            if (settings.CloudExportDue > DateTime.Today)
-                return false;
-            return true;
         }
 
         private void CreateProvider()

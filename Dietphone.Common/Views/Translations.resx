@@ -627,4 +627,7 @@ So one number gives information on both fat and protein in meal.</value>
     <value>Export to Dropbox activation was successful.
 The initial export is done too.</value>
   </data>
+  <data name="ThereWasAnErrorDuringTheExportToDropbox" xml:space="preserve">
+    <value>There was an error during the export to Dropbox.</value>
+  </data>
 </root>

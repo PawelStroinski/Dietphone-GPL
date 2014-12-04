@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Shell;
+using Dietphone.Models;
 
 namespace Dietphone.Views
 {
@@ -28,13 +29,19 @@ namespace Dietphone.Views
         public Main()
         {
             InitializeComponent();
-            ViewModel = new MainViewModel(MyApp.Factories)
+            ViewModel = new MainViewModel(MyApp.Factories,
+                new CloudImpl(new DropboxProviderFactory(MyApp.Factories),
+                    MyApp.Factories,
+                    new ExportAndImportImpl(MyApp.Factories)),
+                new TimerFactoryImpl(),
+                new BackgroundWorkerWrapperFactory())
             {
                 ProductListing = ProductListing.ViewModel,
                 MealItemEditing = MealItemEditing.ViewModel,
                 StateProvider = this
             };
             ViewModel.ShowProductsOnly += ViewModel_ShowProductsOnly;
+            ViewModel.ExportToCloudError += ViewModel_ExportToCloudError;
             DataContext = ViewModel;
             subConnector = new SubViewModelConnector(ViewModel);
             subConnector.Loaded += SubConnector_Loaded;
@@ -119,6 +126,14 @@ namespace Dietphone.Views
         private void ViewModel_ShowProductsOnly(object sender, EventArgs e)
         {
             Pivot.Items.Remove(Journal);
+        }
+
+        private void ViewModel_ExportToCloudError(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show(Translations.ThereWasAnErrorDuringTheExportToDropbox);
+            });
         }
 
         private void About_Click(object sender, EventArgs e)
