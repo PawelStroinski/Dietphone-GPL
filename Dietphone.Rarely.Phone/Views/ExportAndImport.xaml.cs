@@ -6,6 +6,7 @@ using Dietphone.ViewModels;
 using System.Windows.Media;
 using System.Windows.Input;
 using Dietphone.Tools;
+using Dietphone.Models;
 
 namespace Dietphone.Views
 {
@@ -19,7 +20,10 @@ namespace Dietphone.Views
             InitializeComponent();
             ViewModel = new ExportAndImportViewModel(MyApp.Factories,
                 new DropboxProviderFactory(MyApp.Factories),
-                new VibrationImpl());
+                new VibrationImpl(),
+                new CloudImpl(new DropboxProviderFactory(MyApp.Factories),
+                    MyApp.Factories,
+                    new ExportAndImportImpl(MyApp.Factories)));
             ViewModel.ExportAndSendSuccessful += ViewModel_ExportAndSendSuccessful;
             ViewModel.DownloadAndImportSuccessful += ViewModel_DownloadAndImportSuccessful;
             ViewModel.SendingFailedDuringExport += ViewModel_SendingFailedDuringExport;
@@ -76,7 +80,10 @@ namespace Dietphone.Views
 
         private void ViewModel_NavigateInBrowser(object sender, string e)
         {
-            Browser.Navigate(new Uri(e));
+            Dispatcher.BeginInvoke(() =>
+            {
+                Browser.Navigate(new Uri(e));
+            });
         }
 
         private void ViewModel_ConfirmExportToCloudDeactivation(object sender, ConfirmEventArgs e)

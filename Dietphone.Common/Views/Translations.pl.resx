@@ -618,6 +618,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Eksport na Dropboksa jest aktywny. Czy chcesz go wyłączyć?</value>
   </data>
   <data name="ExportToDropboxActivationWasSuccessful" xml:space="preserve">
-    <value>Aktywacja eksportu na Dropboksa przebiegła pomyślnie.</value>
+    <value>Aktywacja eksportu na Dropboksa przebiegła pomyślnie.
+Początkowy eksport został również wykonany.</value>
   </data>
 </root>

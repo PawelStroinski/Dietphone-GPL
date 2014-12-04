@@ -749,7 +749,8 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to Dropbox activation was successful..
+        ///   Looks up a localized string similar to Export to Dropbox activation was successful.
+        ///The initial export is done too..
         /// </summary>
         public static string ExportToDropboxActivationWasSuccessful {
             get {

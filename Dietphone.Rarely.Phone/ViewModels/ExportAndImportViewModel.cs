@@ -29,17 +29,20 @@ namespace Dietphone.ViewModels
         private readonly ExportAndImport exportAndImport;
         private readonly CloudProviderFactory cloudProviderFactory;
         private readonly Vibration vibration;
+        private readonly Cloud cloud;
         private const string MAILEXPORT_URL = "http://www.bizmaster.pl/varia/dietphone/MailExport.aspx";
         private const string MAILEXPORT_SUCCESS_RESULT = "Success!";
         internal const string TOKEN_ACQUIRING_CALLBACK_URL = "http://localhost/HelloTestingSuccess";
+        internal const string TOKEN_ACQUIRING_NAVIGATE_AWAY_URL = "about:blank";
 
         public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory,
-            Vibration vibration)
+            Vibration vibration, Cloud cloud)
         {
             this.factories = factories;
             exportAndImport = new ExportAndImportImpl(factories);
             this.cloudProviderFactory = cloudProviderFactory;
             this.vibration = vibration;
+            this.cloud = cloud;
         }
 
         public bool IsBusy
@@ -134,8 +137,13 @@ namespace Dietphone.ViewModels
             if (!IsThisUrlTheTokenAcquiringCallbackUrl(url))
                 return;
             CheckCloudProvider();
-            var worker = new BackgroundWorker();
-            worker.DoWork += delegate { StoreAcquiredToken(); };
+            var worker = new VerboseBackgroundWorker();
+            worker.DoWork += delegate
+            {
+                OnNavigateInBrowser(TOKEN_ACQUIRING_NAVIGATE_AWAY_URL);
+                StoreAcquiredToken();
+                cloud.Export();
+            };
             worker.RunWorkerCompleted += delegate
             {
                 BrowserVisible = false;
@@ -225,7 +233,7 @@ namespace Dietphone.ViewModels
 
         private void ActivateExportToCloud()
         {
-            var worker = new BackgroundWorker();
+            var worker = new VerboseBackgroundWorker();
             var url = string.Empty;
             worker.DoWork += delegate
             {
@@ -251,6 +259,7 @@ namespace Dietphone.ViewModels
                 var settings = factories.Settings;
                 settings.CloudSecret = string.Empty;
                 settings.CloudToken = string.Empty;
+                settings.CloudExportDue = DateTime.MinValue;
             }
         }
 

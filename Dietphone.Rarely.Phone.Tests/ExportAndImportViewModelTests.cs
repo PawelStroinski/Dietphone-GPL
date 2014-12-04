@@ -16,6 +16,7 @@ namespace Dietphone.Rarely.Phone.Tests
         private CloudProvider cloudProvider;
         private Settings settings;
         private Vibration vibration;
+        private Cloud cloud;
         private ExportAndImportViewModel sut;
 
         [SetUp]
@@ -28,7 +29,8 @@ namespace Dietphone.Rarely.Phone.Tests
             settings = new Settings();
             factories.Settings.Returns(settings);
             vibration = Substitute.For<Vibration>();
-            sut = new ExportAndImportViewModel(factories, cloudProviderFactory, vibration);
+            cloud = Substitute.For<Cloud>();
+            sut = new ExportAndImportViewModel(factories, cloudProviderFactory, vibration, cloud);
         }
 
         public class ExportToCloud : ExportAndImportViewModelTests
@@ -60,39 +62,51 @@ namespace Dietphone.Rarely.Phone.Tests
             {
                 settings.CloudSecret = "foo";
                 settings.CloudToken = "bar";
+                settings.CloudExportDue = DateTime.Today;
                 sut.ConfirmExportToCloudDeactivation += (_, eventArgs) => { eventArgs.Confirm = confirmed; };
                 sut.ExportToCloud();
                 Assert.AreEqual(confirmed ? string.Empty : "foo", settings.CloudSecret);
                 Assert.AreEqual(confirmed ? string.Empty : "bar", settings.CloudToken);
+                Assert.AreEqual(confirmed ? DateTime.MinValue : DateTime.Today, settings.CloudExportDue);
             }
 
             [TestCase(false, "http://foo")]
             [TestCase(false, null)]
             [TestCase(true, ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL)]
-            public void IfBrowserIsNavigatingToTokenAcquiringCallbackUrlThenStoresTheToken(bool store, string url)
+            public void IfBrowserIsNavigatingToTokenAcquiringCallbackUrlThenStoresTheTokenAndExports(
+                bool storeAndExport, string url)
             {
                 sut.ExportToCloud();
                 Thread.Sleep(10);
                 cloudProvider.GetAcquiredToken().Returns(new CloudToken { Secret = "foo", Token = "bar" });
+                var navigatedTo = string.Empty;
+                sut.NavigateInBrowser += (_, navigateTo) => { navigatedTo = navigateTo; };
+                cloud.When(c => c.Export()).Do(_ =>
+                {
+                    Assert.AreEqual(ExportAndImportViewModel.TOKEN_ACQUIRING_NAVIGATE_AWAY_URL, navigatedTo);
+                    Assert.AreEqual("foo", settings.CloudSecret);
+                    Assert.AreEqual("bar", settings.CloudToken);
+                });
                 sut.BrowserVisible = true;
                 var successful = false;
                 sut.ExportToCloudActivationSuccessful += (_, __) => { successful = true; };
                 sut.BrowserIsNavigating(url == null ? null : url.ToUpper() + "?");
                 Thread.Sleep(10);
-                if (store)
-                {
-                    Assert.AreEqual("foo", settings.CloudSecret);
-                    Assert.AreEqual("bar", settings.CloudToken);
-                }
+                if (storeAndExport)
+                    cloud.Received().Export();
                 else
+                {
                     cloudProvider.DidNotReceive().GetAcquiredToken();
-                Assert.AreNotEqual(store, sut.BrowserVisible);
-                Assert.AreEqual(store, successful);
+                    cloud.DidNotReceive().Export();
+                }
+                Assert.AreNotEqual(storeAndExport, sut.BrowserVisible);
+                Assert.AreEqual(storeAndExport, successful);
             }
 
             [Test]
             public void UsesSingleInstanceOfTokenProvider()
             {
+                cloudProvider.GetAcquiredToken().Returns(new CloudToken());
                 sut.ExportToCloud();
                 Thread.Sleep(10);
                 sut.BrowserIsNavigating(ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL);

@@ -624,6 +624,7 @@ So one number gives information on both fat and protein in meal.</value>
     <value>Export to Dropbox is active. Do you want to turn it off?</value>
   </data>
   <data name="ExportToDropboxActivationWasSuccessful" xml:space="preserve">
-    <value>Export to Dropbox activation was successful.</value>
+    <value>Export to Dropbox activation was successful.
+The initial export is done too.</value>
   </data>
 </root>
