@@ -630,4 +630,7 @@ The initial export is done too.</value>
   <data name="ThereWasAnErrorDuringTheExportToDropbox" xml:space="preserve">
     <value>There was an error during the export to Dropbox.</value>
   </data>
+  <data name="AvailableForImport" xml:space="preserve">
+    <value>Available for import</value>
+  </data>
 </root>

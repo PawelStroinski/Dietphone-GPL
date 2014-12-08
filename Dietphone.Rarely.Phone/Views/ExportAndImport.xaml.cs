@@ -32,6 +32,7 @@ namespace Dietphone.Views
             ViewModel.NavigateInBrowser += ViewModel_NavigateInBrowser;
             ViewModel.ConfirmExportToCloudDeactivation += ViewModel_ConfirmExportToCloudDeactivation;
             ViewModel.ExportToCloudActivationSuccessful += ViewModel_ExportToCloudActivationSuccessful;
+            ViewModel.ImportFromCloudSuccessful += ViewModel_ImportFromCloudSuccessful;
             DataContext = ViewModel;
             SetWindowBackground();
             SetWindowSize();
@@ -100,6 +101,14 @@ namespace Dietphone.Views
             });
         }
 
+        private void ViewModel_ImportFromCloudSuccessful(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show(Translations.ImportCompletedSuccessfully);
+            });
+        }
+
         private void ExportToCloud_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.ExportToCloud();
@@ -107,6 +116,12 @@ namespace Dietphone.Views
 
         private void ImportFromCloud_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.ImportFromCloud();
+        }
+
+        private void ImportFromCloudWithSelection_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ImportFromCloudWithSelection();
         }
 
         private void ExportByEmail_Click(object sender, RoutedEventArgs e)
@@ -173,6 +188,7 @@ namespace Dietphone.Views
             }
             var brush = new SolidColorBrush(color);
             Window.Background = brush;
+            ImportFromCloudWindow.Background = brush;
             BrowserWindow.Background = brush;
         }
 
@@ -184,6 +200,7 @@ namespace Dietphone.Views
                 var windowSize = new Size(renderSize.Width, double.NaN);
                 var browserWindowSize = new Size(renderSize.Width, renderSize.Height - GetSystemTrayHeight());
                 Window.WindowSize = windowSize;
+                ImportFromCloudWindow.WindowSize = windowSize;
                 BrowserWindow.WindowSize = browserWindowSize;
                 Browser.Height = browserWindowSize.Height;
             };

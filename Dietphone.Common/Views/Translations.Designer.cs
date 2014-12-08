@@ -262,6 +262,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available for import.
+        /// </summary>
+        public static string AvailableForImport {
+            get {
+                return ResourceManager.GetString("AvailableForImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BLOOD SUGAR.
         /// </summary>
         public static string BloodSugar {

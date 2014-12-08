@@ -9,6 +9,7 @@
     xmlns:views="clr-namespace:Dietphone.Views"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -69,6 +70,32 @@
                     <TextBox Height="72" 
                              Name="Input"/>
                     <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}" Click="Done_Click"/>
+                </StackPanel>
+            </Border>
+            <telerikPrimitives:RadModalWindow.OpenAnimation>
+                <telerikCore:RadSlideAnimation MoveDirection="BottomIn" Duration="0:0:0.2" Ended="WindowAnimation_Ended"/>
+            </telerikPrimitives:RadModalWindow.OpenAnimation>
+        </telerikPrimitives:RadModalWindow>
+        <telerikPrimitives:RadModalWindow Name="ImportFromCloudWindow"
+                                          Placement="TopCenter"
+                                          HorizontalContentAlignment="Stretch"
+                                          IsOpen="{Binding ImportFromCloudVisible, Mode=TwoWay}">
+            <Border BorderBrush="{StaticResource PhoneBorderBrush}"
+                    BorderThickness="{StaticResource PhoneBorderThickness}">
+                <StackPanel Background="{StaticResource PhoneBackgroundBrush}">
+                    <TextBlock Text="{Binding Translations.AvailableForImport, Source={StaticResource Translations}}" 
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Bottom"
+                               Margin="{StaticResource PhoneMargin}"/>
+                    <telerikInput:RadListPicker Margin="12 -24 12 10" VerticalAlignment="Top" SelectedItem="{Binding ImportFromCloudSelectedItem, Mode=TwoWay}" ItemsSource="{Binding ImportFromCloudItems}" Style="{StaticResource OsListPickerStyle}">
+                        <telerikInput:RadListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Margin="0 -2 0 2"/>
+                            </DataTemplate>
+                        </telerikInput:RadListPicker.ItemTemplate>
+                    </telerikInput:RadListPicker>
+                    <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}"
+                            Click="ImportFromCloudWithSelection_Click"/>
                 </StackPanel>
             </Border>
             <telerikPrimitives:RadModalWindow.OpenAnimation>

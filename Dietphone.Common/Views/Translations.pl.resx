@@ -624,4 +624,7 @@ Początkowy eksport został również wykonany.</value>
   <data name="ThereWasAnErrorDuringTheExportToDropbox" xml:space="preserve">
     <value>Podczas eksportu na Dropboksa wystąpił błąd.</value>
   </data>
+  <data name="AvailableForImport" xml:space="preserve">
+    <value>Dostępne do zaimportowania</value>
+  </data>
 </root>
