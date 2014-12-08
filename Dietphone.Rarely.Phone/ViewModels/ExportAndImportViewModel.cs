@@ -327,6 +327,7 @@ namespace Dietphone.ViewModels
             {
                 IsBusy = false;
                 ImportFromCloudItems = imports;
+                OnPropertyChanged("ImportFromCloudItems");
                 ImportFromCloudVisible = true;
             };
             IsBusy = true;

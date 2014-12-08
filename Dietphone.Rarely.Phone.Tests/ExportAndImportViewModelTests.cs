@@ -127,11 +127,12 @@ namespace Dietphone.Rarely.Phone.Tests
             public void IfTokenPresentThenPopulatesImportFromCloudItemsAndSetsImportFromCloudVisibleToTrue()
             {
                 settings.CloudSecret = "foo";
-                sut.ChangesProperty("ImportFromCloudVisible", () =>
-                {
-                    sut.ImportFromCloud();
-                    Thread.Sleep(10);
-                });
+                sut.ChangesProperty("ImportFromCloudItems", () =>
+                    sut.ChangesProperty("ImportFromCloudVisible", () =>
+                    {
+                        sut.ImportFromCloud();
+                        Thread.Sleep(10);
+                    }));
                 Assert.AreSame(cloud.ListImports(), sut.ImportFromCloudItems);
                 Assert.IsTrue(sut.ImportFromCloudVisible);
             }
