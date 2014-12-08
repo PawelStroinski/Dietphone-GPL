@@ -15,11 +15,11 @@ namespace Dietphone.ViewModels
         public string Url { private get; set; }
         public List<string> ImportFromCloudItems { get; private set; }
         public string ImportFromCloudSelectedItem { get; set; }
-        public event EventHandler ExportAndSendSuccessful;
-        public event EventHandler DownloadAndImportSuccessful;
-        public event EventHandler SendingFailedDuringExport;
-        public event EventHandler DownloadingFailedDuringImport;
-        public event EventHandler ReadingFailedDuringImport;
+        public event EventHandler ExportToEmailSuccessful;
+        public event EventHandler ImportFromAddressSuccessful;
+        public event EventHandler SendingFailedDuringExportToEmail;
+        public event EventHandler DownloadingFailedDuringImportFromAddress;
+        public event EventHandler ReadingFailedDuringImportFromAddress;
         public event EventHandler<string> NavigateInBrowser;
         public event EventHandler<ConfirmEventArgs> ConfirmExportToCloudDeactivation;
         public event EventHandler ExportToCloudActivationSuccessful;
@@ -28,7 +28,7 @@ namespace Dietphone.ViewModels
         private bool isBusy;
         private bool browserVisible;
         private bool importFromCloudVisible;
-        private bool readingFailedDuringImport;
+        private bool readingFailedDuringImportFromAddress;
         private CloudProvider cloudProvider;
         private BrowserIsNavigatingHint browserIsNavigatingHint;
         private readonly Factories factories;
@@ -108,7 +108,7 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public void ExportAndSend()
+        public void ExportToEmail()
         {
             if (IsBusy)
             {
@@ -116,7 +116,7 @@ namespace Dietphone.ViewModels
             }
             if (!Email.IsValidEmail())
             {
-                OnSendingFailedDuringExport();
+                OnSendingFailedDuringExportToEmail();
                 return;
             }
             var worker = new VerboseBackgroundWorker();
@@ -126,19 +126,19 @@ namespace Dietphone.ViewModels
             };
             worker.RunWorkerCompleted += delegate
             {
-                Send();
+                SendByEmail();
             };
             IsBusy = true;
             worker.RunWorkerAsync();
         }
 
-        public void DownloadAndImport()
+        public void ImportFromAddress()
         {
             if (IsBusy)
             {
                 return;
             }
-            Download();
+            DownloadFromAddress();
         }
 
         public void ExportToCloud()
@@ -204,73 +204,73 @@ namespace Dietphone.ViewModels
             worker.RunWorkerAsync();
         }
 
-        private void Send()
+        private void SendByEmail()
         {
             var sender = new PostSender(MAILEXPORT_URL);
             sender.Inputs["address"] = Email;
             sender.Inputs["data"] = data;
-            sender.Completed += Send_Completed;
+            sender.Completed += SendByEmail_Completed;
             sender.SendAsync();
         }
 
-        private void Download()
+        private void DownloadFromAddress()
         {
             if (!Url.IsValidUri())
             {
-                OnDownloadingFailedDuringImport();
+                OnDownloadingFailedDuringImportFromAddress();
                 return;
             }
             IsBusy = true;
             var web = new WebClient();
             web.Encoding = Encoding.Unicode;
-            web.DownloadStringCompleted += Download_Completed;
+            web.DownloadStringCompleted += DownloadFromAddress_Completed;
             web.DownloadStringAsync(new Uri(Url));
         }
 
-        private void Send_Completed(object sender, UploadStringCompletedEventArgs e)
+        private void SendByEmail_Completed(object sender, UploadStringCompletedEventArgs e)
         {
             IsBusy = false;
             if (e.IsGeneralSuccess() && e.Result == MAILEXPORT_SUCCESS_RESULT)
             {
-                OnExportAndSendSuccessful();
+                OnExportToEmailSuccessful();
             }
             else
             {
-                OnSendingFailedDuringExport();
+                OnSendingFailedDuringExportToEmail();
             }
         }
 
-        private void Download_Completed(object sender, DownloadStringCompletedEventArgs e)
+        private void DownloadFromAddress_Completed(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.IsGeneralSuccess())
             {
                 data = e.Result;
-                Import();
+                ImportDownloadedFromAddress();
             }
             else
             {
                 IsBusy = false;
-                OnDownloadingFailedDuringImport();
+                OnDownloadingFailedDuringImportFromAddress();
             }
         }
 
-        private void Import()
+        private void ImportDownloadedFromAddress()
         {
             var worker = new BackgroundWorker();
             worker.DoWork += delegate
             {
-                CatchedImport();
+                CatchedImportDownloadedFromAddress();
             };
             worker.RunWorkerCompleted += delegate
             {
                 IsBusy = false;
-                NotifyAfterImport();
+                NotifyAfterImportFromAddress();
             };
-            readingFailedDuringImport = false;
+            readingFailedDuringImportFromAddress = false;
             worker.RunWorkerAsync();
         }
 
-        private void CatchedImport()
+        private void CatchedImportDownloadedFromAddress()
         {
             try
             {
@@ -278,7 +278,7 @@ namespace Dietphone.ViewModels
             }
             catch (Exception)
             {
-                readingFailedDuringImport = true;
+                readingFailedDuringImportFromAddress = true;
             }
         }
 
@@ -353,55 +353,55 @@ namespace Dietphone.ViewModels
                 throw new InvalidOperationException("ExportToCloud or ImportFromCloud should be invoked first.");
         }
 
-        private void NotifyAfterImport()
+        private void NotifyAfterImportFromAddress()
         {
-            if (readingFailedDuringImport)
+            if (readingFailedDuringImportFromAddress)
             {
-                OnReadingFailedDuringImport();
+                OnReadingFailedDuringImportFromAddress();
             }
             else
             {
-                OnDownloadAndImportSuccesful();
+                OnImportFromAddressSuccesful();
             }
         }
 
-        protected void OnExportAndSendSuccessful()
+        protected void OnExportToEmailSuccessful()
         {
-            if (ExportAndSendSuccessful != null)
+            if (ExportToEmailSuccessful != null)
             {
-                ExportAndSendSuccessful(this, EventArgs.Empty);
+                ExportToEmailSuccessful(this, EventArgs.Empty);
             }
         }
 
-        protected void OnDownloadAndImportSuccesful()
+        protected void OnImportFromAddressSuccesful()
         {
-            if (DownloadAndImportSuccessful != null)
+            if (ImportFromAddressSuccessful != null)
             {
-                DownloadAndImportSuccessful(this, EventArgs.Empty);
+                ImportFromAddressSuccessful(this, EventArgs.Empty);
             }
         }
 
-        protected void OnSendingFailedDuringExport()
+        protected void OnSendingFailedDuringExportToEmail()
         {
-            if (SendingFailedDuringExport != null)
+            if (SendingFailedDuringExportToEmail != null)
             {
-                SendingFailedDuringExport(this, EventArgs.Empty);
+                SendingFailedDuringExportToEmail(this, EventArgs.Empty);
             }
         }
 
-        protected void OnDownloadingFailedDuringImport()
+        protected void OnDownloadingFailedDuringImportFromAddress()
         {
-            if (DownloadingFailedDuringImport != null)
+            if (DownloadingFailedDuringImportFromAddress != null)
             {
-                DownloadingFailedDuringImport(this, EventArgs.Empty);
+                DownloadingFailedDuringImportFromAddress(this, EventArgs.Empty);
             }
         }
 
-        protected void OnReadingFailedDuringImport()
+        protected void OnReadingFailedDuringImportFromAddress()
         {
-            if (ReadingFailedDuringImport != null)
+            if (ReadingFailedDuringImportFromAddress != null)
             {
-                ReadingFailedDuringImport(this, EventArgs.Empty);
+                ReadingFailedDuringImportFromAddress(this, EventArgs.Empty);
             }
         }
 

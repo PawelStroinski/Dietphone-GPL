@@ -24,11 +24,11 @@ namespace Dietphone.Views
                 new CloudImpl(new DropboxProviderFactory(MyApp.Factories),
                     MyApp.Factories,
                     new ExportAndImportImpl(MyApp.Factories)));
-            ViewModel.ExportAndSendSuccessful += ViewModel_ExportAndSendSuccessful;
-            ViewModel.DownloadAndImportSuccessful += ViewModel_DownloadAndImportSuccessful;
-            ViewModel.SendingFailedDuringExport += ViewModel_SendingFailedDuringExport;
-            ViewModel.DownloadingFailedDuringImport += ViewModel_DownloadingFailedDuringImport;
-            ViewModel.ReadingFailedDuringImport += ViewModel_ReadingFailedDuringImport;
+            ViewModel.ExportToEmailSuccessful += ViewModel_ExportToEmailSuccessful;
+            ViewModel.ImportFromAddressSuccessful += ViewModel_ImportFromAddressSuccessful;
+            ViewModel.SendingFailedDuringExportToEmail += ViewModel_SendingFailedDuringExportToEmail;
+            ViewModel.DownloadingFailedDuringImportFromAddress += ViewModel_DownloadingFailedDuringImportFromAddress;
+            ViewModel.ReadingFailedDuringImportFromAddress += ViewModel_ReadingFailedDuringImportFromAddress;
             ViewModel.NavigateInBrowser += ViewModel_NavigateInBrowser;
             ViewModel.ConfirmExportToCloudDeactivation += ViewModel_ConfirmExportToCloudDeactivation;
             ViewModel.ExportToCloudActivationSuccessful += ViewModel_ExportToCloudActivationSuccessful;
@@ -39,7 +39,7 @@ namespace Dietphone.Views
             TranslateButtons();
         }
 
-        private void ViewModel_ExportAndSendSuccessful(object sender, EventArgs e)
+        private void ViewModel_ExportToEmailSuccessful(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
@@ -47,7 +47,7 @@ namespace Dietphone.Views
             });
         }
 
-        private void ViewModel_DownloadAndImportSuccessful(object sender, EventArgs e)
+        private void ViewModel_ImportFromAddressSuccessful(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
@@ -55,7 +55,7 @@ namespace Dietphone.Views
             });
         }
 
-        private void ViewModel_SendingFailedDuringExport(object sender, EventArgs e)
+        private void ViewModel_SendingFailedDuringExportToEmail(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
@@ -63,7 +63,7 @@ namespace Dietphone.Views
             });
         }
 
-        private void ViewModel_DownloadingFailedDuringImport(object sender, EventArgs e)
+        private void ViewModel_DownloadingFailedDuringImportFromAddress(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
@@ -71,7 +71,7 @@ namespace Dietphone.Views
             });
         }
 
-        private void ViewModel_ReadingFailedDuringImport(object sender, EventArgs e)
+        private void ViewModel_ReadingFailedDuringImportFromAddress(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
@@ -130,7 +130,7 @@ namespace Dietphone.Views
             Info.Text = Translations.SendToAnEMailAddress;
             Input.Text = string.Empty;
             Input.InputScope = InputScopeNameValue.EmailSmtpAddress.GetInputScope();
-            Window.IsOpen = true;
+            EmailAndAddressWindow.IsOpen = true;
         }
 
         private void ImportFromAddress_Click(object sender, RoutedEventArgs e)
@@ -139,12 +139,12 @@ namespace Dietphone.Views
             Info.Text = Translations.DownloadFileFromAddress;
             Input.Text = "http://";
             Input.InputScope = InputScopeNameValue.Url.GetInputScope();
-            Window.IsOpen = true;
+            EmailAndAddressWindow.IsOpen = true;
         }
 
         private void WindowAnimation_Ended(object sender, EventArgs e)
         {
-            if (Window.IsOpen)
+            if (EmailAndAddressWindow.IsOpen)
             {
                 Input.Focus();
                 if (!exportMode)
@@ -155,19 +155,19 @@ namespace Dietphone.Views
             }
         }
 
-        private void Done_Click(object sender, RoutedEventArgs e)
+        private void EmailAndAddressDone_Click(object sender, RoutedEventArgs e)
         {
             if (exportMode)
             {
                 ViewModel.Email = Input.Text;
-                ViewModel.ExportAndSend();
+                ViewModel.ExportToEmail();
             }
             else
             {
                 ViewModel.Url = Input.Text;
-                ViewModel.DownloadAndImport();
+                ViewModel.ImportFromAddress();
             }
-            Window.IsOpen = false;
+            EmailAndAddressWindow.IsOpen = false;
         }
 
         private void Browser_Navigating(object sender, NavigatingEventArgs e)
@@ -187,7 +187,7 @@ namespace Dietphone.Views
                 color = Color.FromArgb(0xCC, 255, 255, 255);
             }
             var brush = new SolidColorBrush(color);
-            Window.Background = brush;
+            EmailAndAddressWindow.Background = brush;
             ImportFromCloudWindow.Background = brush;
             BrowserWindow.Background = brush;
         }
@@ -199,7 +199,7 @@ namespace Dietphone.Views
                 var renderSize = Application.Current.RootVisual.RenderSize;
                 var windowSize = new Size(renderSize.Width, double.NaN);
                 var browserWindowSize = new Size(renderSize.Width, renderSize.Height - GetSystemTrayHeight());
-                Window.WindowSize = windowSize;
+                EmailAndAddressWindow.WindowSize = windowSize;
                 ImportFromCloudWindow.WindowSize = windowSize;
                 BrowserWindow.WindowSize = browserWindowSize;
                 Browser.Height = browserWindowSize.Height;

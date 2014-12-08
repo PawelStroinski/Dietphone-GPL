@@ -57,7 +57,7 @@
             </StackPanel>
         </StackPanel>
         <toolkit:PerformanceProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}"/>
-        <telerikPrimitives:RadModalWindow Name="Window"
+        <telerikPrimitives:RadModalWindow Name="EmailAndAddressWindow"
                                           Placement="TopCenter"
                                           HorizontalContentAlignment="Stretch">
             <Border BorderBrush="{StaticResource PhoneBorderBrush}"
@@ -69,7 +69,8 @@
                                Name="Info"/>
                     <TextBox Height="72" 
                              Name="Input"/>
-                    <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}" Click="Done_Click"/>
+                    <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}"
+                            Click="EmailAndAddressDone_Click"/>
                 </StackPanel>
             </Border>
             <telerikPrimitives:RadModalWindow.OpenAnimation>
