@@ -100,7 +100,7 @@ namespace Dietphone.Common.Tests.Models
             var mealName = factories.MealNames[0];
             var product = factories.Products[0];
             var category = factories.Categories[0];
-            var sut = new ExportAndImport(factories);
+            var sut = new ExportAndImportImpl(factories);
             var data = sut.Export();
             factories.Meals.Clear();
             factories.MealNames.Clear();
@@ -129,7 +129,7 @@ namespace Dietphone.Common.Tests.Models
             var sugar = factories.Sugars[0];
             var insulin = factories.Insulins[0];
             var insulinCircumstance = factories.InsulinCircumstances[0];
-            var sut = new ExportAndImport(factories);
+            var sut = new ExportAndImportImpl(factories);
             var data = sut.Export();
             factories.Sugars.Clear();
             factories.Insulins.Clear();
@@ -153,7 +153,7 @@ namespace Dietphone.Common.Tests.Models
         public void ImportsDefaultSettingWhenSettingNotExported()
         {
             factories.Settings.SugarsAfterInsulinHours = 0;
-            var sut = new ExportAndImport(factories);
+            var sut = new ExportAndImportImpl(factories);
             var data = sut.Export();
             var removeThis = "<SugarsAfterInsulinHours>0</SugarsAfterInsulinHours>";
             Assert.IsTrue(data.Contains(removeThis), "This is requirement to perform test");

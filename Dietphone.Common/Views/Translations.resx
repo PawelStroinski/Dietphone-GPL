@@ -602,22 +602,38 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="RecentlyUsed" xml:space="preserve">
     <value>10 recently used</value>
   </data>
-  <data name="AutomaticallySavesDataToOneDriveOnceAWeek" xml:space="preserve">
-    <value>Automatically saves data to OneDrive once a week. The data will be saved in Applications folder in XML format.</value>
+  <data name="AutomaticallySavesDataToDropboxOnceAWeek" xml:space="preserve">
+    <value>Automatically saves data to Dropbox once a week. The data will be saved in Applications folder in XML format.</value>
   </data>
-  <data name="ExportToOneDrive" xml:space="preserve">
-    <value>export to OneDrive</value>
+  <data name="ExportToDropbox" xml:space="preserve">
+    <value>export to Dropbox</value>
   </data>
-  <data name="ImportFromOneDrive" xml:space="preserve">
-    <value>import from OneDrive</value>
+  <data name="ImportFromDropbox" xml:space="preserve">
+    <value>import from Dropbox</value>
   </data>
-  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
-    <value>Retrieves and adds to application data previously saved to OneDrive.</value>
+  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox" xml:space="preserve">
+    <value>Retrieves and adds to application data previously saved to Dropbox.</value>
   </data>
   <data name="EstimatedBloodSugar" xml:space="preserve">
     <value>Estimated blood sugar</value>
   </data>
   <data name="Meal" xml:space="preserve">
     <value>meal</value>
+  </data>
+  <data name="ExportToDropboxIsActiveDoYouWantToTurnItOff" xml:space="preserve">
+    <value>Export to Dropbox is active. Do you want to turn it off?</value>
+  </data>
+  <data name="ExportToDropboxActivationWasSuccessful" xml:space="preserve">
+    <value>Export to Dropbox activation was successful.
+The initial export is done too.</value>
+  </data>
+  <data name="ThereWasAnErrorDuringTheExportToDropbox" xml:space="preserve">
+    <value>There was an error during the export to Dropbox.</value>
+  </data>
+  <data name="AvailableForImport" xml:space="preserve">
+    <value>Available for import</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheDropboxOperation" xml:space="preserve">
+    <value>An error occurred during the Dropbox operation. Please try again.</value>
   </data>
 </root>

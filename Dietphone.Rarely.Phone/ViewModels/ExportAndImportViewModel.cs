@@ -5,6 +5,7 @@ using Dietphone.Tools;
 using System.Net;
 using System.Text;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace Dietphone.ViewModels
 {
@@ -12,21 +13,45 @@ namespace Dietphone.ViewModels
     {
         public string Email { private get; set; }
         public string Url { private get; set; }
-        public event EventHandler ExportAndSendSuccessful;
-        public event EventHandler DownloadAndImportSuccessful;
-        public event EventHandler SendingFailedDuringExport;
-        public event EventHandler DownloadingFailedDuringImport;
-        public event EventHandler ReadingFailedDuringImport;
+        public List<string> ImportFromCloudItems { get; private set; }
+        public string ImportFromCloudSelectedItem { get; set; }
+        public event EventHandler ExportToEmailSuccessful;
+        public event EventHandler ImportFromAddressSuccessful;
+        public event EventHandler SendingFailedDuringExportToEmail;
+        public event EventHandler DownloadingFailedDuringImportFromAddress;
+        public event EventHandler ReadingFailedDuringImportFromAddress;
+        public event EventHandler<string> NavigateInBrowser;
+        public event EventHandler<ConfirmEventArgs> ConfirmExportToCloudDeactivation;
+        public event EventHandler ExportToCloudActivationSuccessful;
+        public event EventHandler ImportFromCloudSuccessful;
+        public event EventHandler CloudError;
         private string data;
         private bool isBusy;
-        private bool readingFailedDuringImport;
+        private bool browserVisible;
+        private bool importFromCloudVisible;
+        private bool readingFailedDuringImportFromAddress;
+        private bool browserIsNavigatingDoWorkWentOkay;
+        private bool importFromCloudWentOkay;
+        private CloudProvider cloudProvider;
+        private BrowserIsNavigatingHint browserIsNavigatingHint;
+        private readonly Factories factories;
         private readonly ExportAndImport exportAndImport;
+        private readonly CloudProviderFactory cloudProviderFactory;
+        private readonly Vibration vibration;
+        private readonly Cloud cloud;
         private const string MAILEXPORT_URL = "http://www.bizmaster.pl/varia/dietphone/MailExport.aspx";
         private const string MAILEXPORT_SUCCESS_RESULT = "Success!";
+        internal const string TOKEN_ACQUIRING_CALLBACK_URL = "http://localhost/HelloTestingSuccess";
+        internal const string TOKEN_ACQUIRING_NAVIGATE_AWAY_URL = "about:blank";
 
-        public ExportAndImportViewModel(Factories factories)
+        public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory,
+            Vibration vibration, Cloud cloud)
         {
-            exportAndImport = new ExportAndImport(factories);
+            this.factories = factories;
+            exportAndImport = new ExportAndImportImpl(factories);
+            this.cloudProviderFactory = cloudProviderFactory;
+            this.vibration = vibration;
+            this.cloud = cloud;
         }
 
         public bool IsBusy
@@ -43,6 +68,41 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public bool BrowserVisible
+        {
+            get
+            {
+                return browserVisible;
+            }
+            set
+            {
+                browserVisible = value;
+                OnPropertyChanged("BrowserVisible");
+            }
+        }
+
+        public bool ImportFromCloudVisible
+        {
+            get
+            {
+                return importFromCloudVisible;
+            }
+            set
+            {
+                importFromCloudVisible = value;
+                OnPropertyChanged("ImportFromCloudVisible");
+            }
+        }
+
+        public bool IsExportToCloudActive
+        {
+            get
+            {
+                var settings = factories.Settings;
+                return settings.CloudSecret != string.Empty || settings.CloudToken != string.Empty;
+            }
+        }
+
         public Visibility IsBusyAsVisibility
         {
             get
@@ -51,7 +111,7 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public void ExportAndSend()
+        public void ExportToEmail()
         {
             if (IsBusy)
             {
@@ -59,7 +119,7 @@ namespace Dietphone.ViewModels
             }
             if (!Email.IsValidEmail())
             {
-                OnSendingFailedDuringExport();
+                OnSendingFailedDuringExportToEmail();
                 return;
             }
             var worker = new VerboseBackgroundWorker();
@@ -69,88 +129,147 @@ namespace Dietphone.ViewModels
             };
             worker.RunWorkerCompleted += delegate
             {
-                Send();
+                SendByEmail();
             };
             IsBusy = true;
             worker.RunWorkerAsync();
         }
 
-        public void DownloadAndImport()
+        public void ImportFromAddress()
         {
             if (IsBusy)
             {
                 return;
             }
-            Download();
+            DownloadFromAddress();
         }
 
-        private void Send()
+        public void ExportToCloud()
+        {
+            vibration.VibrateOnButtonPress();
+            if (IsExportToCloudActive)
+                DeactivateExportToCloud();
+            else
+                ActivateExportToCloud(BrowserIsNavigatingHint.Export);
+            NotifyIsExportToCloudActive();
+        }
+
+        public void ImportFromCloud()
+        {
+            if (IsExportToCloudActive)
+                ShowImportFromCloudItems();
+            else
+                ActivateExportToCloud(BrowserIsNavigatingHint.Import);
+        }
+
+        public void ImportFromCloudWithSelection()
+        {
+            var worker = new VerboseBackgroundWorker();
+            var hasSelection = !string.IsNullOrEmpty(ImportFromCloudSelectedItem);
+            worker.DoWork += delegate
+            {
+                if (hasSelection)
+                    CatchedImportFromCloud();
+            };
+            worker.RunWorkerCompleted += delegate
+            {
+                if (hasSelection && importFromCloudWentOkay)
+                    OnImportFromCloudSuccessful();
+                IsBusy = false;
+            };
+            ImportFromCloudVisible = false;
+            IsBusy = true;
+            worker.RunWorkerAsync();
+        }
+
+        public void BrowserIsNavigating(string url)
+        {
+            if (!IsThisUrlTheTokenAcquiringCallbackUrl(url))
+                return;
+            CheckCloudProvider();
+            var worker = new VerboseBackgroundWorker();
+            worker.DoWork += delegate { CatchedBrowserIsNavigatingDoWork(); };
+            worker.RunWorkerCompleted += delegate
+            {
+                BrowserVisible = false;
+                NotifyIsExportToCloudActive();
+                if (!browserIsNavigatingDoWorkWentOkay)
+                    return;
+                if (browserIsNavigatingHint == BrowserIsNavigatingHint.Export)
+                    OnExportToCloudActivationSuccessful();
+                if (browserIsNavigatingHint == BrowserIsNavigatingHint.Import)
+                    ShowImportFromCloudItems();
+            };
+            worker.RunWorkerAsync();
+        }
+
+        private void SendByEmail()
         {
             var sender = new PostSender(MAILEXPORT_URL);
             sender.Inputs["address"] = Email;
             sender.Inputs["data"] = data;
-            sender.Completed += Send_Completed;
+            sender.Completed += SendByEmail_Completed;
             sender.SendAsync();
         }
 
-        private void Download()
+        private void DownloadFromAddress()
         {
             if (!Url.IsValidUri())
             {
-                OnDownloadingFailedDuringImport();
+                OnDownloadingFailedDuringImportFromAddress();
                 return;
             }
             IsBusy = true;
             var web = new WebClient();
             web.Encoding = Encoding.Unicode;
-            web.DownloadStringCompleted += Download_Completed;
+            web.DownloadStringCompleted += DownloadFromAddress_Completed;
             web.DownloadStringAsync(new Uri(Url));
         }
 
-        private void Send_Completed(object sender, UploadStringCompletedEventArgs e)
+        private void SendByEmail_Completed(object sender, UploadStringCompletedEventArgs e)
         {
             IsBusy = false;
             if (e.IsGeneralSuccess() && e.Result == MAILEXPORT_SUCCESS_RESULT)
             {
-                OnExportAndSendSuccessful();
+                OnExportToEmailSuccessful();
             }
             else
             {
-                OnSendingFailedDuringExport();
+                OnSendingFailedDuringExportToEmail();
             }
         }
 
-        private void Download_Completed(object sender, DownloadStringCompletedEventArgs e)
+        private void DownloadFromAddress_Completed(object sender, DownloadStringCompletedEventArgs e)
         {
             if (e.IsGeneralSuccess())
             {
                 data = e.Result;
-                Import();
+                ImportDownloadedFromAddress();
             }
             else
             {
                 IsBusy = false;
-                OnDownloadingFailedDuringImport();
+                OnDownloadingFailedDuringImportFromAddress();
             }
         }
 
-        private void Import()
+        private void ImportDownloadedFromAddress()
         {
             var worker = new BackgroundWorker();
             worker.DoWork += delegate
             {
-                CatchedImport();
+                CatchedImportDownloadedFromAddress();
             };
             worker.RunWorkerCompleted += delegate
             {
                 IsBusy = false;
-                NotifyAfterImport();
+                NotifyAfterImportFromAddress();
             };
-            readingFailedDuringImport = false;
+            readingFailedDuringImportFromAddress = false;
             worker.RunWorkerAsync();
         }
 
-        private void CatchedImport()
+        private void CatchedImportDownloadedFromAddress()
         {
             try
             {
@@ -158,60 +277,252 @@ namespace Dietphone.ViewModels
             }
             catch (Exception)
             {
-                readingFailedDuringImport = true;
+                readingFailedDuringImportFromAddress = true;
             }
         }
 
-        private void NotifyAfterImport()
+        private void ActivateExportToCloud(BrowserIsNavigatingHint browserIsNavigatingHint)
         {
-            if (readingFailedDuringImport)
+            var worker = new VerboseBackgroundWorker();
+            var url = string.Empty;
+            worker.DoWork += delegate
             {
-                OnReadingFailedDuringImport();
+                cloudProvider = cloudProviderFactory.Create();
+                url = CatchedGetTokenAcquiringUrl(url);
+            };
+            worker.RunWorkerCompleted += delegate
+            {
+                if (url != string.Empty)
+                {
+                    OnNavigateInBrowser(url);
+                    BrowserVisible = true;
+                }
+                IsBusy = false;
+            };
+            IsBusy = true;
+            worker.RunWorkerAsync();
+            this.browserIsNavigatingHint = browserIsNavigatingHint;
+        }
+
+        private void DeactivateExportToCloud()
+        {
+            var eventArgs = new ConfirmEventArgs();
+            OnConfirmExportToCloudDeactivation(eventArgs);
+            if (eventArgs.Confirm)
+            {
+                var settings = factories.Settings;
+                settings.CloudSecret = string.Empty;
+                settings.CloudToken = string.Empty;
+                settings.CloudExportDue = DateTime.MinValue;
+            }
+        }
+
+        private void ShowImportFromCloudItems()
+        {
+            List<string> imports = null;
+            var worker = new VerboseBackgroundWorker();
+            worker.DoWork += delegate
+            {
+                imports = CatchedListImports(imports);
+            };
+            worker.RunWorkerCompleted += delegate
+            {
+                IsBusy = false;
+                if (imports != null)
+                {
+                    ImportFromCloudItems = imports;
+                    OnPropertyChanged("ImportFromCloudItems");
+                    ImportFromCloudVisible = true;
+                }
+            };
+            IsBusy = true;
+            worker.RunWorkerAsync();
+        }
+
+        private void StoreAcquiredToken()
+        {
+            var token = cloudProvider.GetAcquiredToken();
+            var settings = factories.Settings;
+            settings.CloudSecret = token.Secret;
+            settings.CloudToken = token.Token;
+        }
+
+        private bool IsThisUrlTheTokenAcquiringCallbackUrl(string url)
+        {
+            return url != null
+                && url.ToUpper().StartsWith(TOKEN_ACQUIRING_CALLBACK_URL.ToUpper());
+        }
+
+        private void CheckCloudProvider()
+        {
+            if (cloudProvider == null)
+                throw new InvalidOperationException("ExportToCloud or ImportFromCloud should be invoked first.");
+        }
+
+        private void CatchedImportFromCloud()
+        {
+            try
+            {
+                cloud.Import(ImportFromCloudSelectedItem);
+                importFromCloudWentOkay = true;
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+                importFromCloudWentOkay = false;
+            }
+        }
+
+        private void CatchedBrowserIsNavigatingDoWork()
+        {
+            try
+            {
+                BrowserIsNavigatingDoWork();
+                browserIsNavigatingDoWorkWentOkay = true;
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+                browserIsNavigatingDoWorkWentOkay = false;
+            }
+        }
+
+        private string CatchedGetTokenAcquiringUrl(string url)
+        {
+            try
+            {
+                url = cloudProvider.GetTokenAcquiringUrl(TOKEN_ACQUIRING_CALLBACK_URL);
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+            }
+            return url;
+        }
+
+        private List<string> CatchedListImports(List<string> imports)
+        {
+            try
+            {
+                imports = cloud.ListImports();
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+            }
+            return imports;
+        }
+
+        private void BrowserIsNavigatingDoWork()
+        {
+            OnNavigateInBrowser(TOKEN_ACQUIRING_NAVIGATE_AWAY_URL);
+            StoreAcquiredToken();
+            if (browserIsNavigatingHint == BrowserIsNavigatingHint.Export)
+                cloud.Export();
+        }
+
+        private void NotifyAfterImportFromAddress()
+        {
+            if (readingFailedDuringImportFromAddress)
+            {
+                OnReadingFailedDuringImportFromAddress();
             }
             else
             {
-                OnDownloadAndImportSuccesful();
+                OnImportFromAddressSuccesful();
             }
         }
 
-        protected void OnExportAndSendSuccessful()
+        protected void OnExportToEmailSuccessful()
         {
-            if (ExportAndSendSuccessful != null)
+            if (ExportToEmailSuccessful != null)
             {
-                ExportAndSendSuccessful(this, EventArgs.Empty);
+                ExportToEmailSuccessful(this, EventArgs.Empty);
             }
         }
 
-        protected void OnDownloadAndImportSuccesful()
+        protected void OnImportFromAddressSuccesful()
         {
-            if (DownloadAndImportSuccessful != null)
+            if (ImportFromAddressSuccessful != null)
             {
-                DownloadAndImportSuccessful(this, EventArgs.Empty);
+                ImportFromAddressSuccessful(this, EventArgs.Empty);
             }
         }
 
-        protected void OnSendingFailedDuringExport()
+        protected void OnSendingFailedDuringExportToEmail()
         {
-            if (SendingFailedDuringExport != null)
+            if (SendingFailedDuringExportToEmail != null)
             {
-                SendingFailedDuringExport(this, EventArgs.Empty);
+                SendingFailedDuringExportToEmail(this, EventArgs.Empty);
             }
         }
 
-        protected void OnDownloadingFailedDuringImport()
+        protected void OnDownloadingFailedDuringImportFromAddress()
         {
-            if (DownloadingFailedDuringImport != null)
+            if (DownloadingFailedDuringImportFromAddress != null)
             {
-                DownloadingFailedDuringImport(this, EventArgs.Empty);
+                DownloadingFailedDuringImportFromAddress(this, EventArgs.Empty);
             }
         }
 
-        protected void OnReadingFailedDuringImport()
+        protected void OnReadingFailedDuringImportFromAddress()
         {
-            if (ReadingFailedDuringImport != null)
+            if (ReadingFailedDuringImportFromAddress != null)
             {
-                ReadingFailedDuringImport(this, EventArgs.Empty);
+                ReadingFailedDuringImportFromAddress(this, EventArgs.Empty);
             }
         }
+
+        protected void OnNavigateInBrowser(string url)
+        {
+            if (NavigateInBrowser != null)
+            {
+                NavigateInBrowser(this, url);
+            }
+        }
+
+        protected void OnConfirmExportToCloudDeactivation(ConfirmEventArgs e)
+        {
+            if (ConfirmExportToCloudDeactivation != null)
+            {
+                ConfirmExportToCloudDeactivation(this, e);
+            }
+        }
+
+        protected void OnExportToCloudActivationSuccessful()
+        {
+            if (ExportToCloudActivationSuccessful != null)
+            {
+                ExportToCloudActivationSuccessful(this, EventArgs.Empty);
+            }
+        }
+
+        protected void OnImportFromCloudSuccessful()
+        {
+            if (ImportFromCloudSuccessful != null)
+            {
+                ImportFromCloudSuccessful(this, EventArgs.Empty);
+            }
+        }
+
+        protected void OnCloudError()
+        {
+            if (CloudError != null)
+            {
+                CloudError(this, EventArgs.Empty);
+            }
+        }
+
+        private void NotifyIsExportToCloudActive()
+        {
+            OnPropertyChanged("IsExportToCloudActive");
+        }
+
+        private enum BrowserIsNavigatingHint { Unknown, Import, Export }
+    }
+
+    public class ConfirmEventArgs : EventArgs
+    {
+        public bool Confirm { get; set; }
     }
 }

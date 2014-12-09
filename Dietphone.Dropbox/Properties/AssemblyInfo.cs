@@ -6,22 +6,14 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Dietphone Rarely Used Phone Assembly")]
+[assembly: AssemblyTitle("Dietphone Dropbox Assembly")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pabloware")]
 [assembly: AssemblyProduct("Dietphone")]
-[assembly: AssemblyCopyright("© Pabloware 2011")]
+[assembly: AssemblyCopyright("© Pabloware 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("732061f9-1e0b-471f-be49-d5c8fb20cd26")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -35,4 +27,3 @@ using System.Resources;
 [assembly: AssemblyVersion("1.0")]
 [assembly: AssemblyFileVersion("1.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
-[assembly: InternalsVisibleTo("Dietphone.Rarely.Phone.Tests")]

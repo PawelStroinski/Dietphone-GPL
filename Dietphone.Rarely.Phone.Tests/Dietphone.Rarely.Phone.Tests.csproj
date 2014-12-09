@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}</ProjectGuid>
+    <ProjectGuid>{30C9DA4E-19AD-4E5E-80B6-4361B4E326F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dietphone.Common.Tests</RootNamespace>
-    <AssemblyName>Dietphone.Common.Tests</AssemblyName>
+    <RootNamespace>Dietphone.Rarely.Phone.Tests</RootNamespace>
+    <AssemblyName>Dietphone.Rarely.Phone.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -32,28 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq, Version=4.1.1309.801, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Moq.4.1.1309.0801\lib\net40\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\packages\NSubstitute.1.6.1.0\lib\NET40\NSubstitute.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Ploeh.AutoFixture, Version=3.6.8.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoFixture.3.6.8\lib\net40\Ploeh.AutoFixture.dll</HintPath>
-    </Reference>
-    <Reference Include="Ploeh.SemanticComparison, Version=3.6.8.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SemanticComparison.3.6.8\lib\net40\Ploeh.SemanticComparison.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,45 +47,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinarySerializers\BinaryStorageTestsBase.cs" />
-    <Compile Include="BinarySerializers\InsulinBinaryStorageTests.cs" />
-    <Compile Include="BinarySerializers\InsulinCircumstanceBinaryStorageTests.cs" />
-    <Compile Include="BinarySerializers\SettingBinaryStorageTests.cs" />
-    <Compile Include="BinarySerializers\SugarBinaryStorageTests.cs" />
-    <Compile Include="Models\CalculatorTests.cs" />
-    <Compile Include="Models\CloudTests.cs" />
-    <Compile Include="Models\DefaultEntitiesTests.cs" />
-    <Compile Include="Models\EntityTests.cs" />
-    <Compile Include="Models\ExportAndImportTests.cs" />
-    <Compile Include="Models\FactoriesTests.cs" />
-    <Compile Include="Models\FinderTests.cs" />
-    <Compile Include="Models\HourDifferenceTests.cs" />
-    <Compile Include="Models\InsulinCircumstanceTests.cs" />
-    <Compile Include="Models\InsulinTests.cs" />
-    <Compile Include="Models\MealItemTests.cs" />
-    <Compile Include="Models\MealTests.cs" />
-    <Compile Include="Models\ModelBasedTests.cs" />
-    <Compile Include="Models\MruProductsTests.cs" />
-    <Compile Include="Models\PatternBuilderTests.cs" />
-    <Compile Include="Models\ReplacementBuilderTests.cs" />
-    <Compile Include="Models\ReplacementBuilderAndSugarEstimatorFacadeTests.cs" />
-    <Compile Include="Models\StorageCreatorStub.cs" />
-    <Compile Include="Models\SugarEstimatorTests.cs" />
-    <Compile Include="Models\SugarTests.cs" />
+    <Compile Include="ExportAndImportViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">
-      <Project>{62a44f50-63f5-4f79-a980-1f85a8793e82}</Project>
-      <Name>Dietphone.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dietphone.Common.Phone.Tests\Dietphone.Common.Phone.Tests.csproj">
+      <Project>{92635a0b-446f-4a4e-9dca-13d847b93054}</Project>
+      <Name>Dietphone.Common.Phone.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dietphone.Common.Phone.Windows\Dietphone.Common.Phone.Windows.csproj">
+      <Project>{5b491308-7819-405d-9f2f-d6949a7022ad}</Project>
+      <Name>Dietphone.Common.Phone.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dietphone.Common.Phone\Dietphone.Common.Phone.csproj">
+      <Project>{2788c479-27d7-4b73-94ea-988274abb912}</Project>
+      <Name>Dietphone.Common.Phone</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">
+      <Project>{62a44f50-63f5-4f79-a980-1f85a8793e82}</Project>
+      <Name>Dietphone.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dietphone.Rarely.Phone\Dietphone.Rarely.Phone.csproj">
+      <Project>{6799ebf8-6cfb-4e40-8743-8defd9d4f1af}</Project>
+      <Name>Dietphone.Rarely.Phone</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -9,6 +9,7 @@
     xmlns:views="clr-namespace:Dietphone.Views"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -21,7 +22,7 @@
         <ResourceDictionary Source="Resources.xaml"/>
     </phone:PhoneApplicationPage.Resources>
 
-    <Grid Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -41,11 +42,11 @@
                            Foreground="{StaticResource PhoneAccentBrush}"/>
                 <TextBlock Visibility="{Binding IsBusyAsVisibility}"
                            Text=" " />
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToOneDrive_Click">
-                    <views:MultiLineItem x:Name="ExportToOneDrive"/>
-                </Button>
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromOneDrive_Click">
-                    <views:MultiLineItem x:Name="ImportFromOneDrive"/>
+                <ToggleButton ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToCloud_Click" IsChecked="{Binding IsExportToCloudActive, Mode=TwoWay}">
+                    <views:MultiLineItem x:Name="ExportToCloud"/>
+                </ToggleButton>
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromCloud_Click">
+                    <views:MultiLineItem x:Name="ImportFromCloud"/>
                 </Button>
                 <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportByEmail_Click">
                     <views:MultiLineItem x:Name="ExportByEmail"/>
@@ -56,7 +57,7 @@
             </StackPanel>
         </StackPanel>
         <toolkit:PerformanceProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}"/>
-        <telerikPrimitives:RadModalWindow Name="Window"
+        <telerikPrimitives:RadModalWindow Name="EmailAndAddressWindow"
                                           Placement="TopCenter"
                                           HorizontalContentAlignment="Stretch">
             <Border BorderBrush="{StaticResource PhoneBorderBrush}"
@@ -68,11 +69,47 @@
                                Name="Info"/>
                     <TextBox Height="72" 
                              Name="Input"/>
-                    <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}" Click="Done_Click"/>
+                    <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}"
+                            Click="EmailAndAddressDone_Click"/>
                 </StackPanel>
             </Border>
             <telerikPrimitives:RadModalWindow.OpenAnimation>
                 <telerikCore:RadSlideAnimation MoveDirection="BottomIn" Duration="0:0:0.2" Ended="WindowAnimation_Ended"/>
+            </telerikPrimitives:RadModalWindow.OpenAnimation>
+        </telerikPrimitives:RadModalWindow>
+        <telerikPrimitives:RadModalWindow Name="ImportFromCloudWindow"
+                                          Placement="TopCenter"
+                                          HorizontalContentAlignment="Stretch"
+                                          IsOpen="{Binding ImportFromCloudVisible, Mode=TwoWay}">
+            <Border BorderBrush="{StaticResource PhoneBorderBrush}"
+                    BorderThickness="{StaticResource PhoneBorderThickness}">
+                <StackPanel Background="{StaticResource PhoneBackgroundBrush}">
+                    <TextBlock Text="{Binding Translations.AvailableForImport, Source={StaticResource Translations}}" 
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Bottom"
+                               Margin="{StaticResource PhoneMargin}"/>
+                    <telerikInput:RadListPicker Margin="12 -24 12 10" VerticalAlignment="Top" SelectedItem="{Binding ImportFromCloudSelectedItem, Mode=TwoWay}" ItemsSource="{Binding ImportFromCloudItems}" Style="{StaticResource OsListPickerStyle}">
+                        <telerikInput:RadListPicker.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Margin="0 -2 0 2"/>
+                            </DataTemplate>
+                        </telerikInput:RadListPicker.ItemTemplate>
+                    </telerikInput:RadListPicker>
+                    <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}"
+                            Click="ImportFromCloudWithSelection_Click"/>
+                </StackPanel>
+            </Border>
+            <telerikPrimitives:RadModalWindow.OpenAnimation>
+                <telerikCore:RadSlideAnimation MoveDirection="BottomIn" Duration="0:0:0.2" Ended="WindowAnimation_Ended"/>
+            </telerikPrimitives:RadModalWindow.OpenAnimation>
+        </telerikPrimitives:RadModalWindow>
+        <telerikPrimitives:RadModalWindow Name="BrowserWindow"
+                                          Placement="TopCenter"
+                                          HorizontalContentAlignment="Stretch"
+                                          IsOpen="{Binding BrowserVisible, Mode=TwoWay}">
+            <phone:WebBrowser x:Name="Browser" IsScriptEnabled="True" Navigating="Browser_Navigating"/>
+            <telerikPrimitives:RadModalWindow.OpenAnimation>
+                <telerikCore:RadSlideAnimation MoveDirection="BottomIn" Duration="0:0:0.2"/>
             </telerikPrimitives:RadModalWindow.OpenAnimation>
         </telerikPrimitives:RadModalWindow>
     </Grid>

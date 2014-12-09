@@ -2,6 +2,7 @@
 using Dietphone.Models;
 using Ploeh.AutoFixture;
 using Ploeh.SemanticComparison.Fluent;
+using System;
 
 namespace Dietphone.BinarySerializers.Tests
 {
@@ -36,6 +37,17 @@ namespace Dietphone.BinarySerializers.Tests
             var storage = new SettingsBinaryStorage();
             var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
             Assert.AreEqual(5, readedSettings.MaxBolus);
+        }
+
+        [Test]
+        public void Default_Cloud()
+        {
+            var settingsToWrite = new Settings();
+            var storage = new SettingsBinaryStorage();
+            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.IsEmpty(readedSettings.CloudSecret);
+            Assert.IsEmpty(readedSettings.CloudToken);
+            Assert.AreEqual(DateTime.MinValue, readedSettings.CloudExportDue);
         }
     }
 }

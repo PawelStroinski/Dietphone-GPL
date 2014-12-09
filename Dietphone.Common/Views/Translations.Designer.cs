@@ -133,6 +133,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred during the Dropbox operation. Please try again..
+        /// </summary>
+        public static string AnErrorOccurredDuringTheDropboxOperation {
+            get {
+                return ResourceManager.GetString("AnErrorOccurredDuringTheDropboxOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while retrieving the imported data. Make sure that you have Internet access and address is correct..
         /// </summary>
         public static string AnErrorOccurredWhileRetrievingTheImportedData {
@@ -253,11 +262,20 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically saves data to OneDrive once a week. The data will be saved in Applications folder in XML format..
+        ///   Looks up a localized string similar to Automatically saves data to Dropbox once a week. The data will be saved in Applications folder in XML format..
         /// </summary>
-        public static string AutomaticallySavesDataToOneDriveOnceAWeek {
+        public static string AutomaticallySavesDataToDropboxOnceAWeek {
             get {
-                return ResourceManager.GetString("AutomaticallySavesDataToOneDriveOnceAWeek", resourceCulture);
+                return ResourceManager.GetString("AutomaticallySavesDataToDropboxOnceAWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available for import.
+        /// </summary>
+        public static string AvailableForImport {
+            get {
+                return ResourceManager.GetString("AvailableForImport", resourceCulture);
             }
         }
         
@@ -740,11 +758,30 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to export to OneDrive.
+        ///   Looks up a localized string similar to export to Dropbox.
         /// </summary>
-        public static string ExportToOneDrive {
+        public static string ExportToDropbox {
             get {
-                return ResourceManager.GetString("ExportToOneDrive", resourceCulture);
+                return ResourceManager.GetString("ExportToDropbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to Dropbox activation was successful.
+        ///The initial export is done too..
+        /// </summary>
+        public static string ExportToDropboxActivationWasSuccessful {
+            get {
+                return ResourceManager.GetString("ExportToDropboxActivationWasSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to Dropbox is active. Do you want to turn it off?.
+        /// </summary>
+        public static string ExportToDropboxIsActiveDoYouWantToTurnItOff {
+            get {
+                return ResourceManager.GetString("ExportToDropboxIsActiveDoYouWantToTurnItOff", resourceCulture);
             }
         }
         
@@ -840,11 +877,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to import from OneDrive.
+        ///   Looks up a localized string similar to import from Dropbox.
         /// </summary>
-        public static string ImportFromOneDrive {
+        public static string ImportFromDropbox {
             get {
-                return ResourceManager.GetString("ImportFromOneDrive", resourceCulture);
+                return ResourceManager.GetString("ImportFromDropbox", resourceCulture);
             }
         }
         
@@ -1230,11 +1267,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Retrieves and adds to application data previously saved to OneDrive..
+        ///   Looks up a localized string similar to Retrieves and adds to application data previously saved to Dropbox..
         /// </summary>
-        public static string RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive {
+        public static string RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox {
             get {
-                return ResourceManager.GetString("RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive", resourceCulture);
+                return ResourceManager.GetString("RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox", resourceCulture);
             }
         }
         
@@ -1478,6 +1515,15 @@ namespace Dietphone.Views {
         public static string ThereMayNotBeMoreDietaryFiberThanCarbohydrates {
             get {
                 return ResourceManager.GetString("ThereMayNotBeMoreDietaryFiberThanCarbohydrates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error during the export to Dropbox..
+        /// </summary>
+        public static string ThereWasAnErrorDuringTheExportToDropbox {
+            get {
+                return ResourceManager.GetString("ThereWasAnErrorDuringTheExportToDropbox", resourceCulture);
             }
         }
         

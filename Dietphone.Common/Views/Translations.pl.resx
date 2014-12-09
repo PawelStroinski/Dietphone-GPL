@@ -596,22 +596,38 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="RecentlyUsed" xml:space="preserve">
     <value>10 ostatnio używanych</value>
   </data>
-  <data name="AutomaticallySavesDataToOneDriveOnceAWeek" xml:space="preserve">
-    <value>Automatycznie raz w tygodniu zapisuje dane na OneDrive. Dane zostaną zapisanie w folderze Aplikacje w formacie XML.</value>
+  <data name="AutomaticallySavesDataToDropboxOnceAWeek" xml:space="preserve">
+    <value>Automatycznie raz w tygodniu zapisuje dane na Dropboksie. Dane zostaną zapisanie w folderze Aplikacje w formacie XML.</value>
   </data>
-  <data name="ExportToOneDrive" xml:space="preserve">
-    <value>eksportuj na OneDrive</value>
+  <data name="ExportToDropbox" xml:space="preserve">
+    <value>eksportuj na Dropboksa</value>
   </data>
-  <data name="ImportFromOneDrive" xml:space="preserve">
-    <value>importuj z OneDrive</value>
+  <data name="ImportFromDropbox" xml:space="preserve">
+    <value>importuj z Dropboksa</value>
   </data>
-  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToOneDrive" xml:space="preserve">
-    <value>Pobiera i dodaje do aplikacji dane poprzednio zapisane na OneDrive.</value>
+  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox" xml:space="preserve">
+    <value>Pobiera i dodaje do aplikacji dane poprzednio zapisane na Dropboksie.</value>
   </data>
   <data name="EstimatedBloodSugar" xml:space="preserve">
     <value>Estymowany poziom cukru</value>
   </data>
   <data name="Meal" xml:space="preserve">
     <value>posiłek</value>
+  </data>
+  <data name="ExportToDropboxIsActiveDoYouWantToTurnItOff" xml:space="preserve">
+    <value>Eksport na Dropboksa jest aktywny. Czy chcesz go wyłączyć?</value>
+  </data>
+  <data name="ExportToDropboxActivationWasSuccessful" xml:space="preserve">
+    <value>Aktywacja eksportu na Dropboksa przebiegła pomyślnie.
+Początkowy eksport został również wykonany.</value>
+  </data>
+  <data name="ThereWasAnErrorDuringTheExportToDropbox" xml:space="preserve">
+    <value>Wystąpił błąd podczas eksportu na Dropboksa.</value>
+  </data>
+  <data name="AvailableForImport" xml:space="preserve">
+    <value>Dostępne do zaimportowania</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheDropboxOperation" xml:space="preserve">
+    <value>Wystąpił błąd podczas operowania Dropboksem. Spróbuj ponownie.</value>
   </data>
 </root>

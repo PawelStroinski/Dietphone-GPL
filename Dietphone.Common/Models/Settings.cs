@@ -17,6 +17,9 @@ namespace Dietphone.Models
         public SugarUnit SugarUnit { get; set; }
         public float MaxBolus { get; set; }
         public List<Guid> MruProductIds { get; set; }
+        public string CloudSecret { get; set; }
+        public string CloudToken { get; set; }
+        public DateTime CloudExportDue { get; set; }
         private string currentUiCulture;
         private string currentProductCulture;
         private string nextUiCulture;
@@ -31,6 +34,8 @@ namespace Dietphone.Models
             MruProductIds = new List<Guid>();
             SugarsAfterInsulinHours = 4;
             MaxBolus = 5;
+            CloudSecret = string.Empty;
+            CloudToken = string.Empty;
         }
 
         public string CurrentUiCulture
