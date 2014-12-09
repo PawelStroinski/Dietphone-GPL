@@ -24,11 +24,14 @@ namespace Dietphone.ViewModels
         public event EventHandler<ConfirmEventArgs> ConfirmExportToCloudDeactivation;
         public event EventHandler ExportToCloudActivationSuccessful;
         public event EventHandler ImportFromCloudSuccessful;
+        public event EventHandler CloudError;
         private string data;
         private bool isBusy;
         private bool browserVisible;
         private bool importFromCloudVisible;
         private bool readingFailedDuringImportFromAddress;
+        private bool browserIsNavigatingDoWorkWentOkay;
+        private bool importFromCloudWentOkay;
         private CloudProvider cloudProvider;
         private BrowserIsNavigatingHint browserIsNavigatingHint;
         private readonly Factories factories;
@@ -166,11 +169,11 @@ namespace Dietphone.ViewModels
             worker.DoWork += delegate
             {
                 if (hasSelection)
-                    cloud.Import(ImportFromCloudSelectedItem);
+                    CatchedImportFromCloud();
             };
             worker.RunWorkerCompleted += delegate
             {
-                if (hasSelection)
+                if (hasSelection && importFromCloudWentOkay)
                     OnImportFromCloudSuccessful();
                 IsBusy = false;
             };
@@ -185,21 +188,17 @@ namespace Dietphone.ViewModels
                 return;
             CheckCloudProvider();
             var worker = new VerboseBackgroundWorker();
-            worker.DoWork += delegate
-            {
-                OnNavigateInBrowser(TOKEN_ACQUIRING_NAVIGATE_AWAY_URL);
-                StoreAcquiredToken();
-                if (browserIsNavigatingHint == BrowserIsNavigatingHint.Export)
-                    cloud.Export();
-            };
+            worker.DoWork += delegate { CatchedBrowserIsNavigatingDoWork(); };
             worker.RunWorkerCompleted += delegate
             {
                 BrowserVisible = false;
+                NotifyIsExportToCloudActive();
+                if (!browserIsNavigatingDoWorkWentOkay)
+                    return;
                 if (browserIsNavigatingHint == BrowserIsNavigatingHint.Export)
                     OnExportToCloudActivationSuccessful();
                 if (browserIsNavigatingHint == BrowserIsNavigatingHint.Import)
                     ShowImportFromCloudItems();
-                NotifyIsExportToCloudActive();
             };
             worker.RunWorkerAsync();
         }
@@ -289,12 +288,15 @@ namespace Dietphone.ViewModels
             worker.DoWork += delegate
             {
                 cloudProvider = cloudProviderFactory.Create();
-                url = cloudProvider.GetTokenAcquiringUrl(TOKEN_ACQUIRING_CALLBACK_URL);
+                url = CatchedGetTokenAcquiringUrl(url);
             };
             worker.RunWorkerCompleted += delegate
             {
-                OnNavigateInBrowser(url);
-                BrowserVisible = true;
+                if (url != string.Empty)
+                {
+                    OnNavigateInBrowser(url);
+                    BrowserVisible = true;
+                }
                 IsBusy = false;
             };
             IsBusy = true;
@@ -321,14 +323,17 @@ namespace Dietphone.ViewModels
             var worker = new VerboseBackgroundWorker();
             worker.DoWork += delegate
             {
-                imports = cloud.ListImports();
+                imports = CatchedListImports(imports);
             };
             worker.RunWorkerCompleted += delegate
             {
                 IsBusy = false;
-                ImportFromCloudItems = imports;
-                OnPropertyChanged("ImportFromCloudItems");
-                ImportFromCloudVisible = true;
+                if (imports != null)
+                {
+                    ImportFromCloudItems = imports;
+                    OnPropertyChanged("ImportFromCloudItems");
+                    ImportFromCloudVisible = true;
+                }
             };
             IsBusy = true;
             worker.RunWorkerAsync();
@@ -352,6 +357,68 @@ namespace Dietphone.ViewModels
         {
             if (cloudProvider == null)
                 throw new InvalidOperationException("ExportToCloud or ImportFromCloud should be invoked first.");
+        }
+
+        private void CatchedImportFromCloud()
+        {
+            try
+            {
+                cloud.Import(ImportFromCloudSelectedItem);
+                importFromCloudWentOkay = true;
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+                importFromCloudWentOkay = false;
+            }
+        }
+
+        private void CatchedBrowserIsNavigatingDoWork()
+        {
+            try
+            {
+                BrowserIsNavigatingDoWork();
+                browserIsNavigatingDoWorkWentOkay = true;
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+                browserIsNavigatingDoWorkWentOkay = false;
+            }
+        }
+
+        private string CatchedGetTokenAcquiringUrl(string url)
+        {
+            try
+            {
+                url = cloudProvider.GetTokenAcquiringUrl(TOKEN_ACQUIRING_CALLBACK_URL);
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+            }
+            return url;
+        }
+
+        private List<string> CatchedListImports(List<string> imports)
+        {
+            try
+            {
+                imports = cloud.ListImports();
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+            }
+            return imports;
+        }
+
+        private void BrowserIsNavigatingDoWork()
+        {
+            OnNavigateInBrowser(TOKEN_ACQUIRING_NAVIGATE_AWAY_URL);
+            StoreAcquiredToken();
+            if (browserIsNavigatingHint == BrowserIsNavigatingHint.Export)
+                cloud.Export();
         }
 
         private void NotifyAfterImportFromAddress()
@@ -435,6 +502,14 @@ namespace Dietphone.ViewModels
             if (ImportFromCloudSuccessful != null)
             {
                 ImportFromCloudSuccessful(this, EventArgs.Empty);
+            }
+        }
+
+        protected void OnCloudError()
+        {
+            if (CloudError != null)
+            {
+                CloudError(this, EventArgs.Empty);
             }
         }
 

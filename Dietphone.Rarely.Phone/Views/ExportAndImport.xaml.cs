@@ -33,6 +33,7 @@ namespace Dietphone.Views
             ViewModel.ConfirmExportToCloudDeactivation += ViewModel_ConfirmExportToCloudDeactivation;
             ViewModel.ExportToCloudActivationSuccessful += ViewModel_ExportToCloudActivationSuccessful;
             ViewModel.ImportFromCloudSuccessful += ViewModel_ImportFromCloudSuccessful;
+            ViewModel.CloudError += ViewModel_CloudError;
             DataContext = ViewModel;
             SetWindowBackground();
             SetWindowSize();
@@ -106,6 +107,14 @@ namespace Dietphone.Views
             Dispatcher.BeginInvoke(() =>
             {
                 MessageBox.Show(Translations.ImportCompletedSuccessfully);
+            });
+        }
+
+        private void ViewModel_CloudError(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show(Translations.AnErrorOccurredDuringTheDropboxOperation);
             });
         }
 

@@ -622,9 +622,12 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
 Początkowy eksport został również wykonany.</value>
   </data>
   <data name="ThereWasAnErrorDuringTheExportToDropbox" xml:space="preserve">
-    <value>Podczas eksportu na Dropboksa wystąpił błąd.</value>
+    <value>Wystąpił błąd podczas eksportu na Dropboksa.</value>
   </data>
   <data name="AvailableForImport" xml:space="preserve">
     <value>Dostępne do zaimportowania</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheDropboxOperation" xml:space="preserve">
+    <value>Wystąpił błąd podczas operowania Dropboksem. Spróbuj ponownie.</value>
   </data>
 </root>

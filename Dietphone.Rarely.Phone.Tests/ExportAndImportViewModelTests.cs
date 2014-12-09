@@ -20,7 +20,7 @@ namespace Dietphone.Rarely.Phone.Tests
         private Cloud cloud;
         private ExportAndImportViewModel sut;
         private string navigatedTo;
-        private bool calledExportToCloudActivationSuccessful, calledImportFromCloudSuccessful;
+        private bool calledExportToCloudActivationSuccessful, calledImportFromCloudSuccessful, calledCloudError;
 
         [SetUp]
         public void TestInitialize()
@@ -39,9 +39,10 @@ namespace Dietphone.Rarely.Phone.Tests
             cloud.ListImports().Returns(new List<string>());
             navigatedTo = string.Empty;
             sut.NavigateInBrowser += (_, url) => { navigatedTo = url; };
-            calledExportToCloudActivationSuccessful = calledImportFromCloudSuccessful = false;
+            calledExportToCloudActivationSuccessful = calledImportFromCloudSuccessful = calledCloudError = false;
             sut.ExportToCloudActivationSuccessful += (_, __) => { calledExportToCloudActivationSuccessful = true; };
             sut.ImportFromCloudSuccessful += (_, __) => { calledImportFromCloudSuccessful = true; };
+            sut.CloudError += (_, __) => { calledCloudError = true; };
         }
 
         public class ExportToCloud : ExportAndImportViewModelTests
@@ -119,6 +120,16 @@ namespace Dietphone.Rarely.Phone.Tests
                     });
                 }
             }
+
+            [Test]
+            public void ErrorAtGetTokenAcquiringUrl()
+            {
+                cloudProvider.GetTokenAcquiringUrl(null).ReturnsForAnyArgs(_ => { throw new Exception(); });
+                sut.ExportToCloud();
+                Thread.Sleep(10);
+                Assert.IsTrue(calledCloudError);
+                Assert.IsFalse(sut.BrowserVisible);
+            }
         }
 
         public class ImportFromCloud : ExportAndImportViewModelTests
@@ -144,6 +155,20 @@ namespace Dietphone.Rarely.Phone.Tests
                 Thread.Sleep(10);
                 Assert.IsTrue(sut.BrowserVisible);
                 Assert.AreEqual("go", navigatedTo);
+            }
+
+            [Test]
+            public void ErrorAtListImports()
+            {
+                settings.CloudSecret = "foo";
+                cloud.ListImports().ReturnsForAnyArgs(_ => { throw new Exception(); });
+                sut.NotChangesProperty("ImportFromCloudItems", () =>
+                {
+                    sut.ImportFromCloud();
+                    Thread.Sleep(10);
+                });
+                Assert.IsTrue(calledCloudError);
+                Assert.IsFalse(sut.ImportFromCloudVisible);
             }
         }
 
@@ -171,6 +196,17 @@ namespace Dietphone.Rarely.Phone.Tests
                 Assert.IsFalse(sut.ImportFromCloudVisible);
                 Thread.Sleep(10);
                 cloud.DidNotReceiveWithAnyArgs().Import(null);
+                Assert.IsFalse(calledImportFromCloudSuccessful);
+            }
+
+            [Test]
+            public void ErrorAtImport()
+            {
+                sut.ImportFromCloudSelectedItem = "foo";
+                cloud.When(c => c.Import("foo")).Do(_ => { throw new Exception(); });
+                sut.ImportFromCloudWithSelection();
+                Thread.Sleep(10);
+                Assert.IsTrue(calledCloudError);
                 Assert.IsFalse(calledImportFromCloudSuccessful);
             }
         }
@@ -263,6 +299,25 @@ namespace Dietphone.Rarely.Phone.Tests
             {
                 sut.BrowserIsNavigating(ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL);
                 Thread.Sleep(10);
+            }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void ErrorAtGetAcquiredTokenOrAtExport(bool errorAtGetAcquiredToken)
+            {
+                if (errorAtGetAcquiredToken)
+                    cloudProvider.GetAcquiredToken().ReturnsForAnyArgs(_ => { throw new Exception(); });
+                else
+                    cloud.When(c => c.Export()).Do(_ => { throw new Exception(); });
+                sut.ExportToCloud();
+                Thread.Sleep(10);
+                sut.BrowserIsNavigating(ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL);
+                Thread.Sleep(10);
+                Assert.IsTrue(calledCloudError);
+                Assert.IsFalse(sut.BrowserVisible);
+                Assert.IsFalse(calledExportToCloudActivationSuccessful);
+                if (errorAtGetAcquiredToken)
+                    cloud.DidNotReceive().Export();
             }
         }
 

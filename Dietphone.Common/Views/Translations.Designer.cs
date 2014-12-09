@@ -133,6 +133,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred during the Dropbox operation. Please try again..
+        /// </summary>
+        public static string AnErrorOccurredDuringTheDropboxOperation {
+            get {
+                return ResourceManager.GetString("AnErrorOccurredDuringTheDropboxOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while retrieving the imported data. Make sure that you have Internet access and address is correct..
         /// </summary>
         public static string AnErrorOccurredWhileRetrievingTheImportedData {
