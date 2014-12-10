@@ -15,6 +15,7 @@ namespace Dietphone.Views
         public event EventHandler DatesPoppedUp;
         private bool isTopItemJournal;
         private bool isTopItemDate;
+        private bool isTopItemTop;
         private Guid topItemJournalId;
         private DateTime topItemDate;
         private const string IS_TOP_ITEM_JOURNAL = "IS_TOP_ITEM_JOURNAL";
@@ -76,6 +77,7 @@ namespace Dietphone.Views
         {
             isTopItemJournal = false;
             isTopItemDate = false;
+            isTopItemTop = false;
             var topItem = List.TopVisibleItem;
             if (topItem != null)
             {
@@ -94,6 +96,7 @@ namespace Dietphone.Views
                             var date = dataGroup.Key as DateViewModel;
                             topItemDate = date.Date;
                             isTopItemDate = true;
+                            isTopItemTop = date == ViewModel.Dates.FirstOrDefault();
                         }
                     }
             }
@@ -101,6 +104,8 @@ namespace Dietphone.Views
 
         private void RestoreTopItem()
         {
+            if (isTopItemTop)
+                return;
             object topItem = null;
             if (isTopItemJournal)
             {
