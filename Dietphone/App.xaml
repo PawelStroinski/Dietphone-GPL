@@ -163,50 +163,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="ListPickerItemBlackWhenDisabledStyle" TargetType="telerikInput:RadListPickerItem">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            <Setter Property="Padding" Value="8,5,8,5"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="telerikInput:RadListPickerItem">
-                        <Border Background="{TemplateBinding Background}">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="Selected">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="content" Storyboard.TargetProperty="Foreground" Duration="0">
-                                                <DiscreteObjectKeyFrame Value="{StaticResource PhoneAccentBrush}" KeyTime="0"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Expanded">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="content" Storyboard.TargetProperty="Foreground" Duration="0">
-                                                <DiscreteObjectKeyFrame Value="{StaticResource PhoneContrastForegroundBrush}" KeyTime="0"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="content" Storyboard.TargetProperty="Foreground" Duration="0">
-                                                <DiscreteObjectKeyFrame Value="{StaticResource PhoneContrastForegroundBrush}" KeyTime="0"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <ContentControl x:Name="content" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
-                        Foreground="{TemplateBinding Foreground}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <commonViews:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
 
         <commonViews2:TranslationsFactory x:Key="Translations"/>
