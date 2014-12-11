@@ -14,6 +14,7 @@ namespace Dietphone.ViewModels
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
         private Sugar editedSugar;
         private SugarViewModel editedSugarViewModel;
+        private bool choosedAnAdded;
         private readonly Factories factories;
         private readonly BackgroundWorkerFactory workerFactory;
         private readonly SugarEditingViewModel sugarEditing;
@@ -49,6 +50,12 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public void ChooseAnAdded(JournalItemViewModel vm)
+        {
+            Choose(vm);
+            choosedAnAdded = true;
+        }
+
         public void Choose(JournalItemViewModel vm)
         {
             if (vm is SugarViewModel)
@@ -60,6 +67,7 @@ namespace Dietphone.ViewModels
             }
             else
                 vm.Choose(Navigator);
+            choosedAnAdded = false;
         }
 
         public override void Add(AddCommand command)
@@ -93,6 +101,11 @@ namespace Dietphone.ViewModels
             {
                 editedSugar.CopyFrom(editedSugarViewModel.Sugar);
                 Refresh();
+            };
+            sugarEditing.Cancelled += delegate
+            {
+                if (choosedAnAdded)
+                    sugarEditing.Delete();
             };
             sugarEditing.NeedToDelete += delegate
             {
@@ -147,7 +160,7 @@ namespace Dietphone.ViewModels
                 var viewModel = subViewModel as JournalViewModel;
                 var sugar = viewModel.factories.CreateSugar();
                 var sugarViewModel = new SugarViewModel(sugar, viewModel.factories);
-                viewModel.Choose(sugarViewModel);
+                viewModel.ChooseAnAdded(sugarViewModel);
                 viewModel.Refresh();
             }
         }

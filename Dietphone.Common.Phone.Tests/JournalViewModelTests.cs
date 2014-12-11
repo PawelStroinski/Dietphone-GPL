@@ -181,6 +181,19 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void ChooseAndSugarEditingCancel()
+        {
+            var sugar = new Sugar();
+            factories.Sugars.Add(sugar);
+            sut.Load();
+            var viewModel = new SugarViewModel(sugar, factories);
+            sut.Choose(viewModel);
+            sugarEditing.Cancel();
+            Assert.IsNotEmpty(factories.Sugars);
+            Assert.IsNotEmpty(sut.Items);
+        }
+
+        [Test]
         public void AddInsulin()
         {
             var command = new JournalViewModel.AddInsulinCommand();
@@ -200,6 +213,19 @@ namespace Dietphone.Common.Phone.Tests
             sugarEditing.Received().Show(Arg.Is<SugarViewModel>(vm => "110" == vm.BloodSugar));
             Assert.AreEqual(1, sut.Items.Count);
             navigator.DidNotReceive().GoToNewInsulin();
+        }
+
+        [Test]
+        public void AddSugarAndSugarEditingCancel()
+        {
+            var sugar = new Sugar();
+            factories.CreateSugar().Returns(sugar).AndDoes(_ => factories.Sugars.Add(sugar));
+            sut.Load();
+            var command = new JournalViewModel.AddSugarCommand();
+            sut.Add(command);
+            sugarEditing.Cancel();
+            Assert.IsEmpty(factories.Sugars);
+            Assert.IsEmpty(sut.Items);
         }
 
         [Test]
