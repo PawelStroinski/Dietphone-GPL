@@ -185,14 +185,14 @@ namespace Dietphone.ViewModels
         {
             var models = factories.Insulins;
             models.Remove(modelSource);
+            DeleteNewSugar();
             SaveCircumstances();
             Navigator.GoBack();
         }
 
         public override void CancelAndReturn()
         {
-            if (sugarIsNew)
-                factories.Sugars.Remove(sugarSource);
+            DeleteNewSugar();
             base.CancelAndReturn();
         }
 
@@ -315,6 +315,12 @@ namespace Dietphone.ViewModels
             sugarSource.CopyFrom(sugarCopy);
             sugarSource.DateTime = modelSource.DateTime;
             SaveCircumstances();
+        }
+
+        private void DeleteNewSugar()
+        {
+            if (sugarIsNew)
+                factories.Sugars.Remove(sugarSource);
         }
 
         private void SaveCircumstances()

@@ -477,6 +477,7 @@ namespace Dietphone.Common.Phone.Tests
             {
                 var insulins = new List<Insulin> { insulin };
                 factories.Insulins.Returns(insulins);
+                factories.Sugars.Returns(new List<Sugar>());
                 InitializeViewModel();
                 ChooseCircumstance();
                 var circumtanceId = sut.Subject.Circumstances.Single().Id;
@@ -489,6 +490,28 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreNotEqual(100, sugar.BloodSugar);
                 Assert.AreNotEqual(1, insulin.NormalBolus);
                 navigator.Received().GoBack();
+            }
+
+            [Test]
+            public void DeleteAndSaveAndReturnDeletesTheNewlyCreatedSugar()
+            {
+                factories.Sugars.Returns(new List<Sugar> { sugar });
+                factories.Insulins.Returns(new List<Insulin>());
+                InitializeViewModel();
+                sut.DeleteAndSaveAndReturn();
+                Assert.IsEmpty(factories.Sugars);
+            }
+
+            [Test]
+            public void DeleteAndSaveAndReturnDoesntDeleteTheFoundSugar()
+            {
+                var sugar = new Sugar();
+                factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+                factories.Sugars.Returns(new List<Sugar> { sugar });
+                factories.Insulins.Returns(new List<Insulin>());
+                InitializeViewModel();
+                sut.DeleteAndSaveAndReturn();
+                Assert.IsNotEmpty(factories.Sugars);
             }
 
             [Test]
