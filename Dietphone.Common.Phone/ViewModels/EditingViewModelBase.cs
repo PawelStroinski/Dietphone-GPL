@@ -96,7 +96,7 @@ namespace Dietphone.ViewModels
             return true;
         }
 
-        public void CancelAndReturn()
+        public virtual void CancelAndReturn()
         {
             Navigator.GoBack();
         }

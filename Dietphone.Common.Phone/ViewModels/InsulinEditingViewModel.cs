@@ -189,6 +189,13 @@ namespace Dietphone.ViewModels
             Navigator.GoBack();
         }
 
+        public override void CancelAndReturn()
+        {
+            if (sugarIsNew)
+                factories.Sugars.Remove(sugarSource);
+            base.CancelAndReturn();
+        }
+
         public string SummaryForSelectedCircumstances()
         {
             return string.Join(", ",

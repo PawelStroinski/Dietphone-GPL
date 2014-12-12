@@ -490,6 +490,35 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreNotEqual(1, insulin.NormalBolus);
                 navigator.Received().GoBack();
             }
+
+            [Test]
+            public void CancelAndReturnCallsTheBaseCancelAndReturn()
+            {
+                factories.Sugars.Returns(new List<Sugar>());
+                InitializeViewModel();
+                sut.CancelAndReturn();
+                navigator.Received().GoBack();
+            }
+
+            [Test]
+            public void CancelAndReturnDeletesTheNewlyCreatedSugar()
+            {
+                factories.Sugars.Returns(new List<Sugar> { sugar });
+                InitializeViewModel();
+                sut.CancelAndReturn();
+                Assert.IsEmpty(factories.Sugars);
+            }
+
+            [Test]
+            public void CancelAndReturnDoesntDeleteTheFoundSugar()
+            {
+                var sugar = new Sugar();
+                factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
+                factories.Sugars.Returns(new List<Sugar> { sugar });
+                InitializeViewModel();
+                sut.CancelAndReturn();
+                Assert.IsNotEmpty(factories.Sugars);
+            }
         }
 
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests
