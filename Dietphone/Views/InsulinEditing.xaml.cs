@@ -167,6 +167,11 @@ namespace Dietphone.Views
             viewModel.CancelAndReturn();
         }
 
+        private void Meal_Click(object sender, EventArgs e)
+        {
+            viewModel.GoToMealEditing();
+        }
+
         private void Delete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
@@ -193,6 +198,7 @@ namespace Dietphone.Views
         {
             Save.Text = Translations.Save;
             this.GetIcon(1).Text = Translations.Cancel;
+            this.GetIcon(2).Text = Translations.Meal;
             this.GetMenuItem(0).Text = Translations.Delete;
         }
 

@@ -196,6 +196,16 @@ namespace Dietphone.ViewModels
             base.CancelAndReturn();
         }
 
+        public void GoToMealEditing()
+        {
+            SaveWithUpdatedTime();
+            IsDirty = false;
+            FindMeal();
+            if (meal == null)
+                meal = factories.CreateMeal();
+            Navigator.GoToMealEditing(meal.Id);
+        }
+
         public string SummaryForSelectedCircumstances()
         {
             return string.Join(", ",

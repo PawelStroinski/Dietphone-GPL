@@ -542,6 +542,29 @@ namespace Dietphone.Common.Phone.Tests
                 sut.CancelAndReturn();
                 Assert.IsNotEmpty(factories.Sugars);
             }
+
+            [TestCase(true, false)]
+            [TestCase(false, true)]
+            [TestCase(false, false)]
+            public void GoToMealEditing(bool newMeal, bool relatedMealProvided)
+            {
+                InitializeViewModel();
+                sut.IsDirty = true;
+                sut.CurrentSugar.BloodSugar = "140";
+                if (newMeal || relatedMealProvided)
+                    factories.Finder.FindMealByInsulin(insulin).Returns((Meal)null);
+                if (newMeal)
+                    factories.CreateMeal().Returns(meal);
+                if (relatedMealProvided)
+                {
+                    navigator.GetRelatedMealId().Returns(meal.Id);
+                    factories.Finder.FindMealById(meal.Id).Returns(meal);
+                }
+                sut.GoToMealEditing();
+                Assert.AreEqual(140, sugar.BloodSugar);
+                Assert.IsFalse(sut.IsDirty);
+                sut.Navigator.Received().GoToMealEditing(meal.Id);
+            }
         }
 
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests
