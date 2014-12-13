@@ -27,9 +27,11 @@ namespace Dietphone.Views
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             ViewModel.CannotSave += ViewModel_CannotSave;
             ViewModel.InvalidateItems += ViewModel_InvalidateItems;
+            Scores.ScoreClick += Scores_ScoreClick;
             InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
             Save = this.GetIcon(0);
             TranslateApplicationBar();
+            SetScoresWidth();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -41,6 +43,7 @@ namespace Dietphone.Views
                     new NavigationContextImpl(NavigationContext));
                 ViewModel.Navigator = navigator;
                 ViewModel.Load();
+                Scores.DataContext = ViewModel.Subject.Scores;
                 DataContext = ViewModel;
             }
             else
@@ -217,11 +220,6 @@ namespace Dietphone.Views
             }
         }
 
-        private void Score_Click(object sender, MouseButtonEventArgs e)
-        {
-            ViewModel.OpenScoresSettings();
-        }
-
         private void Items_Loaded(object sender, RoutedEventArgs e)
         {
             if (IsOpened)
@@ -250,12 +248,23 @@ namespace Dietphone.Views
             Items.ForceInvalidate();
         }
 
+        protected void Scores_ScoreClick(object sender, EventArgs e)
+        {
+            ViewModel.OpenScoresSettings();
+        }
+
         private void TranslateApplicationBar()
         {
             Save.Text = Translations.Save;
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetIcon(2).Text = Translations.Insulin;
             this.GetMenuItem(0).Text = Translations.Delete;
+        }
+
+        private void SetScoresWidth()
+        {
+            var margins = 45;
+            Scores.Width = Application.Current.RootVisual.RenderSize.Width - AddItem.ButtonWidth - margins;
         }
 
         private void TombstoneTopItem()

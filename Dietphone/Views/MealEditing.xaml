@@ -29,34 +29,18 @@
                 <Grid Margin="21,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <!--0-->
-                    <commonViews:InteractionEffectContainer MouseLeftButtonUp="Score_Click">
-                        <TextBlock Text="{Binding Subject.Scores.First}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}"/>
-                    </commonViews:InteractionEffectContainer>
-                    <!--0-->
-                    <commonViews:InteractionEffectContainer Grid.Column="1" MouseLeftButtonUp="Score_Click">
-                        <TextBlock Text="{Binding Subject.Scores.Second}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" TextAlignment="Center" />
-                    </commonViews:InteractionEffectContainer>
-                    <!--0-->
-                    <commonViews:InteractionEffectContainer Grid.Row="1" MouseLeftButtonUp="Score_Click">
-                        <TextBlock Text="{Binding Subject.Scores.Third}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Visibility="{Binding Subject.Scores.ThirdExists, Converter={StaticResource BooleanToVisibility}}"/>
-                    </commonViews:InteractionEffectContainer>
-                    <!--0-->
-                    <commonViews:InteractionEffectContainer Grid.Row="1" Grid.Column="1" MouseLeftButtonUp="Score_Click">
-                        <TextBlock Text="{Binding Subject.Scores.Fourth}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" TextAlignment="Center" Visibility="{Binding Subject.Scores.ThirdExists, Converter={StaticResource BooleanToVisibility}}" />
-                    </commonViews:InteractionEffectContainer>
+                    <views:Scores x:Name="Scores"/>
                     <!--+-->
-                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddItem_Click" Grid.Column="2" Margin="-10 -2 0 0"/>
+                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddItem_Click" Grid.Column="1" Margin="-10 -2 0 0" x:Name="AddItem"/>
                     <!--[]-->
-                    <telerikPrimitives:RadDataBoundListBox Name="Items" ItemsSource="{Binding Subject.Items}" Margin="-21,20,2,0" Grid.Row="2" Grid.ColumnSpan="3" EmptyContent="" ItemTap="Items_ItemTap" Loaded="Items_Loaded">
+                    <telerikPrimitives:RadDataBoundListBox Name="Items" ItemsSource="{Binding Subject.Items}" Margin="-21,20,2,0" Grid.Row="1" Grid.ColumnSpan="2" EmptyContent="" ItemTap="Items_ItemTap" Loaded="Items_Loaded">
                         <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="12,8,0,6" Loaded="ItemGrid_Loaded">

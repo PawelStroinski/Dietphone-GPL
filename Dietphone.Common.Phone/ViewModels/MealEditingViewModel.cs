@@ -153,6 +153,7 @@ namespace Dietphone.ViewModels
             {
                 wentToSettings = false;
                 OnPropertyChanged(string.Empty);
+                Subject.Scores.Invalidate();
                 OnInvalidateItems(EventArgs.Empty);
             }
             else

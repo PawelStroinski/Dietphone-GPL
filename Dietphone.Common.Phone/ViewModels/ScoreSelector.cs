@@ -86,7 +86,7 @@ namespace Dietphone.ViewModels
         }
     }
 
-    public abstract class ScoreSelectorBase
+    public abstract class ScoreSelectorBase : ViewModelBase
     {
         public ScoreKind Kind { private get; set; }
         protected Settings settingsCopy;
@@ -124,6 +124,11 @@ namespace Dietphone.ViewModels
                 Forward();
                 return lastForwardHadScore;
             }
+        }
+
+        public void Invalidate()
+        {
+            OnPropertyChanged(string.Empty);
         }
 
         protected abstract string GetCurrent();

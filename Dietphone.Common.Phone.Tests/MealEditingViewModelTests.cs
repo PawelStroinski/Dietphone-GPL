@@ -133,5 +133,13 @@ namespace Dietphone.Common.Phone.Tests
             sut.ReturnedFromNavigation();
             Assert.AreEqual(factories.Products.Take(1), factories.MruProducts.Products);
         }
+
+        [Test]
+        public void ReturnedFromNavigationInvalidatesScoresWhenWentToSettings()
+        {
+            sut.Load(); 
+            sut.OpenScoresSettings();
+            sut.Subject.Scores.ChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
+        }
     }
 }
