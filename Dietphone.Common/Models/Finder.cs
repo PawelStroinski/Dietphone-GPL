@@ -117,7 +117,7 @@ namespace Dietphone.Models
         public Sugar FindSugarBeforeInsulin(Insulin insulin)
         {
             var sugars = factories.Sugars;
-            var earliest = insulin.DateTime.AddMinutes(-30);
+            var earliest = insulin.DateTime.AddMinutes(-15);
             var latest = insulin.DateTime;
             var candidates = sugars.Where(s => s.DateTime >= earliest && s.DateTime <= latest).ToList();
             if (candidates.Count > 1)

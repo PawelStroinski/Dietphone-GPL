@@ -133,10 +133,10 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
-        public void FindSugarBeforeInsulin_IfNoSugarsInHalfAnHourBefore_ReturnsNull()
+        public void FindSugarBeforeInsulin_IfNoSugarsInAQuarterBefore_ReturnsNull()
         {
-            var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(0.1) };
-            var sugar2 = new Sugar { DateTime = DateTime.Now.AddHours(-0.6) };
+            var sugar1 = new Sugar { DateTime = DateTime.Now.AddMinutes(5) };
+            var sugar2 = new Sugar { DateTime = DateTime.Now.AddMinutes(-16) };
             factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar1, sugar2 });
             var finder = new FinderImpl(factories.Object);
             var insulin = new Insulin { DateTime = DateTime.Now };
@@ -145,10 +145,10 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
-        public void FindSugarBeforeInsulin_IfSugarInHalfAnHourBefore_ReturnsSugar()
+        public void FindSugarBeforeInsulin_IfSugarInAQuarterBefore_ReturnsSugar()
         {
-            var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(-0.6) };
-            var sugar2 = new Sugar { DateTime = DateTime.Now.AddHours(-0.4) };
+            var sugar1 = new Sugar { DateTime = DateTime.Now.AddMinutes(-16) };
+            var sugar2 = new Sugar { DateTime = DateTime.Now.AddMinutes(-15) };
             factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar1, sugar2 });
             var finder = new FinderImpl(factories.Object);
             var insulin = new Insulin { DateTime = DateTime.Now };
@@ -169,10 +169,10 @@ namespace Dietphone.Models.Tests
         }
 
         [Test]
-        public void FindSugarBeforeInsulin_IfTwoSugarsInHalfAnHour_ReturnsLatestSugar()
+        public void FindSugarBeforeInsulin_IfTwoSugarsInAQuarter_ReturnsLatestSugar()
         {
-            var sugar1 = new Sugar { DateTime = DateTime.Now.AddHours(-0.4) };
-            var sugar2 = new Sugar { DateTime = DateTime.Now.AddHours(-0.3) };
+            var sugar1 = new Sugar { DateTime = DateTime.Now.AddMinutes(-14) };
+            var sugar2 = new Sugar { DateTime = DateTime.Now.AddMinutes(-10) };
             factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar1, sugar2 });
             var finder = new FinderImpl(factories.Object);
             var insulin = new Insulin { DateTime = DateTime.Now };
