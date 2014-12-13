@@ -506,7 +506,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sugar before.
+        ///   Looks up a localized string similar to Current sugar.
         /// </summary>
         public static string CurrentSugar {
             get {
