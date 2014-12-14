@@ -565,6 +565,44 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.IsFalse(sut.IsDirty);
                 sut.Navigator.Received().GoToMealEditing(meal.Id);
             }
+
+            [Test]
+            public void MealScores()
+            {
+                InitializeViewModel();
+                Assert.IsInstanceOf<ScoreSelector>(sut.MealScores);
+                Assert.IsNotInstanceOf<EmptyScoreSelector>(sut.MealScores);
+                Assert.IsTrue(sut.MealScoresVisible);
+            }
+
+            [Test]
+            public void MealScoresWhenNoMeal()
+            {
+                factories.Finder.FindMealByInsulin(insulin).Returns((Meal)null);
+                InitializeViewModel();
+                Assert.IsInstanceOf<EmptyScoreSelector>(sut.MealScores);
+                Assert.IsFalse(sut.MealScoresVisible);
+            }
+
+            [Test]
+            public void OpenScoresSettings()
+            {
+                sut.OpenScoresSettings();
+                navigator.Received().GoToSettings();
+            }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void ReturnedFromNavigationInvalidatesScoresIfWentToSettings(bool wentToSettings)
+            {
+                InitializeViewModel();
+                if (wentToSettings)
+                {
+                    sut.OpenScoresSettings();
+                    sut.MealScores.ChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
+                }
+                sut.MealScores.NotChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
+            }
         }
 
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests

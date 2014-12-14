@@ -14,6 +14,8 @@ namespace Dietphone.ViewModels
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
         public ObservableCollection<SugarChartItemViewModel> SugarChart { get; private set; }
+        public ScoreSelector MealScores { get; private set; }
+        public bool MealScoresVisible { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
         private Sugar sugarSource;
@@ -25,6 +27,7 @@ namespace Dietphone.ViewModels
         private bool bolusEdited;
         private bool sugarIsNew;
         private Meal meal;
+        private bool wentToSettings;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
         private const float SUGAR_CHART_MARGIN_MINIMUM_MGDL = 10f;
@@ -206,6 +209,21 @@ namespace Dietphone.ViewModels
             Navigator.GoToMealEditing(meal.Id);
         }
 
+        public void OpenScoresSettings()
+        {
+            wentToSettings = true;
+            Navigator.GoToSettings();
+        }
+
+        public void ReturnedFromNavigation()
+        {
+            if (wentToSettings)
+            {
+                wentToSettings = false;
+                MealScores.Invalidate();
+            }
+        }
+
         public string SummaryForSelectedCircumstances()
         {
             return string.Join(", ",
@@ -257,6 +275,7 @@ namespace Dietphone.ViewModels
             UntombstoneCircumstances();
             MakeInsulinViewModelInternal();
             MakeSugarViewModel();
+            MakeMealScores();
             base.MakeViewModel();
         }
 
@@ -393,6 +412,18 @@ namespace Dietphone.ViewModels
                 if (eventArguments.PropertyName == "BloodSugar")
                     StartCalculation();
             };
+        }
+
+        private void MakeMealScores()
+        {
+            if (meal == null)
+                MealScores = new EmptyScoreSelector(factories);
+            else
+            {
+                var mealViewModel = new MealViewModel(meal, factories);
+                MealScores = mealViewModel.Scores;
+                MealScoresVisible = true;
+            }
         }
 
         private void TombstoneSugar()

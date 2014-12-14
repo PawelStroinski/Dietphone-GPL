@@ -6,6 +6,19 @@ namespace Dietphone.ViewModels
 {
     public enum ScoreKind { First, Second, Third, Fourth }
 
+    public class EmptyScoreSelector : ScoreSelector
+    {
+        public EmptyScoreSelector(Factories factories)
+            : base(factories)
+        {
+        }
+
+        protected override string GetCurrent()
+        {
+            return string.Empty;
+        }
+    }
+
     public abstract class ScoreSelector : ScoreSelectorBase
     {
         public ScoreSelector(Factories factories)

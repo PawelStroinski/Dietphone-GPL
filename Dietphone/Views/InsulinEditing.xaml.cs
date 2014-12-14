@@ -27,6 +27,7 @@ namespace Dietphone.Views
             viewModel.StateProvider = this;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;
+            MealScores.ScoreClick += MealScores_ScoreClick;
             Save = this.GetIcon(0);
             TranslateApplicationBar();
             InsulinCircumstances.SummaryForSelectedItemsDelegate
@@ -47,7 +48,12 @@ namespace Dietphone.Views
                     new NavigationContextImpl(NavigationContext));
                 viewModel.Navigator = navigator;
                 viewModel.Load();
+                MealScores.DataContext = viewModel.MealScores;
                 DataContext = viewModel;
+            }
+            else
+            {
+                viewModel.ReturnedFromNavigation();
             }
             PopulateListPickerWithSelectedInsulinCircumstances();
         }
@@ -192,6 +198,11 @@ namespace Dietphone.Views
         {
             e.Ignore = (MessageBox.Show(e.Reason, Translations.AreYouSureYouWantToSaveThisInsulin,
                 MessageBoxButton.OKCancel) == MessageBoxResult.OK);
+        }
+
+        private void MealScores_ScoreClick(object sender, EventArgs e)
+        {
+            viewModel.OpenScoresSettings();
         }
 
         private void TranslateApplicationBar()
