@@ -113,6 +113,7 @@ namespace Dietphone.ViewModels
             destination.Path = "/Views/InsulinEditing.xaml";
             destination.Query = String.Format("{0}={1}&{2}={3}",
                 INSULIN_ID_TO_EDIT, insulinId, RELATED_MEAL_ID, mealId);
+            assembly = Assembly.Default;
             Navigate(destination);
         }
         
