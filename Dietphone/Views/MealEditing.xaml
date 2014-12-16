@@ -32,8 +32,8 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="858*"/>
+                        <ColumnDefinition Width="142*"/>
                     </Grid.ColumnDefinitions>
                     <!--0-->
                     <views:Scores x:Name="Scores"/>

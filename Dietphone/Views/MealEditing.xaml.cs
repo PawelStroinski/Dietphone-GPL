@@ -31,7 +31,6 @@ namespace Dietphone.Views
             InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
             Save = this.GetIcon(0);
             TranslateApplicationBar();
-            SetScoresWidth();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -259,12 +258,6 @@ namespace Dietphone.Views
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetIcon(2).Text = Translations.Insulin;
             this.GetMenuItem(0).Text = Translations.Delete;
-        }
-
-        private void SetScoresWidth()
-        {
-            var margins = 45;
-            Scores.Width = Application.Current.RootVisual.RenderSize.Width - AddItem.ButtonWidth - margins;
         }
 
         private void TombstoneTopItem()
