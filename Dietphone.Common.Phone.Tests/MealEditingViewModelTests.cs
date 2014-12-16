@@ -125,7 +125,7 @@ namespace Dietphone.Common.Phone.Tests
         {
             factories.CreateMealItem().Returns(new MealItem());
             factories.Finder.Returns(new FinderImpl(factories));
-            factories.MruProducts.Returns(new MruProducts(new List<Guid>(), factories));
+            factories.MruProducts.Returns(new MruProductsImpl(new List<Guid>(), factories));
             factories.Products.Returns(new Fixture().CreateMany<Product>().ToList());
             sut.Load();
             sut.AddCopyOfThisItem = new MealItem { ProductId = factories.Products.First().Id };

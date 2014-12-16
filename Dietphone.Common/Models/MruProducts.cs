@@ -3,13 +3,19 @@ using System.Collections.Generic;
 
 namespace Dietphone.Models
 {
-    public class MruProducts
+    public interface MruProducts
+    {
+        IList<Product> Products { get; }
+        void AddProduct(Product product);
+    }
+
+    public class MruProductsImpl : MruProducts
     {
         public const int MAX_COUNT = 10;
         private IList<Guid> productIds;
         private Factories factories;
 
-        public MruProducts(IList<Guid> productIds, Factories factories)
+        public MruProductsImpl(IList<Guid> productIds, Factories factories)
         {
             this.productIds = productIds;
             this.factories = factories;

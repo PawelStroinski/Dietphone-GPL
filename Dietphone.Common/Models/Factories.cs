@@ -143,7 +143,7 @@ namespace Dietphone.Models
                 {
                     if (mruProducts == null)
                     {
-                        mruProducts = new MruProducts(Settings.MruProductIds, this);
+                        mruProducts = new MruProductsImpl(Settings.MruProductIds, this);
                     }
                     return mruProducts;
                 }
