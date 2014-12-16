@@ -1028,7 +1028,7 @@ namespace Dietphone.Common.Phone.Tests
                 InitializeViewModel();
                 settings.SugarUnit = SugarUnit.mmolL;
                 ChooseCircumstance();
-                Assert.AreEqual(94.55f, sut.SugarChartMinimum, 0.001);
+                Assert.AreEqual(94.55f, (double)sut.SugarChartMinimum, 0.001);
             }
 
             [Test]
@@ -1052,7 +1052,7 @@ namespace Dietphone.Common.Phone.Tests
                 InitializeViewModel();
                 settings.SugarUnit = SugarUnit.mmolL;
                 ChooseCircumstance();
-                Assert.AreEqual(158.15f, sut.SugarChartMaximum, 0.001);
+                Assert.AreEqual(158.15f, (double)sut.SugarChartMaximum, 0.001);
             }
 
             [Test]
