@@ -135,6 +135,31 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void InvalidatesProductNameAfterAllChangesAreDoneWhenAddsCopyOfItem()
+        {
+            var mealItem = new MealItem();
+            mealItem.SetOwner(factories);
+            factories.CreateMealItem().Returns(mealItem);
+            factories.Finder.Returns(new FinderImpl(factories));
+            factories.Products.Returns(new Fixture().CreateMany<Product>().ToList());
+            sut.Load();
+            sut.AddCopyOfThisItem = new MealItem { ProductId = factories.Products.First().Id };
+            sut.AddCopyOfThisItem.SetOwner(factories);
+            var productName = string.Empty;
+            sut.Subject.Items.CollectionChanged += delegate
+            {
+                var item = sut.Subject.Items.First();
+                item.PropertyChanged += (_, e) =>
+                {
+                    if (e.PropertyName == "ProductName")
+                        productName = item.ProductName;
+                };
+            };
+            sut.ReturnedFromNavigation();
+            Assert.AreEqual(factories.Products.First().Name, productName);
+        }
+
+        [Test]
         public void ReturnedFromNavigationInvalidatesScoresWhenWentToSettings()
         {
             sut.Load();

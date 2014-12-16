@@ -28,9 +28,7 @@ namespace Dietphone.ViewModels
             set
             {
                 BufferOrModel.ProductId = value;
-                OnPropertyChanged("ProductName");
-                OnPropertyChanged("AllUsableUnitsWithDetalis");
-                OnPropertyChanged("HasManyUsableUnits");
+                OnProductNamePropertyChanged();
                 OnItemChanged();
             }
         }
@@ -123,6 +121,7 @@ namespace Dietphone.ViewModels
         public void CopyFromModel(MealItem model)
         {
             BufferOrModel.CopyFrom(model);
+            OnProductNamePropertyChanged();
             OnItemChanged();
         }
 
@@ -209,6 +208,13 @@ namespace Dietphone.ViewModels
             {
                 BufferOrModel.Value = 1;
             }
+        }
+
+        protected void OnProductNamePropertyChanged()
+        {
+            OnPropertyChanged("ProductName");
+            OnPropertyChanged("AllUsableUnitsWithDetalis");
+            OnPropertyChanged("HasManyUsableUnits");
         }
 
         protected void OnItemChanged()
