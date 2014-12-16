@@ -137,9 +137,22 @@ namespace Dietphone.Common.Phone.Tests
         [Test]
         public void ReturnedFromNavigationInvalidatesScoresWhenWentToSettings()
         {
-            sut.Load(); 
+            sut.Load();
             sut.OpenScoresSettings();
             sut.Subject.Scores.ChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
+        }
+
+        [Test]
+        public void ChangingTheItemsSetsIsDirty()
+        {
+            sut.Load();
+            factories.CreateMealItem().Returns(new MealItem());
+            sut.Subject.AddItem();
+            Assert.IsTrue(sut.IsDirty);
+            sut.IsDirty = false;
+            var item = sut.Subject.Items[0];
+            item.Value = "100";
+            Assert.IsTrue(sut.IsDirty);
         }
     }
 }

@@ -393,6 +393,7 @@ namespace Dietphone.ViewModels
             isProductsHeadCached = false;
             isProductsTailCached = false;
             OnPropertyChanged("Scores");
+            Scores.Invalidate();
         }
 
         private class MealScoreSelector : ScoreSelector
