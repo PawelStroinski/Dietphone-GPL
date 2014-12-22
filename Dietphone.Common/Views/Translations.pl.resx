@@ -529,15 +529,6 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
   <data name="InsulinUppercase" xml:space="preserve">
     <value>INSULINA</value>
   </data>
-  <data name="InsulinHeaderCalculated" xml:space="preserve">
-    <value>Bolus i cukier wynikają z poprzednich wpisów</value>
-  </data>
-  <data name="InsulinHeaderIncomplete" xml:space="preserve">
-    <value>Bolus i cukier wynikają z poprzednich wpisów (niekompletny posiłek)</value>
-  </data>
-  <data name="InsulinHeaderUser" xml:space="preserve">
-    <value>Naciśnij, aby pokazać wyliczoną insulinę</value>
-  </data>
   <data name="AddCircumstance" xml:space="preserve">
     <value>DODAJ OKOLICZNOŚĆ</value>
   </data>
@@ -629,5 +620,17 @@ Początkowy eksport został również wykonany.</value>
   </data>
   <data name="AnErrorOccurredDuringTheDropboxOperation" xml:space="preserve">
     <value>Wystąpił błąd podczas operowania Dropboksem. Spróbuj ponownie.</value>
+  </data>
+  <data name="Suggestion" xml:space="preserve">
+    <value>sugestia</value>
+  </data>
+  <data name="SuggestedInsulinHeader" xml:space="preserve">
+    <value>Sugerowany bolus i poziom cukru estymowany po jego podaniu wynikają z Twoich poprzednich wpisów. Nie należy ich traktować jako wartości prawidłowych. Jest to jedynie estymacja bazująca na tym jaki bolus poprzednio podano i jakie były tego efekty. Jest to tylko narzędzie i każdą decyzję należy przemyśleć.</value>
+  </data>
+  <data name="SuggestedBolus" xml:space="preserve">
+    <value>Sugerowany bolus</value>
+  </data>
+  <data name="InsulinCalculationIncomplete" xml:space="preserve">
+    <value>Dopasowanie posiłku nie jest kompletne.</value>
   </data>
 </root>

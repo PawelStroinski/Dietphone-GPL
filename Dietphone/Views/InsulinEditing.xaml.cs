@@ -264,5 +264,20 @@ namespace Dietphone.Views
         {
             MessageBox.Show(viewModel.SugarChartAsText);
         }
+
+        private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void UseCalculation_Tap(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CalculationDetails_Tap(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

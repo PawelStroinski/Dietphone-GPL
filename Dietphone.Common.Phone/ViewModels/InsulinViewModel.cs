@@ -211,6 +211,11 @@ namespace Dietphone.ViewModels
             navigator.GoToInsulinEditing(Id);
         }
 
+        public void ChangeModel(Insulin insulin)
+        {
+            Insulin = insulin;
+        }
+
         public IEnumerable<InsulinCircumstanceViewModel> AllCircumstances()
         {
             return allCircumstances;
@@ -223,13 +228,6 @@ namespace Dietphone.ViewModels
                 this.allCircumstances = allCircumstances;
                 this.circumstances = null;
             }
-        }
-
-        public void NotifyBolusChange()
-        {
-            OnPropertyChanged("NormalBolus");
-            OnPropertyChanged("SquareWaveBolus");
-            OnPropertyChanged("SquareWaveBolusHours");
         }
     }
 }

@@ -941,38 +941,20 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TODO.
+        /// </summary>
+        public static string InsulinCalculationIncomplete {
+            get {
+                return ResourceManager.GetString("InsulinCalculationIncomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insulin circumstances.
         /// </summary>
         public static string InsulinCircumstances {
             get {
                 return ResourceManager.GetString("InsulinCircumstances", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bolus &amp; sugar resulted from previous entries.
-        /// </summary>
-        public static string InsulinHeaderCalculated {
-            get {
-                return ResourceManager.GetString("InsulinHeaderCalculated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bolus &amp; sugar resulted from previous entries (incomplete meal).
-        /// </summary>
-        public static string InsulinHeaderIncomplete {
-            get {
-                return ResourceManager.GetString("InsulinHeaderIncomplete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tap to show calculated insulin.
-        /// </summary>
-        public static string InsulinHeaderUser {
-            get {
-                return ResourceManager.GetString("InsulinHeaderUser", resourceCulture);
             }
         }
         
@@ -1452,6 +1434,33 @@ namespace Dietphone.Views {
         public static string Sugar {
             get {
                 return ResourceManager.GetString("Sugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suggested bolus.
+        /// </summary>
+        public static string SuggestedBolus {
+            get {
+                return ResourceManager.GetString("SuggestedBolus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TODO.
+        /// </summary>
+        public static string SuggestedInsulinHeader {
+            get {
+                return ResourceManager.GetString("SuggestedInsulinHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to suggestion.
+        /// </summary>
+        public static string Suggestion {
+            get {
+                return ResourceManager.GetString("Suggestion", resourceCulture);
             }
         }
         

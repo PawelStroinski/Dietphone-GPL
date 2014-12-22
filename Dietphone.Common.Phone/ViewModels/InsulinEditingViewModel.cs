@@ -13,6 +13,7 @@ namespace Dietphone.ViewModels
     {
         public ObservableCollection<InsulinCircumstanceViewModel> Circumstances { get; private set; }
         public SugarViewModel CurrentSugar { get; private set; }
+        public InsulinViewModel Calculated { get; private set; }
         public ObservableCollection<SugarChartItemViewModel> SugarChart { get; private set; }
         public ScoreSelector MealScores { get; private set; }
         public bool MealScoresVisible { get; private set; }
@@ -22,9 +23,7 @@ namespace Dietphone.ViewModels
         private Sugar sugarCopy;
         private bool isBusy;
         private bool isCalculated;
-        private string isCalculatedText;
-        private bool openedWithNoBolus;
-        private bool bolusEdited;
+        private bool isCalculationIncomplete;
         private bool sugarIsNew;
         private Meal meal;
         private bool wentToSettings;
@@ -38,9 +37,9 @@ namespace Dietphone.ViewModels
         private const string INSULIN_SUGAR = "INSULIN_SUGAR";
         private const string CIRCUMSTANCES = "CIRCUMSTANCES";
         private const string IS_CALCULATED = "IS_CALCULATED";
-        private const string IS_CALCULATED_TEXT = "IS_CALCULATED_TEXT";
+        private const string IS_CALCULATION_INCOMPLETE = "IS_CALCULATION_INCOMPLETE";
+        private const string CALCULATED = "CALCULATED";
         private const string SUGAR_CHART = "SUGAR_CHART";
-        private const string BOLUS_EDITED = "BOLUS_EDITED";
         private const string INSULIN_ID = "INSULIN_ID";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
@@ -48,7 +47,6 @@ namespace Dietphone.ViewModels
             : base(factories)
         {
             this.facade = facade;
-            this.IsCalculatedText = string.Empty;
             this.workerFactory = workerFactory;
         }
 
@@ -92,16 +90,16 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public string IsCalculatedText
+        public bool IsCalculationIncomplete
         {
             get
             {
-                return isCalculatedText;
+                return isCalculationIncomplete;
             }
             private set
             {
-                isCalculatedText = value;
-                OnPropertyChanged("IsCalculatedText");
+                isCalculationIncomplete = value;
+                OnPropertyChanged("IsCalculationIncomplete");
             }
         }
 
@@ -286,26 +284,12 @@ namespace Dietphone.ViewModels
 
         protected override void TombstoneModel()
         {
-            var state = StateProvider.State;
-            var dto = new InsulinDTO();
-            dto.CopyFrom(modelCopy);
-            dto.CopyCircumstancesFrom(modelCopy);
-            state[INSULIN] = dto.Serialize(string.Empty);
+            TombstoneInsulin(modelCopy, INSULIN);
         }
 
         protected override void UntombstoneModel()
         {
-            var state = StateProvider.State;
-            if (state.ContainsKey(INSULIN))
-            {
-                var dtoState = (string)state[INSULIN];
-                var dto = dtoState.Deserialize<InsulinDTO>(string.Empty);
-                if (dto.Id == modelCopy.Id)
-                {
-                    modelCopy.CopyFrom(dto);
-                    modelCopy.CopyCircumstancesFrom(dto);
-                }
-            }
+            UntombstoneInsulin(modelCopy, INSULIN);
         }
 
         protected override void TombstoneOtherThings()
@@ -323,13 +307,9 @@ namespace Dietphone.ViewModels
             UntombstoneSugar();
         }
 
-        protected override void OnModelReady()
-        {
-            openedWithNoBolus = modelSource.NormalBolus == 0 && modelSource.SquareWaveBolus == 0;
-        }
-
         protected override void OnCommonUiReady()
         {
+            Calculated = new InsulinViewModel(CreateEmptyCalculated(), factories, allCircumstances: Circumstances);
             SugarChart = new ObservableCollection<SugarChartItemViewModel>();
             UntombstoneCalculation();
             if (!IsCalculated)
@@ -386,11 +366,6 @@ namespace Dietphone.ViewModels
             {
                 if (eventArguments.PropertyName == "Circumstances")
                     StartCalculation();
-                if (new string[] { "NormalBolus", "SquareWaveBolus", "SquareWaveBolusHours" }
-                    .Contains(eventArguments.PropertyName))
-                {
-                    BolusChanged();
-                }
             };
         }
 
@@ -423,6 +398,30 @@ namespace Dietphone.ViewModels
                 var mealViewModel = new MealViewModel(meal, factories);
                 MealScores = mealViewModel.Scores;
                 MealScoresVisible = true;
+            }
+        }
+
+        private void TombstoneInsulin(Insulin insulin, string key)
+        {
+            var state = StateProvider.State;
+            var dto = new InsulinDTO();
+            dto.CopyFrom(insulin);
+            dto.CopyCircumstancesFrom(insulin);
+            state[key] = dto.Serialize(string.Empty);
+        }
+
+        private void UntombstoneInsulin(Insulin insulin, string key)
+        {
+            var state = StateProvider.State;
+            if (state.ContainsKey(key))
+            {
+                var dtoState = (string)state[key];
+                var dto = dtoState.Deserialize<InsulinDTO>(string.Empty);
+                if (dto.Id == insulin.Id)
+                {
+                    insulin.CopyFrom(dto);
+                    insulin.CopyCircumstancesFrom(dto);
+                }
             }
         }
 
@@ -489,12 +488,12 @@ namespace Dietphone.ViewModels
         {
             var state = StateProvider.State;
             state[IS_CALCULATED] = IsCalculated;
-            state[IS_CALCULATED_TEXT] = IsCalculatedText;
+            state[IS_CALCULATION_INCOMPLETE] = IsCalculationIncomplete;
+            TombstoneInsulin(Calculated.Insulin, CALCULATED);
             var sugars = new List<Sugar>();
             foreach (var item in SugarChart)
                 item.AddModelTo(sugars);
             state[SUGAR_CHART] = sugars;
-            state[BOLUS_EDITED] = bolusEdited;
         }
 
         private void UntombstoneCalculation()
@@ -502,8 +501,14 @@ namespace Dietphone.ViewModels
             var state = StateProvider.State;
             if (state.ContainsKey(IS_CALCULATED))
                 IsCalculated = (bool)state[IS_CALCULATED];
-            if (state.ContainsKey(IS_CALCULATED_TEXT))
-                IsCalculatedText = (string)state[IS_CALCULATED_TEXT];
+            if (state.ContainsKey(IS_CALCULATION_INCOMPLETE))
+                IsCalculationIncomplete = (bool)state[IS_CALCULATION_INCOMPLETE];
+            if (state.ContainsKey(CALCULATED))
+            {
+                var calculated = Calculated.Insulin;
+                UntombstoneInsulin(calculated, CALCULATED);
+                ChangeCalculated(calculated);
+            }
             if (state.ContainsKey(SUGAR_CHART))
             {
                 var sugars = state[SUGAR_CHART] as List<Sugar>;
@@ -511,8 +516,6 @@ namespace Dietphone.ViewModels
                     SugarChart = new ObservableCollection<SugarChartItemViewModel>(
                         sugars.Select(sugar => new SugarChartItemViewModel(sugar)).ToList());
             }
-            if (state.ContainsKey(BOLUS_EDITED))
-                bolusEdited = (bool)state[BOLUS_EDITED];
         }
 
         private void TombstoneInsulinId()
@@ -538,26 +541,11 @@ namespace Dietphone.ViewModels
                 meal = finder.FindMealById(relatedMealId);
         }
 
-        private void BolusChanged()
-        {
-            IsCalculated = false;
-            ClearSugarChart();
-            var bolusEdited = modelCopy.NormalBolus != 0
-                || modelCopy.SquareWaveBolus != 0
-                || modelCopy.SquareWaveBolusHours != 0;
-            if (this.bolusEdited != bolusEdited)
-            {
-                this.bolusEdited = bolusEdited;
-                if (!bolusEdited)
-                    StartCalculation();
-            }
-        }
-
         private void StartCalculation()
         {
             var mealPresent = meal != null;
             var sugarEntered = sugarCopy.BloodSugar != 0;
-            if (openedWithNoBolus && !bolusEdited && mealPresent && sugarEntered)
+            if (mealPresent && sugarEntered)
                 StartCalculationInternal();
         }
 
@@ -590,25 +578,24 @@ namespace Dietphone.ViewModels
         {
             var replacement = replacementAndEstimatedSugars.Replacement;
             var insulin = replacement.InsulinTotal;
-            Subject.Insulin.NormalBolus = insulin.NormalBolus;
-            Subject.Insulin.SquareWaveBolus = insulin.SquareWaveBolus;
-            Subject.Insulin.SquareWaveBolusHours = insulin.SquareWaveBolusHours;
-            Subject.NotifyBolusChange();
-            bolusEdited = false;
+            ChangeCalculated(insulin);
             IsCalculated = true;
-            IsCalculatedText = replacement.IsComplete
-                ? Translations.InsulinHeaderCalculated : Translations.InsulinHeaderIncomplete;
+            IsCalculationIncomplete = !replacement.IsComplete;
             PopulateSugarChart(replacementAndEstimatedSugars.EstimatedSugars);
         }
 
         private void ShowNoCalculation()
         {
-            Subject.Insulin.NormalBolus = 0;
-            Subject.Insulin.SquareWaveBolus = 0;
-            Subject.Insulin.SquareWaveBolusHours = 0;
+            ChangeCalculated(CreateEmptyCalculated());
             IsCalculated = false;
-            IsCalculatedText = string.Empty;
+            IsCalculationIncomplete = false;
             ClearSugarChart();
+        }
+
+        private void ChangeCalculated(Insulin calculated)
+        {
+            Calculated.ChangeModel(calculated);
+            OnPropertyChanged("Calculated");
         }
 
         private void PopulateSugarChart(IList<Sugar> estimatedSugars)
@@ -628,6 +615,11 @@ namespace Dietphone.ViewModels
         {
             SugarChart.Clear();
             OnPropertyChanged("SugarChart");
+        }
+
+        private Insulin CreateEmptyCalculated()
+        {
+            return new Insulin();
         }
 
         public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };

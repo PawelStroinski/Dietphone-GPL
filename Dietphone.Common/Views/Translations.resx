@@ -529,15 +529,6 @@ So one number gives information on both fat and protein in meal.</value>
   <data name="InsulinUppercase" xml:space="preserve">
     <value>INSULIN</value>
   </data>
-  <data name="InsulinHeaderCalculated" xml:space="preserve">
-    <value>Bolus &amp; sugar resulted from previous entries</value>
-  </data>
-  <data name="InsulinHeaderIncomplete" xml:space="preserve">
-    <value>Bolus &amp; sugar resulted from previous entries (incomplete meal)</value>
-  </data>
-  <data name="InsulinHeaderUser" xml:space="preserve">
-    <value>Tap to show calculated insulin</value>
-  </data>
   <data name="AddCircumstance" xml:space="preserve">
     <value>ADD CIRCUMSTANCE</value>
   </data>
@@ -635,5 +626,17 @@ The initial export is done too.</value>
   </data>
   <data name="AnErrorOccurredDuringTheDropboxOperation" xml:space="preserve">
     <value>An error occurred during the Dropbox operation. Please try again.</value>
+  </data>
+  <data name="Suggestion" xml:space="preserve">
+    <value>suggestion</value>
+  </data>
+  <data name="SuggestedInsulinHeader" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="SuggestedBolus" xml:space="preserve">
+    <value>Suggested bolus</value>
+  </data>
+  <data name="InsulinCalculationIncomplete" xml:space="preserve">
+    <value>TODO</value>
   </data>
 </root>
