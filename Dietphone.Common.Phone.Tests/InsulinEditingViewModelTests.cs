@@ -609,6 +609,25 @@ namespace Dietphone.Common.Phone.Tests
                 }
                 sut.MealScores.NotChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
             }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void NoMealPresent(bool expectedNoMealPresent)
+            {
+                if (expectedNoMealPresent)
+                    factories.Finder.FindMealByInsulin(insulin).Returns((Meal)null);
+                sut.ChangesProperty("NoMealPresent", () => InitializeViewModel());
+                Assert.AreEqual(expectedNoMealPresent, sut.NoMealPresent);
+            }
+
+            [Test]
+            public void NoSugarEntered()
+            {
+                sut.ChangesProperty("NoSugarEntered", () => InitializeViewModel());
+                Assert.IsTrue(sut.NoSugarEntered);
+                sut.ChangesProperty("NoSugarEntered", () => sut.CurrentSugar.BloodSugar = "100");
+                Assert.IsFalse(sut.NoSugarEntered);
+            }
         }
 
         public class ReplacementAndEstimatedSugarsTests : InsulinEditingViewModelTests

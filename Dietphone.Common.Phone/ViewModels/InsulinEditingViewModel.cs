@@ -24,6 +24,8 @@ namespace Dietphone.ViewModels
         private bool isBusy;
         private bool isCalculated;
         private bool isCalculationIncomplete;
+        private bool noMealPresent;
+        private bool noSugarEntered;
         private bool sugarIsNew;
         private Meal meal;
         private bool wentToSettings;
@@ -100,6 +102,32 @@ namespace Dietphone.ViewModels
             {
                 isCalculationIncomplete = value;
                 OnPropertyChanged("IsCalculationIncomplete");
+            }
+        }
+
+        public bool NoMealPresent
+        {
+            get
+            {
+                return noMealPresent;
+            }
+            private set
+            {
+                noMealPresent = value;
+                OnPropertyChanged("NoMealPresent");
+            }
+        }
+
+        public bool NoSugarEntered
+        {
+            get
+            {
+                return noSugarEntered;
+            }
+            private set
+            {
+                noSugarEntered = value;
+                OnPropertyChanged("NoSugarEntered");
             }
         }
 
@@ -547,6 +575,8 @@ namespace Dietphone.ViewModels
             var sugarEntered = sugarCopy.BloodSugar != 0;
             if (mealPresent && sugarEntered)
                 StartCalculationInternal();
+            NoMealPresent = !mealPresent;
+            NoSugarEntered = !sugarEntered;
         }
 
         private void StartCalculationInternal()
