@@ -676,6 +676,7 @@ namespace Dietphone.Common.Phone.Tests
                 InitializeViewModel();
                 Assert.IsFalse(sut.IsCalculated);
                 Assert.IsFalse(sut.IsCalculationIncomplete);
+                Assert.IsFalse(sut.IsCalculationEmpty);
             }
 
             [Test]
@@ -818,6 +819,24 @@ namespace Dietphone.Common.Phone.Tests
                     ChooseCircumstance();
                 });
                 Assert.IsEmpty(sut.SugarChart);
+            }
+
+            [Test]
+            public void WhenNoReplacementsFoundSetsIsCalculationEmptyToTrueAndViceVersa()
+            {
+                InitializeViewModel();
+                replacementAndEstimatedSugars.Replacement.Items.Clear();
+                sut.ChangesProperty("IsCalculationEmpty", () =>
+                {
+                    sut.CurrentSugar.BloodSugar = "100";
+                });
+                Assert.IsTrue(sut.IsCalculationEmpty);
+                replacementAndEstimatedSugars.Replacement.Items.Add(new ReplacementItem());
+                sut.ChangesProperty("IsCalculationEmpty", () =>
+                {
+                    ChooseCircumstance();
+                });
+                Assert.IsFalse(sut.IsCalculationEmpty);
             }
 
             [Test]

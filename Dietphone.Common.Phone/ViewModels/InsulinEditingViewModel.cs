@@ -24,6 +24,7 @@ namespace Dietphone.ViewModels
         private bool isBusy;
         private bool isCalculated;
         private bool isCalculationIncomplete;
+        private bool isCalculationEmpty;
         private bool noMealPresent;
         private bool noSugarEntered;
         private bool sugarIsNew;
@@ -102,6 +103,19 @@ namespace Dietphone.ViewModels
             {
                 isCalculationIncomplete = value;
                 OnPropertyChanged("IsCalculationIncomplete");
+            }
+        }
+
+        public bool IsCalculationEmpty
+        {
+            get
+            {
+                return isCalculationEmpty;
+            }
+            private set
+            {
+                isCalculationEmpty = value;
+                OnPropertyChanged("IsCalculationEmpty");
             }
         }
 
@@ -611,6 +625,7 @@ namespace Dietphone.ViewModels
             ChangeCalculated(insulin);
             IsCalculated = true;
             IsCalculationIncomplete = !replacement.IsComplete;
+            IsCalculationEmpty = false;
             PopulateSugarChart(replacementAndEstimatedSugars.EstimatedSugars);
         }
 
@@ -619,6 +634,7 @@ namespace Dietphone.ViewModels
             ChangeCalculated(CreateEmptyCalculated());
             IsCalculated = false;
             IsCalculationIncomplete = false;
+            IsCalculationEmpty = true;
             ClearSugarChart();
         }
 
