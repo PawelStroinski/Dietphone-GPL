@@ -637,7 +637,7 @@ Początkowy eksport został również wykonany.</value>
     <value>Bieżący posiłek nie został dodany</value>
   </data>
   <data name="NoSugarEntered" xml:space="preserve">
-    <value>Nie wpisano aktualnego poziomu cukru</value>
+    <value>Nie określono aktualnego poziomu cukru</value>
   </data>
   <data name="NoSuggestion" xml:space="preserve">
     <value>Nie udało się znaleźć sugestii na podstawie Twoich poprzednich wpisów</value>
