@@ -633,4 +633,13 @@ Początkowy eksport został również wykonany.</value>
   <data name="InsulinCalculationIncomplete" xml:space="preserve">
     <value>Dopasowanie posiłku nie jest kompletne.</value>
   </data>
+  <data name="NoMealPresent" xml:space="preserve">
+    <value>Bieżący posiłek nie został dodany</value>
+  </data>
+  <data name="NoSugarEntered" xml:space="preserve">
+    <value>Nie wpisano aktualnego poziomu cukru</value>
+  </data>
+  <data name="NoSuggestion" xml:space="preserve">
+    <value>Nie udało się znaleźć sugestii na podstawie Twoich poprzednich wpisów</value>
+  </data>
 </root>

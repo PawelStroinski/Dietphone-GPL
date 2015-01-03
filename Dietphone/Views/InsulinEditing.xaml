@@ -86,8 +86,8 @@
 
             <!--suggestion-->
             <controls:PivotItem Header="{Binding Path=Translations.Suggestion, Source={StaticResource Translations}}">
-                <Border Visibility="{Binding IsCalculated, Converter={StaticResource BooleanToVisibility}}">
-                    <StackPanel>
+                <StackPanel>
+                    <StackPanel Visibility="{Binding IsCalculated, Converter={StaticResource BooleanToVisibility}}">
                         <!--Header-->
                         <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Translations.SuggestedInsulinHeader, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,8,12,0"/>
                         <!--Incomplete-->
@@ -131,7 +131,10 @@
                             </chart:RadCartesianChart>
                         </Border>
                     </StackPanel>
-                </Border>
+                    <TextBlock Visibility="{Binding IsCalculationEmpty, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSuggestion, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                    <TextBlock Visibility="{Binding NoMealPresent, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoMealPresent, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                    <TextBlock Visibility="{Binding NoSugarEntered, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSugarEntered, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                </StackPanel>
             </controls:PivotItem>
 
             <!--date-->

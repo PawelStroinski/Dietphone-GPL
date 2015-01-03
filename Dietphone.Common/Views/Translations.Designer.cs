@@ -1069,6 +1069,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TODO.
+        /// </summary>
+        public static string NoMealPresent {
+            get {
+                return ResourceManager.GetString("NoMealPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No name.
         /// </summary>
         public static string NoName {
@@ -1101,6 +1110,24 @@ namespace Dietphone.Views {
         public static string NormalBolusText {
             get {
                 return ResourceManager.GetString("NormalBolusText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TODO.
+        /// </summary>
+        public static string NoSugarEntered {
+            get {
+                return ResourceManager.GetString("NoSugarEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TODO.
+        /// </summary>
+        public static string NoSuggestion {
+            get {
+                return ResourceManager.GetString("NoSuggestion", resourceCulture);
             }
         }
         

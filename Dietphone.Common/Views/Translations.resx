@@ -639,4 +639,13 @@ The initial export is done too.</value>
   <data name="InsulinCalculationIncomplete" xml:space="preserve">
     <value>TODO</value>
   </data>
+  <data name="NoMealPresent" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="NoSugarEntered" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="NoSuggestion" xml:space="preserve">
+    <value>TODO</value>
+  </data>
 </root>
