@@ -263,6 +263,7 @@
     <Content Include="firstrun\products.en-US.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="images\more.png" />
     <Content Include="images\insulin.png" />
     <Content Include="firstrun\insulins.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
