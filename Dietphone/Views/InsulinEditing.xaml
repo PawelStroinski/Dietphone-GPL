@@ -12,6 +12,7 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
@@ -131,9 +132,33 @@
                             </chart:RadCartesianChart>
                         </Border>
                     </StackPanel>
+                    <!--Empty-->
                     <TextBlock Visibility="{Binding IsCalculationEmpty, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSuggestion, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                    <!--No meal present-->
                     <TextBlock Visibility="{Binding NoMealPresent, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoMealPresent, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                    <!--No sugar entered-->
                     <TextBlock Visibility="{Binding NoSugarEntered, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSugarEntered, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                    <!--Details-->
+                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsPicker" x:FieldModifier="private" Height="0" Width="0">
+                        <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                            <telerikPrimitives:ApplicationBarInfo>
+                                <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.check.rest.png" Click="CloseCalculationDetails_Click"/>
+                            </telerikPrimitives:ApplicationBarInfo>
+                        </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                        <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
+                            <telerikPrimitives:RadDataBoundListBox ItemsSource="{Binding ReplacementItems}">
+                                <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,13">
+                                            <TextBlock Text="{Binding Pattern.For.ProductName}" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,3,0,1" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="43" />
+                                            <views:Pattern DataContext="{Binding Pattern}"/>
+                                            <TextBlock Visibility="{Binding HasAlternatives, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.AlternativeOptions, Source={StaticResource Translations}}" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneAccentBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                            </telerikPrimitives:RadDataBoundListBox>
+                        </Border>
+                    </telerikPrimitives:RadPickerBox>
                 </StackPanel>
             </controls:PivotItem>
 

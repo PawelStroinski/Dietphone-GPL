@@ -124,6 +124,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to alternative options.
+        /// </summary>
+        public static string AlternativeOptions {
+            get {
+                return ResourceManager.GetString("AlternativeOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred during import. Make sure that the imported data were not corrupted..
         /// </summary>
         public static string AnErrorOccurredDuringImport {
@@ -1263,6 +1272,15 @@ namespace Dietphone.Views {
         public static string RecentlyUsed {
             get {
                 return ResourceManager.GetString("RecentlyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to relevancy.
+        /// </summary>
+        public static string Relevancy {
+            get {
+                return ResourceManager.GetString("Relevancy", resourceCulture);
             }
         }
         

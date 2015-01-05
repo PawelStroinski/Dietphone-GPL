@@ -1056,6 +1056,68 @@ namespace Dietphone.Common.Phone.Tests
                     Arg.Any<Sugar>());
                 CheckTheCalculationAndTheSugarChartAreThere();
             }
+
+            [Test]
+            public void CalculationDetailsAndCloseCalculationDetailsSetCalculationDetailsVisible()
+            {
+                var fixture = new Fixture();
+                replacementAndEstimatedSugars.Replacement.Items = fixture.CreateMany<ReplacementItem>().ToList();
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsFalse(sut.CalculationDetailsVisible);
+                sut.ChangesProperty("CalculationDetailsVisible", () =>
+                {
+                    sut.CalculationDetails();
+                });
+                Assert.IsTrue(sut.CalculationDetailsVisible);
+                sut.ChangesProperty("CalculationDetailsVisible", () =>
+                {
+                    sut.CloseCalculationDetails();
+                });
+                Assert.IsFalse(sut.CalculationDetailsVisible);
+            }
+
+            [Test]
+            public void CalculationDetailsPopulatesReplacementItems()
+            {
+                var fixture = new Fixture();
+                var expected = fixture.CreateMany<ReplacementItem>().ToList();
+                expected[1].Pattern.Insulin.InitializeCircumstances(new List<Guid>());
+                expected[2].Alternatives.Clear();
+                replacementAndEstimatedSugars.Replacement.Items = expected;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.IsEmpty(sut.ReplacementItems);
+                sut.ChangesProperty("ReplacementItems", () =>
+                {
+                    sut.CalculationDetails();
+                });
+                var actual = sut.ReplacementItems;
+                Assert.AreSame(expected[1].Pattern, actual[1].Pattern.Pattern);
+                Assert.AreSame(expected[1].Alternatives[1], actual[1].Alternatives[1].Pattern);
+                Assert.AreSame(expected[1].Pattern.Match, actual[1].Pattern.Match.Model);
+                Assert.AreSame(expected[1].Pattern.From, actual[1].Pattern.From.Meal);
+                Assert.AreSame(expected[1].Pattern.Insulin, actual[1].Pattern.Insulin.Insulin);
+                Assert.AreSame(expected[1].Pattern.Before, actual[1].Pattern.Before.Sugar);
+                Assert.AreSame(expected[1].Pattern.After.ElementAt(1), actual[1].Pattern.After[1].Sugar);
+                Assert.AreSame(expected[1].Pattern.For, actual[1].Pattern.For.Model);
+                Assert.IsNotNull(actual[1].Pattern.Match.Scores.First);
+                Assert.IsNotNull(actual[1].Pattern.From.Scores.First);
+                Assert.IsNotNull(actual[1].Pattern.Insulin.Circumstances);
+                Assert.IsNotEmpty(actual[1].Pattern.Before.Text);
+                Assert.IsNotEmpty(actual[1].Pattern.After[1].Text);
+                Assert.IsNotNull(actual[1].Pattern.For.Scores.First);
+                actual[1].Pattern.Insulin.NormalBolus = "1";
+                Assert.IsTrue(actual[1].HasAlternatives);
+                Assert.IsFalse(actual[2].HasAlternatives);
+            }
+
+            [Test]
+            public void CalculationDetailsThrowsExceptionIfNoCalculation()
+            {
+                InitializeViewModel();
+                Assert.Throws<InvalidOperationException>(() => sut.CalculationDetails());
+            }
         }
 
         public class SugarChartItemViewModelTests

@@ -12,11 +12,14 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Collections;
+using System.ComponentModel;
+using Telerik.Windows.Controls;
 
 namespace Dietphone.Views
 {
     public partial class InsulinEditing : StateProviderPage
     {
+        private const int CHART_PADDING_TOP = 51;
         private InsulinEditingViewModel viewModel;
 
         public InsulinEditing()
@@ -27,7 +30,9 @@ namespace Dietphone.Views
             viewModel.StateProvider = this;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
             MealScores.ScoreClick += MealScores_ScoreClick;
+            InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
             Save = this.GetIcon(0);
             TranslateApplicationBar();
             InsulinCircumstances.SummaryForSelectedItemsDelegate
@@ -200,9 +205,42 @@ namespace Dietphone.Views
                 MessageBoxButton.OKCancel) == MessageBoxResult.OK);
         }
 
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CalculationDetailsVisible")
+                CalculationDetailsPicker.IsPopupOpen = viewModel.CalculationDetailsVisible;
+        }
+
         private void MealScores_ScoreClick(object sender, EventArgs e)
         {
             viewModel.OpenScoresSettings();
+        }
+
+        private void Chart_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var position = e.GetPosition(Chart);
+            if (position.Y > CHART_PADDING_TOP)
+                MessageBox.Show(viewModel.SugarChartAsText);
+        }
+
+        private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+        }
+
+        private void UseCalculation_Tap(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CalculationDetails_Tap(object sender, RoutedEventArgs e)
+        {
+            viewModel.CalculationDetails();
+        }
+
+        private void CloseCalculationDetails_Click(object sender, EventArgs e)
+        {
+            viewModel.CloseCalculationDetails();
         }
 
         private void TranslateApplicationBar()
@@ -211,6 +249,9 @@ namespace Dietphone.Views
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetIcon(2).Text = Translations.Meal;
             this.GetMenuItem(0).Text = Translations.Delete;
+            var calculationDetailsBar = CalculationDetailsPicker.ApplicationBarInfo;
+            var ok = calculationDetailsBar.Buttons[0];
+            ok.Text = Translations.Ok;
         }
 
         private string InsulinCircumstancesSummaryForSelectedItemsDelegate(IList newValue)
@@ -258,26 +299,6 @@ namespace Dietphone.Views
             var facade = new ReplacementBuilderAndSugarEstimatorFacadeImpl(patternBuilder,
                 replacementBuilder, sugarEstimator);
             return facade;
-        }
-
-        private void Chart_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            MessageBox.Show(viewModel.SugarChartAsText);
-        }
-
-        private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-
-        }
-
-        private void UseCalculation_Tap(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CalculationDetails_Tap(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

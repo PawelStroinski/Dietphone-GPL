@@ -15,6 +15,7 @@ namespace Dietphone.ViewModels
         public SugarViewModel CurrentSugar { get; private set; }
         public InsulinViewModel Calculated { get; private set; }
         public ObservableCollection<SugarChartItemViewModel> SugarChart { get; private set; }
+        public ObservableCollection<ReplacementItemViewModel> ReplacementItems { get; private set; }
         public ScoreSelector MealScores { get; private set; }
         public bool MealScoresVisible { get; private set; }
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
@@ -27,9 +28,11 @@ namespace Dietphone.ViewModels
         private bool isCalculationEmpty;
         private bool noMealPresent;
         private bool noSugarEntered;
+        private bool calculationDetailsVisible;
         private bool sugarIsNew;
         private Meal meal;
         private bool wentToSettings;
+        private IList<ReplacementItem> replacementItems;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MGDL = (decimal)10;
@@ -145,6 +148,19 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public bool CalculationDetailsVisible
+        {
+            get
+            {
+                return calculationDetailsVisible;
+            }
+            private set
+            {
+                calculationDetailsVisible = value;
+                OnPropertyChanged("CalculationDetailsVisible");
+            }
+        }
+
         public decimal SugarChartMinimum
         {
             get
@@ -255,6 +271,21 @@ namespace Dietphone.ViewModels
             Navigator.GoToSettings();
         }
 
+        public void CalculationDetails()
+        {
+            CheckReplacementItems();
+            ReplacementItems = new ObservableCollection<ReplacementItemViewModel>(replacementItems
+                .Select(replacementItem => new ReplacementItemViewModel(
+                    replacementItem, factories, allCircumstances: Circumstances)));
+            OnPropertyChanged("ReplacementItems");
+            CalculationDetailsVisible = true;
+        }
+
+        public void CloseCalculationDetails()
+        {
+            CalculationDetailsVisible = false;
+        }
+
         public void ReturnedFromNavigation()
         {
             if (wentToSettings)
@@ -353,6 +384,7 @@ namespace Dietphone.ViewModels
         {
             Calculated = new InsulinViewModel(CreateEmptyCalculated(), factories, allCircumstances: Circumstances);
             SugarChart = new ObservableCollection<SugarChartItemViewModel>();
+            ReplacementItems = new ObservableCollection<ReplacementItemViewModel>();
             UntombstoneCalculation();
             if (!IsCalculated)
                 StartCalculation();
@@ -616,6 +648,7 @@ namespace Dietphone.ViewModels
                 ShowCalculation(replacementAndEstimatedSugars);
             else
                 ShowNoCalculation();
+            replacementItems = replacement.Items;
         }
 
         private void ShowCalculation(ReplacementAndEstimatedSugars replacementAndEstimatedSugars)
@@ -666,6 +699,12 @@ namespace Dietphone.ViewModels
         private Insulin CreateEmptyCalculated()
         {
             return new Insulin();
+        }
+
+        private void CheckReplacementItems()
+        {
+            if (replacementItems == null)
+                throw new InvalidOperationException("No replacement items");
         }
 
         public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };

@@ -152,6 +152,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pattern.xaml.cs">
+      <DependentUpon>Pattern.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Scores.xaml.cs">
       <DependentUpon>Scores.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Views\Pattern.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Scores.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

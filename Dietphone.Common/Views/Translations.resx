@@ -648,4 +648,10 @@ The initial export is done too.</value>
   <data name="NoSuggestion" xml:space="preserve">
     <value>TODO</value>
   </data>
+  <data name="Relevancy" xml:space="preserve">
+    <value>relevancy</value>
+  </data>
+  <data name="AlternativeOptions" xml:space="preserve">
+    <value>alternative options</value>
+  </data>
 </root>
