@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dietphone.Models;
 
@@ -13,9 +14,10 @@ namespace Dietphone.ViewModels
         public SugarViewModel Before { get; private set; }
         public IList<SugarViewModel> After { get; private set; }
         public MealItemViewModel For { get; private set; }
+        public bool HasAlternatives { get; private set; }
 
         public PatternViewModel(Pattern pattern, Factories factories,
-            IList<InsulinCircumstanceViewModel> allCircumstances)
+            IList<InsulinCircumstanceViewModel> allCircumstances, bool hasAlternatives)
         {
             Pattern = pattern;
             Match = new MealItemViewModel(pattern.Match, factories);
@@ -26,6 +28,15 @@ namespace Dietphone.ViewModels
                 .Select(sugar => new SugarViewModel(sugar, factories))
                 .ToList();
             For = new MealItemViewModel(pattern.For, factories);
+            HasAlternatives = hasAlternatives;
+        }
+
+        public string Factor
+        {
+            get
+            {
+                return string.Format("{0}%", Math.Round(Pattern.Factor * 100));
+            }
         }
     }
 }

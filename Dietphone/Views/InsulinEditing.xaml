@@ -142,7 +142,7 @@
                     <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsPicker" x:FieldModifier="private" Height="0" Width="0">
                         <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarInfo>
-                                <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.check.rest.png" Click="CloseCalculationDetails_Click"/>
+                                <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetails_Click"/>
                             </telerikPrimitives:ApplicationBarInfo>
                         </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
@@ -152,7 +152,6 @@
                                         <StackPanel Margin="0,0,0,13">
                                             <TextBlock Text="{Binding Pattern.For.ProductName}" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,3,0,1" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="43" />
                                             <views:Pattern DataContext="{Binding Pattern}"/>
-                                            <TextBlock Visibility="{Binding HasAlternatives, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.AlternativeOptions, Source={StaticResource Translations}}" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneAccentBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </telerikPrimitives:RadDataBoundListBox.ItemTemplate>

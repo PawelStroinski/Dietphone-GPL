@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   x="0px"
+   y="0px"
+   viewBox="4.8 -9.6 184.32 248.832"
+   xml:space="preserve"
+   height="192"
+   width="192"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="noun_86701_cc.svg"
+   inkscape:export-filename="C:\dysk_wu\mysmallprojects\DietphoneGit\Dietphone\images\alternatives.roundbutton.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"><metadata
+   id="metadata20"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs18" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1027"
+   id="namedview16"
+   showgrid="false"
+   inkscape:zoom="2.36"
+   inkscape:cx="-0.63559322"
+   inkscape:cy="70.323432"
+   inkscape:window-x="-8"
+   inkscape:window-y="22"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="svg2" />
+<g
+   id="Layer_1"
+   transform="matrix(1.263397,0,0,1.263397,36.316154,54.172154)"
+   style="fill:#000000">
+	<g
+   id="g5"
+   style="fill:#000000">
+		<path
+   style="fill:#000000;fill-rule:evenodd"
+   d="M 38.278,59.61 H 27.525 v -8.606 c 0,-1.546 -1.856,-2.334 -2.969,-1.26 L 5.768,67.884 c -0.713,0.689 -0.713,1.832 0,2.521 l 18.789,18.14 c 1.112,1.074 2.969,0.286 2.969,-1.26 v -8.606 h 10.753 c 0.924,0 1.674,-0.749 1.674,-1.674 V 61.283 C 39.952,60.359 39.202,59.61 38.278,59.61 z"
+   id="path7"
+   inkscape:connector-curvature="0" />
+		<path
+   style="fill:#000000;fill-rule:evenodd"
+   d="m 66.435,29.996 c -1.82,0 -3.59,0.206 -5.296,0.585 v -8.327 h 7.548 c 1.718,0 2.594,-2.063 1.401,-3.299 L 52.407,0.643 c -0.765,-0.793 -2.036,-0.793 -2.801,0 l -17.68,18.313 c -1.193,1.236 -0.317,3.299 1.401,3.299 h 8.744 v 71.529 c 0,1.198 0.971,2.169 2.169,2.169 h 14.731 c 1.198,0 2.169,-0.971 2.169,-2.169 V 78.66 59.624 58.102 54.328 c 0,-2.925 2.371,-5.296 5.296,-5.296 2.925,0 5.296,2.371 5.296,5.296 0,2.925 -2.371,5.296 -5.296,5.296 H 63.325 V 78.66 h 3.111 C 79.874,78.66 90.768,67.766 90.768,54.328 90.767,40.89 79.873,29.996 66.435,29.996 z"
+   id="path9"
+   inkscape:connector-curvature="0" />
+	</g>
+</g>
+<g
+   id="Layer_2"
+   transform="matrix(0.97352646,0,0,0.97352646,2.5668747,119.11509)"
+   style="fill:#ffffff">
+</g>
+</svg>

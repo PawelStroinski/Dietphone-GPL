@@ -32,7 +32,7 @@ namespace Dietphone.Views
             viewModel.CannotSave += ViewModel_CannotSave;
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
             MealScores.ScoreClick += MealScores_ScoreClick;
-            InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
+            InteractionEffectManager.AllowedTypes.Remove(typeof(RadDataBoundListBoxItem));
             Save = this.GetIcon(0);
             TranslateApplicationBar();
             InsulinCircumstances.SummaryForSelectedItemsDelegate
@@ -250,8 +250,8 @@ namespace Dietphone.Views
             this.GetIcon(2).Text = Translations.Meal;
             this.GetMenuItem(0).Text = Translations.Delete;
             var calculationDetailsBar = CalculationDetailsPicker.ApplicationBarInfo;
-            var ok = calculationDetailsBar.Buttons[0];
-            ok.Text = Translations.Ok;
+            var close = calculationDetailsBar.Buttons[0];
+            close.Text = Translations.Close;
         }
 
         private string InsulinCircumstancesSummaryForSelectedItemsDelegate(IList newValue)

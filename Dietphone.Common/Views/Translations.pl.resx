@@ -642,10 +642,13 @@ Początkowy eksport został również wykonany.</value>
   <data name="NoSuggestion" xml:space="preserve">
     <value>Nie udało się znaleźć sugestii na podstawie Twoich poprzednich wpisów</value>
   </data>
-  <data name="Relevancy" xml:space="preserve">
+  <data name="Relevance" xml:space="preserve">
     <value>trafność</value>
   </data>
-  <data name="AlternativeOptions" xml:space="preserve">
-    <value>opcje alternatywne</value>
+  <data name="Factor" xml:space="preserve">
+    <value>współczynnik</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>zamknij</value>
   </data>
 </root>

@@ -662,6 +662,24 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.IsNotEmpty(sut.SugarChart);
             }
 
+            private void CheckPatternViewModel(Pattern expected, PatternViewModel actual)
+            {
+                Assert.AreSame(expected, actual.Pattern);
+                Assert.AreSame(expected.Match, actual.Match.Model);
+                Assert.AreSame(expected.From, actual.From.Meal);
+                Assert.AreSame(expected.Insulin, actual.Insulin.Insulin);
+                Assert.AreSame(expected.Before, actual.Before.Sugar);
+                Assert.AreSame(expected.After.ElementAt(1), actual.After[1].Sugar);
+                Assert.AreSame(expected.For, actual.For.Model);
+                Assert.IsNotNull(actual.Match.Scores.First);
+                Assert.IsNotNull(actual.From.Scores.First);
+                Assert.IsNotNull(actual.Insulin.Circumstances);
+                Assert.IsNotEmpty(actual.Before.Text);
+                Assert.IsNotEmpty(actual.After[1].Text);
+                Assert.IsNotNull(actual.For.Scores.First);
+                actual.Insulin.NormalBolus = "1";
+            }
+
             [Test]
             public void IsBusy()
             {
@@ -1083,6 +1101,8 @@ namespace Dietphone.Common.Phone.Tests
                 var fixture = new Fixture();
                 var expected = fixture.CreateMany<ReplacementItem>().ToList();
                 expected[1].Pattern.Insulin.InitializeCircumstances(new List<Guid>());
+                expected[1].Alternatives[1].Insulin.InitializeCircumstances(new List<Guid>());
+                expected[1].Pattern.Factor = 1.177F;
                 expected[2].Alternatives.Clear();
                 replacementAndEstimatedSugars.Replacement.Items = expected;
                 InitializeViewModel();
@@ -1093,23 +1113,12 @@ namespace Dietphone.Common.Phone.Tests
                     sut.CalculationDetails();
                 });
                 var actual = sut.ReplacementItems;
-                Assert.AreSame(expected[1].Pattern, actual[1].Pattern.Pattern);
-                Assert.AreSame(expected[1].Alternatives[1], actual[1].Alternatives[1].Pattern);
-                Assert.AreSame(expected[1].Pattern.Match, actual[1].Pattern.Match.Model);
-                Assert.AreSame(expected[1].Pattern.From, actual[1].Pattern.From.Meal);
-                Assert.AreSame(expected[1].Pattern.Insulin, actual[1].Pattern.Insulin.Insulin);
-                Assert.AreSame(expected[1].Pattern.Before, actual[1].Pattern.Before.Sugar);
-                Assert.AreSame(expected[1].Pattern.After.ElementAt(1), actual[1].Pattern.After[1].Sugar);
-                Assert.AreSame(expected[1].Pattern.For, actual[1].Pattern.For.Model);
-                Assert.IsNotNull(actual[1].Pattern.Match.Scores.First);
-                Assert.IsNotNull(actual[1].Pattern.From.Scores.First);
-                Assert.IsNotNull(actual[1].Pattern.Insulin.Circumstances);
-                Assert.IsNotEmpty(actual[1].Pattern.Before.Text);
-                Assert.IsNotEmpty(actual[1].Pattern.After[1].Text);
-                Assert.IsNotNull(actual[1].Pattern.For.Scores.First);
-                actual[1].Pattern.Insulin.NormalBolus = "1";
-                Assert.IsTrue(actual[1].HasAlternatives);
-                Assert.IsFalse(actual[2].HasAlternatives);
+                CheckPatternViewModel(expected[1].Pattern, actual[1].Pattern);
+                CheckPatternViewModel(expected[1].Alternatives[1], actual[1].Alternatives[1]);
+                Assert.IsTrue(actual[1].Pattern.HasAlternatives);
+                Assert.IsFalse(actual[2].Pattern.HasAlternatives);
+                Assert.IsFalse(actual[1].Alternatives[1].HasAlternatives);
+                Assert.AreEqual("118%", actual[1].Pattern.Factor);
             }
 
             [Test]

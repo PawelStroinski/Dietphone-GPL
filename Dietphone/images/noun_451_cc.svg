@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="192"
+   height="192"
+   viewBox="5 -9.939 192 259.2"
+   enable-background="new 0 0 100 99.39"
+   xml:space="preserve"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="noun_451_cc.svg"
+   inkscape:export-filename="C:\dysk_wu\mysmallprojects\DietphoneGit\Dietphone\images\insulin.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"><metadata
+   id="metadata13"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs11" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1027"
+   id="namedview9"
+   showgrid="false"
+   inkscape:zoom="2.3744844"
+   inkscape:cx="-50.653431"
+   inkscape:cy="49.695"
+   inkscape:window-x="-8"
+   inkscape:window-y="22"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<polygon
+   points="27.465,43.757 31.376,39.135 15.492,19.109 16.901,17.701 0,0.799 3.521,1.503 18.31,16.292 19.717,14.884 39.745,30.767 44.365,26.857 88.028,70.517 82.394,76.151 90.14,83.897 95.775,78.264 100,82.488 83.098,99.39 78.874,95.165 84.506,89.532 76.76,81.784 71.125,87.419 "
+   id="polygon3"
+   transform="matrix(1.2288803,0,0,1.2288803,39.555985,58.100856)"
+   style="fill:#000000" />
+</svg>

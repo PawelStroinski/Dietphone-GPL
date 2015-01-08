@@ -124,15 +124,6 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to alternative options.
-        /// </summary>
-        public static string AlternativeOptions {
-            get {
-                return ResourceManager.GetString("AlternativeOptions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An error occurred during import. Make sure that the imported data were not corrupted..
         /// </summary>
         public static string AnErrorOccurredDuringImport {
@@ -487,6 +478,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} CU.
         /// </summary>
         public static string Cu {
@@ -791,6 +791,15 @@ namespace Dietphone.Views {
         public static string ExportToDropboxIsActiveDoYouWantToTurnItOff {
             get {
                 return ResourceManager.GetString("ExportToDropboxIsActiveDoYouWantToTurnItOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to factor.
+        /// </summary>
+        public static string Factor {
+            get {
+                return ResourceManager.GetString("Factor", resourceCulture);
             }
         }
         
@@ -1276,11 +1285,11 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to relevancy.
+        ///   Looks up a localized string similar to relevance.
         /// </summary>
-        public static string Relevancy {
+        public static string Relevance {
             get {
-                return ResourceManager.GetString("Relevancy", resourceCulture);
+                return ResourceManager.GetString("Relevance", resourceCulture);
             }
         }
         

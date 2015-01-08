@@ -231,6 +231,7 @@
     <Content Include="firstrun\products.pl-PL.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="images\alternatives.roundbutton.png" />
     <Content Include="images\appbar.cancel.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -270,6 +271,8 @@
     <Content Include="firstrun\products.en-US.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="images\insulin.roundbutton.png" />
+    <Content Include="images\meal.roundbutton.png" />
     <Content Include="images\more.png" />
     <Content Include="images\insulin.png" />
     <Content Include="firstrun\insulins.db">

@@ -49,6 +49,7 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual(universal.ToLocalTime().ToShortDateInAlternativeFormat()
                 + " " + universal.ToLocalTime().ToShortTimeString(), sut.DateAndTime);
             Assert.AreEqual(universal.ToLocalTime().ToShortTimeString(), sut.Time);
+            Assert.AreEqual(universal.ToLocalTime().ToString("dddd") + ", " + sut.DateAndTime, sut.LongDateAndTime);
             Assert.AreEqual(insulin.Note, sut.Note);
             var note = new Fixture().Create<string>();
             sut.Note = note;

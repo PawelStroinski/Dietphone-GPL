@@ -111,6 +111,16 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public string Products
+        {
+            get
+            {
+                var all = ProductsTail.ToList();
+                all.Insert(0, ProductsHead);
+                return string.Join(" | ", all);
+            }
+        }
+
         public string Note
         {
             get
