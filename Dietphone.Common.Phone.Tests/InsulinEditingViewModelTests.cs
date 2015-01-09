@@ -374,17 +374,6 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
-            public void SummaryForSelectedCircumstances()
-            {
-                InitializeViewModel();
-                ChooseCircumstance();
-                ChooseCircumstance();
-                var circumstances = sut.Subject.Circumstances;
-                var expected = circumstances.First().Name + ", " + circumstances.Last().Name;
-                Assert.AreEqual(expected, sut.SummaryForSelectedCircumstances());
-            }
-
-            [Test]
             public void NameOfFirstChoosenCircumstanceGetter()
             {
                 InitializeViewModel();

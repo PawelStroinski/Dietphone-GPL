@@ -257,7 +257,7 @@ namespace Dietphone.Views
         private string InsulinCircumstancesSummaryForSelectedItemsDelegate(IList newValue)
         {
             viewModel.Subject.Circumstances = newValue.Cast<InsulinCircumstanceViewModel>().ToList();
-            return viewModel.SummaryForSelectedCircumstances();
+            return viewModel.Subject.CircumstancesSummary;
         }
 
         private void PopulateListPickerWithSelectedInsulinCircumstances()

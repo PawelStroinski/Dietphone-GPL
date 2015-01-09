@@ -42,6 +42,18 @@
         </Grid>
         <TextBlock Visibility="{Binding From.HasNote, Converter={StaticResource BooleanToVisibility}}" Text="{Binding From.Note}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
         <TextBlock Text="{Binding From.Products}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="20" LineStackingStrategy="BlockLineHeight" Padding="0,4,0,1"/>
+        <!--Insulin-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="45*"/>
+                <ColumnDefinition Width="40*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Insulin.Time}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+            <TextBlock Text="{Binding Insulin.Text}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+            <TextBlock Text="{Binding Insulin.Text2}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="2"/>
+        </Grid>
+        <TextBlock Visibility="{Binding Insulin.HasCircumstances, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Insulin.CircumstancesSummary}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneAccentBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
         <!--Relevance & Factor-->
         <Grid>
             <Grid.ColumnDefinitions>

@@ -178,6 +178,24 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void HasCircumstances()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            Assert.IsTrue(sut.HasCircumstances);
+            sut.Circumstances = new List<InsulinCircumstanceViewModel>();
+            Assert.IsFalse(sut.HasCircumstances);
+        }
+
+        [Test]
+        public void CircumstancesSummary()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var expected = allCircumstances[0].Name + ", " + allCircumstances[1].Name + ", " + allCircumstances[2].Name;
+            var actual = sut.CircumstancesSummary;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
         public void TextAndText2()
         {
             insulin = new Insulin { Note = string.Empty };

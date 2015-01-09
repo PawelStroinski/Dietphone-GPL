@@ -161,6 +161,23 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public bool HasCircumstances
+        {
+            get
+            {
+                return Circumstances.Any();
+            }
+        }
+
+        public string CircumstancesSummary
+        {
+            get
+            {
+                return string.Join(", ",
+                    Circumstances.Select(circumstance => circumstance.Name));
+            }
+        }
+
         public override string Text
         {
             get

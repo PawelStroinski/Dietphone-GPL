@@ -299,12 +299,6 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public string SummaryForSelectedCircumstances()
-        {
-            return string.Join(", ",
-                Subject.Circumstances.Select(circumstance => circumstance.Name));
-        }
-
         public void InvalidateCircumstances()
         {
             var newCircumstances = new ObservableCollection<InsulinCircumstanceViewModel>();
