@@ -178,15 +178,6 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
-        public void HasCircumstances()
-        {
-            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
-            Assert.IsTrue(sut.HasCircumstances);
-            sut.Circumstances = new List<InsulinCircumstanceViewModel>();
-            Assert.IsFalse(sut.HasCircumstances);
-        }
-
-        [Test]
         public void CircumstancesSummary()
         {
             var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);

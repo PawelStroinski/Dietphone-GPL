@@ -13,6 +13,14 @@ namespace Dietphone.ViewModels
         public abstract bool IsMeal { get; }
         public abstract bool IsNotMeal { get; }
 
+        public bool HasText2
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Text2);
+            }
+        }
+
         public virtual bool FilterIn(string filter)
         {
             return Text.ContainsIgnoringCase(filter) || Text2.ContainsIgnoringCase(filter);
