@@ -11,14 +11,15 @@ namespace Dietphone.ViewModels
         public IList<PatternViewModel> Alternatives { get; private set; }
 
         public ReplacementItemViewModel(ReplacementItem replacementItem, Factories factories,
-            IList<InsulinCircumstanceViewModel> allCircumstances)
+            IList<InsulinCircumstanceViewModel> allCircumstances, IEnumerable<MealNameViewModel> names,
+            MealNameViewModel defaultName)
         {
             ReplacementItem = replacementItem;
             Pattern = new PatternViewModel(replacementItem.Pattern, factories, allCircumstances: allCircumstances,
-                hasAlternatives: replacementItem.Alternatives.Any());
+                hasAlternatives: replacementItem.Alternatives.Any(), names: names, defaultName: defaultName);
             Alternatives = replacementItem.Alternatives
                 .Select(pattern => new PatternViewModel(pattern, factories, allCircumstances: allCircumstances,
-                    hasAlternatives: false))
+                    hasAlternatives: false, names: names, defaultName: defaultName))
                 .ToList();
         }
     }

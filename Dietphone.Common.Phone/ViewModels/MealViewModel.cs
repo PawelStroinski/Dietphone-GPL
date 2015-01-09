@@ -216,6 +216,22 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public bool HasName
+        {
+            get
+            {
+                return Name != DefaultName;
+            }
+        }
+
+        public bool HasNote
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Note);
+            }
+        }
+
         public MealItemViewModel AddItem()
         {
             var itemModel = Meal.AddItem();
@@ -321,14 +337,6 @@ namespace Dietphone.ViewModels
             {
                 var result = Meal.Fpu;
                 return string.Format(Translations.Fpu, result);
-            }
-        }
-
-        private bool HasName
-        {
-            get
-            {
-                return Name != DefaultName;
             }
         }
 

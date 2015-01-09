@@ -5,6 +5,7 @@ using NSubstitute;
 using System.Collections.Generic;
 using Ploeh.AutoFixture;
 using System.Linq;
+using System;
 
 namespace Dietphone.Common.Phone.Tests
 {
@@ -77,6 +78,25 @@ namespace Dietphone.Common.Phone.Tests
                 + factories.Products[3].Name + " | "
                 + factories.Products[4].Name,
                 sut.Products);
+        }
+
+        [Test]
+        public void HasName()
+        {
+            Assert.IsFalse(sut.HasName);
+            sut = new MealViewModel(meal, factories);
+            sut.Names = new[] { new MealNameViewModel(new MealName { Id = Guid.NewGuid() }, factories) };
+            meal.NameId = sut.Names.First().Id;
+            Assert.IsTrue(sut.HasName);
+        }
+
+        [Test]
+        public void HasNote()
+        {
+            meal.Note = string.Empty;
+            Assert.IsFalse(sut.HasNote);
+            meal.Note = "note";
+            Assert.IsTrue(sut.HasNote);
         }
     }
 }

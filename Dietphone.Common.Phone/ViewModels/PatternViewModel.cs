@@ -17,11 +17,14 @@ namespace Dietphone.ViewModels
         public bool HasAlternatives { get; private set; }
 
         public PatternViewModel(Pattern pattern, Factories factories,
-            IList<InsulinCircumstanceViewModel> allCircumstances, bool hasAlternatives)
+            IList<InsulinCircumstanceViewModel> allCircumstances, bool hasAlternatives,
+            IEnumerable<MealNameViewModel> names, MealNameViewModel defaultName)
         {
             Pattern = pattern;
             Match = new MealItemViewModel(pattern.Match, factories);
             From = new MealViewModel(pattern.From, factories);
+            From.Names = names;
+            From.DefaultName = defaultName;
             Insulin = new InsulinViewModel(pattern.Insulin, factories, allCircumstances: allCircumstances);
             Before = new SugarViewModel(pattern.Before, factories);
             After = pattern.After

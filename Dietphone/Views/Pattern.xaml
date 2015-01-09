@@ -34,13 +34,14 @@
         <!--From-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60*"/>
-                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding From.LongDateAndTime}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
-            <TextBlock Text="{Binding From.Name}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+            <TextBlock Visibility="{Binding From.HasName, Converter={StaticResource BooleanToVisibility}}" Text="{Binding From.Name}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
         </Grid>
-        <TextBlock Text="{Binding From.Products}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="20" LineStackingStrategy="BlockLineHeight" Padding="0,2,0,0"/>
+        <TextBlock Visibility="{Binding From.HasNote, Converter={StaticResource BooleanToVisibility}}" Text="{Binding From.Note}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+        <TextBlock Text="{Binding From.Products}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="20" LineStackingStrategy="BlockLineHeight" Padding="0,4,0,1"/>
         <!--Relevance & Factor-->
         <Grid>
             <Grid.ColumnDefinitions>

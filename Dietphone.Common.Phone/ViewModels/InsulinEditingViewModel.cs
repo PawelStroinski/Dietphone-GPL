@@ -33,6 +33,8 @@ namespace Dietphone.ViewModels
         private Meal meal;
         private bool wentToSettings;
         private IList<ReplacementItem> replacementItems;
+        private IEnumerable<MealNameViewModel> names;
+        private MealNameViewModel defaultName;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MGDL = (decimal)10;
@@ -274,9 +276,11 @@ namespace Dietphone.ViewModels
         public void CalculationDetails()
         {
             CheckReplacementItems();
+            LoadNames();
             ReplacementItems = new ObservableCollection<ReplacementItemViewModel>(replacementItems
                 .Select(replacementItem => new ReplacementItemViewModel(
-                    replacementItem, factories, allCircumstances: Circumstances)));
+                    replacementItem, factories, allCircumstances: Circumstances, names: names,
+                    defaultName: defaultName)));
             OnPropertyChanged("ReplacementItems");
             CalculationDetailsVisible = true;
         }
@@ -705,6 +709,17 @@ namespace Dietphone.ViewModels
         {
             if (replacementItems == null)
                 throw new InvalidOperationException("No replacement items");
+        }
+
+        private void LoadNames()
+        {
+            var loaded = names != null && defaultName != null;
+            if (loaded)
+                return;
+            var loader = new JournalViewModel.JournalLoader(factories, sortCircumstances: false, sortNames: true,
+                workerFactory: workerFactory);
+            names = loader.Names;
+            defaultName = loader.DefaultName;
         }
 
         public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };

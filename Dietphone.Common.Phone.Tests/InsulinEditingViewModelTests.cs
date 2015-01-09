@@ -52,6 +52,7 @@ namespace Dietphone.Common.Phone.Tests
                 = new Replacement { InsulinTotal = new Insulin(), Items = new List<ReplacementItem>() };
             facade.GetReplacementAndEstimatedSugars(Arg.Any<Meal>(), Arg.Any<Insulin>(), Arg.Any<Sugar>())
                     .Returns(replacementAndEstimatedSugars);
+            factories.MealNames.Returns(new List<MealName>());
         }
 
         private void CreateSut()
@@ -673,6 +674,9 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreSame(expected.For, actual.For.Model);
                 Assert.IsNotNull(actual.Match.Scores.First);
                 Assert.IsNotNull(actual.From.Scores.First);
+                Assert.IsNotNull(actual.From.Name);
+                actual.From.Meal.NameId = Guid.Empty;
+                Assert.IsNotNull(actual.From.Name);
                 Assert.IsNotNull(actual.Insulin.Circumstances);
                 Assert.IsNotEmpty(actual.Before.Text);
                 Assert.IsNotEmpty(actual.After[1].Text);
