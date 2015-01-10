@@ -15,10 +15,12 @@ namespace Dietphone.ViewModels
         public IList<SugarViewModel> After { get; private set; }
         public MealItemViewModel For { get; private set; }
         public bool HasAlternatives { get; private set; }
+        private readonly Navigator navigator;
+        private readonly Action save;
 
         public PatternViewModel(Pattern pattern, Factories factories,
             IList<InsulinCircumstanceViewModel> allCircumstances, bool hasAlternatives,
-            IEnumerable<MealNameViewModel> names, MealNameViewModel defaultName)
+            IEnumerable<MealNameViewModel> names, MealNameViewModel defaultName, Navigator navigator, Action save)
         {
             Pattern = pattern;
             Match = new MealItemViewModel(pattern.Match, factories);
@@ -32,6 +34,8 @@ namespace Dietphone.ViewModels
                 .ToList();
             For = new MealItemViewModel(pattern.For, factories);
             HasAlternatives = hasAlternatives;
+            this.navigator = navigator;
+            this.save = save;
         }
 
         public string Factor
@@ -40,6 +44,18 @@ namespace Dietphone.ViewModels
             {
                 return string.Format("{0}%", Math.Round(Pattern.Factor * 100));
             }
+        }
+
+        public void GoToMeal()
+        {
+            save();
+            navigator.GoToMealEditing(From.Id);
+        }
+
+        public void GoToInsulin()
+        {
+            save();
+            navigator.GoToInsulinEditing(Insulin.Id);
         }
     }
 }

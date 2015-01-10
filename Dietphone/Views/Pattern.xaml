@@ -93,8 +93,8 @@
             <TextBlock Text="{Binding Factor}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="3"/>
         </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,3,0">
-            <c4f:RoundButton ImageSource="/images/meal.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0"/>
-            <c4f:RoundButton ImageSource="/images/insulin.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0"/>
+            <c4f:RoundButton ImageSource="/images/meal.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Tap="Meal_Tap"/>
+            <c4f:RoundButton ImageSource="/images/insulin.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Tap="Insulin_Tap"/>
             <c4f:RoundButton ImageSource="/images/alternatives.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Visibility="{Binding HasAlternatives, Converter={StaticResource BooleanToVisibility}}"/>
         </StackPanel>
     </StackPanel>

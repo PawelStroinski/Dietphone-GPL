@@ -671,6 +671,26 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.IsNotEmpty(actual.After[1].Text);
                 Assert.IsNotNull(actual.For.Scores.First);
                 actual.Insulin.NormalBolus = "1";
+                CheckPatternViewModelGoToMeal(expected, actual);
+                CheckPatternViewModelGoToInsulin(expected, actual);
+            }
+
+            private void CheckPatternViewModelGoToMeal(Pattern expected, PatternViewModel actual)
+            {
+                navigator.ClearReceivedCalls();
+                sut.Subject.NormalBolus = "2.1";
+                actual.GoToMeal();
+                Assert.AreEqual(2.1, insulin.NormalBolus, 0.01);
+                navigator.Received().GoToMealEditing(expected.From.Id);
+            }
+
+            private void CheckPatternViewModelGoToInsulin(Pattern expected, PatternViewModel actual)
+            {
+                navigator.ClearReceivedCalls();
+                sut.Subject.NormalBolus = "2.2";
+                actual.GoToInsulin();
+                Assert.AreEqual(2.2, insulin.NormalBolus, 0.01);
+                navigator.Received().GoToInsulinEditing(expected.Insulin.Id);
             }
 
             [Test]

@@ -279,8 +279,8 @@ namespace Dietphone.ViewModels
             LoadNames();
             ReplacementItems = new ObservableCollection<ReplacementItemViewModel>(replacementItems
                 .Select(replacementItem => new ReplacementItemViewModel(
-                    replacementItem, factories, allCircumstances: Circumstances, names: names,
-                    defaultName: defaultName)));
+                    replacementItem, factories, allCircumstances: Circumstances, names: names, defaultName: defaultName,
+                    navigator: Navigator, save: SaveWithUpdatedTime)));
             OnPropertyChanged("ReplacementItems");
             CalculationDetailsVisible = true;
         }
