@@ -182,6 +182,25 @@
                             </telerikPrimitives:RadDataBoundListBox>
                         </Border>
                     </telerikPrimitives:RadPickerBox>
+                    <!--Details Alternatives-->
+                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsAlternativesPicker" x:FieldModifier="private" Height="0" Width="0">
+                        <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                            <telerikPrimitives:ApplicationBarInfo>
+                                <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetailsAlternatives_Click"/>
+                            </telerikPrimitives:ApplicationBarInfo>
+                        </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                        <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
+                            <telerikPrimitives:RadDataBoundListBox ItemsSource="{Binding CalculationDetailsAlternatives}">
+                                <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,13">
+                                            <views:Pattern/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                            </telerikPrimitives:RadDataBoundListBox>
+                        </Border>
+                    </telerikPrimitives:RadPickerBox>
                 </StackPanel>
             </controls:PivotItem>
 

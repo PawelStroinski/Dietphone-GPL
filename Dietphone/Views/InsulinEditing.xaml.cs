@@ -209,6 +209,8 @@ namespace Dietphone.Views
         {
             if (e.PropertyName == "CalculationDetailsVisible")
                 CalculationDetailsPicker.IsPopupOpen = viewModel.CalculationDetailsVisible;
+            if (e.PropertyName == "CalculationDetailsAlternativesVisible")
+                CalculationDetailsAlternativesPicker.IsPopupOpen = viewModel.CalculationDetailsAlternativesVisible;
         }
 
         private void MealScores_ScoreClick(object sender, EventArgs e)
@@ -243,14 +245,25 @@ namespace Dietphone.Views
             viewModel.CloseCalculationDetails();
         }
 
+        private void CloseCalculationDetailsAlternatives_Click(object sender, EventArgs e)
+        {
+            viewModel.CloseCalculationDetailsAlternatives();
+        }
+
         private void TranslateApplicationBar()
         {
             Save.Text = Translations.Save;
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetIcon(2).Text = Translations.Meal;
             this.GetMenuItem(0).Text = Translations.Delete;
-            var calculationDetailsBar = CalculationDetailsPicker.ApplicationBarInfo;
-            var close = calculationDetailsBar.Buttons[0];
+            TranslatePickerApplicationBar(CalculationDetailsPicker);
+            TranslatePickerApplicationBar(CalculationDetailsAlternativesPicker);
+        }
+
+        private void TranslatePickerApplicationBar(RadPickerBox picker)
+        {
+            var pickerApplicationBar = picker.ApplicationBarInfo;
+            var close = pickerApplicationBar.Buttons[0];
             close.Text = Translations.Close;
         }
 
