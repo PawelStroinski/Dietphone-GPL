@@ -146,7 +146,7 @@
                             </telerikPrimitives:ApplicationBarInfo>
                         </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
-                            <telerikPrimitives:RadDataBoundListBox ItemsSource="{Binding ReplacementItems}">
+                            <telerikPrimitives:RadDataBoundListBox IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" ItemsSource="{Binding ReplacementItems}">
                                 <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0,0,0,13">
@@ -165,15 +165,15 @@
                                                 <!--Product-->
                                                 <TextBlock Text="{Binding Pattern.For.ProductName}" VerticalAlignment="Top" Padding="0,3,0,1" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="43" Grid.ColumnSpan="5" />
                                                 <!--g-->
-                                                <TextBlock Text="{Binding Pattern.For.ValueWithUnit}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1"/>
+                                                <TextBlock Text="{Binding Pattern.For.ValueWithUnit}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1"/>
                                                 <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.First}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="1"/>
+                                                <TextBlock Text="{Binding Pattern.For.Scores.First}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="1"/>
                                                 <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.Second}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="2"/>
+                                                <TextBlock Text="{Binding Pattern.For.Scores.Second}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="2"/>
                                                 <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.Third}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="3"/>
+                                                <TextBlock Text="{Binding Pattern.For.Scores.Third}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="3"/>
                                                 <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.Fourth}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="4"/>
+                                                <TextBlock Text="{Binding Pattern.For.Scores.Fourth}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="4"/>
                                             </Grid>
                                             <views:Pattern DataContext="{Binding Pattern}"/>
                                         </StackPanel>
@@ -190,7 +190,7 @@
                             </telerikPrimitives:ApplicationBarInfo>
                         </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
-                            <telerikPrimitives:RadDataBoundListBox ItemsSource="{Binding CalculationDetailsAlternatives}">
+                            <telerikPrimitives:RadDataBoundListBox IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" ItemsSource="{Binding CalculationDetailsAlternatives}">
                                 <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0,0,0,13">

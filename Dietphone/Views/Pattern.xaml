@@ -17,10 +17,10 @@
                 <ColumnDefinition Width="70*"/>
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding From.LongDateAndTime}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
-            <TextBlock Visibility="{Binding From.HasName, Converter={StaticResource BooleanToVisibility}}" Text="{Binding From.Name}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+            <TextBlock Text="{Binding From.LongDateAndTime}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+            <TextBlock Visibility="{Binding From.HasName, Converter={StaticResource BooleanToVisibility}}" Text="{Binding From.Name}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
         </Grid>
-        <TextBlock Visibility="{Binding From.HasNote, Converter={StaticResource BooleanToVisibility}}" Text="{Binding From.Note}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+        <TextBlock Visibility="{Binding From.HasNote, Converter={StaticResource BooleanToVisibility}}" Text="{Binding From.Note}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
         <!--Match-->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -31,18 +31,44 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!--g-->
-            <TextBlock Text="{Binding Match.ValueWithUnit}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+            <TextBlock Text="{Binding Match.ValueWithUnit}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
             <!--0-->
-            <TextBlock Text="{Binding Match.Scores.First}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+            <TextBlock Text="{Binding Match.Scores.First}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
             <!--0-->
-            <TextBlock Text="{Binding Match.Scores.Second}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="2"/>
+            <TextBlock Text="{Binding Match.Scores.Second}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="2"/>
             <!--0-->
-            <TextBlock Text="{Binding Match.Scores.Third}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="3"/>
+            <TextBlock Text="{Binding Match.Scores.Third}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="3"/>
             <!--0-->
-            <TextBlock Text="{Binding Match.Scores.Fourth}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="4"/>
+            <TextBlock Text="{Binding Match.Scores.Fourth}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="4"/>
         </Grid>
         <!--From-->
-        <TextBlock Text="{Binding From.Products}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="20" LineStackingStrategy="BlockLineHeight" Padding="0,4,0,1"/>
+        <TextBlock Text="{Binding From.Products}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="20" LineStackingStrategy="BlockLineHeight" Padding="0,4,0,1"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--0-->
+            <TextBlock Text="{Binding From.Scores.First}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+            <!--0-->
+            <TextBlock Text="{Binding From.Scores.Second}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="2"/>
+            <!--0-->
+            <TextBlock Text="{Binding From.Scores.Third}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="3"/>
+            <!--0-->
+            <TextBlock Text="{Binding From.Scores.Fourth}" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="4"/>
+        </Grid>
+        <!--Before-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="85*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Before.Time}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+            <TextBlock Text="{Binding Before.Text}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+        </Grid>
         <!--Insulin-->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -55,15 +81,6 @@
             <TextBlock Text="{Binding Insulin.CircumstancesSummary}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneAccentBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="2"/>
         </Grid>
         <TextBlock Visibility="{Binding Insulin.HasText2, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Insulin.Text2}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
-        <!--Before-->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="85*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Before.Time}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
-            <TextBlock Text="{Binding Before.Text}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
-        </Grid>
         <!--After-->
         <ItemsControl ItemsSource="{Binding After}">
             <ItemsControl.ItemTemplate>
@@ -73,8 +90,8 @@
                             <ColumnDefinition Width="15*"/>
                             <ColumnDefinition Width="85*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Time}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
-                        <TextBlock Text="{Binding Text}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+                        <TextBlock Text="{Binding Time}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+                        <TextBlock Text="{Binding Text}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -87,12 +104,12 @@
                 <ColumnDefinition Width="35*"/>
                 <ColumnDefinition Width="15*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Path=Translations.Relevance, Source={StaticResource Translations}}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
-            <TextBlock Text="{Binding Pattern.RightnessPoints}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
-            <TextBlock Text="{Binding Path=Translations.Factor, Source={StaticResource Translations}}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="2"/>
-            <TextBlock Text="{Binding Factor}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="3"/>
+            <TextBlock Text="{Binding Path=Translations.Relevance, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}"/>
+            <TextBlock Text="{Binding Pattern.RightnessPoints}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="1"/>
+            <TextBlock Text="{Binding Path=Translations.Factor, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="2"/>
+            <TextBlock Text="{Binding Factor}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="3"/>
         </Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,3,0">
+        <StackPanel Orientation="Horizontal" Margin="-18,12,0,0">
             <c4f:RoundButton ImageSource="/images/meal.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Tap="Meal_Tap"/>
             <c4f:RoundButton ImageSource="/images/insulin.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Tap="Insulin_Tap"/>
             <c4f:RoundButton ImageSource="/images/alternatives.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Visibility="{Binding HasAlternatives, Converter={StaticResource BooleanToVisibility}}" Tap="Alternatives_Tap"/>
