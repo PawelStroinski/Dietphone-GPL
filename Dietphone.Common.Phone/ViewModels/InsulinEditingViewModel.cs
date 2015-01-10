@@ -310,6 +310,20 @@ namespace Dietphone.ViewModels
             CalculationDetailsAlternativesVisible = false;
         }
 
+        public void CloseCalculationDetailsÓrAlternativesOnBackButton()
+        {
+            if (CalculationDetailsAlternativesVisible)
+            {
+                CloseCalculationDetailsAlternatives();
+                return;
+            }
+            if (CalculationDetailsVisible)
+            {
+                CloseCalculationDetails();
+                return;
+            }
+        }
+
         public void ReturnedFromNavigation()
         {
             if (wentToSettings)

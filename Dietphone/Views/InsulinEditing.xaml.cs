@@ -71,6 +71,16 @@ namespace Dietphone.Views
             }
         }
 
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            if (viewModel.CalculationDetailsVisible || viewModel.CalculationDetailsAlternativesVisible)
+            {
+                viewModel.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                e.Cancel = true;
+            }
+            base.OnBackKeyPress(e);
+        }
+
         private void AddCircumstance_Click(object sender, RoutedEventArgs e)
         {
             var input = new XnaInputBox(this)

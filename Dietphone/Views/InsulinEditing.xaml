@@ -139,7 +139,7 @@
                     <!--No sugar entered-->
                     <TextBlock Visibility="{Binding NoSugarEntered, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSugarEntered, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
                     <!--Details-->
-                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsPicker" x:FieldModifier="private" Height="0" Width="0">
+                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsPicker" x:FieldModifier="private" Height="0" Width="0" IsPopupClosedOnBackButton="False">
                         <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarInfo>
                                 <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetails_Click"/>
@@ -183,7 +183,7 @@
                         </Border>
                     </telerikPrimitives:RadPickerBox>
                     <!--Details Alternatives-->
-                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsAlternativesPicker" x:FieldModifier="private" Height="0" Width="0">
+                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsAlternativesPicker" x:FieldModifier="private" Height="0" Width="0" IsPopupClosedOnBackButton="False">
                         <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarInfo>
                                 <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetailsAlternatives_Click"/>

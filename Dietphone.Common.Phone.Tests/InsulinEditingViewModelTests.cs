@@ -719,6 +719,10 @@ namespace Dietphone.Common.Phone.Tests
                     sut.CloseCalculationDetailsAlternatives();
                 });
                 Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
+                actual.ShowAlternatives();
+                sut.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
+                Assert.IsTrue(sut.CalculationDetailsVisible);
             }
 
             [Test]
@@ -1133,6 +1137,9 @@ namespace Dietphone.Common.Phone.Tests
                 {
                     sut.CloseCalculationDetails();
                 });
+                Assert.IsFalse(sut.CalculationDetailsVisible);
+                sut.CalculationDetails();
+                sut.CloseCalculationDetailsÓrAlternativesOnBackButton();
                 Assert.IsFalse(sut.CalculationDetailsVisible);
             }
 
