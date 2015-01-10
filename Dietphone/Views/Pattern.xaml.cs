@@ -21,6 +21,11 @@ namespace Dietphone.Views
             ViewModel.GoToInsulin();
         }
 
+        private void Alternatives_Tap(object sender, GestureEventArgs e)
+        {
+            ViewModel.ShowAlternatives();
+        }
+
         private PatternViewModel ViewModel
         {
             get

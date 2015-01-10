@@ -17,10 +17,12 @@ namespace Dietphone.ViewModels
         public bool HasAlternatives { get; private set; }
         private readonly Navigator navigator;
         private readonly Action save;
+        private readonly Action showAlternatives;
 
         public PatternViewModel(Pattern pattern, Factories factories,
             IList<InsulinCircumstanceViewModel> allCircumstances, bool hasAlternatives,
-            IEnumerable<MealNameViewModel> names, MealNameViewModel defaultName, Navigator navigator, Action save)
+            IEnumerable<MealNameViewModel> names, MealNameViewModel defaultName, Navigator navigator, Action save,
+            Action showAlternatives)
         {
             Pattern = pattern;
             Match = new MealItemViewModel(pattern.Match, factories);
@@ -36,6 +38,7 @@ namespace Dietphone.ViewModels
             HasAlternatives = hasAlternatives;
             this.navigator = navigator;
             this.save = save;
+            this.showAlternatives = showAlternatives;
         }
 
         public string Factor
@@ -56,6 +59,18 @@ namespace Dietphone.ViewModels
         {
             save();
             navigator.GoToInsulinEditing(Insulin.Id);
+        }
+
+        public void ShowAlternatives()
+        {
+            CheckHasAlternatives();
+            showAlternatives();
+        }
+
+        private void CheckHasAlternatives()
+        {
+            if (!HasAlternatives)
+                throw new InvalidOperationException("No alternatives found.");
         }
     }
 }

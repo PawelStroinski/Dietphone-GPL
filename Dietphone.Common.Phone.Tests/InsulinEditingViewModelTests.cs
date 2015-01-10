@@ -652,7 +652,8 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.IsNotEmpty(sut.SugarChart);
             }
 
-            private void CheckPatternViewModel(Pattern expected, PatternViewModel actual)
+            private void CheckPatternViewModel(Pattern expected, PatternViewModel actual,
+                IList<PatternViewModel> alternatives)
             {
                 Assert.AreSame(expected, actual.Pattern);
                 Assert.AreSame(expected.Match, actual.Match.Model);
@@ -673,6 +674,7 @@ namespace Dietphone.Common.Phone.Tests
                 actual.Insulin.NormalBolus = "1";
                 CheckPatternViewModelGoToMeal(expected, actual);
                 CheckPatternViewModelGoToInsulin(expected, actual);
+                CheckPatternViewModelShowAlternatives(actual, alternatives);
             }
 
             private void CheckPatternViewModelGoToMeal(Pattern expected, PatternViewModel actual)
@@ -691,6 +693,32 @@ namespace Dietphone.Common.Phone.Tests
                 actual.GoToInsulin();
                 Assert.AreEqual(2.2, insulin.NormalBolus, 0.01);
                 navigator.Received().GoToInsulinEditing(expected.Insulin.Id);
+            }
+
+            private void CheckPatternViewModelShowAlternatives(PatternViewModel actual,
+                IList<PatternViewModel> alternatives)
+            {
+                if (!actual.HasAlternatives)
+                {
+                    Assert.Throws<InvalidOperationException>(() => actual.ShowAlternatives());
+                    return;
+                }
+                Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
+                Assert.IsEmpty(sut.CalculationDetailsAlternatives);
+                sut.ChangesProperty("CalculationDetailsAlternativesVisible", () =>
+                {
+                    sut.ChangesProperty("CalculationDetailsAlternatives", () =>
+                    {
+                        actual.ShowAlternatives();
+                    });
+                });
+                Assert.IsTrue(sut.CalculationDetailsAlternativesVisible);
+                Assert.AreSame(alternatives, sut.CalculationDetailsAlternatives);
+                sut.ChangesProperty("CalculationDetailsAlternativesVisible", () =>
+                {
+                    sut.CloseCalculationDetailsAlternatives();
+                });
+                Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
             }
 
             [Test]
@@ -1126,8 +1154,9 @@ namespace Dietphone.Common.Phone.Tests
                     sut.CalculationDetails();
                 });
                 var actual = sut.ReplacementItems;
-                CheckPatternViewModel(expected[1].Pattern, actual[1].Pattern);
-                CheckPatternViewModel(expected[1].Alternatives[1], actual[1].Alternatives[1]);
+                CheckPatternViewModel(expected[1].Pattern, actual[1].Pattern, alternatives: actual[1].Alternatives);
+                CheckPatternViewModel(expected[1].Alternatives[1], actual[1].Alternatives[1],
+                    alternatives: new List<PatternViewModel>());
                 Assert.IsTrue(actual[1].Pattern.HasAlternatives);
                 Assert.IsFalse(actual[2].Pattern.HasAlternatives);
                 Assert.IsFalse(actual[1].Alternatives[1].HasAlternatives);
