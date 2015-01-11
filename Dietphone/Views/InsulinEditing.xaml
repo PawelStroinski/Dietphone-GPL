@@ -191,6 +191,9 @@
                         </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
                             <telerikPrimitives:RadDataBoundListBox IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" ItemsSource="{Binding CalculationDetailsAlternatives}">
+                                <telerikPrimitives:RadDataBoundListBox.ListHeaderContent>
+                                    <TextBlock Text="{Binding Path=Translations.AlternativeOptions, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="0,-7,0,17"/>
+                                </telerikPrimitives:RadDataBoundListBox.ListHeaderContent>
                                 <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0,0,0,13">

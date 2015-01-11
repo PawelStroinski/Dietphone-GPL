@@ -651,4 +651,7 @@ Początkowy eksport został również wykonany.</value>
   <data name="Close" xml:space="preserve">
     <value>zamknij</value>
   </data>
+  <data name="AlternativeOptions" xml:space="preserve">
+    <value>OPCJE ALTERNATYWNE</value>
+  </data>
 </root>

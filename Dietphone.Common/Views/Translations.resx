@@ -657,4 +657,7 @@ The initial export is done too.</value>
   <data name="Close" xml:space="preserve">
     <value>close</value>
   </data>
+  <data name="AlternativeOptions" xml:space="preserve">
+    <value>ALTERNATIVE OPTIONS</value>
+  </data>
 </root>

@@ -124,6 +124,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ALTERNATIVE OPTIONS.
+        /// </summary>
+        public static string AlternativeOptions {
+            get {
+                return ResourceManager.GetString("AlternativeOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred during import. Make sure that the imported data were not corrupted..
         /// </summary>
         public static string AnErrorOccurredDuringImport {
