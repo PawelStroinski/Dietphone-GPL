@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.Phone.Controls;
 using Dietphone.ViewModels;
 using System.Windows.Navigation;
 using Dietphone.Tools;
-using Telerik.Windows.Controls.Primitives;
-using System.Windows.Input;
-using System.Collections.Generic;
 using Dietphone.Models;
 using System.Linq;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Collections;
 using System.ComponentModel;
 using Telerik.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Dietphone.Views
 {
@@ -41,6 +36,17 @@ namespace Dietphone.Views
             {
                 if (viewModel.ShouldFocusSugar())
                     CurrentSugar.Focus();
+                Dispatcher.BeginInvoke(() =>
+                {
+                    CalculationDetailsPicker.IsPopupOpen = viewModel.CalculationDetailsVisible;
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        CalculationDetailsAlternativesPicker.IsPopupOpen
+                            = viewModel.CalculationDetailsAlternativesVisible;
+                        CalculationDetailsPicker.IsPopupAnimationEnabled = true;
+                        CalculationDetailsAlternativesPicker.IsPopupAnimationEnabled = true;
+                    });
+                });
             };
         }
 
@@ -65,6 +71,10 @@ namespace Dietphone.Views
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            CalculationDetailsAlternativesPicker.IsPopupAnimationEnabled = false;
+            CalculationDetailsAlternativesPicker.IsPopupOpen = false;
+            CalculationDetailsPicker.IsPopupAnimationEnabled = false;
+            CalculationDetailsPicker.IsPopupOpen = false;
             if (e.NavigationMode != NavigationMode.Back)
             {
                 viewModel.Tombstone();
