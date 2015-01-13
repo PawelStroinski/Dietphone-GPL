@@ -53,6 +53,7 @@ namespace Dietphone.Common.Phone.Tests
             facade.GetReplacementAndEstimatedSugars(Arg.Any<Meal>(), Arg.Any<Insulin>(), Arg.Any<Sugar>())
                     .Returns(replacementAndEstimatedSugars);
             factories.MealNames.Returns(new List<MealName>());
+            stateProvider.State.Returns(new Dictionary<string, object>());
         }
 
         private void CreateSut()
@@ -73,6 +74,13 @@ namespace Dietphone.Common.Phone.Tests
             var circumstances = sut.Subject.Circumstances.ToList();
             circumstances.Add(sut.Circumstances.Except(circumstances).First());
             sut.Subject.Circumstances = circumstances;
+        }
+
+        private void TombstoneCreateInitialize()
+        {
+            sut.Tombstone();
+            CreateSut();
+            InitializeViewModel();
         }
 
         public class GeneralTests : InsulinEditingViewModelTests
@@ -317,7 +325,6 @@ namespace Dietphone.Common.Phone.Tests
             [Test]
             public void TombstoneAndUntombstone()
             {
-                stateProvider.State.Returns(new Dictionary<string, object>());
                 InitializeViewModel();
                 sut.NotIsLockedDateTime = false;
                 sut.CurrentSugar.BloodSugar = "120";
@@ -332,7 +339,6 @@ namespace Dietphone.Common.Phone.Tests
             [Test]
             public void TombstoneAndUntombstoneDoesntCreateNewInsulin()
             {
-                stateProvider.State.Returns(new Dictionary<string, object>());
                 InitializeViewModel();
                 sut.Subject.NormalBolus = "1.1";
                 sut.Tombstone();
@@ -347,7 +353,6 @@ namespace Dietphone.Common.Phone.Tests
             [Test]
             public void TombstoneAndUntombstoneCircumstances()
             {
-                stateProvider.State.Returns(new Dictionary<string, object>());
                 InitializeViewModel();
                 var deletedCircumstanceId = sut.Circumstances.First().Id;
                 var renamedCircumstanceId = sut.Circumstances.Skip(1).First().Id;
@@ -359,9 +364,7 @@ namespace Dietphone.Common.Phone.Tests
                 sut.NameOfFirstChoosenCircumstance = "newname";
                 sut.AddCircumstance("foo");
                 sut.Subject.NormalBolus = "1";
-                sut.Tombstone();
-                CreateSut();
-                InitializeViewModel();
+                TombstoneCreateInitialize();
                 sut.SaveWithUpdatedTimeAndReturn();
                 Assert.IsFalse(factories.InsulinCircumstances
                     .Any(circumstance => circumstance.Id == deletedCircumstanceId));
@@ -645,6 +648,22 @@ namespace Dietphone.Common.Phone.Tests
                     .Returns(replacementAndEstimatedSugars);
             }
 
+            private void InitializeReplacementItems(IList<ReplacementItem> replacementItems)
+            {
+                foreach (var expectedItem in replacementItems)
+                {
+                    InitializePattern(expectedItem.Pattern);
+                    foreach (var alternative in expectedItem.Alternatives)
+                        InitializePattern(alternative);
+                }
+            }
+
+            private void InitializePattern(Pattern pattern)
+            {
+                pattern.From.InitializeItems(new List<MealItem>());
+                pattern.Insulin.InitializeCircumstances(new List<Guid>());
+            }
+
             private void CheckTheCalculationAndTheSugarChartAreThere()
             {
                 Assert.IsTrue(sut.IsCalculated);
@@ -653,50 +672,56 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             private void CheckPatternViewModel(Pattern expected, PatternViewModel actual,
-                IList<PatternViewModel> alternatives)
+                IList<PatternViewModel> alternatives, bool tombstone)
             {
-                Assert.AreSame(expected, actual.Pattern);
-                Assert.AreSame(expected.Match, actual.Match.Model);
-                Assert.AreSame(expected.From, actual.From.Meal);
-                Assert.AreSame(expected.Insulin, actual.Insulin.Insulin);
-                Assert.AreSame(expected.Before, actual.Before.Sugar);
-                Assert.AreSame(expected.After.ElementAt(1), actual.After[1].Sugar);
-                Assert.AreSame(expected.For, actual.For.Model);
+                if (!tombstone)
+                {
+                    Assert.AreSame(expected, actual.Pattern);
+                    Assert.AreSame(expected.Match, actual.Match.Model);
+                    Assert.AreSame(expected.From, actual.From.Meal);
+                    Assert.AreSame(expected.Insulin, actual.Insulin.Insulin);
+                    Assert.AreSame(expected.Before, actual.Before.Sugar);
+                    Assert.AreSame(expected.After.ElementAt(1), actual.After[1].Sugar);
+                    Assert.AreSame(expected.For, actual.For.Model);
+                }
                 Assert.IsNotNull(actual.Match.Scores.First);
                 Assert.IsNotNull(actual.From.Scores.First);
                 Assert.IsNotNull(actual.From.Name);
                 actual.From.Meal.NameId = Guid.Empty;
                 Assert.IsNotNull(actual.From.Name);
                 Assert.IsNotNull(actual.Insulin.Circumstances);
+                Assert.IsNotNull(actual.From.Products);
                 Assert.IsNotEmpty(actual.Before.Text);
                 Assert.IsNotEmpty(actual.After[1].Text);
                 Assert.IsNotNull(actual.For.Scores.First);
                 actual.Insulin.NormalBolus = "1";
-                CheckPatternViewModelGoToMeal(expected, actual);
-                CheckPatternViewModelGoToInsulin(expected, actual);
-                CheckPatternViewModelShowAlternatives(actual, alternatives);
+                CheckPatternViewModelGoToMeal(expected, actual, tombstone: tombstone);
+                CheckPatternViewModelGoToInsulin(expected, actual, tombstone: tombstone);
+                CheckPatternViewModelShowAlternatives(actual, alternatives, tombstone: tombstone);
             }
 
-            private void CheckPatternViewModelGoToMeal(Pattern expected, PatternViewModel actual)
+            private void CheckPatternViewModelGoToMeal(Pattern expected, PatternViewModel actual, bool tombstone)
             {
                 navigator.ClearReceivedCalls();
                 sut.Subject.NormalBolus = "2.1";
                 actual.GoToMeal();
-                Assert.AreEqual(2.1, insulin.NormalBolus, 0.01);
+                if (!tombstone)
+                    Assert.AreEqual(2.1, insulin.NormalBolus, 0.01);
                 navigator.Received().GoToMealEditing(expected.From.Id);
             }
 
-            private void CheckPatternViewModelGoToInsulin(Pattern expected, PatternViewModel actual)
+            private void CheckPatternViewModelGoToInsulin(Pattern expected, PatternViewModel actual, bool tombstone)
             {
                 navigator.ClearReceivedCalls();
                 sut.Subject.NormalBolus = "2.2";
                 actual.GoToInsulin();
-                Assert.AreEqual(2.2, insulin.NormalBolus, 0.01);
+                if (!tombstone)
+                    Assert.AreEqual(2.2, insulin.NormalBolus, 0.01);
                 navigator.Received().GoToInsulinEditing(expected.Insulin.Id);
             }
 
             private void CheckPatternViewModelShowAlternatives(PatternViewModel actual,
-                IList<PatternViewModel> alternatives)
+                IList<PatternViewModel> alternatives, bool tombstone)
             {
                 if (!actual.HasAlternatives)
                 {
@@ -712,17 +737,25 @@ namespace Dietphone.Common.Phone.Tests
                         actual.ShowAlternatives();
                     });
                 });
+                if (tombstone)
+                    TombstoneCreateInitialize();
                 Assert.IsTrue(sut.CalculationDetailsAlternativesVisible);
-                Assert.AreSame(alternatives, sut.CalculationDetailsAlternatives);
+                if (!tombstone)
+                    Assert.AreSame(alternatives, sut.CalculationDetailsAlternatives);
+                Assert.AreEqual(alternatives.Select(pattern => pattern.Factor).ToArray(),
+                    sut.CalculationDetailsAlternatives.Select(pattern => pattern.Factor).ToArray());
                 sut.ChangesProperty("CalculationDetailsAlternativesVisible", () =>
                 {
                     sut.CloseCalculationDetailsAlternatives();
                 });
                 Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
-                actual.ShowAlternatives();
-                sut.CloseCalculationDetailsÓrAlternativesOnBackButton();
-                Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
-                Assert.IsTrue(sut.CalculationDetailsVisible);
+                if (!tombstone)
+                {
+                    actual.ShowAlternatives();
+                    sut.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                    Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
+                    Assert.IsTrue(sut.CalculationDetailsVisible);
+                }
             }
 
             [Test]
@@ -1084,7 +1117,6 @@ namespace Dietphone.Common.Phone.Tests
             [Test]
             public void TombstoneAndUntombstoneCalculationResults()
             {
-                stateProvider.State.Returns(new Dictionary<string, object>());
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
                 sut.Tombstone();
@@ -1103,7 +1135,6 @@ namespace Dietphone.Common.Phone.Tests
             [TestCase(false)]
             public void CalculationWorksAfterTombstoneAndUntombstone(bool bolusWasEdited)
             {
-                stateProvider.State.Returns(new Dictionary<string, object>());
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
                 if (bolusWasEdited)
@@ -1120,11 +1151,13 @@ namespace Dietphone.Common.Phone.Tests
                 CheckTheCalculationAndTheSugarChartAreThere();
             }
 
-            [Test]
-            public void CalculationDetailsAndCloseCalculationDetailsSetCalculationDetailsVisible()
+            [TestCase(false)]
+            [TestCase(true)]
+            public void CalculationDetailsAndCloseCalculationDetailsSetCalculationDetailsVisible(bool tombstone)
             {
                 var fixture = new Fixture();
                 replacementAndEstimatedSugars.Replacement.Items = fixture.CreateMany<ReplacementItem>().ToList();
+                InitializeReplacementItems(replacementAndEstimatedSugars.Replacement.Items);
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
                 Assert.IsFalse(sut.CalculationDetailsVisible);
@@ -1132,6 +1165,8 @@ namespace Dietphone.Common.Phone.Tests
                 {
                     sut.CalculationDetails();
                 });
+                if (tombstone)
+                    TombstoneCreateInitialize();
                 Assert.IsTrue(sut.CalculationDetailsVisible);
                 sut.ChangesProperty("CalculationDetailsVisible", () =>
                 {
@@ -1143,13 +1178,13 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.IsFalse(sut.CalculationDetailsVisible);
             }
 
-            [Test]
-            public void CalculationDetailsPopulatesReplacementItems()
+            [TestCase(false)]
+            [TestCase(true)]
+            public void CalculationDetailsPopulatesReplacementItems(bool tombstone)
             {
                 var fixture = new Fixture();
                 var expected = fixture.CreateMany<ReplacementItem>().ToList();
-                expected[1].Pattern.Insulin.InitializeCircumstances(new List<Guid>());
-                expected[1].Alternatives[1].Insulin.InitializeCircumstances(new List<Guid>());
+                InitializeReplacementItems(expected);
                 expected[1].Pattern.Factor = 1.177F;
                 expected[2].Alternatives.Clear();
                 replacementAndEstimatedSugars.Replacement.Items = expected;
@@ -1160,10 +1195,16 @@ namespace Dietphone.Common.Phone.Tests
                 {
                     sut.CalculationDetails();
                 });
+                if (tombstone)
+                {
+                    TombstoneCreateInitialize();
+                    Assert.IsFalse(stateProvider.State.Any(kvp => kvp.Value is IList<ReplacementItem>));
+                }
                 var actual = sut.ReplacementItems;
-                CheckPatternViewModel(expected[1].Pattern, actual[1].Pattern, alternatives: actual[1].Alternatives);
+                CheckPatternViewModel(expected[1].Pattern, actual[1].Pattern,
+                    alternatives: actual[1].Alternatives, tombstone: tombstone);
                 CheckPatternViewModel(expected[1].Alternatives[1], actual[1].Alternatives[1],
-                    alternatives: new List<PatternViewModel>());
+                    alternatives: new List<PatternViewModel>(), tombstone: tombstone);
                 Assert.IsTrue(actual[1].Pattern.HasAlternatives);
                 Assert.IsFalse(actual[2].Pattern.HasAlternatives);
                 Assert.IsFalse(actual[1].Alternatives[1].HasAlternatives);

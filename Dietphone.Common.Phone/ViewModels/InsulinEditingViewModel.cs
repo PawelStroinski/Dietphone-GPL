@@ -51,6 +51,10 @@ namespace Dietphone.ViewModels
         private const string CALCULATED = "CALCULATED";
         private const string SUGAR_CHART = "SUGAR_CHART";
         private const string INSULIN_ID = "INSULIN_ID";
+        private const string REPLACEMENT_ITEMS = "REPLACEMENT_ITEMS";
+        private const string CALCULATION_DETAILS_VISIBLE = "CALCULATION_DETAILS_VISIBLE";
+        private const string CALCULATION_DETAILS_ALTERNATIVES_VISIBLE = "CALCULATION_DETAILS_ALTERNATIVES_VISIBLE";
+        private const string CALCULATION_DETAILS_ALTERNATIVES_INDEX = "CALCULATION_DETAILS_ALTERNATIVES_INDEX";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
             BackgroundWorkerFactory workerFactory)
@@ -290,12 +294,7 @@ namespace Dietphone.ViewModels
 
         public void CalculationDetails()
         {
-            CheckReplacementItems();
-            LoadNames();
-            ReplacementItems = new ObservableCollection<ReplacementItemViewModel>(replacementItems
-                .Select(replacementItem => new ReplacementItemViewModel(
-                    replacementItem, factories, allCircumstances: Circumstances, names: names, defaultName: defaultName,
-                    navigator: Navigator, save: SaveWithUpdatedTime, showAlternatives: ShowCalculationDetailsAlternatives)));
+            ReplacementItemsToViewModels();
             OnPropertyChanged("ReplacementItems");
             CalculationDetailsVisible = true;
         }
@@ -511,9 +510,7 @@ namespace Dietphone.ViewModels
         private void TombstoneInsulin(Insulin insulin, string key)
         {
             var state = StateProvider.State;
-            var dto = new InsulinDTO();
-            dto.CopyFrom(insulin);
-            dto.CopyCircumstancesFrom(insulin);
+            var dto = DTOFactory.InsulinToDTO(insulin);
             state[key] = dto.Serialize(string.Empty);
         }
 
@@ -525,10 +522,7 @@ namespace Dietphone.ViewModels
                 var dtoState = (string)state[key];
                 var dto = dtoState.Deserialize<InsulinDTO>(string.Empty);
                 if (dto.Id == insulin.Id)
-                {
-                    insulin.CopyFrom(dto);
-                    insulin.CopyCircumstancesFrom(dto);
-                }
+                    DTOReader.DTOToInsulin(dto, insulin);
             }
         }
 
@@ -601,6 +595,13 @@ namespace Dietphone.ViewModels
             foreach (var item in SugarChart)
                 item.AddModelTo(sugars);
             state[SUGAR_CHART] = sugars;
+            if (replacementItems != null && replacementItems.All(replacementItem => replacementItem.Pattern != null))
+            {
+                TombstoneReplacementItems();
+                TombstoneCalculationDetailsAlternatives();
+            }
+            state[CALCULATION_DETAILS_VISIBLE] = CalculationDetailsVisible;
+            state[CALCULATION_DETAILS_ALTERNATIVES_VISIBLE] = CalculationDetailsAlternativesVisible;
         }
 
         private void UntombstoneCalculation()
@@ -623,6 +624,14 @@ namespace Dietphone.ViewModels
                     SugarChart = new ObservableCollection<SugarChartItemViewModel>(
                         sugars.Select(sugar => new SugarChartItemViewModel(sugar)).ToList());
             }
+            if (state.ContainsKey(REPLACEMENT_ITEMS))
+                UntombstoneReplacementItems();
+            if (state.ContainsKey(CALCULATION_DETAILS_ALTERNATIVES_INDEX))
+                UntombstoneCalculationDetailsAlternatives();
+            if (state.ContainsKey(CALCULATION_DETAILS_VISIBLE))
+                CalculationDetailsVisible = (bool)state[CALCULATION_DETAILS_VISIBLE];
+            if (state.ContainsKey(CALCULATION_DETAILS_ALTERNATIVES_VISIBLE))
+                CalculationDetailsAlternativesVisible = (bool)state[CALCULATION_DETAILS_ALTERNATIVES_VISIBLE];
         }
 
         private void TombstoneInsulinId()
@@ -732,6 +741,50 @@ namespace Dietphone.ViewModels
         private Insulin CreateEmptyCalculated()
         {
             return new Insulin();
+        }
+
+        private void TombstoneReplacementItems()
+        {
+            var state = StateProvider.State;
+            var dtos = replacementItems.Select(DTOFactory.ReplacementItemToDTO).ToList();
+            state[REPLACEMENT_ITEMS] = dtos.Serialize(string.Empty);
+        }
+
+        private void UntombstoneReplacementItems()
+        {
+            var state = StateProvider.State;
+            var dtosState = (string)state[REPLACEMENT_ITEMS];
+            var dtos = dtosState.Deserialize<List<ReplacementItemDTO>>(string.Empty);
+            replacementItems = dtos.Select(dto => DTOReader.DTOToReplacementItem(dto, factories)).ToList();
+            ReplacementItemsToViewModels();
+        }
+
+        private void TombstoneCalculationDetailsAlternatives()
+        {
+            var state = StateProvider.State;
+            var index = ReplacementItems.IndexOf(ReplacementItems
+                .FirstOrDefault(replacementItem => replacementItem.Alternatives == CalculationDetailsAlternatives));
+            if (index != -1)
+                state[CALCULATION_DETAILS_ALTERNATIVES_INDEX] = index;
+        }
+
+        private void UntombstoneCalculationDetailsAlternatives()
+        {
+            var state = StateProvider.State;
+            var index = (int)state[CALCULATION_DETAILS_ALTERNATIVES_INDEX];
+            if (index >= 0 && index < ReplacementItems.Count)
+                CalculationDetailsAlternatives = ReplacementItems[index].Alternatives;
+        }
+
+        private void ReplacementItemsToViewModels()
+        {
+            CheckReplacementItems();
+            LoadNames();
+            ReplacementItems = new ObservableCollection<ReplacementItemViewModel>(replacementItems
+                .Select(replacementItem => new ReplacementItemViewModel(
+                    replacementItem, factories, allCircumstances: Circumstances, names: names, defaultName: defaultName,
+                    navigator: Navigator, save: SaveWithUpdatedTime,
+                    showAlternatives: ShowCalculationDetailsAlternatives)));
         }
 
         private void CheckReplacementItems()

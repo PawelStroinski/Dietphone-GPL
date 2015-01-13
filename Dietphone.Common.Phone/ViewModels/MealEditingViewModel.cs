@@ -242,9 +242,7 @@ namespace Dietphone.ViewModels
         protected override void TombstoneModel()
         {
             var state = StateProvider.State;
-            var dto = new MealDTO();
-            dto.CopyFrom(modelCopy);
-            dto.DTOCopyItemsFrom(modelCopy);
+            var dto = DTOFactory.MealToDTO(modelCopy);
             state[MEAL] = dto.Serialize(string.Empty);
         }
 
@@ -256,10 +254,7 @@ namespace Dietphone.ViewModels
                 var dtoState = (string)state[MEAL];
                 var dto = dtoState.Deserialize<MealDTO>(string.Empty);
                 if (dto.Id == modelCopy.Id)
-                {
-                    modelCopy.CopyFrom(dto);
-                    modelCopy.CopyItemsFrom(dto);
-                }
+                    DTOReader.DTOToMeal(dto, modelCopy);
             }
         }
 
