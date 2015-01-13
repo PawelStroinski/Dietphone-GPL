@@ -324,10 +324,10 @@ namespace Dietphone.Models
                 For = dto.For,
                 Factor = dto.Factor
             };
-            var from = pattern.From;
-            var insulin = pattern.Insulin;
-            from.SetOwner(factories);
-            insulin.SetOwner(factories);
+            var entities = new Entity[] { pattern.Match, pattern.From, pattern.Insulin, pattern.Before, pattern.For }
+                .Concat(pattern.After);
+            foreach (var entity in entities)
+                entity.SetOwner(factories);
             DTOToMeal(dto.From, pattern.From);
             DTOToInsulin(dto.Insulin, pattern.Insulin);
             return pattern;

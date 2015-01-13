@@ -698,6 +698,16 @@ namespace Dietphone.Common.Phone.Tests
                 CheckPatternViewModelGoToMeal(expected, actual, tombstone: tombstone);
                 CheckPatternViewModelGoToInsulin(expected, actual, tombstone: tombstone);
                 CheckPatternViewModelShowAlternatives(actual, alternatives, tombstone: tombstone);
+                if (tombstone)
+                {
+                    Assert.IsNotNull(actual.Match.ProductName);
+                    actual.From.AddItem();
+                    actual.Insulin.Insulin.AddCircumstance(new InsulinCircumstance());
+                    Assert.IsNotEmpty(actual.Insulin.Insulin.Circumstances);
+                    Assert.AreNotEqual(0, actual.Before.Sugar.BloodSugarInMgdL);
+                    Assert.AreNotEqual(0, actual.After[1].Sugar.BloodSugarInMgdL);
+                    Assert.IsNotNull(actual.For.ProductName);
+                }
             }
 
             private void CheckPatternViewModelGoToMeal(Pattern expected, PatternViewModel actual, bool tombstone)
@@ -1184,6 +1194,8 @@ namespace Dietphone.Common.Phone.Tests
             {
                 var fixture = new Fixture();
                 var expected = fixture.CreateMany<ReplacementItem>().ToList();
+                factories.Finder.FindProductById(Arg.Any<Guid>()).Returns(fixture.CreateAnonymous<Product>());
+                factories.Finder.FindInsulinCircumstanceById(Arg.Any<Guid>()).Returns(new InsulinCircumstance());
                 InitializeReplacementItems(expected);
                 expected[1].Pattern.Factor = 1.177F;
                 expected[2].Alternatives.Clear();
