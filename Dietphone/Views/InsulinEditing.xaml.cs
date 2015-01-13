@@ -36,17 +36,7 @@ namespace Dietphone.Views
             {
                 if (viewModel.ShouldFocusSugar())
                     CurrentSugar.Focus();
-                Dispatcher.BeginInvoke(() =>
-                {
-                    CalculationDetailsPicker.IsPopupOpen = viewModel.CalculationDetailsVisible;
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        CalculationDetailsAlternativesPicker.IsPopupOpen
-                            = viewModel.CalculationDetailsAlternativesVisible;
-                        CalculationDetailsPicker.IsPopupAnimationEnabled = true;
-                        CalculationDetailsAlternativesPicker.IsPopupAnimationEnabled = true;
-                    });
-                });
+                RestoreCalculationDetailsPickers();
             };
         }
 
@@ -65,6 +55,7 @@ namespace Dietphone.Views
             else
             {
                 viewModel.ReturnedFromNavigation();
+                RestoreCalculationDetailsPickers();
             }
             PopulateListPickerWithSelectedInsulinCircumstances();
         }
@@ -285,6 +276,36 @@ namespace Dietphone.Views
             var pickerApplicationBar = picker.ApplicationBarInfo;
             var close = pickerApplicationBar.Buttons[0];
             close.Text = Translations.Close;
+        }
+
+        private void RestoreCalculationDetailsPickers()
+        {
+            if (viewModel.CalculationDetailsVisible || viewModel.CalculationDetailsAlternativesVisible)
+                Dispatcher.BeginInvoke(() =>
+                {
+                    CalculationDetailsPicker.IsPopupOpen
+                        = viewModel.CalculationDetailsVisible;
+                    DispatchWithDelay(TimeSpan.FromSeconds(0.5), () =>
+                        CalculationDetailsAlternativesPicker.IsPopupOpen
+                            = viewModel.CalculationDetailsAlternativesVisible);
+                    DispatchWithDelay(TimeSpan.FromSeconds(5), () =>
+                    {
+                        CalculationDetailsPicker.IsPopupAnimationEnabled = true;
+                        CalculationDetailsAlternativesPicker.IsPopupAnimationEnabled = true;
+                    });
+                });
+        }
+
+        private void DispatchWithDelay(TimeSpan delay, Action action)
+        {
+            var timer = new DispatcherTimer();
+            timer.Interval = delay;
+            timer.Tick += (_, __) =>
+            {
+                timer.Stop();
+                action();
+            };
+            timer.Start();
         }
 
         private string InsulinCircumstancesSummaryForSelectedItemsDelegate(IList newValue)
