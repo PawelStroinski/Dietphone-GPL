@@ -639,9 +639,10 @@ namespace Dietphone.Common.Phone.Tests
                             = new Insulin { NormalBolus = 2.5f, SquareWaveBolus = 2, SquareWaveBolusHours = 3 }
                     },
                     EstimatedSugars
-                        = new List<Sugar> { new Sugar { BloodSugar = 100, DateTime = DateTime.Now.AddHours(1) },
-                                            new Sugar { BloodSugar = 110, DateTime = DateTime.Now.AddHours(2) } }
+                        = new List<Sugar> { new Sugar { BloodSugar = 100, DateTime = DateTime.Now.AddHours(2) },
+                                            new Sugar { BloodSugar = 110, DateTime = DateTime.Now.AddHours(1) } }
                 };
+                meal.DateTime = DateTime.Now.AddHours(0.5);
                 facade.GetReplacementAndEstimatedSugars(meal,
                     Arg.Is<Insulin>(temp => temp.Id == insulin.Id),
                     Arg.Is<Sugar>(temp => temp.BloodSugar == 100f))
@@ -1027,10 +1028,10 @@ namespace Dietphone.Common.Phone.Tests
                     Assert.AreEqual(3, sut.SugarChart.Count);
                     Assert.AreEqual(meal.DateTime, sut.SugarChart[0].DateTime.ToUniversalTime());
                     Assert.AreEqual(100, sut.SugarChart[0].BloodSugar);
-                    Assert.AreEqual(estimatedSugars[0].DateTime, sut.SugarChart[1].DateTime);
-                    Assert.AreEqual(estimatedSugars[0].BloodSugar, sut.SugarChart[1].BloodSugar);
-                    Assert.AreEqual(estimatedSugars[1].DateTime, sut.SugarChart[2].DateTime);
-                    Assert.AreEqual(estimatedSugars[1].BloodSugar, sut.SugarChart[2].BloodSugar);
+                    Assert.AreEqual(estimatedSugars[1].DateTime, sut.SugarChart[1].DateTime);
+                    Assert.AreEqual(estimatedSugars[1].BloodSugar, sut.SugarChart[1].BloodSugar);
+                    Assert.AreEqual(estimatedSugars[0].DateTime, sut.SugarChart[2].DateTime);
+                    Assert.AreEqual(estimatedSugars[0].BloodSugar, sut.SugarChart[2].BloodSugar);
                 });
             }
 

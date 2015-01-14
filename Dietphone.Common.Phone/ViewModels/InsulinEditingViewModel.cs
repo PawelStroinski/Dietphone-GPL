@@ -747,6 +747,7 @@ namespace Dietphone.ViewModels
             SugarChart = new ObservableCollection<SugarChartItemViewModel>(
                 new Sugar[] { currentSugar }
                 .Concat(estimatedSugars)
+                .OrderBy(sugar => sugar.DateTime)
                 .Select(sugar => new SugarChartItemViewModel(sugar)));
             OnPropertyChanged("SugarChart");
             OnPropertyChanged("SugarChartMinimum");
