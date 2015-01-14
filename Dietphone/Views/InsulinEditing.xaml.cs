@@ -243,7 +243,7 @@ namespace Dietphone.Views
 
         private void UseCalculation_Tap(object sender, RoutedEventArgs e)
         {
-
+            viewModel.UseCalculation();
         }
 
         private void CalculationDetails_Tap(object sender, RoutedEventArgs e)

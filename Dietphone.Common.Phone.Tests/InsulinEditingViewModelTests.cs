@@ -1186,6 +1186,21 @@ namespace Dietphone.Common.Phone.Tests
                 CheckTheCalculationAndTheSugarChartAreThere();
             }
 
+            [Test]
+            public void UseCalculationSetsSubjectAndPivot()
+            {
+                sugar.BloodSugar = 100;
+                InitializeViewModel();
+                sut.Pivot = 1;
+                sut.Subject.ChangesProperty("NormalBolus", () =>
+                    sut.Subject.ChangesProperty("SquareWaveBolus", () =>
+                        sut.Subject.ChangesProperty("SquareWaveBolusHours", () =>
+                            sut.ChangesProperty("Pivot", () =>
+                                sut.UseCalculation()))));
+                Assert.AreEqual(sut.Calculated.Text, sut.Subject.Text);
+                Assert.AreEqual(0, sut.Pivot);
+            }
+
             [TestCase(false)]
             [TestCase(true)]
             public void CalculationDetailsAndCloseCalculationDetailsSetCalculationDetailsVisible(bool tombstone)

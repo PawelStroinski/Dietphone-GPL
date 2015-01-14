@@ -305,6 +305,14 @@ namespace Dietphone.ViewModels
             Navigator.GoToSettings();
         }
 
+        public void UseCalculation()
+        {
+            Subject.NormalBolus = Calculated.NormalBolus;
+            Subject.SquareWaveBolus = Calculated.SquareWaveBolus;
+            Subject.SquareWaveBolusHours = Calculated.SquareWaveBolusHours;
+            Pivot = 0;
+        }
+
         public void CalculationDetails()
         {
             ReplacementItemsToViewModels();
