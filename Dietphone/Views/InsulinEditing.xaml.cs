@@ -27,7 +27,6 @@ namespace Dietphone.Views
             viewModel.CannotSave += ViewModel_CannotSave;
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
             MealScores.ScoreClick += MealScores_ScoreClick;
-            InteractionEffectManager.AllowedTypes.Remove(typeof(RadDataBoundListBoxItem));
             Save = this.GetIcon(0);
             TranslateApplicationBar();
             InsulinCircumstances.SummaryForSelectedItemsDelegate
@@ -58,6 +57,7 @@ namespace Dietphone.Views
                 RestoreCalculationDetailsPickers();
             }
             PopulateListPickerWithSelectedInsulinCircumstances();
+            InteractionEffectManager.AllowedTypes.Remove(typeof(RadDataBoundListBoxItem));
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
