@@ -1118,13 +1118,14 @@ namespace Dietphone.Common.Phone.Tests
                 var products = fixture.CreateMany<Product>(3).ToList();
                 for (int i = 0; i < 3; i++)
                     factories.Finder.FindProductById(mealItems[i].ProductId).Returns(products[i]);
+                factories.Products.Returns(products);
                 meal.InitializeItems(mealItems);
                 meal.SetOwner(factories);
                 replacementAndEstimatedSugars.Replacement.Items[0].Pattern
                     = new Pattern { For = new MealItem { ProductId = mealItems[1].ProductId } };
                 sugar.BloodSugar = 100;
                 InitializeViewModel();
-                var expected = Translations.ListOfIngredientsNotIncluded + Environment.NewLine;
+                var expected = Translations.IngredientsNotIncluded + Environment.NewLine;
                 foreach (var i in new[] { 0, 2 })
                 {
                     expected += Environment.NewLine;

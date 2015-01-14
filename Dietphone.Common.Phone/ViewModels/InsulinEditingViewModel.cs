@@ -220,7 +220,12 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                return null;
+                CheckReplacementItems();
+                return Translations.IngredientsNotIncluded + Environment.NewLine + Environment.NewLine
+                    + string.Join(Environment.NewLine, meal.Items
+                        .Where(mealItem => !replacementItems
+                            .Any(replacementItem => replacementItem.Pattern.For.ProductId == mealItem.ProductId))
+                        .Select(mealItem => mealItem.Product.Name));
             }
         }
 

@@ -238,7 +238,7 @@ namespace Dietphone.Views
 
         private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            MessageBox.Show(viewModel.ListOfMealItemsNotIncludedInCalculation);
         }
 
         private void UseCalculation_Tap(object sender, RoutedEventArgs e)

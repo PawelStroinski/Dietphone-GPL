@@ -950,6 +950,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ingredients not included.
+        /// </summary>
+        public static string IngredientsNotIncluded {
+            get {
+                return ResourceManager.GetString("IngredientsNotIncluded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In serving of product, probably should be {0} calories (+/-{1} calories) but is {2} calories..
         /// </summary>
         public static string InServingOfProductProbablyShouldBeCaloriesButIs {
@@ -1029,15 +1038,6 @@ namespace Dietphone.Views {
         public static string LearnMoreAboutCuAndFpu {
             get {
                 return ResourceManager.GetString("LearnMoreAboutCuAndFpu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to List of ingredients not included.
-        /// </summary>
-        public static string ListOfIngredientsNotIncluded {
-            get {
-                return ResourceManager.GetString("ListOfIngredientsNotIncluded", resourceCulture);
             }
         }
         

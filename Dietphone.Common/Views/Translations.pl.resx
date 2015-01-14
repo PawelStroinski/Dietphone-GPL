@@ -654,7 +654,7 @@ Początkowy eksport został również wykonany.</value>
   <data name="AlternativeOptions" xml:space="preserve">
     <value>OPCJE ALTERNATYWNE</value>
   </data>
-  <data name="ListOfIngredientsNotIncluded" xml:space="preserve">
-    <value>Lista składników pominiętych</value>
+  <data name="IngredientsNotIncluded" xml:space="preserve">
+    <value>Składniki pominięte</value>
   </data>
 </root>
