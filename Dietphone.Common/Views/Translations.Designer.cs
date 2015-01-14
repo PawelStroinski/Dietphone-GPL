@@ -1033,6 +1033,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List of ingredients not included.
+        /// </summary>
+        public static string ListOfIngredientsNotIncluded {
+            get {
+                return ResourceManager.GetString("ListOfIngredientsNotIncluded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Localization of product database.
         /// </summary>
         public static string LocalizationOfProductDatabase {

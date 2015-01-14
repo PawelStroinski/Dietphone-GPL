@@ -216,6 +216,14 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public string ListOfMealItemsNotIncludedInCalculation
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public void AddCircumstance(string name)
         {
             var tempModel = factories.CreateInsulinCircumstance();

@@ -1111,6 +1111,30 @@ namespace Dietphone.Common.Phone.Tests
             }
 
             [Test]
+            public void ListOfMealItemsNotIncludedInCalculationReturnsListOfProductNamesAsText()
+            {
+                var fixture = new Fixture();
+                var mealItems = fixture.CreateMany<MealItem>(3).ToList();
+                var products = fixture.CreateMany<Product>(3).ToList();
+                for (int i = 0; i < 3; i++)
+                    factories.Finder.FindProductById(mealItems[i].ProductId).Returns(products[i]);
+                meal.InitializeItems(mealItems);
+                meal.SetOwner(factories);
+                replacementAndEstimatedSugars.Replacement.Items[0].Pattern
+                    = new Pattern { For = new MealItem { ProductId = mealItems[1].ProductId } };
+                sugar.BloodSugar = 100;
+                InitializeViewModel();
+                var expected = Translations.ListOfIngredientsNotIncluded + Environment.NewLine;
+                foreach (var i in new[] { 0, 2 })
+                {
+                    expected += Environment.NewLine;
+                    expected += mealItems[i].Product.Name;
+                }
+                var actual = sut.ListOfMealItemsNotIncludedInCalculation;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [Test]
             public void CalculationChangesMinimumAndMaximum()
             {
                 var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
