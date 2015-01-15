@@ -977,7 +977,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to The fit of the meal is not complete..
         /// </summary>
         public static string InsulinCalculationIncomplete {
             get {
@@ -1105,7 +1105,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to A current meal was not added.
         /// </summary>
         public static string NoMealPresent {
             get {
@@ -1150,7 +1150,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to A current blood sugar was not entered.
         /// </summary>
         public static string NoSugarEntered {
             get {
@@ -1159,7 +1159,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to Cannot find a suggestion based on your previous entries.
         /// </summary>
         public static string NoSuggestion {
             get {
@@ -1519,7 +1519,8 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TODO.
+        ///   Looks up a localized string similar to The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
+        ///This is only a tool and each decision should be taken thoughtfully..
         /// </summary>
         public static string SuggestedInsulinHeader {
             get {
