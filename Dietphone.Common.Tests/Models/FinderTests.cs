@@ -147,11 +147,11 @@ namespace Dietphone.Models.Tests
         [Test]
         public void FindSugarBeforeInsulin_IfSugarInAQuarterBefore_ReturnsSugar()
         {
+            var insulin = new Insulin { DateTime = DateTime.Now };
             var sugar1 = new Sugar { DateTime = DateTime.Now.AddMinutes(-16) };
             var sugar2 = new Sugar { DateTime = DateTime.Now.AddMinutes(-15) };
             factories.Setup(f => f.Sugars).Returns(new List<Sugar> { sugar1, sugar2 });
             var finder = new FinderImpl(factories.Object);
-            var insulin = new Insulin { DateTime = DateTime.Now };
             var sugar = finder.FindSugarBeforeInsulin(insulin);
             Assert.AreSame(sugar2, sugar);
         }
