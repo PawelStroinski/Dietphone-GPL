@@ -204,7 +204,8 @@ namespace Dietphone.ViewModels
             {
                 var model = factories.CreateCategory();
                 factories.Categories.Remove(model);
-                model.Name = Translations.RecentlyUsed;
+                var settings = factories.Settings;
+                model.Name = string.Format(Translations.RecentlyUsed, settings.MruProductMaxCount);
                 mruCategory = new CategoryViewModel(model, factories);
                 categories.Insert(0, mruCategory);
             }

@@ -11,14 +11,15 @@ namespace Dietphone.Models
 
     public class MruProductsImpl : MruProducts
     {
-        public const int MAX_COUNT = 10;
         private IList<Guid> productIds;
         private Factories factories;
+        private byte maxCount;
 
-        public MruProductsImpl(IList<Guid> productIds, Factories factories)
+        public MruProductsImpl(IList<Guid> productIds, Factories factories, byte maxCount)
         {
             this.productIds = productIds;
             this.factories = factories;
+            this.maxCount = maxCount;
         }
 
         public IList<Product> Products
@@ -41,8 +42,8 @@ namespace Dietphone.Models
             if (productIds.Contains(product.Id))
                 productIds.Remove(product.Id);
             productIds.Insert(0, product.Id);
-            while (productIds.Count > MAX_COUNT)
-                productIds.RemoveAt(MAX_COUNT);
+            while (productIds.Count > maxCount)
+                productIds.RemoveAt(maxCount);
         }
     }
 }

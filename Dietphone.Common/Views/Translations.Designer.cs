@@ -1294,7 +1294,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 10 recently used.
+        ///   Looks up a localized string similar to {0} recently used.
         /// </summary>
         public static string RecentlyUsed {
             get {

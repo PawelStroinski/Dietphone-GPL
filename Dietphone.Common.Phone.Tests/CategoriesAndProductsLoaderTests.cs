@@ -30,7 +30,8 @@ namespace Dietphone.Common.Phone.Tests
                 product.CategoryId = factories.Categories[1].Id;
                 product.SetOwner(factories);
             }
-            factories.MruProducts.Returns(new MruProductsImpl(new List<Guid>(), factories));
+            factories.MruProducts.Returns(new MruProductsImpl(new List<Guid>(), factories, 10));
+            factories.Settings.Returns(new Settings());
             viewModel = new ProductListingViewModel(factories, new BackgroundWorkerSyncFactory());
         }
 
@@ -64,10 +65,11 @@ namespace Dietphone.Common.Phone.Tests
         public void WhenMruProductsArePresentDoesAddMruCategory()
         {
             factories.MruProducts.AddProduct(factories.Products.First());
+            factories.Settings.MruProductMaxCount = 15;
             var sut = new ProductListingViewModel.CategoriesAndProductsLoader(viewModel, true);
             sut.LoadAsync();
             Assert.AreEqual(factories.Categories.Count + 1, sut.Categories.Count);
-            Assert.AreEqual(Translations.RecentlyUsed, sut.Categories.First().Name);
+            Assert.AreEqual(Translations.RecentlyUsed.Replace("{0}", "15"), sut.Categories.First().Name);
         }
 
         [TestCase(true)]

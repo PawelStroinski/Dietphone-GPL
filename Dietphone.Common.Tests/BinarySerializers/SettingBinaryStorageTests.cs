@@ -49,5 +49,14 @@ namespace Dietphone.BinarySerializers.Tests
             Assert.IsEmpty(readedSettings.CloudToken);
             Assert.AreEqual(DateTime.MinValue, readedSettings.CloudExportDue);
         }
+
+        [Test]
+        public void Default_MruProductMaxCount()
+        {
+            var settingsToWrite = new Settings();
+            var storage = new SettingsBinaryStorage();
+            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(10, readedSettings.MruProductMaxCount);
+        }
     }
 }

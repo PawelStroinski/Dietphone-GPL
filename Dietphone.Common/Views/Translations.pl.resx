@@ -585,7 +585,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>cukier</value>
   </data>
   <data name="RecentlyUsed" xml:space="preserve">
-    <value>10 ostatnio używanych</value>
+    <value>{0} ostatnio używanych</value>
   </data>
   <data name="AutomaticallySavesDataToDropboxOnceAWeek" xml:space="preserve">
     <value>Automatycznie raz w tygodniu zapisuje dane na Dropboksie. Dane zostaną zapisanie w folderze Aplikacje w formacie XML.</value>
