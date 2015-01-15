@@ -26,6 +26,14 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public string LongDateAndTime
+        {
+            get
+            {
+                return string.Format("{0}, {1}", DateTime.ToString("dddd"), DateAndTime);
+            }
+        }
+
         public string Time
         {
             get

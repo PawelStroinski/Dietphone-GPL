@@ -23,5 +23,6 @@ namespace Dietphone.Models
         }
 
         public Pattern Pattern { get; set; }
+        public IList<Pattern> Alternatives { get; set; }
     }
 }

@@ -45,8 +45,10 @@ namespace Dietphone.Models
             replacement.Items = new List<ReplacementItem>();
             foreach (var patternsFor in patterns.GroupBy(p => p.For))
             {
-                var top = patternsFor.OrderByDescending(p => p.RightnessPoints).First();
-                var replacementItem = new ReplacementItem { Pattern = top };
+                var ordered = patternsFor.OrderByDescending(p => p.RightnessPoints);
+                var top = ordered.First();
+                var rest = ordered.Skip(1).ToList();
+                var replacementItem = new ReplacementItem { Pattern = top, Alternatives = rest };
                 replacement.Items.Add(replacementItem);
             }
         }

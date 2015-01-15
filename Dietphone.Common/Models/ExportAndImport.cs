@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dietphone.Tools;
+using System.Linq;
 
 namespace Dietphone.Models
 {
@@ -59,9 +60,7 @@ namespace Dietphone.Models
             var targets = new List<MealDTO>();
             foreach (var source in factories.Meals)
             {
-                var target = new MealDTO();
-                target.CopyFrom(source);
-                target.DTOCopyItemsFrom(source);
+                var target = DTOFactory.MealToDTO(source);
                 targets.Add(target);
             }
             return targets;
@@ -72,9 +71,7 @@ namespace Dietphone.Models
             var targets = new List<InsulinDTO>();
             foreach (var source in factories.Insulins)
             {
-                var target = new InsulinDTO();
-                target.CopyFrom(source);
-                target.CopyCircumstancesFrom(source);
+                var target = DTOFactory.InsulinToDTO(source);
                 targets.Add(target);
             }
             return targets;
@@ -89,8 +86,7 @@ namespace Dietphone.Models
                 {
                     target = factories.CreateMeal();
                 }
-                target.CopyFrom(source);
-                target.CopyItemsFrom(source);
+                DTOReader.DTOToMeal(source, target);
             }
         }
 
@@ -147,8 +143,7 @@ namespace Dietphone.Models
                 {
                     target = factories.CreateInsulin();
                 }
-                target.CopyFrom(source);
-                target.CopyCircumstancesFrom(source);
+                DTOReader.DTOToInsulin(source, target);
             }
         }
 
@@ -238,6 +233,113 @@ namespace Dietphone.Models
             {
                 circumstances = value;
             }
+        }
+    }
+
+    public sealed class PatternDTO
+    {
+        public byte RightnessPoints { get; set; }
+        public MealItem Match { get; set; }
+        public MealDTO From { get; set; }
+        public InsulinDTO Insulin { get; set; }
+        public Sugar Before { get; set; }
+        public List<Sugar> After { get; set; }
+        public MealItem For { get; set; }
+        public float Factor { get; set; }
+    }
+
+    public class ReplacementItemDTO
+    {
+        public PatternDTO Pattern { get; set; }
+        public List<PatternDTO> Alternatives { get; set; }
+    }
+
+    public static class DTOFactory
+    {
+        public static MealDTO MealToDTO(Meal meal)
+        {
+            var dto = new MealDTO();
+            dto.CopyFrom(meal);
+            dto.DTOCopyItemsFrom(meal);
+            return dto;
+        }
+
+        public static InsulinDTO InsulinToDTO(Insulin insulin)
+        {
+            var dto = new InsulinDTO();
+            dto.CopyFrom(insulin);
+            dto.CopyCircumstancesFrom(insulin);
+            return dto;
+        }
+
+        public static PatternDTO PatternToDTO(Pattern pattern)
+        {
+            return new PatternDTO
+            {
+                RightnessPoints = pattern.RightnessPoints,
+                Match = pattern.Match,
+                From = MealToDTO(pattern.From),
+                Insulin = InsulinToDTO(pattern.Insulin),
+                Before = pattern.Before,
+                After = pattern.After.ToList(),
+                For = pattern.For,
+                Factor = pattern.Factor
+            };
+        }
+
+        public static ReplacementItemDTO ReplacementItemToDTO(ReplacementItem replacementItem)
+        {
+            return new ReplacementItemDTO
+            {
+                Pattern = PatternToDTO(replacementItem.Pattern),
+                Alternatives = replacementItem.Alternatives.Select(PatternToDTO).ToList()
+            };
+        }
+    }
+
+    public static class DTOReader
+    {
+        public static void DTOToMeal(MealDTO dto, Meal meal)
+        {
+            meal.CopyFrom(dto);
+            meal.CopyItemsFrom(dto);
+        }
+
+        public static void DTOToInsulin(InsulinDTO dto, Insulin insulin)
+        {
+            insulin.CopyFrom(dto);
+            insulin.CopyCircumstancesFrom(dto);
+        }
+
+        public static Pattern DTOToPattern(PatternDTO dto, Factories factories)
+        {
+            var pattern = new Pattern
+            {
+                RightnessPoints = dto.RightnessPoints,
+                Match = dto.Match,
+                From = new Meal(),
+                Insulin = new Insulin(),
+                Before = dto.Before,
+                After = dto.After,
+                For = dto.For,
+                Factor = dto.Factor
+            };
+            var entities = new Entity[] { pattern.Match, pattern.From, pattern.Insulin, pattern.Before, pattern.For }
+                .Concat(pattern.After);
+            foreach (var entity in entities)
+                entity.SetOwner(factories);
+            DTOToMeal(dto.From, pattern.From);
+            DTOToInsulin(dto.Insulin, pattern.Insulin);
+            return pattern;
+        }
+
+        public static ReplacementItem DTOToReplacementItem(ReplacementItemDTO dto, Factories factories)
+        {
+            return new ReplacementItem
+            {
+                Pattern = DTOToPattern(dto.Pattern, factories),
+                Alternatives = dto.Alternatives.Select(pattern => DTOToPattern(pattern, factories)).ToList()
+            };
         }
     }
 }

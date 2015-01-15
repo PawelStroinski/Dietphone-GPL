@@ -51,6 +51,8 @@
     <Compile Include="ViewModels\BackgroundWorker.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\InlineViewModel.cs" />
+    <Compile Include="ViewModels\PatternViewModel.cs" />
+    <Compile Include="ViewModels\ReplacementItemViewModel.cs" />
     <Compile Include="ViewModels\SugarEditingViewModel.cs">
       <SubType>Code</SubType>
     </Compile>

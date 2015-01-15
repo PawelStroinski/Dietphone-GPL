@@ -49,6 +49,7 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual(universal.ToLocalTime().ToShortDateInAlternativeFormat()
                 + " " + universal.ToLocalTime().ToShortTimeString(), sut.DateAndTime);
             Assert.AreEqual(universal.ToLocalTime().ToShortTimeString(), sut.Time);
+            Assert.AreEqual(universal.ToLocalTime().ToString("dddd") + ", " + sut.DateAndTime, sut.LongDateAndTime);
             Assert.AreEqual(insulin.Note, sut.Note);
             var note = new Fixture().Create<string>();
             sut.Note = note;
@@ -174,6 +175,15 @@ namespace Dietphone.Common.Phone.Tests
             {
                 sut.Circumstances = sut.Circumstances.ToList();
             });
+        }
+
+        [Test]
+        public void CircumstancesSummary()
+        {
+            var sut = new InsulinViewModel(insulin, factories, allCircumstances: allCircumstances);
+            var expected = allCircumstances[0].Name + ", " + allCircumstances[1].Name + ", " + allCircumstances[2].Name;
+            var actual = sut.CircumstancesSummary;
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]

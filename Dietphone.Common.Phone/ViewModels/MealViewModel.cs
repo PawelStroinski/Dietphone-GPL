@@ -111,6 +111,16 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public string Products
+        {
+            get
+            {
+                var all = ProductsTail.ToList();
+                all.Insert(0, ProductsHead);
+                return string.Join(" | ", all);
+            }
+        }
+
         public string Note
         {
             get
@@ -203,6 +213,22 @@ namespace Dietphone.ViewModels
             get
             {
                 return !IsNewer;
+            }
+        }
+
+        public bool HasName
+        {
+            get
+            {
+                return Name != DefaultName;
+            }
+        }
+
+        public bool HasNote
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Note);
             }
         }
 
@@ -311,14 +337,6 @@ namespace Dietphone.ViewModels
             {
                 var result = Meal.Fpu;
                 return string.Format(Translations.Fpu, result);
-            }
-        }
-
-        private bool HasName
-        {
-            get
-            {
-                return Name != DefaultName;
             }
         }
 

@@ -40,7 +40,8 @@ namespace Dietphone.Models
 
         public void CopyCircumstancesFrom(Insulin source)
         {
-            this.circumstances = source.circumstances.ToList();
+            if (source.circumstances != null)
+                this.circumstances = source.circumstances.ToList();
         }
 
         public IEnumerable<Guid> ReadCircumstances()

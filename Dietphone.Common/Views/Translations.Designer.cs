@@ -124,6 +124,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ALTERNATIVE OPTIONS.
+        /// </summary>
+        public static string AlternativeOptions {
+            get {
+                return ResourceManager.GetString("AlternativeOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred during import. Make sure that the imported data were not corrupted..
         /// </summary>
         public static string AnErrorOccurredDuringImport {
@@ -478,6 +487,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} CU.
         /// </summary>
         public static string Cu {
@@ -786,6 +804,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to factor.
+        /// </summary>
+        public static string Factor {
+            get {
+                return ResourceManager.GetString("Factor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} fat.
         /// </summary>
         public static string Fat {
@@ -923,6 +950,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ingredients not included.
+        /// </summary>
+        public static string IngredientsNotIncluded {
+            get {
+                return ResourceManager.GetString("IngredientsNotIncluded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In serving of product, probably should be {0} calories (+/-{1} calories) but is {2} calories..
         /// </summary>
         public static string InServingOfProductProbablyShouldBeCaloriesButIs {
@@ -941,38 +977,20 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The fit of the meal is not complete..
+        /// </summary>
+        public static string InsulinCalculationIncomplete {
+            get {
+                return ResourceManager.GetString("InsulinCalculationIncomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insulin circumstances.
         /// </summary>
         public static string InsulinCircumstances {
             get {
                 return ResourceManager.GetString("InsulinCircumstances", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bolus &amp; sugar resulted from previous entries.
-        /// </summary>
-        public static string InsulinHeaderCalculated {
-            get {
-                return ResourceManager.GetString("InsulinHeaderCalculated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bolus &amp; sugar resulted from previous entries (incomplete meal).
-        /// </summary>
-        public static string InsulinHeaderIncomplete {
-            get {
-                return ResourceManager.GetString("InsulinHeaderIncomplete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tap to show calculated insulin.
-        /// </summary>
-        public static string InsulinHeaderUser {
-            get {
-                return ResourceManager.GetString("InsulinHeaderUser", resourceCulture);
             }
         }
         
@@ -1087,6 +1105,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A current meal was not added.
+        /// </summary>
+        public static string NoMealPresent {
+            get {
+                return ResourceManager.GetString("NoMealPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No name.
         /// </summary>
         public static string NoName {
@@ -1119,6 +1146,24 @@ namespace Dietphone.Views {
         public static string NormalBolusText {
             get {
                 return ResourceManager.GetString("NormalBolusText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A current blood sugar was not entered.
+        /// </summary>
+        public static string NoSugarEntered {
+            get {
+                return ResourceManager.GetString("NoSugarEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find a suggestion based on your previous entries.
+        /// </summary>
+        public static string NoSuggestion {
+            get {
+                return ResourceManager.GetString("NoSuggestion", resourceCulture);
             }
         }
         
@@ -1254,6 +1299,15 @@ namespace Dietphone.Views {
         public static string RecentlyUsed {
             get {
                 return ResourceManager.GetString("RecentlyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to relevance.
+        /// </summary>
+        public static string Relevance {
+            get {
+                return ResourceManager.GetString("Relevance", resourceCulture);
             }
         }
         
@@ -1452,6 +1506,34 @@ namespace Dietphone.Views {
         public static string Sugar {
             get {
                 return ResourceManager.GetString("Sugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suggested bolus.
+        /// </summary>
+        public static string SuggestedBolus {
+            get {
+                return ResourceManager.GetString("SuggestedBolus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
+        ///This is only a tool and each decision should be taken thoughtfully..
+        /// </summary>
+        public static string SuggestedInsulinHeader {
+            get {
+                return ResourceManager.GetString("SuggestedInsulinHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to suggestion.
+        /// </summary>
+        public static string Suggestion {
+            get {
+                return ResourceManager.GetString("Suggestion", resourceCulture);
             }
         }
         

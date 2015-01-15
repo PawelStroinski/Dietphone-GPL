@@ -53,6 +53,17 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void HasText2()
+        {
+            var sut = new Sut();
+            Assert.IsTrue(sut.HasText2);
+            sut.text2 = null;
+            Assert.IsFalse(sut.HasText2);
+            sut.text2 = string.Empty;
+            Assert.IsFalse(sut.HasText2);
+        }
+
+        [Test]
         public void FilterIn()
         {
             var sut = new Sut();
@@ -63,6 +74,8 @@ namespace Dietphone.Common.Phone.Tests
 
         class Sut : JournalItemViewModel
         {
+            public string text2 = "tWO";
+
             public override string Text
             {
                 get { return "Foo bar"; }
@@ -70,7 +83,7 @@ namespace Dietphone.Common.Phone.Tests
 
             public override string Text2
             {
-                get { return "tWO"; }
+                get { return text2; }
             }
 
             public override DateTime DateTime

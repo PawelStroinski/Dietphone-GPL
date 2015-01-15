@@ -45,6 +45,8 @@ namespace Dietphone.Models.Tests
             var sut = new ReplacementBuilderImpl();
             var replacementItems = sut.GetReplacementFor(meal, patterns).Items;
             Assert.AreEqual(new Pattern[] { pattern2, pattern4 }, replacementItems.Select(r => r.Pattern));
+            Assert.AreEqual(new Pattern[] { pattern3, pattern1 }, replacementItems[0].Alternatives);
+            Assert.AreEqual(new Pattern[] { }, replacementItems[1].Alternatives);
         }
 
         [Test]

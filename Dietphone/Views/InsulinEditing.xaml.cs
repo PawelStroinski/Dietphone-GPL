@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.Phone.Controls;
 using Dietphone.ViewModels;
 using System.Windows.Navigation;
 using Dietphone.Tools;
-using Telerik.Windows.Controls.Primitives;
-using System.Windows.Input;
-using System.Collections.Generic;
 using Dietphone.Models;
 using System.Linq;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Collections;
+using System.ComponentModel;
+using Telerik.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Dietphone.Views
 {
     public partial class InsulinEditing : StateProviderPage
     {
+        private const int CHART_PADDING_TOP = 51;
         private InsulinEditingViewModel viewModel;
 
         public InsulinEditing()
@@ -27,6 +25,7 @@ namespace Dietphone.Views
             viewModel.StateProvider = this;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
             MealScores.ScoreClick += MealScores_ScoreClick;
             Save = this.GetIcon(0);
             TranslateApplicationBar();
@@ -36,6 +35,7 @@ namespace Dietphone.Views
             {
                 if (viewModel.ShouldFocusSugar())
                     CurrentSugar.Focus();
+                RestoreCalculationDetailsPickers();
             };
         }
 
@@ -54,16 +54,32 @@ namespace Dietphone.Views
             else
             {
                 viewModel.ReturnedFromNavigation();
+                RestoreCalculationDetailsPickers();
             }
             PopulateListPickerWithSelectedInsulinCircumstances();
+            InteractionEffectManager.AllowedTypes.Remove(typeof(RadDataBoundListBoxItem));
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            CalculationDetailsAlternativesPicker.IsPopupAnimationEnabled = false;
+            CalculationDetailsAlternativesPicker.IsPopupOpen = false;
+            CalculationDetailsPicker.IsPopupAnimationEnabled = false;
+            CalculationDetailsPicker.IsPopupOpen = false;
             if (e.NavigationMode != NavigationMode.Back)
             {
                 viewModel.Tombstone();
             }
+        }
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            if (viewModel.CalculationDetailsVisible || viewModel.CalculationDetailsAlternativesVisible)
+            {
+                viewModel.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                e.Cancel = true;
+            }
+            base.OnBackKeyPress(e);
         }
 
         private void AddCircumstance_Click(object sender, RoutedEventArgs e)
@@ -200,9 +216,49 @@ namespace Dietphone.Views
                 MessageBoxButton.OKCancel) == MessageBoxResult.OK);
         }
 
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CalculationDetailsVisible")
+                CalculationDetailsPicker.IsPopupOpen = viewModel.CalculationDetailsVisible;
+            if (e.PropertyName == "CalculationDetailsAlternativesVisible")
+                CalculationDetailsAlternativesPicker.IsPopupOpen = viewModel.CalculationDetailsAlternativesVisible;
+        }
+
         private void MealScores_ScoreClick(object sender, EventArgs e)
         {
             viewModel.OpenScoresSettings();
+        }
+
+        private void Chart_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var position = e.GetPosition(Chart);
+            if (position.Y > CHART_PADDING_TOP)
+                MessageBox.Show(viewModel.SugarChartAsText);
+        }
+
+        private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            MessageBox.Show(viewModel.ListOfMealItemsNotIncludedInCalculation);
+        }
+
+        private void UseCalculation_Tap(object sender, RoutedEventArgs e)
+        {
+            viewModel.UseCalculation();
+        }
+
+        private void CalculationDetails_Tap(object sender, RoutedEventArgs e)
+        {
+            viewModel.CalculationDetails();
+        }
+
+        private void CloseCalculationDetails_Click(object sender, EventArgs e)
+        {
+            viewModel.CloseCalculationDetails();
+        }
+
+        private void CloseCalculationDetailsAlternatives_Click(object sender, EventArgs e)
+        {
+            viewModel.CloseCalculationDetailsAlternatives();
         }
 
         private void TranslateApplicationBar()
@@ -211,12 +267,51 @@ namespace Dietphone.Views
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetIcon(2).Text = Translations.Meal;
             this.GetMenuItem(0).Text = Translations.Delete;
+            TranslatePickerApplicationBar(CalculationDetailsPicker);
+            TranslatePickerApplicationBar(CalculationDetailsAlternativesPicker);
+        }
+
+        private void TranslatePickerApplicationBar(RadPickerBox picker)
+        {
+            var pickerApplicationBar = picker.ApplicationBarInfo;
+            var close = pickerApplicationBar.Buttons[0];
+            close.Text = Translations.Close;
+        }
+
+        private void RestoreCalculationDetailsPickers()
+        {
+            if (viewModel.CalculationDetailsVisible || viewModel.CalculationDetailsAlternativesVisible)
+                Dispatcher.BeginInvoke(() =>
+                {
+                    CalculationDetailsPicker.IsPopupOpen
+                        = viewModel.CalculationDetailsVisible;
+                    DispatchWithDelay(TimeSpan.FromSeconds(0.5), () =>
+                        CalculationDetailsAlternativesPicker.IsPopupOpen
+                            = viewModel.CalculationDetailsAlternativesVisible);
+                    DispatchWithDelay(TimeSpan.FromSeconds(5), () =>
+                    {
+                        CalculationDetailsPicker.IsPopupAnimationEnabled = true;
+                        CalculationDetailsAlternativesPicker.IsPopupAnimationEnabled = true;
+                    });
+                });
+        }
+
+        private void DispatchWithDelay(TimeSpan delay, Action action)
+        {
+            var timer = new DispatcherTimer();
+            timer.Interval = delay;
+            timer.Tick += (_, __) =>
+            {
+                timer.Stop();
+                action();
+            };
+            timer.Start();
         }
 
         private string InsulinCircumstancesSummaryForSelectedItemsDelegate(IList newValue)
         {
             viewModel.Subject.Circumstances = newValue.Cast<InsulinCircumstanceViewModel>().ToList();
-            return viewModel.SummaryForSelectedCircumstances();
+            return viewModel.Subject.CircumstancesSummary;
         }
 
         private void PopulateListPickerWithSelectedInsulinCircumstances()
@@ -258,11 +353,6 @@ namespace Dietphone.Views
             var facade = new ReplacementBuilderAndSugarEstimatorFacadeImpl(patternBuilder,
                 replacementBuilder, sugarEstimator);
             return facade;
-        }
-
-        private void Chart_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            MessageBox.Show(viewModel.SugarChartAsText);
         }
     }
 }
