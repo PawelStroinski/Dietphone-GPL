@@ -5,6 +5,7 @@ using Dietphone.Models;
 using System.Globalization;
 using System.Windows;
 using Dietphone.Tools;
+using System.Linq;
 
 namespace Dietphone.ViewModels
 {
@@ -13,6 +14,8 @@ namespace Dietphone.ViewModels
         public List<string> UiCultures { get; private set; }
         public List<string> ProductCultures { get; private set; }
         private readonly Settings settings;
+        private static readonly Constrains number = new Constrains { Min = 0.1, Max = 100 };
+        private static readonly Constrains hours = new Constrains { Min = 1, Max = 12 };
         private const byte MAX_SCORES = 4;
 
         public SettingsViewModel(Factories factories)
@@ -187,6 +190,81 @@ namespace Dietphone.ViewModels
                 var productCultureChanged = settings.CurrentProductCulture != settings.NextProductCulture;
                 var cultureChanged = uiCultureChanged || productCultureChanged;
                 return cultureChanged.ToVisibility();
+            }
+        }
+
+        public List<string> AllSugarUnits
+        {
+            get
+            {
+                return MyEnum.GetValues<SugarUnit>()
+                    .Select(unit => unit.GetAbbreviation())
+                    .ToList();
+            }
+        }
+
+        public string SugarUnit
+        {
+            get
+            {
+                var result = settings.SugarUnit;
+                return result.GetAbbreviation();
+            }
+            set
+            {
+                var newValue = MyEnum.GetValues<SugarUnit>()
+                    .Where(unit => value == unit.GetAbbreviation());
+                if (newValue.Any())
+                    settings.SugarUnit = newValue.Single();
+                OnPropertyChanged("SugarUnit");
+            }
+        }
+
+        public string MaxBolus
+        {
+            get
+            {
+                var result = settings.MaxBolus;
+                return result.ToString();
+            }
+            set
+            {
+                var oldValue = settings.MaxBolus;
+                var newValue = oldValue.TryGetValueOf(value);
+                settings.MaxBolus = number.Constraint(newValue);
+                OnPropertyChanged("MaxBolus");
+            }
+        }
+
+        public string MruProductMaxCount
+        {
+            get
+            {
+                var result = settings.MruProductMaxCount;
+                return result.ToString();
+            }
+            set
+            {
+                var oldValue = settings.MruProductMaxCount;
+                var newValue = ((short)oldValue).TryGetValueOf(value);
+                settings.MruProductMaxCount = (byte)number.Constraint(newValue);
+                OnPropertyChanged("MruProductMaxCount");
+            }
+        }
+
+        public string SugarsAfterInsulinHours
+        {
+            get
+            {
+                var result = settings.SugarsAfterInsulinHours;
+                return result.ToString();
+            }
+            set
+            {
+                var oldValue = settings.SugarsAfterInsulinHours;
+                var newValue = ((short)oldValue).TryGetValueOf(value);
+                settings.SugarsAfterInsulinHours = hours.Constraint(newValue);
+                OnPropertyChanged("SugarsAfterInsulinHours");
             }
         }
 

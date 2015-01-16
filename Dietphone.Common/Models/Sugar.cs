@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
+using Dietphone.Views;
 
 namespace Dietphone.Models
 {
@@ -37,6 +38,22 @@ namespace Dietphone.Models
         {
             return DateTime.GetHashCode() * 2
                  + BloodSugar.GetHashCode() * 3;
+        }
+    }
+
+    public static class SugarUnitAbbreviations
+    {
+        public static string GetAbbreviation(this SugarUnit unit)
+        {
+            switch (unit)
+            {
+                case SugarUnit.mgdL:
+                    return Translations.MgdL;
+                case SugarUnit.mmolL:
+                    return Translations.MmolL;
+                default:
+                    return string.Empty;
+            }
         }
     }
 

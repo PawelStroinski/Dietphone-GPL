@@ -1078,6 +1078,24 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to mg/dL.
+        /// </summary>
+        public static string MgdL {
+            get {
+                return ResourceManager.GetString("MgdL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mmol/L.
+        /// </summary>
+        public static string MmolL {
+            get {
+                return ResourceManager.GetString("MmolL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {

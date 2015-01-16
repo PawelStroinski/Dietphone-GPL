@@ -41,6 +41,17 @@ namespace Dietphone.Common.Tests.Models
         }
 
         [Test]
+        public void ProductsNeverExceedTheCurrentMaxCount()
+        {
+            var initialProductIds = new List<Guid> { Guid.NewGuid(), products[1].Id, products[2].Id };
+            var sut = new MruProductsImpl(initialProductIds, factories, maxCount: 1);
+            var expected = new Product[] { products[1] };
+            var actual = sut.Products;
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(initialProductIds.Count, 3);
+        }
+
+        [Test]
         public void AddProduct()
         {
             var sut = new MruProductsImpl(new List<Guid> { products[0].Id }, factories, maxCount);
@@ -60,6 +71,7 @@ namespace Dietphone.Common.Tests.Models
             expected.Insert(0, products[maxCount]);
             var actual = sut.Products;
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Select(item => item.Id), initialProductIds);
         }
 
         [Test]

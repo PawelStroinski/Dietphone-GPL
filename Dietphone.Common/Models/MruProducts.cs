@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dietphone.Models
 {
@@ -33,7 +34,9 @@ namespace Dietphone.Models
                     if (found != null)
                         products.Add(found);
                 }
-                return products;
+                return products
+                    .Take(maxCount)
+                    .ToList();
             }
         }
 

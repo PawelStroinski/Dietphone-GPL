@@ -664,4 +664,10 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="IngredientsNotIncluded" xml:space="preserve">
     <value>Ingredients not included</value>
   </data>
+  <data name="MgdL" xml:space="preserve">
+    <value>mg/dL</value>
+  </data>
+  <data name="MmolL" xml:space="preserve">
+    <value>mmol/L</value>
+  </data>
 </root>
