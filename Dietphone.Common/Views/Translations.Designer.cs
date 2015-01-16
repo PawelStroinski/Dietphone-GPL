@@ -1060,6 +1060,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum bolus.
+        /// </summary>
+        public static string MaxBolus {
+            get {
+                return ResourceManager.GetString("MaxBolus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to meal.
         /// </summary>
         public static string Meal {
@@ -1092,6 +1101,15 @@ namespace Dietphone.Views {
         public static string MmolL {
             get {
                 return ResourceManager.GetString("MmolL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recently used products.
+        /// </summary>
+        public static string MruProductMaxCount {
+            get {
+                return ResourceManager.GetString("MruProductMaxCount", resourceCulture);
             }
         }
         
@@ -1524,6 +1542,24 @@ namespace Dietphone.Views {
         public static string Sugar {
             get {
                 return ResourceManager.GetString("Sugar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sugars after insulin (h).
+        /// </summary>
+        public static string SugarsAfterInsulinHours {
+            get {
+                return ResourceManager.GetString("SugarsAfterInsulinHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sugar unit.
+        /// </summary>
+        public static string SugarUnit {
+            get {
+                return ResourceManager.GetString("SugarUnit", resourceCulture);
             }
         }
         

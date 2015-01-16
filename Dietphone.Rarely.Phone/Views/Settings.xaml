@@ -22,6 +22,7 @@
 
     <Grid Background="Transparent">
         <controls:Pivot Title="{Binding Translations.SettingsUppercase, Source={StaticResource Translations}}" SelectedIndex="{Binding Pivot, Mode=TwoWay}">
+            <!--Results-->
             <controls:PivotItem Header="{Binding Translations.Results, Source={StaticResource Translations}}">
                 <Grid>
                     <ScrollViewer>
@@ -45,6 +46,46 @@
                     </ScrollViewer>
                 </Grid>
             </controls:PivotItem>
+            <!--General-->
+            <controls:PivotItem Header="{Binding Translations.General, Source={StaticResource Translations}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <!--SugarUnit-->
+                    <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                        <TextBlock Text="{Binding Translations.SugarUnit, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <telerikInput:RadListPicker Margin="9 -25 12 0" VerticalAlignment="Top" SelectedItem="{Binding SugarUnit, Mode=TwoWay}" ItemsSource="{Binding AllSugarUnits}" Style="{StaticResource OsListPickerStyle}">
+                            <telerikInput:RadListPicker.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Margin="0 -2 0 2"/>
+                                </DataTemplate>
+                            </telerikInput:RadListPicker.ItemTemplate>
+                        </telerikInput:RadListPicker>
+                    </StackPanel>
+                    <!--MaxBolus-->
+                    <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="0">
+                        <TextBlock Text="{Binding Translations.MaxBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding MaxBolus, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <!--MruProductMaxCount-->
+                    <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="1">
+                        <TextBlock Text="{Binding Translations.MruProductMaxCount, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding MruProductMaxCount, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <!--SugarsAfterInsulinHours-->
+                    <StackPanel Margin="6,0,12,13" Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                        <TextBlock Text="{Binding Translations.SugarsAfterInsulinHours, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding SugarsAfterInsulinHours, Mode=TwoWay}"/>
+                    </StackPanel>
+                </Grid>
+            </controls:PivotItem>
+            <!--Language-->
             <controls:PivotItem Header="{Binding Translations.Language, Source={StaticResource Translations}}">
                 <Grid>
                     <StackPanel>

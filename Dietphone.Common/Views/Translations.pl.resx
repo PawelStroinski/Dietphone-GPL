@@ -657,4 +657,16 @@ Początkowy eksport został również wykonany.</value>
   <data name="IngredientsNotIncluded" xml:space="preserve">
     <value>Składniki pominięte</value>
   </data>
+  <data name="MaxBolus" xml:space="preserve">
+    <value>Bolus maksymalny</value>
+  </data>
+  <data name="MruProductMaxCount" xml:space="preserve">
+    <value>Ostatnio używane produkty</value>
+  </data>
+  <data name="SugarsAfterInsulinHours" xml:space="preserve">
+    <value>Cukry po insulinie (godz)</value>
+  </data>
+  <data name="SugarUnit" xml:space="preserve">
+    <value>Jednostka cukru</value>
+  </data>
 </root>

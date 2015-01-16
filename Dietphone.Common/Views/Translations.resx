@@ -670,4 +670,16 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="MmolL" xml:space="preserve">
     <value>mmol/L</value>
   </data>
+  <data name="MaxBolus" xml:space="preserve">
+    <value>Maximum bolus</value>
+  </data>
+  <data name="MruProductMaxCount" xml:space="preserve">
+    <value>Recently used products</value>
+  </data>
+  <data name="SugarsAfterInsulinHours" xml:space="preserve">
+    <value>Sugars after insulin (h)</value>
+  </data>
+  <data name="SugarUnit" xml:space="preserve">
+    <value>Sugar unit</value>
+  </data>
 </root>
