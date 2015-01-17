@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using Dietphone.Views;
+using System.Linq;
 
 namespace Dietphone.Models
 {
@@ -41,8 +42,14 @@ namespace Dietphone.Models
         }
     }
 
-    public static class SugarUnitAbbreviations
+    public static class SugarUnitExtensions
     {
+        private static string[] mmolLCultures = { "en-AU", "bg-BG", "en-CA", "zh-CN", "hr-HR", "hr-BA", "bs-Latn-BA", 
+                                                  "cs-CZ", "da-DK", "et-EE", "fi-FI", "zh-HK", "hu-HU", "is-IS", "en-IE",
+                                                  "lv-LV", "lt-LT", "de-LU", "fr-LU", "mk-MK", "mt-MT", "en-NZ", "nn-NO",
+                                                  "ru-RU", "sr-Cyrl-BA", "sr-Cyrl-CS", "sr-Latn-BA", "sr-Latn-CS",
+                                                  "sk-SK", "sl-SI", "sv-SE", "de-CH", "en-GB" };
+
         public static string GetAbbreviation(this SugarUnit unit)
         {
             switch (unit)
@@ -54,6 +61,11 @@ namespace Dietphone.Models
                 default:
                     return string.Empty;
             }
+        }
+
+        public static SugarUnit GetSugarUnitForCulture(this string culture)
+        {
+            return mmolLCultures.Contains(culture) ? SugarUnit.mmolL : SugarUnit.mgdL;
         }
     }
 

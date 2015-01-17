@@ -35,6 +35,7 @@ namespace Dietphone.Models
             MruProductIds = new List<Guid>();
             MruProductMaxCount = 10;
             SugarsAfterInsulinHours = 4;
+            SugarUnit = GetDefaultSugarUnit();
             MaxBolus = 5;
             CloudSecret = string.Empty;
             CloudToken = string.Empty;
@@ -113,6 +114,13 @@ namespace Dietphone.Models
             var cultures = new Cultures();
             return cultures.DefaultCulture;
         }
+
+        private SugarUnit GetDefaultSugarUnit()
+        {
+            var cultures = new Cultures();
+            var systemCulture = cultures.SystemCulture;
+            return systemCulture.GetSugarUnitForCulture();
+        }
     }
 
     public class Cultures
@@ -129,9 +137,7 @@ namespace Dietphone.Models
         {
             get
             {
-                var thread = Thread.CurrentThread;
-                var culture = thread.CurrentCulture;
-                var systemCulture = culture.Name;
+                var systemCulture = SystemCulture;
                 if (SupportedCultures.Contains(systemCulture))
                 {
                     return systemCulture;
@@ -140,6 +146,16 @@ namespace Dietphone.Models
                 {
                     return SupportedCultures.FirstOrDefault();
                 }
+            }
+        }
+
+        public string SystemCulture
+        {
+            get
+            {
+                var thread = Thread.CurrentThread;
+                var culture = thread.CurrentCulture;
+                return culture.Name;
             }
         }
     }

@@ -3,6 +3,8 @@ using Dietphone.Models;
 using Ploeh.AutoFixture;
 using Ploeh.SemanticComparison.Fluent;
 using System;
+using System.Threading;
+using System.Globalization;
 
 namespace Dietphone.BinarySerializers.Tests
 {
@@ -57,6 +59,20 @@ namespace Dietphone.BinarySerializers.Tests
             var storage = new SettingsBinaryStorage();
             var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
             Assert.AreEqual(10, readedSettings.MruProductMaxCount);
+        }
+
+        [TestCase("pl-PL", SugarUnit.mgdL)]
+        [TestCase("en-GB", SugarUnit.mmolL)]
+        [TestCase("en-US", SugarUnit.mgdL)]
+        [TestCase("en-IE", SugarUnit.mmolL)]
+        public void Default_SugarUnit(string culture, SugarUnit unit)
+        {
+            var thread = Thread.CurrentThread;
+            thread.CurrentCulture = new CultureInfo(culture);
+            var settingsToWrite = new Settings();
+            var storage = new SettingsBinaryStorage();
+            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(unit, readedSettings.SugarUnit);
         }
     }
 }
