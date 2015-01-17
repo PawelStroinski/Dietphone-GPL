@@ -30,7 +30,7 @@ namespace Dietphone.Common.Phone.Tests
                 product.CategoryId = factories.Categories[1].Id;
                 product.SetOwner(factories);
             }
-            factories.MruProducts.Returns(new MruProductsImpl(new List<Guid>(), factories, 10));
+            factories.MruProducts.Returns(new MruProductsImpl(new List<Guid>(), factories));
             factories.Settings.Returns(new Settings());
             viewModel = new ProductListingViewModel(factories, new BackgroundWorkerSyncFactory());
         }

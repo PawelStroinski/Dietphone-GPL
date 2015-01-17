@@ -14,13 +14,11 @@ namespace Dietphone.Models
     {
         private IList<Guid> productIds;
         private Factories factories;
-        private byte maxCount;
 
-        public MruProductsImpl(IList<Guid> productIds, Factories factories, byte maxCount)
+        public MruProductsImpl(IList<Guid> productIds, Factories factories)
         {
             this.productIds = productIds;
             this.factories = factories;
-            this.maxCount = maxCount;
         }
 
         public IList<Product> Products
@@ -30,10 +28,11 @@ namespace Dietphone.Models
                 var products = new List<Product>();
                 foreach (var id in productIds)
                 {
-                    var found = this.factories.Products.FindById(id);
+                    var found = factories.Products.FindById(id);
                     if (found != null)
                         products.Add(found);
                 }
+                var maxCount = GetMaxCount();
                 return products
                     .Take(maxCount)
                     .ToList();
@@ -45,8 +44,15 @@ namespace Dietphone.Models
             if (productIds.Contains(product.Id))
                 productIds.Remove(product.Id);
             productIds.Insert(0, product.Id);
+            var maxCount = GetMaxCount();
             while (productIds.Count > maxCount)
                 productIds.RemoveAt(maxCount);
+        }
+
+        private byte GetMaxCount()
+        {
+            var settings = factories.Settings;
+            return settings.MruProductMaxCount;
         }
     }
 }
