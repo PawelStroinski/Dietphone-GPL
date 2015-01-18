@@ -28,9 +28,10 @@ namespace Dietphone.Tools
             }
         }
 
-        public static void ForceRefresh(this RadListPicker picker, PerformanceProgressBar progressBar)
+        public static void ForceRefresh(this RadListPicker picker, ProgressBar progressBar)
         {
             progressBar.IsIndeterminate = true;
+            progressBar.Visibility = Visibility.Visible;
             picker.Dispatcher.BeginInvoke(() =>
             {
                 picker.IsEnabled = false;
@@ -40,6 +41,7 @@ namespace Dietphone.Tools
                 picker.ItemsSource = items;
                 picker.SelectedItem = item;
                 picker.IsEnabled = true;
+                progressBar.Visibility = Visibility.Collapsed;
                 progressBar.IsIndeterminate = false;
             });
         }

@@ -6,7 +6,6 @@
     mc:Ignorable="d"
     xmlns:telerikDataControls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Data"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -45,7 +44,7 @@
                 </ItemsPanelTemplate>
             </telerikDataControls:RadJumpList.GroupPickerItemsPanel>
         </telerikDataControls:RadJumpList>
-        <toolkit:PerformanceProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}"/>
+        <ProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibility}}"/>
     </Grid>
 
 </UserControl>

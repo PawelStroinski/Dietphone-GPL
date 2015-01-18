@@ -15,7 +15,6 @@
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone.Windows"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
@@ -186,7 +185,7 @@
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>
-        <toolkit:PerformanceProgressBar VerticalAlignment="Top" Name="ProgressBar"/>
+        <ProgressBar VerticalAlignment="Top" Name="ProgressBar" Visibility="Collapsed"/>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>

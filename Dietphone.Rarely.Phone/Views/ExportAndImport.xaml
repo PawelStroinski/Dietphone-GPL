@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:Dietphone.Views"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
@@ -56,7 +55,7 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <toolkit:PerformanceProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}"/>
+        <ProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibility}}"/>
         <telerikPrimitives:RadModalWindow Name="EmailAndAddressWindow"
                                           Placement="TopCenter"
                                           HorizontalContentAlignment="Stretch">
