@@ -310,11 +310,14 @@ namespace Dietphone.ViewModels
         private void BuildUiCulturesAndProductCultures()
         {
             var cultures = new Cultures();
-            foreach (var cultureName in cultures.SupportedCultures)
+            foreach (var cultureName in cultures.SupportedUiCultures)
             {
                 var uiCulture = GetUiCultureFromCultureName(cultureName);
-                var productCulture = GetProductCultureFromCultureName(cultureName);
                 UiCultures.Add(uiCulture);
+            }
+            foreach (var cultureName in cultures.SupportedProductCultures)
+            {
+                var productCulture = GetProductCultureFromCultureName(cultureName);
                 ProductCultures.Add(productCulture);
             }
         }
@@ -341,14 +344,14 @@ namespace Dietphone.ViewModels
         {
             var index = UiCultures.IndexOf(uiCulture);
             var cultures = new Cultures();
-            return cultures.SupportedCultures[index];
+            return cultures.SupportedUiCultures[index];
         }
 
         private string FindCultureNameByProductCulture(string productCulture)
         {
             var index = ProductCultures.IndexOf(productCulture);
             var cultures = new Cultures();
-            return cultures.SupportedCultures[index];
+            return cultures.SupportedProductCultures[index];
         }
     }
 }

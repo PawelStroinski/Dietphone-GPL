@@ -74,5 +74,21 @@ namespace Dietphone.BinarySerializers.Tests
             var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
             Assert.AreEqual(unit, readedSettings.SugarUnit);
         }
+
+        [TestCase("pl-PL", "pl-PL", "pl-PL")]
+        [TestCase("en-GB", "en-US", "en-GB")]
+        [TestCase("en-US", "en-US", "en-US")]
+        [TestCase("en-IE", "en-US", "en-GB")]
+        [TestCase("en-AU", "en-US", "en-US")]
+        public void Default_Culture(string systemCulture, string expectedUiCulture, string expectedProductCulture)
+        {
+            var thread = Thread.CurrentThread;
+            thread.CurrentCulture = new CultureInfo(systemCulture);
+            var settingsToWrite = new Settings();
+            var storage = new SettingsBinaryStorage();
+            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 2);
+            Assert.AreEqual(expectedUiCulture, readedSettings.CurrentUiCulture);
+            Assert.AreEqual(expectedProductCulture, readedSettings.CurrentProductCulture);
+        }
     }
 }
