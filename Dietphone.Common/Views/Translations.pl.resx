@@ -669,4 +669,10 @@ Początkowy eksport został również wykonany.</value>
   <data name="SugarUnit" xml:space="preserve">
     <value>Jednostka cukru</value>
   </data>
+  <data name="ExportToDropboxWasSuccessful" xml:space="preserve">
+    <value>Eksport na Dropboksa przebiegł pomyślnie.</value>
+  </data>
+  <data name="ExportToDropboxNow" xml:space="preserve">
+    <value>eksportuj na Dropboksa teraz</value>
+  </data>
 </root>

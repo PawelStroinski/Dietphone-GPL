@@ -682,4 +682,10 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="SugarUnit" xml:space="preserve">
     <value>Sugar unit</value>
   </data>
+  <data name="ExportToDropboxWasSuccessful" xml:space="preserve">
+    <value>Export to Dropbox was successful.</value>
+  </data>
+  <data name="ExportToDropboxNow" xml:space="preserve">
+    <value>export to Dropbox now</value>
+  </data>
 </root>

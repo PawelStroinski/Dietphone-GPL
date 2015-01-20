@@ -74,6 +74,18 @@ namespace Dietphone.Models.Tests
             }
         }
 
+        public class MakeItExport : CloudTests
+        {
+            [Test]
+            public void InvalidatesDate()
+            {
+                settings.CloudExportDue = DateTime.Now.AddDays(1);
+                sut.MakeItExport();
+                Assert.AreEqual(DateTime.MinValue, settings.CloudExportDue);
+                providerFactory.DidNotReceive().Create();
+            }
+        }
+
         public class ListImports : CloudTests
         {
             [Test]

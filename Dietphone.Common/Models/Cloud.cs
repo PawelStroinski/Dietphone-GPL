@@ -10,6 +10,7 @@ namespace Dietphone.Models
     {
         bool ShouldExport();
         void Export();
+        void MakeItExport();
         List<string> ListImports();
         void Import(string name);
     }
@@ -46,6 +47,12 @@ namespace Dietphone.Models
             CreateProvider();
             ExportAndUploadFile();
             UpdateDate();
+        }
+
+        public void MakeItExport()
+        {
+            var settings = this.factories.Settings;
+            settings.CloudExportDue = DateTime.MinValue;
         }
 
         public List<string> ListImports()

@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using Dietphone.Tools;
 using Dietphone.Models;
+using System.ComponentModel;
 
 namespace Dietphone.Views
 {
@@ -32,12 +33,16 @@ namespace Dietphone.Views
             ViewModel.NavigateInBrowser += ViewModel_NavigateInBrowser;
             ViewModel.ConfirmExportToCloudDeactivation += ViewModel_ConfirmExportToCloudDeactivation;
             ViewModel.ExportToCloudActivationSuccessful += ViewModel_ExportToCloudActivationSuccessful;
+            ViewModel.ExportToCloudSuccessful += ViewModel_ExportToCloudSuccessful;
             ViewModel.ImportFromCloudSuccessful += ViewModel_ImportFromCloudSuccessful;
             ViewModel.CloudError += ViewModel_CloudError;
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             DataContext = ViewModel;
             SetWindowBackground();
             SetWindowSize();
             TranslateButtons();
+            TranslateApplicationBar();
+            SetMenuItemEnabledDependingOnIsExportToCloudActive();
         }
 
         private void ViewModel_ExportToEmailSuccessful(object sender, EventArgs e)
@@ -102,6 +107,14 @@ namespace Dietphone.Views
             });
         }
 
+        private void ViewModel_ExportToCloudSuccessful(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show(Translations.ExportToDropboxWasSuccessful);
+            });
+        }
+
         private void ViewModel_ImportFromCloudSuccessful(object sender, EventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
@@ -116,6 +129,12 @@ namespace Dietphone.Views
             {
                 MessageBox.Show(Translations.AnErrorOccurredDuringTheDropboxOperation);
             });
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsExportToCloudActive")
+                SetMenuItemEnabledDependingOnIsExportToCloudActive();
         }
 
         private void ExportToCloud_Click(object sender, RoutedEventArgs e)
@@ -179,6 +198,11 @@ namespace Dietphone.Views
             EmailAndAddressWindow.IsOpen = false;
         }
 
+        private void ExportToCloudNow_Click(object sender, EventArgs e)
+        {
+            ViewModel.ExportToCloudNow();
+        }
+
         private void Browser_Navigating(object sender, NavigatingEventArgs e)
         {
             ViewModel.BrowserIsNavigating(e.Uri.ToString());
@@ -225,6 +249,16 @@ namespace Dietphone.Views
             ExportByEmail.Line2 = Translations.AllowsSendingDataAttachedToAnEMail;
             ImportFromAddress.Line1 = Translations.ImportFromAddress;
             ImportFromAddress.Line2 = Translations.AllowsToRetrieveDataFromAFileInXmlFormat;
+        }
+
+        private void TranslateApplicationBar()
+        {
+            this.GetMenuItem(0).Text = Translations.ExportToDropboxNow;
+        }
+
+        private void SetMenuItemEnabledDependingOnIsExportToCloudActive()
+        {
+            this.GetMenuItem(0).IsEnabled = ViewModel.IsExportToCloudActive;
         }
 
         private double GetSystemTrayHeight()

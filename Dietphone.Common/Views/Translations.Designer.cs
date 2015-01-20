@@ -804,6 +804,24 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to export to Dropbox now.
+        /// </summary>
+        public static string ExportToDropboxNow {
+            get {
+                return ResourceManager.GetString("ExportToDropboxNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export to Dropbox was successful..
+        /// </summary>
+        public static string ExportToDropboxWasSuccessful {
+            get {
+                return ResourceManager.GetString("ExportToDropboxWasSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to factor.
         /// </summary>
         public static string Factor {

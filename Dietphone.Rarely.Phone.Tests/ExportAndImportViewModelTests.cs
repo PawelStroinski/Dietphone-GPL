@@ -20,7 +20,8 @@ namespace Dietphone.Rarely.Phone.Tests
         private Cloud cloud;
         private ExportAndImportViewModel sut;
         private string navigatedTo;
-        private bool calledExportToCloudActivationSuccessful, calledImportFromCloudSuccessful, calledCloudError;
+        private bool calledExportToCloudActivationSuccessful, calledExportToCloudSuccessful,
+            calledImportFromCloudSuccessful, calledCloudError;
 
         [SetUp]
         public void TestInitialize()
@@ -41,6 +42,7 @@ namespace Dietphone.Rarely.Phone.Tests
             sut.NavigateInBrowser += (_, url) => { navigatedTo = url; };
             calledExportToCloudActivationSuccessful = calledImportFromCloudSuccessful = calledCloudError = false;
             sut.ExportToCloudActivationSuccessful += (_, __) => { calledExportToCloudActivationSuccessful = true; };
+            sut.ExportToCloudSuccessful += (_, __) => { calledExportToCloudSuccessful = true; };
             sut.ImportFromCloudSuccessful += (_, __) => { calledImportFromCloudSuccessful = true; };
             sut.CloudError += (_, __) => { calledCloudError = true; };
         }
@@ -318,6 +320,41 @@ namespace Dietphone.Rarely.Phone.Tests
                 Assert.IsFalse(calledExportToCloudActivationSuccessful);
                 if (errorAtGetAcquiredToken)
                     cloud.DidNotReceive().Export();
+            }
+        }
+
+        public class ExportToCloudNow : ExportAndImportViewModelTests
+        {
+            [Test]
+            public void InvokesMakeItExportAndThenExport()
+            {
+                settings.CloudSecret = "foo";
+                cloud.When(c => c.Export()).Do(_ => cloud.Received().MakeItExport());
+                sut.ChangesProperty("IsBusy", () => sut.ExportToCloudNow());
+                Thread.Sleep(10);
+                cloud.Received().Export();
+                Assert.IsTrue(calledExportToCloudSuccessful);
+                Assert.IsFalse(sut.IsBusy);
+            }
+
+            [Test]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public void IfExportToCloudIsNotActiveThrowsException()
+            {
+                sut.ExportToCloudNow();
+                Thread.Sleep(10);
+            }
+
+            [Test]
+            public void ErrorAtExport()
+            {
+                settings.CloudSecret = "foo";
+                cloud.When(c => c.Export()).Do(_ => { throw new Exception(); });
+                sut.ExportToCloudNow();
+                Thread.Sleep(10);
+                Assert.IsTrue(calledCloudError);
+                Assert.IsFalse(calledExportToCloudSuccessful);
+                Assert.IsFalse(sut.IsBusy);
             }
         }
 

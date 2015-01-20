@@ -23,6 +23,7 @@ namespace Dietphone.ViewModels
         public event EventHandler<string> NavigateInBrowser;
         public event EventHandler<ConfirmEventArgs> ConfirmExportToCloudDeactivation;
         public event EventHandler ExportToCloudActivationSuccessful;
+        public event EventHandler ExportToCloudSuccessful;
         public event EventHandler ImportFromCloudSuccessful;
         public event EventHandler CloudError;
         private string data;
@@ -31,6 +32,7 @@ namespace Dietphone.ViewModels
         private bool importFromCloudVisible;
         private bool readingFailedDuringImportFromAddress;
         private bool browserIsNavigatingDoWorkWentOkay;
+        private bool exportToCloudNowWentOkay;
         private bool importFromCloudWentOkay;
         private CloudProvider cloudProvider;
         private BrowserIsNavigatingHint browserIsNavigatingHint;
@@ -203,6 +205,21 @@ namespace Dietphone.ViewModels
             worker.RunWorkerAsync();
         }
 
+        public void ExportToCloudNow()
+        {
+            CheckIsExportToCloudActive();
+            var worker = new VerboseBackgroundWorker();
+            worker.DoWork += delegate { CatchedExportToCloudNow(); };
+            worker.RunWorkerCompleted += delegate
+            {
+                IsBusy = false;
+                if (exportToCloudNowWentOkay)
+                    OnExportToCloudSuccessful();
+            };
+            IsBusy = true;
+            worker.RunWorkerAsync();
+        }
+
         private void SendByEmail()
         {
             var sender = new PostSender(MAILEXPORT_URL);
@@ -359,6 +376,12 @@ namespace Dietphone.ViewModels
                 throw new InvalidOperationException("ExportToCloud or ImportFromCloud should be invoked first.");
         }
 
+        private void CheckIsExportToCloudActive()
+        {
+            if (!IsExportToCloudActive)
+                throw new InvalidOperationException("ExportToCloud or ImportFromCloud should be invoked first.");
+        }
+
         private void CatchedImportFromCloud()
         {
             try
@@ -384,6 +407,21 @@ namespace Dietphone.ViewModels
             {
                 OnCloudError();
                 browserIsNavigatingDoWorkWentOkay = false;
+            }
+        }
+
+        private void CatchedExportToCloudNow()
+        {
+            try
+            {
+                cloud.MakeItExport();
+                cloud.Export();
+                exportToCloudNowWentOkay = true;
+            }
+            catch (Exception)
+            {
+                OnCloudError();
+                exportToCloudNowWentOkay = false;
             }
         }
 
@@ -494,6 +532,14 @@ namespace Dietphone.ViewModels
             if (ExportToCloudActivationSuccessful != null)
             {
                 ExportToCloudActivationSuccessful(this, EventArgs.Empty);
+            }
+        }
+
+        protected void OnExportToCloudSuccessful()
+        {
+            if (ExportToCloudSuccessful != null)
+            {
+                ExportToCloudSuccessful(this, EventArgs.Empty);
             }
         }
 
