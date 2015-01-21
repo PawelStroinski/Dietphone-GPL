@@ -15,13 +15,22 @@
         <telerikDataControls:RadJumpList IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" Name="List" x:FieldModifier="private" ItemsSource="{Binding Products}" GroupPickerItemsSource="{Binding Categories}" EmptyContent="" ItemTap="List_ItemTap" GroupPickerItemTap="List_GroupPickerItemTap" GroupHeaderItemTap="List_GroupHeaderItemTap">
             <telerikDataControls:RadJumpList.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="4">
-                        <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding WidthOfFilledCuRect}" Height="25" VerticalAlignment="Center" />
-                        <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding WidthOfEmptyCuRect}" Height="25" VerticalAlignment="Center" Margin="0 0 8 0" />
-                        <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding WidthOfFilledFpuRect}" Height="25" VerticalAlignment="Center" />
-                        <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding WidthOfEmptyFpuRect}" Height="25" VerticalAlignment="Center" Margin="0 0 8 0" />
-                        <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}" Text="{Binding Name}" VerticalAlignment="Center"/>
-                    </StackPanel>
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="33"/>
+                            <ColumnDefinition Width="33"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 3 0 0">
+                            <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding WidthOfFilledCuRect}" Height="25" VerticalAlignment="Center" />
+                            <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding WidthOfEmptyCuRect}" Height="25" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0 3 0 0" Grid.Column="1">
+                            <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding WidthOfFilledFpuRect}" Height="25" VerticalAlignment="Center" />
+                            <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding WidthOfEmptyFpuRect}" Height="25" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyLight}" Text="{Binding Name}" VerticalAlignment="Top" TextWrapping="Wrap" LineHeight="23" LineStackingStrategy="BlockLineHeight" Margin="0 6 0 2" Grid.Column="2"/>
+                    </Grid>
                 </DataTemplate>
             </telerikDataControls:RadJumpList.ItemTemplate>
             <telerikDataControls:RadJumpList.GroupHeaderTemplate>
