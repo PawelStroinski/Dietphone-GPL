@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoriesAndProductsLoaderTests.cs" />
+    <Compile Include="MealItemViewModelTests.cs" />
     <Compile Include="MealViewModelTests.cs" />
     <Compile Include="MainViewModelTests.cs" />
     <Compile Include="MealItemEditingViewModelTests.cs" />
@@ -86,6 +87,10 @@
     <ProjectReference Include="..\Dietphone.Common.Phone\Dietphone.Common.Phone.csproj">
       <Project>{2788c479-27d7-4b73-94ea-988274abb912}</Project>
       <Name>Dietphone.Common.Phone</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dietphone.Common.Tests\Dietphone.Common.Tests.csproj">
+      <Project>{bfccd72a-9bff-4252-855a-c188b6c7b6fb}</Project>
+      <Name>Dietphone.Common.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">
       <Project>{62a44f50-63f5-4f79-a980-1f85a8793e82}</Project>
