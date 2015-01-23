@@ -895,6 +895,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to g.
+        /// </summary>
+        public static string G {
+            get {
+                return ResourceManager.GetString("G", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to general.
         /// </summary>
         public static string General {
@@ -1110,6 +1119,15 @@ namespace Dietphone.Views {
         public static string MgdL {
             get {
                 return ResourceManager.GetString("MgdL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ml.
+        /// </summary>
+        public static string Ml {
+            get {
+                return ResourceManager.GetString("Ml", resourceCulture);
             }
         }
         

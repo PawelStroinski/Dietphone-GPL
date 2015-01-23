@@ -688,4 +688,10 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="ExportToDropboxNow" xml:space="preserve">
     <value>export to Dropbox now</value>
   </data>
+  <data name="G" xml:space="preserve">
+    <value>g</value>
+  </data>
+  <data name="Ml" xml:space="preserve">
+    <value>ml</value>
+  </data>
 </root>

@@ -330,9 +330,9 @@ namespace Dietphone.Models
             switch (unit)
             {
                 case Unit.Gram:
-                    return "g";
+                    return Translations.G;
                 case Unit.Mililiter:
-                    return "ml";
+                    return Translations.Ml;
                 case Unit.ServingSize:
                     return Translations.Serving;
                 default:
