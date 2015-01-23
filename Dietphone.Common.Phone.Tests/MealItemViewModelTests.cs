@@ -10,6 +10,8 @@ namespace Dietphone.Common.Phone.Tests
     {
         private Product product;
         private MealItemViewModel sut;
+        private string gram, mililiter;
+        private Func<string> servingSize;
 
         [SetUp]
         public void TestInitialize()
@@ -23,14 +25,14 @@ namespace Dietphone.Common.Phone.Tests
             var item = meal.AddItem();
             item.ProductId = product.Id;
             sut = new MealItemViewModel(item, factories);
+            gram = Unit.Gram.GetAbbreviation();
+            mililiter = Unit.Mililiter.GetAbbreviation();
+            servingSize = () => Unit.ServingSize.GetAbbreviationOrServingSizeDetalis(product);
         }
 
         [Test]
         public void AllUsableUnitsWithDetalis()
         {
-            var gram = Unit.Gram.GetAbbreviation();
-            var mililiter = Unit.Mililiter.GetAbbreviation();
-            Func<string> servingSize = () => Unit.ServingSize.GetAbbreviationOrServingSizeDetalis(product);
             Assert.AreEqual(new[] { gram }, sut.AllUsableUnitsWithDetalis);
             product.ServingSizeValue = 1;
             Assert.AreEqual(new[] { gram, servingSize() }, sut.AllUsableUnitsWithDetalis);
@@ -39,6 +41,15 @@ namespace Dietphone.Common.Phone.Tests
             product.EnergyPer100g = 0;
             Assert.AreEqual(new[] { mililiter, servingSize() }, sut.AllUsableUnitsWithDetalis);
             product.ServingSizeUnit = Unit.Gram;
+            Assert.AreEqual(new[] { gram, servingSize() }, sut.AllUsableUnitsWithDetalis);
+        }
+
+        [Test]
+        public void AllUsableUnitsWithDetalisWhenServingSizeIsInGramsButNutritionsAreOnlyPer100g()
+        {
+            product.ServingSizeValue = 15;
+            product.ServingSizeUnit = Unit.Gram;
+            product.EnergyPerServing = 0;
             Assert.AreEqual(new[] { gram, servingSize() }, sut.AllUsableUnitsWithDetalis);
         }
     }

@@ -71,5 +71,35 @@ namespace Dietphone.Models.Tests
             product.ServingSizeUnit = Unit.Gram;
             Assert.IsTrue(sut.AreNutrientsPerServingUsable);
         }
+
+        [Test]
+        public void WhenServingSizeIsInGrams()
+        {
+            product.EnergyPerServing = 0;
+            product.ServingSizeValue = 15;
+            product.ServingSizeUnit = Unit.Gram;
+            sut.Unit = Unit.Mililiter;
+            Assert.IsFalse(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsFalse(sut.AreNutrientsPer100gUsable);
+            Assert.IsFalse(sut.AreNutrientsPerServingUsable);
+            sut.Unit = Unit.ServingSize;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsTrue(sut.AreNutrientsPer100gUsable);
+            Assert.IsFalse(sut.AreNutrientsPerServingUsable);
+            product.EnergyPer100g = 0;
+            Assert.IsFalse(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsFalse(sut.AreNutrientsPer100gUsable);
+            Assert.IsFalse(sut.AreNutrientsPerServingUsable);
+            product.EnergyPer100g = 100;
+            product.ServingSizeValue = 0;
+            Assert.IsFalse(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsFalse(sut.AreNutrientsPer100gUsable);
+            Assert.IsFalse(sut.AreNutrientsPerServingUsable);
+            product.EnergyPerServing = 100;
+            product.ServingSizeValue = 15;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsFalse(sut.AreNutrientsPer100gUsable);
+            Assert.IsTrue(sut.AreNutrientsPerServingUsable);
+        }
     }
 }

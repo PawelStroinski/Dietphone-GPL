@@ -86,7 +86,7 @@ namespace Dietphone.Models
 
     public class MealItemWithNutrientsPerUnit : MealItemBase
     {
-        private const float BASE_PER_100G = 100;
+        private const float BASE_PER_100G_IN_GRAMS = 100;
 
         protected float EnergyPerUnit
         {
@@ -94,7 +94,7 @@ namespace Dietphone.Models
             {
                 if (UnitUsability.AreNutrientsPer100gUsable)
                 {
-                    return Product.EnergyPer100g / BASE_PER_100G;
+                    return Product.EnergyPer100g / BasePer100g;
                 }
                 else
                     if (UnitUsability.AreNutrientsPerServingUsable)
@@ -114,7 +114,7 @@ namespace Dietphone.Models
             {
                 if (UnitUsability.AreNutrientsPer100gUsable)
                 {
-                    return Product.ProteinPer100g / BASE_PER_100G;
+                    return Product.ProteinPer100g / BasePer100g;
                 }
                 else
                     if (UnitUsability.AreNutrientsPerServingUsable)
@@ -134,7 +134,7 @@ namespace Dietphone.Models
             {
                 if (UnitUsability.AreNutrientsPer100gUsable)
                 {
-                    return Product.FatPer100g / BASE_PER_100G;
+                    return Product.FatPer100g / BasePer100g;
                 }
                 else
                     if (UnitUsability.AreNutrientsPerServingUsable)
@@ -154,7 +154,7 @@ namespace Dietphone.Models
             {
                 if (UnitUsability.AreNutrientsPer100gUsable)
                 {
-                    return Product.DigestibleCarbsPer100g / BASE_PER_100G;
+                    return Product.DigestibleCarbsPer100g / BasePer100g;
                 }
                 else
                     if (UnitUsability.AreNutrientsPerServingUsable)
@@ -191,6 +191,21 @@ namespace Dietphone.Models
                 else
                 {
                     return Product.ServingSizeValue;
+                }
+            }
+        }
+
+        private float BasePer100g
+        {
+            get
+            {
+                if (Unit == Unit.Gram)
+                {
+                    return BASE_PER_100G_IN_GRAMS;
+                }
+                else
+                {
+                    return BASE_PER_100G_IN_GRAMS / Product.ServingSizeValue;
                 }
             }
         }
@@ -323,7 +338,13 @@ namespace Dietphone.Models
             get
             {
                 var unitsMatches = Unit == Unit.Gram;
-                return unitsMatches && Product.AnyNutrientsPer100gPresent;
+                if (unitsMatches && Product.AnyNutrientsPer100gPresent)
+                    return true;
+                if (AreNutrientsPerServingUsable)
+                    return false;
+                var servingSizeUnitMatches = Unit == Unit.ServingSize && Product.ServingSizeUnit == Unit.Gram;
+                var sizePresent = Product.ServingSizeValue != 0;
+                return servingSizeUnitMatches && sizePresent && Product.AnyNutrientsPer100gPresent;
             }
         }
 
