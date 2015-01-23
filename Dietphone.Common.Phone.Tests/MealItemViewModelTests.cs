@@ -10,7 +10,7 @@ namespace Dietphone.Common.Phone.Tests
     {
         private Product product;
         private MealItemViewModel sut;
-        private string gram, mililiter;
+        private string gram, mililiter, ounce, pound;
         private Func<string> servingSize;
 
         [SetUp]
@@ -28,20 +28,22 @@ namespace Dietphone.Common.Phone.Tests
             gram = Unit.Gram.GetAbbreviation();
             mililiter = Unit.Mililiter.GetAbbreviation();
             servingSize = () => Unit.ServingSize.GetAbbreviationOrServingSizeDetalis(product);
+            ounce = Unit.Ounce.GetAbbreviation();
+            pound = Unit.Pound.GetAbbreviation();
         }
 
         [Test]
         public void AllUsableUnitsWithDetalis()
         {
-            Assert.AreEqual(new[] { gram }, sut.AllUsableUnitsWithDetalis);
+            Assert.AreEqual(new[] { gram, ounce, pound }, sut.AllUsableUnitsWithDetalis);
             product.ServingSizeValue = 1;
-            Assert.AreEqual(new[] { gram, servingSize() }, sut.AllUsableUnitsWithDetalis);
+            Assert.AreEqual(new[] { gram, servingSize(), ounce, pound }, sut.AllUsableUnitsWithDetalis);
             product.ServingSizeUnit = Unit.Mililiter;
-            Assert.AreEqual(new[] { gram, mililiter, servingSize() }, sut.AllUsableUnitsWithDetalis);
+            Assert.AreEqual(new[] { gram, mililiter, servingSize(), ounce, pound }, sut.AllUsableUnitsWithDetalis);
             product.EnergyPer100g = 0;
             Assert.AreEqual(new[] { mililiter, servingSize() }, sut.AllUsableUnitsWithDetalis);
             product.ServingSizeUnit = Unit.Gram;
-            Assert.AreEqual(new[] { gram, servingSize() }, sut.AllUsableUnitsWithDetalis);
+            Assert.AreEqual(new[] { gram, servingSize(), ounce, pound }, sut.AllUsableUnitsWithDetalis);
         }
 
         [Test]
@@ -50,7 +52,7 @@ namespace Dietphone.Common.Phone.Tests
             product.ServingSizeValue = 15;
             product.ServingSizeUnit = Unit.Gram;
             product.EnergyPerServing = 0;
-            Assert.AreEqual(new[] { gram, servingSize() }, sut.AllUsableUnitsWithDetalis);
+            Assert.AreEqual(new[] { gram, servingSize(), ounce, pound }, sut.AllUsableUnitsWithDetalis);
         }
     }
 }

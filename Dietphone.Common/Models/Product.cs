@@ -335,9 +335,54 @@ namespace Dietphone.Models
                     return Translations.Ml;
                 case Unit.ServingSize:
                     return Translations.Serving;
+                case Unit.Ounce:
+                    return Translations.Oz;
+                case Unit.Pound:
+                    return Translations.Lb;
                 default:
                     return string.Empty;
             }
+        }
+    }
+
+    public static class UnitConversion
+    {
+        private const float OUNCE_IN_GRAMS = 28.349523125f;
+        private const float POUND_IN_GRAMS = 453.59237f;
+
+        public static bool IsConvertibleTo(this Unit first, Unit second)
+        {
+            if (first == second)
+                return true;
+            if (first.IsConvertibleToGram() && second.IsConvertibleToGram())
+                return true;
+            return false;
+        }
+
+        public static bool IsConvertibleToGram(this Unit unit)
+        {
+            return unit == Unit.Gram || unit == Unit.Ounce || unit == Unit.Pound;
+        }
+
+        public static float ConvertTo(this Unit from, Unit to, float value)
+        {
+            if (from == to)
+                return value;
+            if (from == Unit.Gram)
+                return value / to.InGrams();
+            if (to == Unit.Gram)
+                return value * from.InGrams();
+            var valueInGrams = from.ConvertTo(Unit.Gram, value);
+            return Unit.Gram.ConvertTo(to, valueInGrams);
+        }
+
+        private static float InGrams(this Unit unit)
+        {
+            if (unit == Unit.Ounce)
+                return OUNCE_IN_GRAMS;
+            if (unit == Unit.Pound)
+                return POUND_IN_GRAMS;
+            throw new InvalidOperationException(string.Format("Could not convert from {0} to {1}.", unit, Unit.Gram));
         }
     }
 
@@ -345,6 +390,8 @@ namespace Dietphone.Models
     {
         Gram,
         Mililiter,
-        ServingSize
+        ServingSize,
+        Ounce,
+        Pound
     }
 }

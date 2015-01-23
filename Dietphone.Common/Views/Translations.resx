@@ -694,4 +694,10 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="Ml" xml:space="preserve">
     <value>ml</value>
   </data>
+  <data name="Oz" xml:space="preserve">
+    <value>oz</value>
+  </data>
+  <data name="Lb" xml:space="preserve">
+    <value>lb</value>
+  </data>
 </root>

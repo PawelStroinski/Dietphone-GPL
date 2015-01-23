@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Dietphone.Models.Tests
 {
@@ -50,6 +51,11 @@ namespace Dietphone.Models.Tests
                 product.CarbsTotalPerServing = carb;
             }
 
+            private float[] Round(float[] numbers)
+            {
+                return numbers.Select(number => (float)Math.Round(number, 0)).ToArray();
+            }
+
             [SetUp]
             public void TestInitialize()
             {
@@ -89,6 +95,61 @@ namespace Dietphone.Models.Tests
                 Assert.AreEqual(new[] { 6000, 7000, 8000, 9000 }, actual());
                 SetPerServing(product, energy: 0, protein: 0, fat: 0, carb: 0);
                 Assert.AreEqual(new[] { 5000, 10000, 15000, 20000 }, actual());
+            }
+
+            [Test]
+            public void Ounce()
+            {
+                product.ServingSizeUnit = Unit.Gram;
+                item.Unit = Unit.Ounce;
+                Assert.AreEqual(new[] { 283, 567, 850, 1134 }, Round(actual()));
+                SetPer100g(product, energy: 0, protein: 0, fat: 0, carb: 0);
+                Assert.AreEqual(new[] { 340, 397, 454, 510 }, Round(actual()));
+                product.ServingSizeUnit = Unit.Ounce;
+                product.ServingSizeValue = 50;
+                item.Unit = Unit.Gram;
+                var fiveOuncesInGrams = 142;
+                item.Value = fiveOuncesInGrams;
+                Assert.AreEqual(new[] { 60, 70, 80, 90 }, Round(actual()));
+            }
+
+            [Test]
+            public void NutrientsWhenServingSizeIsInOunces()
+            {
+                product.ServingSizeUnit = Unit.Ounce;
+                item.Unit = Unit.ServingSize;
+                Assert.AreEqual(new[] { 6000, 7000, 8000, 9000 }, actual());
+                SetPerServing(product, energy: 0, protein: 0, fat: 0, carb: 0);
+                product.ServingSizeValue = 5;
+                Assert.AreEqual(new[] { 1417, 2835, 4252, 5670 }, Round(actual()));
+            }
+
+            [Test]
+            public void ConvertToPounds()
+            {
+                SetPer100g(product, energy: 0, protein: 0, fat: 0, carb: 0);
+                item.Value = 0.5f;
+                item.Unit = Unit.Pound;
+                product.ServingSizeValue = 2;
+                product.ServingSizeUnit = Unit.Ounce;
+                Assert.AreEqual(new[] { 2400, 2800, 3200, 3600 }, actual());
+                product.ServingSizeValue = 150;
+                product.ServingSizeUnit = Unit.Gram;
+                Assert.AreEqual(new[] { 907, 1058, 1210, 1361 }, Round(actual()));
+            }
+
+            [Test]
+            public void ConvertFromPounds()
+            {
+                SetPer100g(product, energy: 0, protein: 0, fat: 0, carb: 0);
+                product.ServingSizeValue = 0.5f;
+                product.ServingSizeUnit = Unit.Pound;
+                item.Value = 2;
+                item.Unit = Unit.Ounce;
+                Assert.AreEqual(new[] { 150, 175, 200, 225 }, actual());
+                item.Value = 150;
+                item.Unit = Unit.Gram;
+                Assert.AreEqual(new[] { 397, 463, 529, 595 }, Round(actual()));
             }
         }
     }

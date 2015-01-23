@@ -1060,6 +1060,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to lb.
+        /// </summary>
+        public static string Lb {
+            get {
+                return ResourceManager.GetString("Lb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learn more about CU and FPU....
         /// </summary>
         public static string LearnMoreAboutCuAndFpu {
@@ -1299,6 +1308,15 @@ namespace Dietphone.Views {
         public static string Older {
             get {
                 return ResourceManager.GetString("Older", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to oz.
+        /// </summary>
+        public static string Oz {
+            get {
+                return ResourceManager.GetString("Oz", resourceCulture);
             }
         }
         

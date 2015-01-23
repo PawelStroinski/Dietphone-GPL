@@ -101,5 +101,43 @@ namespace Dietphone.Models.Tests
             Assert.IsFalse(sut.AreNutrientsPer100gUsable);
             Assert.IsTrue(sut.AreNutrientsPerServingUsable);
         }
+
+        [TestCase(Unit.Ounce, Unit.Ounce)]
+        [TestCase(Unit.Ounce, Unit.Gram)]
+        [TestCase(Unit.Gram, Unit.Ounce)]
+        [TestCase(Unit.Pound, Unit.Pound)]
+        [TestCase(Unit.Pound, Unit.Gram)]
+        [TestCase(Unit.Gram, Unit.Pound)]
+        [TestCase(Unit.Ounce, Unit.Pound)]
+        [TestCase(Unit.Pound, Unit.Ounce)]
+        public void OunceAndPound(Unit unit, Unit servingSizeUnit)
+        {
+            sut.Unit = unit;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsTrue(sut.AreNutrientsPer100gUsable);
+            Assert.IsFalse(sut.AreNutrientsPerServingUsable);
+            product.ServingSizeValue = 1;
+            product.ServingSizeUnit = servingSizeUnit;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsTrue(sut.AreNutrientsPer100gUsable);
+            Assert.IsTrue(sut.AreNutrientsPerServingUsable);
+            product.EnergyPerServing = 0;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsTrue(sut.AreNutrientsPer100gUsable);
+            Assert.IsFalse(sut.AreNutrientsPerServingUsable);
+            sut.Unit = Unit.ServingSize;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsTrue(sut.AreNutrientsPer100gUsable);
+            Assert.IsFalse(sut.AreNutrientsPerServingUsable);
+            product.EnergyPerServing = 100;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsFalse(sut.AreNutrientsPer100gUsable);
+            Assert.IsTrue(sut.AreNutrientsPerServingUsable);
+            product.EnergyPer100g = 0;
+            sut.Unit = unit;
+            Assert.IsTrue(sut.AnyNutrientsPerUnitPresent);
+            Assert.IsFalse(sut.AreNutrientsPer100gUsable);
+            Assert.IsTrue(sut.AreNutrientsPerServingUsable);
+        }
     }
 }

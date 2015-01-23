@@ -180,6 +180,23 @@ namespace Dietphone.Models
             }
         }
 
+        private float BasePer100g
+        {
+            get
+            {
+                if (Unit.IsConvertibleToGram())
+                {
+                    return Unit.Gram.ConvertTo(Unit, BASE_PER_100G_IN_GRAMS);
+                }
+                else
+                {
+                    var servingSizeUnit = Product.ServingSizeUnit;
+                    var servingSizeValue = Product.ServingSizeValue;
+                    return BASE_PER_100G_IN_GRAMS / servingSizeUnit.ConvertTo(Unit.Gram, servingSizeValue);
+                }
+            }
+        }
+
         private float BasePerServing
         {
             get
@@ -190,22 +207,9 @@ namespace Dietphone.Models
                 }
                 else
                 {
-                    return Product.ServingSizeValue;
-                }
-            }
-        }
-
-        private float BasePer100g
-        {
-            get
-            {
-                if (Unit == Unit.Gram)
-                {
-                    return BASE_PER_100G_IN_GRAMS;
-                }
-                else
-                {
-                    return BASE_PER_100G_IN_GRAMS / Product.ServingSizeValue;
+                    var servingSizeUnit = Product.ServingSizeUnit;
+                    var servingSizeValue = Product.ServingSizeValue;
+                    return servingSizeUnit.ConvertTo(Unit, servingSizeValue);
                 }
             }
         }
@@ -337,12 +341,12 @@ namespace Dietphone.Models
         {
             get
             {
-                var unitsMatches = Unit == Unit.Gram;
+                var unitsMatches = Unit.IsConvertibleToGram();
                 if (unitsMatches && Product.AnyNutrientsPer100gPresent)
                     return true;
                 if (AreNutrientsPerServingUsable)
                     return false;
-                var servingSizeUnitMatches = Unit == Unit.ServingSize && Product.ServingSizeUnit == Unit.Gram;
+                var servingSizeUnitMatches = Unit == Unit.ServingSize && Product.ServingSizeUnit.IsConvertibleToGram();
                 var sizePresent = Product.ServingSizeValue != 0;
                 return servingSizeUnitMatches && sizePresent && Product.AnyNutrientsPer100gPresent;
             }
@@ -352,7 +356,7 @@ namespace Dietphone.Models
         {
             get
             {
-                var unitsMatches = Unit == Product.ServingSizeUnit || Unit == Unit.ServingSize;
+                var unitsMatches = Unit.IsConvertibleTo(Product.ServingSizeUnit) || Unit == Unit.ServingSize;
                 var sizePresent = Product.ServingSizeValue != 0;
                 return unitsMatches && sizePresent && Product.AnyNutrientsPerServingPresent;
             }
