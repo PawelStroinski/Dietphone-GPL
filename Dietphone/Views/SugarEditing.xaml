@@ -31,7 +31,7 @@
             <TextBlock Text="{Binding Path=Translations.BloodSugar, Source={StaticResource Translations}}" Foreground="{StaticResource PhoneSubtleBrush}" Margin="24, 26, 0, 26" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"/>
             <Grid Grid.Row="1" Margin="14, 26, 14, 0">
                 <!--BloodSugar-->
-                <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding BloodSugar, Mode=TwoWay}" VerticalAlignment="Top" x:Name="Value" x:FieldModifier="private">
+                <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding BloodSugarWrapper, Mode=TwoWay}" VerticalAlignment="Top" x:Name="Value" x:FieldModifier="private">
                     <i:Interaction.Behaviors>
                         <views:UpdateOnTextChangedBehavior/>
                     </i:Interaction.Behaviors>

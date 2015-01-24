@@ -32,6 +32,26 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void BloodSugarWrapperDoesNotNotifyAboutItself()
+        {
+            // This behaviour is useful for entering decimal point numbers into fields with binding on each key press.
+            var factories = Substitute.For<Factories>();
+            factories.Settings.Returns(new Settings());
+            var sut = new SugarViewModel(new Models.Sugar { BloodSugar = 100 }, factories);
+            Assert.AreEqual(100.ToString(), sut.BloodSugarWrapper);
+            sut.ChangesProperty("BloodSugar", () =>
+            {
+                sut.NotChangesProperty("BloodSugarWrapper", () =>
+                {
+                    sut.BloodSugarWrapper = (100.10).ToString();
+                });
+            });
+            Assert.AreEqual((100.10).ToString(), sut.BloodSugar);
+            Assert.AreEqual((100.10).ToString(), sut.BloodSugarWrapper);
+            sut.ChangesProperty("BloodSugarWrapper", () => sut.BloodSugar = 100.ToString());
+        }
+
+        [Test]
         public void DateTimeTest()
         {
             var factories = Substitute.For<Factories>();

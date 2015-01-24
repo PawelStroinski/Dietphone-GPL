@@ -54,5 +54,23 @@ namespace Dietphone.Common.Phone.Tests
             product.EnergyPerServing = 0;
             Assert.AreEqual(new[] { gram, servingSize(), ounce, pound }, sut.AllUsableUnitsWithDetalis);
         }
+
+        [Test]
+        public void ValueWrapperDoesNotNotifyAboutItself()
+        {
+            // This behaviour is useful for entering decimal point numbers into fields with binding on each key press.
+            sut.Value = 100.ToString();
+            Assert.AreEqual(100.ToString(), sut.ValueWrapper);
+            sut.ChangesProperty("Value", () =>
+            {
+                sut.NotChangesProperty("ValueWrapper", () =>
+                {
+                    sut.ValueWrapper = (100.10).ToString();
+                });
+            });
+            Assert.AreEqual((100.10).ToString(), sut.Value);
+            Assert.AreEqual((100.10).ToString(), sut.ValueWrapper);
+            sut.ChangesProperty("ValueWrapper", () => sut.Value = 100.ToString());
+        }
     }
 }
