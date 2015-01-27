@@ -56,6 +56,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <!--SugarUnit-->
                     <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="0">
@@ -83,6 +84,17 @@
                         <TextBlock Text="{Binding Translations.SugarsAfterInsulinHours, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
                         <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding SugarsAfterInsulinHours, Mode=TwoWay}"/>
                     </StackPanel>
+                    <!--Unit-->
+                    <StackPanel Margin="12,0,6,13" Orientation="Vertical" Grid.Column="0" Grid.Row="2">
+                        <TextBlock Text="{Binding Translations.PreferredUnitOfMass, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,0,12,-5"/>
+                        <telerikInput:RadListPicker Margin="9 -25 12 0" VerticalAlignment="Top" SelectedItem="{Binding Unit, Mode=TwoWay}" ItemsSource="{Binding AllUnits}" Style="{StaticResource OsListPickerStyle}">
+                            <telerikInput:RadListPicker.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Margin="0 -2 0 2"/>
+                                </DataTemplate>
+                            </telerikInput:RadListPicker.ItemTemplate>
+                        </telerikInput:RadListPicker>
+                    </StackPanel>                    
                 </Grid>
             </controls:PivotItem>
             <!--Language-->

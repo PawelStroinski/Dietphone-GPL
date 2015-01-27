@@ -220,6 +220,34 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public List<string> AllUnits
+        {
+            get
+            {
+                return MyEnum.GetValues<Unit>()
+                    .Where(unit => unit.IsConvertibleToGram())
+                    .Select(unit => unit.GetAbbreviation())
+                    .ToList();
+            }
+        }
+
+        public string Unit
+        {
+            get
+            {
+                var result = settings.Unit;
+                return result.GetAbbreviation();
+            }
+            set
+            {
+                var newValue = MyEnum.GetValues<Unit>()
+                    .Where(unit => value == unit.GetAbbreviation());
+                if (newValue.Any())
+                    settings.Unit = newValue.Single();
+                OnPropertyChanged("Unit");
+            }
+        }
+
         public string MaxBolus
         {
             get
@@ -310,11 +338,14 @@ namespace Dietphone.ViewModels
         private void BuildUiCulturesAndProductCultures()
         {
             var cultures = new Cultures();
-            foreach (var cultureName in cultures.SupportedCultures)
+            foreach (var cultureName in cultures.SupportedUiCultures)
             {
                 var uiCulture = GetUiCultureFromCultureName(cultureName);
-                var productCulture = GetProductCultureFromCultureName(cultureName);
                 UiCultures.Add(uiCulture);
+            }
+            foreach (var cultureName in cultures.SupportedProductCultures)
+            {
+                var productCulture = GetProductCultureFromCultureName(cultureName);
                 ProductCultures.Add(productCulture);
             }
         }
@@ -341,14 +372,14 @@ namespace Dietphone.ViewModels
         {
             var index = UiCultures.IndexOf(uiCulture);
             var cultures = new Cultures();
-            return cultures.SupportedCultures[index];
+            return cultures.SupportedUiCultures[index];
         }
 
         private string FindCultureNameByProductCulture(string productCulture)
         {
             var index = ProductCultures.IndexOf(productCulture);
             var cultures = new Cultures();
-            return cultures.SupportedCultures[index];
+            return cultures.SupportedProductCultures[index];
         }
     }
 }

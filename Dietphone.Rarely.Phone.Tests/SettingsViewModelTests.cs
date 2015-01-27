@@ -3,6 +3,9 @@ using Dietphone.ViewModels;
 using NUnit.Framework;
 using NSubstitute;
 using System;
+using System.Linq;
+using System.Threading;
+using System.Globalization;
 
 namespace Dietphone.Rarely.Phone.Tests
 {
@@ -40,6 +43,28 @@ namespace Dietphone.Rarely.Phone.Tests
             Assert.AreEqual(SugarUnit.mgdL, settings.SugarUnit);
             sut.SugarUnit = string.Empty;
             Assert.AreEqual(mgdL, sut.SugarUnit);
+        }
+
+        [Test]
+        public void AllUnitsReturnsList()
+        {
+            Assert.AreEqual(
+                new[] { Unit.Gram.GetAbbreviation(), Unit.Ounce.GetAbbreviation(), Unit.Pound.GetAbbreviation() },
+                sut.AllUnits);
+        }
+
+        [Test]
+        public void UnitCanBeGetAndSet()
+        {
+            settings.Unit = Unit.Gram;
+            Assert.AreEqual(Unit.Gram.GetAbbreviation(), sut.Unit);
+            sut.Unit = Unit.Ounce.GetAbbreviation();
+            Assert.AreEqual(Unit.Ounce.GetAbbreviation(), sut.Unit);
+            Assert.AreEqual(Unit.Ounce, settings.Unit);
+            sut.ChangesProperty("Unit", () => sut.Unit = Unit.Gram.GetAbbreviation());
+            Assert.AreEqual(Unit.Gram, settings.Unit);
+            sut.Unit = string.Empty;
+            Assert.AreEqual(Unit.Gram.GetAbbreviation(), sut.Unit);
         }
 
         [Test]
@@ -84,6 +109,30 @@ namespace Dietphone.Rarely.Phone.Tests
             Assert.AreEqual(12, settings.SugarsAfterInsulinHours);
             sut.SugarsAfterInsulinHours = "5..";
             Assert.AreEqual(12, settings.SugarsAfterInsulinHours);
+        }
+
+        [Test]
+        public void UiCulturesAndProductCulturesAndUiCultureAndProductCulture()
+        {
+            var thread = Thread.CurrentThread;
+            thread.CurrentCulture = new CultureInfo("en-US");
+            sut = new SettingsViewModel(factories);
+            Assert.AreEqual(sut.UiCultures.Count, sut.UiCultures.Distinct().Count());
+            Assert.AreEqual(sut.ProductCultures.Count, sut.ProductCultures.Distinct().Count());
+            Assert.IsTrue(sut.UiCultures
+                .Count(item => item.ToLower().StartsWith("english")) == 1);
+            Assert.IsTrue(sut.ProductCultures
+                .Count(item => item.ToLower().StartsWith("english")) > 1);
+            foreach (var culture in sut.UiCultures)
+            {
+                sut.UiCulture = culture;
+                Assert.AreEqual(culture, sut.UiCulture);
+            }
+            foreach (var culture in sut.ProductCultures)
+            {
+                sut.ProductCulture = culture;
+                Assert.AreEqual(culture, sut.ProductCulture);
+            }
         }
     }
 }

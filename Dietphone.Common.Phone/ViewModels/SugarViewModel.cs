@@ -9,6 +9,7 @@ namespace Dietphone.ViewModels
     public class SugarViewModel : JournalItemViewModel
     {
         public Sugar Sugar { get; private set; }
+        private bool settingBloodSugarWrapper;
         private readonly Factories factories;
 
         public SugarViewModel(Sugar sugar, Factories factories)
@@ -67,6 +68,28 @@ namespace Dietphone.ViewModels
                 var constrains = new Constrains { Max = settings.SugarUnit == SugarUnit.mgdL ? 540 : 30 };
                 Sugar.BloodSugar = constrains.Constraint(newValue);
                 OnPropertyChanged("BloodSugar");
+                if (!settingBloodSugarWrapper)
+                    OnPropertyChanged("BloodSugarWrapper");
+            }
+        }
+
+        public string BloodSugarWrapper
+        {
+            get
+            {
+                return BloodSugar;
+            }
+            set
+            {
+                settingBloodSugarWrapper = true;
+                try
+                {
+                    BloodSugar = value;
+                }
+                finally
+                {
+                    settingBloodSugarWrapper = false;
+                }
             }
         }
 

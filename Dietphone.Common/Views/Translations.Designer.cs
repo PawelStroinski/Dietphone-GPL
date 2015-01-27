@@ -895,6 +895,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to g.
+        /// </summary>
+        public static string G {
+            get {
+                return ResourceManager.GetString("G", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to general.
         /// </summary>
         public static string General {
@@ -1051,6 +1060,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to lb.
+        /// </summary>
+        public static string Lb {
+            get {
+                return ResourceManager.GetString("Lb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learn more about CU and FPU....
         /// </summary>
         public static string LearnMoreAboutCuAndFpu {
@@ -1110,6 +1128,15 @@ namespace Dietphone.Views {
         public static string MgdL {
             get {
                 return ResourceManager.GetString("MgdL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ml.
+        /// </summary>
+        public static string Ml {
+            get {
+                return ResourceManager.GetString("Ml", resourceCulture);
             }
         }
         
@@ -1285,11 +1312,29 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to oz.
+        /// </summary>
+        public static string Oz {
+            get {
+                return ResourceManager.GetString("Oz", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please wait....
         /// </summary>
         public static string PleaseWait {
             get {
                 return ResourceManager.GetString("PleaseWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferred unit of mass.
+        /// </summary>
+        public static string PreferredUnitOfMass {
+            get {
+                return ResourceManager.GetString("PreferredUnitOfMass", resourceCulture);
             }
         }
         

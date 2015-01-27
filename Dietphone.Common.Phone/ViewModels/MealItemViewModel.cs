@@ -4,12 +4,14 @@ using Dietphone.Tools;
 using System.Collections.Generic;
 using System.Windows;
 using Dietphone.Views;
+using System.Linq;
 
 namespace Dietphone.ViewModels
 {
     public class MealItemViewModel : ViewModelWithBuffer<MealItem>
     {
         public event EventHandler ItemChanged;
+        private bool settingValueWrapper;
         private readonly ScoreSelector scores;
         private static readonly Constrains big = new Constrains { Max = 10000 };
 
@@ -55,6 +57,26 @@ namespace Dietphone.ViewModels
                 var newValue = oldValue.TryGetValueOf(value);
                 BufferOrModel.Value = big.Constraint(newValue);
                 OnItemChanged();
+            }
+        }
+
+        public string ValueWrapper
+        {
+            get
+            {
+                return Value;
+            }
+            set
+            {
+                settingValueWrapper = true;
+                try
+                {
+                    Value = value;
+                }
+                finally
+                {
+                    settingValueWrapper = false;
+                }
             }
         }
 
@@ -114,7 +136,13 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                return UnitAbbreviations.GetAbbreviationsOrServingSizeDetalisFiltered(IsUnitUsable, BufferOrModel.Product);
+                var units = UnitAbbreviations
+                    .GetAbbreviationsOrServingSizeDetalisFiltered(IsUnitUsable, BufferOrModel.Product);
+                if (units.Any())
+                    return units;
+                var settings = factories.Settings;
+                var unit = settings.Unit;
+                return new List<string> { unit.GetAbbreviation() };
             }
         }
 
@@ -133,6 +161,20 @@ namespace Dietphone.ViewModels
         public void Invalidate()
         {
             OnItemChanged();
+        }
+
+        public void InitializeUnit()
+        {
+            var usableUnits = MyEnum.GetValues<Unit>()
+                .Where(IsUnitUsable);
+            var settings = factories.Settings;
+            if (usableUnits.Contains(settings.Unit) || !usableUnits.Any())
+                BufferOrModel.Unit = settings.Unit;
+            else
+            {
+                var product = BufferOrModel.Product;
+                BufferOrModel.Unit = product.ServingSizeUnit;
+            }
         }
 
         private string Energy
@@ -227,6 +269,10 @@ namespace Dietphone.ViewModels
             if (ItemChanged != null)
             {
                 ItemChanged(this, EventArgs.Empty);
+            }
+            if (!settingValueWrapper)
+            {
+                OnPropertyChanged("ValueWrapper");
             }
         }
 

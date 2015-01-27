@@ -21,6 +21,7 @@ namespace Dietphone.Models
         public string CloudSecret { get; set; }
         public string CloudToken { get; set; }
         public DateTime CloudExportDue { get; set; }
+        public Unit Unit { get; set; }
         private string currentUiCulture;
         private string currentProductCulture;
         private string nextUiCulture;
@@ -39,6 +40,7 @@ namespace Dietphone.Models
             MaxBolus = 5;
             CloudSecret = string.Empty;
             CloudToken = string.Empty;
+            Unit = GetDefaultUnit();
         }
 
         public string CurrentUiCulture
@@ -79,7 +81,7 @@ namespace Dietphone.Models
                 {
                     if (string.IsNullOrEmpty(nextUiCulture))
                     {
-                        nextUiCulture = GetDefaultCulture();
+                        nextUiCulture = GetDefaultUiCulture();
                     }
                     return nextUiCulture;
                 }
@@ -98,7 +100,7 @@ namespace Dietphone.Models
                 {
                     if (string.IsNullOrEmpty(nextProductCulture))
                     {
-                        nextProductCulture = GetDefaultCulture();
+                        nextProductCulture = GetDefaultProductCulture();
                     }
                     return nextProductCulture;
                 }
@@ -109,10 +111,16 @@ namespace Dietphone.Models
             }
         }
 
-        private string GetDefaultCulture()
+        private string GetDefaultUiCulture()
         {
             var cultures = new Cultures();
-            return cultures.DefaultCulture;
+            return cultures.DefaultUiCulture;
+        }
+
+        private string GetDefaultProductCulture()
+        {
+            var cultures = new Cultures();
+            return cultures.DefaultProductCulture;
         }
 
         private SugarUnit GetDefaultSugarUnit()
@@ -121,11 +129,18 @@ namespace Dietphone.Models
             var systemCulture = cultures.SystemCulture;
             return systemCulture.GetSugarUnitForCulture();
         }
+
+        private Unit GetDefaultUnit()
+        {
+            var cultures = new Cultures();
+            var systemCulture = cultures.SystemCulture;
+            return systemCulture == "en-US" ? Unit.Ounce : Unit.Gram;
+        }
     }
 
     public class Cultures
     {
-        public string[] SupportedCultures
+        public string[] SupportedUiCultures
         {
             get
             {
@@ -133,18 +148,55 @@ namespace Dietphone.Models
             }
         }
 
-        public string DefaultCulture
+        public string[] SupportedProductCultures
+        {
+            get
+            {
+                return new string[] { "en-US", "en-GB", "pl-PL" };
+            }
+        }
+
+        public Dictionary<string, string> SupportedProductCulturesBackup
+        {
+            get
+            {
+                return new Dictionary<string, string> { { "en-IE", "en-GB" } };
+            }
+        }
+
+        public string DefaultUiCulture
         {
             get
             {
                 var systemCulture = SystemCulture;
-                if (SupportedCultures.Contains(systemCulture))
+                if (SupportedUiCultures.Contains(systemCulture))
                 {
                     return systemCulture;
                 }
                 else
                 {
-                    return SupportedCultures.FirstOrDefault();
+                    return SupportedUiCultures.FirstOrDefault();
+                }
+            }
+        }
+
+        public string DefaultProductCulture
+        {
+            get
+            {
+                var systemCulture = SystemCulture;
+                if (SupportedProductCultures.Contains(systemCulture))
+                {
+                    return systemCulture;
+                }
+                else
+                {
+                    if (SupportedProductCulturesBackup.ContainsKey(systemCulture)
+                        && SupportedProductCultures.Contains(SupportedProductCulturesBackup[systemCulture]))
+                    {
+                        return SupportedProductCulturesBackup[systemCulture];
+                    }
+                    return SupportedProductCultures.FirstOrDefault();
                 }
             }
         }

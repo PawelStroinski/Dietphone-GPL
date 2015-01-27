@@ -688,4 +688,19 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="ExportToDropboxNow" xml:space="preserve">
     <value>export to Dropbox now</value>
   </data>
+  <data name="G" xml:space="preserve">
+    <value>g</value>
+  </data>
+  <data name="Ml" xml:space="preserve">
+    <value>ml</value>
+  </data>
+  <data name="Oz" xml:space="preserve">
+    <value>oz</value>
+  </data>
+  <data name="Lb" xml:space="preserve">
+    <value>lb</value>
+  </data>
+  <data name="PreferredUnitOfMass" xml:space="preserve">
+    <value>Preferred unit of mass</value>
+  </data>
 </root>
