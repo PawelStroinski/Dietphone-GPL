@@ -220,6 +220,34 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public List<string> AllUnits
+        {
+            get
+            {
+                return MyEnum.GetValues<Unit>()
+                    .Where(unit => unit.IsConvertibleToGram())
+                    .Select(unit => unit.GetAbbreviation())
+                    .ToList();
+            }
+        }
+
+        public string Unit
+        {
+            get
+            {
+                var result = settings.Unit;
+                return result.GetAbbreviation();
+            }
+            set
+            {
+                var newValue = MyEnum.GetValues<Unit>()
+                    .Where(unit => value == unit.GetAbbreviation());
+                if (newValue.Any())
+                    settings.Unit = newValue.Single();
+                OnPropertyChanged("Unit");
+            }
+        }
+
         public string MaxBolus
         {
             get

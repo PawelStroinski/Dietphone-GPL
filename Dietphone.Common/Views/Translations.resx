@@ -700,4 +700,7 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="Lb" xml:space="preserve">
     <value>lb</value>
   </data>
+  <data name="PreferredUnitOfMass" xml:space="preserve">
+    <value>Preferred unit of mass</value>
+  </data>
 </root>

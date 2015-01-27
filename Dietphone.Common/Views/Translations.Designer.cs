@@ -1330,6 +1330,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preferred unit of mass.
+        /// </summary>
+        public static string PreferredUnitOfMass {
+            get {
+                return ResourceManager.GetString("PreferredUnitOfMass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PRODUCT.
         /// </summary>
         public static string Product {

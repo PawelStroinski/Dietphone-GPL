@@ -21,6 +21,7 @@ namespace Dietphone.Models
         public string CloudSecret { get; set; }
         public string CloudToken { get; set; }
         public DateTime CloudExportDue { get; set; }
+        public Unit Unit { get; set; }
         private string currentUiCulture;
         private string currentProductCulture;
         private string nextUiCulture;
@@ -39,6 +40,7 @@ namespace Dietphone.Models
             MaxBolus = 5;
             CloudSecret = string.Empty;
             CloudToken = string.Empty;
+            Unit = GetDefaultUnit();
         }
 
         public string CurrentUiCulture
@@ -126,6 +128,13 @@ namespace Dietphone.Models
             var cultures = new Cultures();
             var systemCulture = cultures.SystemCulture;
             return systemCulture.GetSugarUnitForCulture();
+        }
+
+        private Unit GetDefaultUnit()
+        {
+            var cultures = new Cultures();
+            var systemCulture = cultures.SystemCulture;
+            return systemCulture == "en-US" ? Unit.Ounce : Unit.Gram;
         }
     }
 

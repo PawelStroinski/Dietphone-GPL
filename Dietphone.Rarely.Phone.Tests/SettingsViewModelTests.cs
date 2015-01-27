@@ -46,6 +46,28 @@ namespace Dietphone.Rarely.Phone.Tests
         }
 
         [Test]
+        public void AllUnitsReturnsList()
+        {
+            Assert.AreEqual(
+                new[] { Unit.Gram.GetAbbreviation(), Unit.Ounce.GetAbbreviation(), Unit.Pound.GetAbbreviation() },
+                sut.AllUnits);
+        }
+
+        [Test]
+        public void UnitCanBeGetAndSet()
+        {
+            settings.Unit = Unit.Gram;
+            Assert.AreEqual(Unit.Gram.GetAbbreviation(), sut.Unit);
+            sut.Unit = Unit.Ounce.GetAbbreviation();
+            Assert.AreEqual(Unit.Ounce.GetAbbreviation(), sut.Unit);
+            Assert.AreEqual(Unit.Ounce, settings.Unit);
+            sut.ChangesProperty("Unit", () => sut.Unit = Unit.Gram.GetAbbreviation());
+            Assert.AreEqual(Unit.Gram, settings.Unit);
+            sut.Unit = string.Empty;
+            Assert.AreEqual(Unit.Gram.GetAbbreviation(), sut.Unit);
+        }
+
+        [Test]
         public void MaxBolusCanBeGetAndSet()
         {
             settings.MaxBolus = 3;

@@ -675,4 +675,7 @@ Początkowy eksport został również wykonany.</value>
   <data name="ExportToDropboxNow" xml:space="preserve">
     <value>eksportuj na Dropboksa teraz</value>
   </data>
+  <data name="PreferredUnitOfMass" xml:space="preserve">
+    <value>Preferowana jednostka masy</value>
+  </data>
 </root>
