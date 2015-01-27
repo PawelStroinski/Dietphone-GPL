@@ -185,6 +185,7 @@ namespace Dietphone.ViewModels
             tempMealItem = factories.CreateMealItem();
             tempMealItem.ProductId = product.Id;
             var tempViewModel = new MealItemViewModel(tempMealItem, factories);
+            tempViewModel.InitializeUnit();
             MealItemEditing.Show(tempViewModel);
         }
 

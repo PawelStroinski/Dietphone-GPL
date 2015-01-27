@@ -8,7 +8,9 @@ namespace Dietphone.Common.Phone.Tests
 {
     public class MealItemViewModelTests
     {
+        private Factories factories;
         private Product product;
+        private MealItem item;
         private MealItemViewModel sut;
         private string gram, mililiter, ounce, pound;
         private Func<string> servingSize;
@@ -16,13 +18,13 @@ namespace Dietphone.Common.Phone.Tests
         [SetUp]
         public void TestInitialize()
         {
-            var factories = new FactoriesImpl();
+            factories = new FactoriesImpl();
             factories.StorageCreator = new StorageCreatorStub();
             product = factories.CreateProduct();
             product.EnergyPer100g = 100;
             product.EnergyPerServing = 100;
             var meal = factories.CreateMeal();
-            var item = meal.AddItem();
+            item = meal.AddItem();
             item.ProductId = product.Id;
             sut = new MealItemViewModel(item, factories);
             gram = Unit.Gram.GetAbbreviation();
@@ -56,6 +58,15 @@ namespace Dietphone.Common.Phone.Tests
         }
 
         [Test]
+        public void AllUsableUnitsWithDetalisWhenNoNutritions()
+        {
+            factories.Settings.Unit = Unit.Mililiter;
+            product.EnergyPer100g = 0;
+            product.EnergyPerServing = 0;
+            Assert.AreEqual(new[] { mililiter }, sut.AllUsableUnitsWithDetalis);
+        }
+
+        [Test]
         public void ValueWrapperDoesNotNotifyAboutItself()
         {
             // This behaviour is useful for entering decimal point numbers into fields with binding on each key press.
@@ -71,6 +82,24 @@ namespace Dietphone.Common.Phone.Tests
             Assert.AreEqual((100.10).ToString(), sut.Value);
             Assert.AreEqual((100.10).ToString(), sut.ValueWrapper);
             sut.ChangesProperty("ValueWrapper", () => sut.Value = 100.ToString());
+        }
+
+        [Test]
+        public void InitializeUnit()
+        {
+            factories.Settings.Unit = Unit.Ounce;
+            sut.InitializeUnit();
+            Assert.AreEqual(Unit.Ounce, item.Unit);
+            product.ServingSizeValue = 15;
+            product.ServingSizeUnit = Unit.Mililiter;
+            sut.InitializeUnit();
+            Assert.AreEqual(Unit.Ounce, item.Unit);
+            product.EnergyPer100g = 0;
+            sut.InitializeUnit();
+            Assert.AreEqual(Unit.Mililiter, item.Unit);
+            product.EnergyPerServing = 0;
+            sut.InitializeUnit();
+            Assert.AreEqual(Unit.Ounce, item.Unit);
         }
     }
 }

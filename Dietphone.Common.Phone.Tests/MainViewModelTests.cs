@@ -5,25 +5,64 @@ using NSubstitute;
 using Dietphone.Tools;
 using System;
 using System.Threading;
+using Dietphone.Models.Tests;
+using System.Collections.Generic;
 
 namespace Dietphone.Common.Phone.Tests
 {
     public class MainViewModelTests
     {
-        [TestCase(true)]
-        [TestCase(false)]
-        public void WhenAddingMealItemSetsAddMruToTrue(bool shouldAddMealItem)
+        public class WhenAddingMealItem : MainViewModelTests
         {
-            var sut = new MainViewModel(Substitute.For<Factories>(), Substitute.For<Cloud>(),
-                Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory());
-            var productListing = new ProductListingViewModel(Substitute.For<Factories>(),
-                new BackgroundWorkerSyncFactory());
-            sut.ProductListing = productListing;
-            sut.MealItemEditing = new MealItemEditingViewModel();
-            var navigator = Substitute.For<Navigator>();
-            navigator.ShouldAddMealItem().Returns(shouldAddMealItem);
-            sut.Navigator = navigator;
-            Assert.AreEqual(shouldAddMealItem, productListing.AddMru);
+            private Factories factories;
+            private MainViewModel sut;
+            private ProductListingViewModel productListing;
+            private MealItemEditingViewModel mealItemEditing;
+            private Navigator navigator;
+
+            [SetUp]
+            public void TestInitialize()
+            {
+                factories = new FactoriesImpl();
+                factories.StorageCreator = new StorageCreatorStub();
+                sut = new MainViewModel(factories, Substitute.For<Cloud>(),
+                    Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory());
+                productListing = new ProductListingViewModel(factories,
+                    new BackgroundWorkerSyncFactory());
+                sut.ProductListing = productListing;
+                mealItemEditing = new MealItemEditingViewModel();
+                sut.MealItemEditing = mealItemEditing;
+                var stateProvider = Substitute.For<StateProvider>();
+                stateProvider.State.Returns(new Dictionary<string, object>());
+                sut.StateProvider = stateProvider;
+                navigator = Substitute.For<Navigator>();
+            }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void SetsAddMruToTrue(bool shouldAddMealItem)
+            {
+                navigator.ShouldAddMealItem().Returns(shouldAddMealItem);
+                sut.Navigator = navigator;
+                Assert.AreEqual(shouldAddMealItem, productListing.AddMru);
+            }
+
+            [Test]
+            public void InitializesUnit()
+            {
+                navigator.ShouldAddMealItem().Returns(true);
+                sut.Navigator = navigator;
+                var product = factories.CreateProduct();
+                var productViewModel = new ProductViewModel(product);
+                factories.Settings.Unit = Unit.Pound;
+                productListing.Choose(productViewModel);
+                Assert.AreEqual(Unit.Pound, mealItemEditing.Subject.Model.Unit);
+                product.EnergyPerServing = 100;
+                product.ServingSizeValue = 15;
+                product.ServingSizeUnit = Unit.Mililiter;
+                productListing.Choose(productViewModel);
+                Assert.AreEqual(Unit.Mililiter, mealItemEditing.Subject.Model.Unit);
+            }
         }
 
         [TestCase(false, false)]

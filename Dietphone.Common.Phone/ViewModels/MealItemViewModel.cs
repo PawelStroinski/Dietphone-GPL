@@ -4,6 +4,7 @@ using Dietphone.Tools;
 using System.Collections.Generic;
 using System.Windows;
 using Dietphone.Views;
+using System.Linq;
 
 namespace Dietphone.ViewModels
 {
@@ -135,7 +136,13 @@ namespace Dietphone.ViewModels
         {
             get
             {
-                return UnitAbbreviations.GetAbbreviationsOrServingSizeDetalisFiltered(IsUnitUsable, BufferOrModel.Product);
+                var units = UnitAbbreviations
+                    .GetAbbreviationsOrServingSizeDetalisFiltered(IsUnitUsable, BufferOrModel.Product);
+                if (units.Any())
+                    return units;
+                var settings = factories.Settings;
+                var unit = settings.Unit;
+                return new List<string> { unit.GetAbbreviation() };
             }
         }
 
@@ -154,6 +161,20 @@ namespace Dietphone.ViewModels
         public void Invalidate()
         {
             OnItemChanged();
+        }
+
+        public void InitializeUnit()
+        {
+            var usableUnits = MyEnum.GetValues<Unit>()
+                .Where(IsUnitUsable);
+            var settings = factories.Settings;
+            if (usableUnits.Contains(settings.Unit) || !usableUnits.Any())
+                BufferOrModel.Unit = settings.Unit;
+            else
+            {
+                var product = BufferOrModel.Product;
+                BufferOrModel.Unit = product.ServingSizeUnit;
+            }
         }
 
         private string Energy
