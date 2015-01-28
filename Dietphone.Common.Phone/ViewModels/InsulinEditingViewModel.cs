@@ -39,6 +39,7 @@ namespace Dietphone.ViewModels
         private MealNameViewModel defaultName;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
+        private readonly Action<string> setClipboard;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MGDL = (decimal)10;
         private const decimal SUGAR_CHART_MARGIN_MAXIMUM_MGDL = (decimal)55;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MMOLL = (decimal)0.55;
@@ -57,11 +58,12 @@ namespace Dietphone.ViewModels
         private const string CALCULATION_DETAILS_ALTERNATIVES_INDEX = "CALCULATION_DETAILS_ALTERNATIVES_INDEX";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
-            BackgroundWorkerFactory workerFactory)
+            BackgroundWorkerFactory workerFactory, Action<string> setClipboard)
             : base(factories)
         {
             this.facade = facade;
             this.workerFactory = workerFactory;
+            this.setClipboard = setClipboard;
         }
 
         public string NameOfFirstChoosenCircumstance
@@ -297,6 +299,11 @@ namespace Dietphone.ViewModels
             if (meal == null)
                 meal = factories.CreateMeal();
             Navigator.GoToMealEditing(meal.Id);
+        }
+
+        public void CopyAsText()
+        {
+            setClipboard(Subject.Text);
         }
 
         public void OpenScoresSettings()

@@ -21,7 +21,7 @@ namespace Dietphone.Views
         {
             InitializeComponent();
             viewModel = new InsulinEditingViewModel(MyApp.Factories, CreateFacade(),
-                new BackgroundWorkerWrapperFactory());
+                new BackgroundWorkerWrapperFactory(), Clipboard.SetText);
             viewModel.StateProvider = this;
             viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             viewModel.CannotSave += ViewModel_CannotSave;
@@ -194,6 +194,11 @@ namespace Dietphone.Views
             viewModel.GoToMealEditing();
         }
 
+        private void CopyAsText_Click(object sender, EventArgs e)
+        {
+            viewModel.CopyAsText();
+        }
+
         private void Delete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
@@ -266,7 +271,8 @@ namespace Dietphone.Views
             Save.Text = Translations.Save;
             this.GetIcon(1).Text = Translations.Cancel;
             this.GetIcon(2).Text = Translations.Meal;
-            this.GetMenuItem(0).Text = Translations.Delete;
+            this.GetMenuItem(0).Text = Translations.Copy;
+            this.GetMenuItem(1).Text = Translations.Delete;
             TranslatePickerApplicationBar(CalculationDetailsPicker);
             TranslatePickerApplicationBar(CalculationDetailsAlternativesPicker);
         }

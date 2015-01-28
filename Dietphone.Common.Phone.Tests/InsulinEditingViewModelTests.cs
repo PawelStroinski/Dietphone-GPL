@@ -24,6 +24,7 @@ namespace Dietphone.Common.Phone.Tests
         private Sugar sugar;
         private Settings settings;
         private Meal meal;
+        private Action<string> setClipboard;
 
         [SetUp]
         public void TestInitialize()
@@ -33,6 +34,7 @@ namespace Dietphone.Common.Phone.Tests
             navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             facade = Substitute.For<ReplacementBuilderAndSugarEstimatorFacade>();
+            setClipboard = Substitute.For<Action<string>>();
             CreateSut();
             insulin = fixture.Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
@@ -58,7 +60,7 @@ namespace Dietphone.Common.Phone.Tests
 
         private void CreateSut()
         {
-            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory());
+            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory(), setClipboard);
             sut.Navigator = navigator;
             sut.StateProvider = stateProvider;
         }
@@ -620,6 +622,14 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.IsTrue(sut.NoSugarEntered);
                 sut.ChangesProperty("NoSugarEntered", () => sut.CurrentSugar.BloodSugar = "100");
                 Assert.IsFalse(sut.NoSugarEntered);
+            }
+
+            [Test]
+            public void CopyAsText()
+            {
+                InitializeViewModel();
+                sut.CopyAsText();
+                setClipboard.Received().Invoke(sut.Subject.Text);
             }
         }
 

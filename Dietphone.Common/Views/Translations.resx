@@ -703,4 +703,7 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="PreferredUnitOfMass" xml:space="preserve">
     <value>Preferred unit of mass</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>copy</value>
+  </data>
 </root>

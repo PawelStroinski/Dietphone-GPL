@@ -678,4 +678,7 @@ Początkowy eksport został również wykonany.</value>
   <data name="PreferredUnitOfMass" xml:space="preserve">
     <value>Preferowana jednostka masy</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>kopiuj</value>
+  </data>
 </root>

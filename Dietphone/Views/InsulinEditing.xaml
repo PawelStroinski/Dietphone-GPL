@@ -238,6 +238,7 @@
             <shell:ApplicationBarIconButton IconUri="/images/appbar.cancel.rest.png" Text="-" Click="Cancel_Click" />
             <shell:ApplicationBarIconButton IconUri="/images/meal.png" Text="-" Click="Meal_Click" />
             <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="-" Click="CopyAsText_Click"/>
                 <shell:ApplicationBarMenuItem Text="-" Click="Delete_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
