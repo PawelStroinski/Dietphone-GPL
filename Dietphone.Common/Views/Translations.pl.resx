@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>o dietphone</value>
+    <value>o diabetes spy</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>dodaj</value>
@@ -216,9 +216,6 @@ Został wprowadzony, żeby ułatwić liczenie węglowodanów w posiłku.</value>
     <value>WBT czyli wymiennik białkowo-tłuszczowy to wartość energetyczna (kcal) pochodząca z białka i tłuszczu podzielona przez 100.
 Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w posiłku.</value>
   </data>
-  <data name="Dietphone" xml:space="preserve">
-    <value>DIETPHONE</value>
-  </data>
   <data name="ExportAndImport" xml:space="preserve">
     <value>eksport import</value>
   </data>
@@ -250,7 +247,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Wystąpił błąd podczas importu. Upewnij się, że importowane dane nie były naruszone.</value>
   </data>
   <data name="SendToAnEMailAddress" xml:space="preserve">
-    <value>Wyślij na adres e-mail</value>
+    <value>Wyślij pod adres e-mail</value>
   </data>
   <data name="DownloadFileFromAddress" xml:space="preserve">
     <value>Adres pliku do pobrania</value>

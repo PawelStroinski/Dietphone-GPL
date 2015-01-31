@@ -623,20 +623,29 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DIABETES SPY.
+        /// </summary>
+        public static string DiabetesSpy {
+            get {
+                return ResourceManager.GetString("DiabetesSpy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diabetes Spy.
+        /// </summary>
+        public static string DiabetesSpyTitleCase {
+            get {
+                return ResourceManager.GetString("DiabetesSpyTitleCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dietary fiber (g).
         /// </summary>
         public static string DietaryFiberG {
             get {
                 return ResourceManager.GetString("DietaryFiberG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DIETPHONE.
-        /// </summary>
-        public static string Dietphone {
-            get {
-                return ResourceManager.GetString("Dietphone", resourceCulture);
             }
         }
         

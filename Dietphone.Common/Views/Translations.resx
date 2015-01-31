@@ -216,8 +216,8 @@ Purpose is to facilitate the counting of carbohydrates in meals. Also known as B
     <value>FPU (Fat-Protein Unit) means calories value coming from fat and protein divided by 100.
 So one number gives information on both fat and protein in meal.</value>
   </data>
-  <data name="Dietphone" xml:space="preserve">
-    <value>DIETPHONE</value>
+  <data name="DiabetesSpy" xml:space="preserve">
+    <value>DIABETES SPY</value>
   </data>
   <data name="ExportAndImport" xml:space="preserve">
     <value>export&amp;import</value>
@@ -705,5 +705,8 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>copy</value>
+  </data>
+  <data name="DiabetesSpyTitleCase" xml:space="preserve">
+    <value>Diabetes Spy</value>
   </data>
 </root>

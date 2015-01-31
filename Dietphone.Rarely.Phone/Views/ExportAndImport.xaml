@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="{Binding Translations.Dietphone, Source={StaticResource Translations}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="{Binding Translations.DiabetesSpy, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="12,0,0,0"/>
             <TextBlock Text="{Binding Translations.ExportAndImport, Source={StaticResource Translations}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
