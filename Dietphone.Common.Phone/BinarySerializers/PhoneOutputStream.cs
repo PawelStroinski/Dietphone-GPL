@@ -6,10 +6,10 @@ namespace Dietphone.BinarySerializers
     public sealed class PhoneOutputStream : OutputStream
     {
         public System.IO.Stream Stream { get; private set; }
-        private File file;
-        private File fileTemp1;
-        private File fileTemp2;
-        private File fileTemp3;
+        private readonly File file;
+        private readonly File fileTemp1;
+        private readonly File fileTemp2;
+        private readonly File fileTemp3;
         private const string TEMP_NAME = "{0}_temp{1}_{2}";
 
         public PhoneOutputStream(FileFactory fileFactory, string fileName)
