@@ -89,7 +89,12 @@
                 <StackPanel>
                     <StackPanel Visibility="{Binding IsCalculated, Converter={StaticResource BooleanToVisibility}}">
                         <!--Header-->
-                        <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Translations.SuggestedInsulinHeader, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,8,12,0"/>
+                        <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,8,12,0">
+                            <TextBlock.Inlines>
+                                <Run Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.SuggestedInsulinHeaderWarning, Source={StaticResource Translations}}"/>
+                                <Run Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Translations.SuggestedInsulinHeader, Source={StaticResource Translations}}"/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
                         <!--Incomplete-->
                         <commonViews:InteractionEffectContainer Tap="CalculationIncomplete_Tap" Visibility="{Binding IsCalculationIncomplete, Converter={StaticResource BooleanToVisibility}}">
                             <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneAccentBrush}" Text="{Binding Translations.InsulinCalculationIncomplete, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="12,28,12,28" Margin="0,0,0,-28"/>

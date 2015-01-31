@@ -1654,12 +1654,21 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USE AT YOUR OWN RISK. The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
+        ///   Looks up a localized string similar to The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
         ///This is only a tool and each decision should be taken thoughtfully..
         /// </summary>
         public static string SuggestedInsulinHeader {
             get {
                 return ResourceManager.GetString("SuggestedInsulinHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USE AT YOUR OWN RISK..
+        /// </summary>
+        public static string SuggestedInsulinHeaderWarning {
+            get {
+                return ResourceManager.GetString("SuggestedInsulinHeaderWarning", resourceCulture);
             }
         }
         

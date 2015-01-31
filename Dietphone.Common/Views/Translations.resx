@@ -631,7 +631,7 @@ The initial export is done too.</value>
     <value>suggestion</value>
   </data>
   <data name="SuggestedInsulinHeader" xml:space="preserve">
-    <value>USE AT YOUR OWN RISK. The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
+    <value>The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
 This is only a tool and each decision should be taken thoughtfully.</value>
   </data>
   <data name="SuggestedBolus" xml:space="preserve">
@@ -708,5 +708,8 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   </data>
   <data name="DiabetesSpyTitleCase" xml:space="preserve">
     <value>Diabetes Spy</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
+    <value>USE AT YOUR OWN RISK.</value>
   </data>
 </root>

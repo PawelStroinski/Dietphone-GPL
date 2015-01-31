@@ -622,7 +622,7 @@ Początkowy eksport został również wykonany.</value>
     <value>sugestia</value>
   </data>
   <data name="SuggestedInsulinHeader" xml:space="preserve">
-    <value>UŻYWASZ NA WŁASNE RYZYKO. Sugerowany bolus i poziom cukru estymowany po jego podaniu wynikają z Twoich poprzednich wpisów. Nie należy ich traktować jako wartości prawidłowych. Jest to jedynie estymacja bazująca na tym jaki bolus poprzednio podano i jakie były tego efekty. Jest to tylko narzędzie i każdą decyzję należy przemyśleć.</value>
+    <value>Sugerowany bolus i poziom cukru estymowany po jego podaniu wynikają z Twoich poprzednich wpisów. Nie należy ich traktować jako wartości prawidłowych. Jest to jedynie estymacja bazująca na tym jaki bolus poprzednio podano i jakie były tego efekty. Jest to tylko narzędzie i każdą decyzję należy przemyśleć.</value>
   </data>
   <data name="SuggestedBolus" xml:space="preserve">
     <value>Sugerowany bolus</value>
@@ -677,5 +677,8 @@ Początkowy eksport został również wykonany.</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>kopiuj</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
+    <value>UŻYWASZ NA WŁASNE RYZYKO.</value>
   </data>
 </root>
