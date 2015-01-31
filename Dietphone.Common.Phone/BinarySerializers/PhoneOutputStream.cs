@@ -29,7 +29,7 @@ namespace Dietphone.BinarySerializers
             var fileExisted = file.Exists;
             if (fileExisted)
                 file.MoveTo(fileTemp3);
-            fileTemp2.MoveTo(file);
+            MoveFileTemp2ToFile(fileExisted);
             if (fileExisted)
                 fileTemp3.Delete();
         }
@@ -41,6 +41,20 @@ namespace Dietphone.BinarySerializers
                 var actual = readingStream.Length;
                 if (size != actual)
                     throw new InvalidOperationException(string.Format("Size should be {0} but is {1}.", size, actual));
+            }
+        }
+
+        private void MoveFileTemp2ToFile(bool fileExisted)
+        {
+            try
+            {
+                fileTemp2.MoveTo(file);
+            }
+            catch (Exception)
+            {
+                if (fileExisted)
+                    fileTemp3.MoveTo(file);
+                throw;
             }
         }
     }

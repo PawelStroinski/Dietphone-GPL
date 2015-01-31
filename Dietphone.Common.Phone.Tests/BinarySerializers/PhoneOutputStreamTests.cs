@@ -118,14 +118,19 @@ namespace Dietphone.BinarySerializers.Tests
                 foo.DidNotReceive().Delete();
             }
 
-            [Test]
-            public void WhenMovingFooTemp2ThrowsDoesNotMoveOrDeleteFooTemp3()
+            [TestCase(true)]
+            [TestCase(false)]
+            public void WhenMovingFooTemp2ThrowsMovesFooTemp3Back(bool fooExists)
             {
                 fooTemp2
                     .WhenForAnyArgs(FooTemp2 => FooTemp2.MoveTo(null))
                     .Do(_ => { throw new ArgumentException(); });
+                foo.Exists.Returns(fooExists);
                 Assert.Throws<ArgumentException>(() => sut.Commit(1000));
-                fooTemp3.DidNotReceiveWithAnyArgs().MoveTo(null);
+                if (fooExists)
+                    fooTemp3.Received().MoveTo(foo);
+                else
+                    fooTemp3.DidNotReceiveWithAnyArgs().MoveTo(null);
                 fooTemp3.DidNotReceive().Delete();
             }
         }
