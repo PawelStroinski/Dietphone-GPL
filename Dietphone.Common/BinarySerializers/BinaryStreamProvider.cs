@@ -5,7 +5,6 @@ namespace Dietphone.BinarySerializers
     public interface BinaryStreamProvider
     {
         Stream GetInputStream(string fileName);
-
-        Stream GetOutputStream(string fileName);
+        OutputStream GetOutputStream(string fileName);
     }
 }

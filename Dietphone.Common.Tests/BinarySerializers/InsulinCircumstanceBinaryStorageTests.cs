@@ -33,7 +33,7 @@ namespace Dietphone.BinarySerializers.Tests
             var storage = new InsulinCircumstanceBinaryStorage();
             var stream = new NonDisposableMemoryStream();
             var streamProvider = new Mock<BinaryStreamProvider>();
-            streamProvider.Setup(p => p.GetOutputStream(It.IsAny<string>())).Returns(stream);
+            streamProvider.Setup(p => p.GetOutputStream(It.IsAny<string>())).Returns(new OutputStreamStub(stream));
             storage.StreamProvider = streamProvider.Object;
             storage.Save(new List<InsulinCircumstance> { circumstanceToWrite });
             stream.Position = 0;

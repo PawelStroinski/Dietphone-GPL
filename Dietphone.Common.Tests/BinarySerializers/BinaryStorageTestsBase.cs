@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Dietphone.Models;
 using System.IO;
 using Ploeh.AutoFixture;
@@ -18,7 +17,7 @@ namespace Dietphone.BinarySerializers.Tests
             var stream = new NonDisposableMemoryStream();
             var streamProvider = new Mock<BinaryStreamProvider>();
             streamProvider.Setup(p => p.GetInputStream(It.IsAny<string>())).Returns(stream);
-            streamProvider.Setup(p => p.GetOutputStream(It.IsAny<string>())).Returns(stream);
+            streamProvider.Setup(p => p.GetOutputStream(It.IsAny<string>())).Returns(new OutputStreamStub(stream));
             storage.StreamProvider = streamProvider.Object;
             storage.Save(new List<T> { itemToWrite });
             stream.Position = 0;
@@ -41,6 +40,20 @@ namespace Dietphone.BinarySerializers.Tests
             public new void Dispose()
             {
                 base.Dispose(true);
+            }
+        }
+
+        public class OutputStreamStub : OutputStream
+        {
+            public Stream Stream { get; private set; }
+
+            public OutputStreamStub(Stream stream)
+            {
+                Stream = stream;
+            }
+
+            public void Commit(long size)
+            {
             }
         }
     }

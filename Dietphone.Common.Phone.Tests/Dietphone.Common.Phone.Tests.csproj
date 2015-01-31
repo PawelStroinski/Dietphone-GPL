@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinarySerializers\PhoneOutputStreamTests.cs" />
     <Compile Include="CategoriesAndProductsLoaderTests.cs" />
     <Compile Include="MealItemViewModelTests.cs" />
     <Compile Include="MealViewModelTests.cs" />
