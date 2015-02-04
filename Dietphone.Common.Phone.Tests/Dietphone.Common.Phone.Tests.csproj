@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="JournalItemViewModelTests.cs" />
+    <Compile Include="TrialViewModelTests.cs" />
     <Compile Include="ViewModelWithDateTests.cs" />
     <Compile Include="JournalViewModelTests.cs" />
     <Compile Include="EditingViewModelBaseTests.cs" />

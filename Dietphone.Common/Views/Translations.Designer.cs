@@ -931,6 +931,19 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hello! Thanks for trying out Diabetes Spy.
+        /// 
+        ///This is an unregistered evaluation version, and although the trial is untimed, a license must be purchased for continued use.
+        /// 
+        ///Would you like to purchase a license now?.
+        /// </summary>
+        public static string HelloThanksForTryingOut {
+            get {
+                return ResourceManager.GetString("HelloThanksForTryingOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import completed successfully..
         /// </summary>
         public static string ImportCompletedSuccessfully {
@@ -1759,6 +1772,15 @@ namespace Dietphone.Views {
         public static string ThisCategoryIncludesOtherProducts {
             get {
                 return ResourceManager.GetString("ThisCategoryIncludesOtherProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an unregistered copy.
+        /// </summary>
+        public static string ThisIsAnUnregisteredCopy {
+            get {
+                return ResourceManager.GetString("ThisIsAnUnregisteredCopy", resourceCulture);
             }
         }
         

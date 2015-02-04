@@ -712,4 +712,14 @@ This is only a tool and each decision should be taken thoughtfully.</value>
   <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
     <value>USE AT YOUR OWN RISK.</value>
   </data>
+  <data name="HelloThanksForTryingOut" xml:space="preserve">
+    <value>Hello! Thanks for trying out Diabetes Spy.
+ 
+This is an unregistered evaluation version, and although the trial is untimed, a license must be purchased for continued use.
+ 
+Would you like to purchase a license now?</value>
+  </data>
+  <data name="ThisIsAnUnregisteredCopy" xml:space="preserve">
+    <value>This is an unregistered copy</value>
+  </data>
 </root>

@@ -681,4 +681,14 @@ Początkowy eksport został również wykonany.</value>
   <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
     <value>UŻYWASZ NA WŁASNE RYZYKO.</value>
   </data>
+  <data name="HelloThanksForTryingOut" xml:space="preserve">
+    <value>Cześć! Dzięki za sprawdzanie Diabetes Spy.
+
+Jest to niezarejestrowana wersja ewaluacyjna i chociaż okres próbny jest nieograniczony, w celu dalszego używania licencja musi być zakupiona.
+ 
+Czy chciałbyś zakupić licencję teraz?</value>
+  </data>
+  <data name="ThisIsAnUnregisteredCopy" xml:space="preserve">
+    <value>Jest to niezarejestrowana kopia</value>
+  </data>
 </root>

@@ -16,6 +16,7 @@ namespace Dietphone.Common.Phone.Tests
         private Meal meal;
         private Factories factories;
         private StateProvider stateProvider;
+        private TrialViewModel trial;
         private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
 
         [SetUp]
@@ -26,7 +27,8 @@ namespace Dietphone.Common.Phone.Tests
             factories = Substitute.For<Factories>();
             factories.Finder.FindMealById(Guid.Empty).Returns(meal);
             factories.MealNames.Returns(new List<MealName>());
-            sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory());
+            trial = Substitute.For<TrialViewModel>();
+            sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory(), trial);
             sut.Navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;
@@ -179,6 +181,14 @@ namespace Dietphone.Common.Phone.Tests
             var item = sut.Subject.Items[0];
             item.Value = "100";
             Assert.IsTrue(sut.IsDirty);
+        }
+
+        [Test]
+        public void AddItemCallsTrialRunAndThenNavigatorGoToMainToAddMealItem()
+        {
+            sut.Navigator.When(navigator => navigator.GoToMainToAddMealItem()).Do(_ => trial.Received().Run());
+            sut.AddItem();
+            sut.Navigator.Received().GoToMainToAddMealItem();
         }
     }
 }

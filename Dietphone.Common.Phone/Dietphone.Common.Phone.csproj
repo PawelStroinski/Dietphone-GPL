@@ -80,6 +80,7 @@
     <Compile Include="ViewModels\ScoreSelector.cs" />
     <Compile Include="ViewModels\SubViewModel.cs" />
     <Compile Include="ViewModels\SugarViewModel.cs" />
+    <Compile Include="ViewModels\TrialViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelWithBuffer.cs" />
     <Compile Include="ViewModels\ViewModelWithBufferAcc.cs" />

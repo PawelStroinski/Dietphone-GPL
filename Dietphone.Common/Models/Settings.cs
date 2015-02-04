@@ -22,6 +22,7 @@ namespace Dietphone.Models
         public string CloudToken { get; set; }
         public DateTime CloudExportDue { get; set; }
         public Unit Unit { get; set; }
+        public byte TrialCounter { get; set; }
         private string currentUiCulture;
         private string currentProductCulture;
         private string nextUiCulture;
