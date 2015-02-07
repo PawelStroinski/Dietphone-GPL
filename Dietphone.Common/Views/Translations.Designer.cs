@@ -289,7 +289,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BLOOD SUGAR.
+        ///   Looks up a localized string similar to BLOOD-SUGAR.
         /// </summary>
         public static string BloodSugar {
             get {
@@ -740,7 +740,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Estimated blood sugar.
+        ///   Looks up a localized string similar to Estimated blood-sugar.
         /// </summary>
         public static string EstimatedBloodSugar {
             get {
@@ -1008,7 +1008,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ingredients not included.
+        ///   Looks up a localized string similar to Ingredients not included:.
         /// </summary>
         public static string IngredientsNotIncluded {
             get {
@@ -1217,7 +1217,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A current meal was not added.
+        ///   Looks up a localized string similar to A current meal has not been added.
         /// </summary>
         public static string NoMealPresent {
             get {
@@ -1262,7 +1262,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A current blood sugar was not entered.
+        ///   Looks up a localized string similar to A current blood-sugar has not been entered.
         /// </summary>
         public static string NoSugarEntered {
             get {
@@ -1658,7 +1658,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Suggested bolus.
+        ///   Looks up a localized string similar to Suggested insulin.
         /// </summary>
         public static string SuggestedBolus {
             get {
@@ -1667,8 +1667,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
-        ///This is only a tool and each decision should be taken thoughtfully..
+        ///   Looks up a localized string similar to The display shows suggested insulin and estimated blood-sugar based on previously entered data. Note, these are only estimates based on previously injected insulin and its effects. You may need to adjust the suggested amount of insulin, especially if you see that the estimated blood-sugar level is not appropriate. This is only a tool and each decision should be made thoughtfully and under medical supervision..
         /// </summary>
         public static string SuggestedInsulinHeader {
             get {
