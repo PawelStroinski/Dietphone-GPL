@@ -152,7 +152,7 @@ namespace Dietphone.Models
         {
             get
             {
-                return new string[] { "en-US", "en-GB", "pl-PL" };
+                return new string[] { "en-US", "en-GB", "fr-FR", "pl-PL" };
             }
         }
 
