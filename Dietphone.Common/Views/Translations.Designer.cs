@@ -415,7 +415,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Carbohydrates (g).
+        ///   Looks up a localized string similar to Carbs + fiber (g).
         /// </summary>
         public static string CarbohydratesG {
             get {

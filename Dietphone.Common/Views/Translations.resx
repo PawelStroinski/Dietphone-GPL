@@ -424,7 +424,7 @@ So one number gives information on both fat and protein in meal.</value>
     <value>Protein (g)</value>
   </data>
   <data name="CarbohydratesG" xml:space="preserve">
-    <value>Carbohydrates (g)</value>
+    <value>Carbs + fiber (g)</value>
   </data>
   <data name="FatG" xml:space="preserve">
     <value>Fat (g)</value>

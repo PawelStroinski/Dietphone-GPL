@@ -421,7 +421,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Białko (g)</value>
   </data>
   <data name="CarbohydratesG" xml:space="preserve">
-    <value>Węglowodany (g)</value>
+    <value>Węglow.+błonnik (g)</value>
   </data>
   <data name="FatG" xml:space="preserve">
     <value>Tłuszcz (g)</value>
@@ -430,10 +430,10 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Błonnik (g)</value>
   </data>
   <data name="EnergyCaloriesUppercase" xml:space="preserve">
-    <value>Wartość energetyczna (kcal)</value>
+    <value>Wart. energet. (kcal)</value>
   </data>
   <data name="DigestibleCarbsG" xml:space="preserve">
-    <value>Węglowodany przyswajalne (g)</value>
+    <value>Węglow. przysw. (g)</value>
   </data>
   <data name="FullSquareMeansMaximumInCategory" xml:space="preserve">
     <value>Pełny kwadrat oznacza maksimum w kategorii.</value>
