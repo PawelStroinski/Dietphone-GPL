@@ -631,7 +631,7 @@ The initial export is done too.</value>
     <value>suggestion</value>
   </data>
   <data name="SuggestedInsulinHeader" xml:space="preserve">
-    <value>The display shows suggested insulin and estimated blood-sugar based on previously entered data. Note, these are only estimates based on previously injected insulin and its effects. You may need to adjust the suggested amount of insulin, especially if you see that the estimated blood-sugar level is not appropriate. This is only a tool and each decision should be made thoughtfully and under medical supervision.</value>
+    <value>The display shows suggested insulin and estimated blood-sugar based on previously entered data.  Note, these are only estimations based on previously injected insulin and its effects.  You may need to adjust the suggested amount of insulin, especially if you see that the estimated blood-sugar level is not appropriate. </value>
   </data>
   <data name="SuggestedBolus" xml:space="preserve">
     <value>Suggested insulin</value>
@@ -709,7 +709,7 @@ The initial export is done too.</value>
     <value>Diabetes Spy</value>
   </data>
   <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
-    <value>USE AT YOUR OWN RISK.</value>
+    <value>USE AT YOUR OWN RISK. </value>
   </data>
   <data name="HelloThanksForTryingOut" xml:space="preserve">
     <value>Hello! Thanks for trying out Diabetes Spy.
@@ -720,5 +720,8 @@ Would you like to purchase a license now?</value>
   </data>
   <data name="ThisIsAnUnregisteredCopy" xml:space="preserve">
     <value>This is an unregistered copy</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning2" xml:space="preserve">
+    <value>This is only a tool and each decision should be made thoughtfully and under medical supervision.</value>
   </data>
 </root>

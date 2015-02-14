@@ -622,7 +622,7 @@ Początkowy eksport został również wykonany.</value>
     <value>sugestia</value>
   </data>
   <data name="SuggestedInsulinHeader" xml:space="preserve">
-    <value>Wyświetlono sugerowaną insulinę i estymowany poziom cukru bazujące na poprzednio wprowadzonych danych. Uwaga, są to tylko szacunki bazujące na poprzednio podanej insulinie i jej efektach. Możliwe, że należy dostosować sugerowaną ilość insuliny, szczególnie jeśli widzisz, że estymowany poziom cukru nie jest odpowiedni. Jest to tylko narzędzie i każdą decyzję należy przemyśleć i skonsultować z lekarzem.</value>
+    <value>Wyświetlono sugerowaną insulinę i estymowany poziom cukru bazujące na poprzednio wprowadzonych danych.  Uwaga, są to tylko szacunki bazujące na poprzednio podanej insulinie i jej efektach.  Możliwe, że należy dostosować sugerowaną ilość insuliny, szczególnie jeśli widzisz, że estymowany poziom cukru nie jest odpowiedni. </value>
   </data>
   <data name="SuggestedBolus" xml:space="preserve">
     <value>Sugerowana insulina</value>
@@ -679,7 +679,7 @@ Początkowy eksport został również wykonany.</value>
     <value>kopiuj</value>
   </data>
   <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
-    <value>UŻYWASZ NA WŁASNE RYZYKO.</value>
+    <value>UŻYWASZ NA WŁASNE RYZYKO. </value>
   </data>
   <data name="HelloThanksForTryingOut" xml:space="preserve">
     <value>Cześć! Dzięki za sprawdzanie Diabetes Spy.
@@ -690,5 +690,8 @@ Czy chciałbyś zakupić licencję teraz?</value>
   </data>
   <data name="ThisIsAnUnregisteredCopy" xml:space="preserve">
     <value>Jest to niezarejestrowana kopia</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning2" xml:space="preserve">
+    <value>Jest to tylko narzędzie i każdą decyzję należy przemyśleć i skonsultować z lekarzem.</value>
   </data>
 </root>

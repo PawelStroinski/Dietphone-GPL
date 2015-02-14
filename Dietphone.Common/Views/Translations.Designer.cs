@@ -1667,7 +1667,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The display shows suggested insulin and estimated blood-sugar based on previously entered data. Note, these are only estimates based on previously injected insulin and its effects. You may need to adjust the suggested amount of insulin, especially if you see that the estimated blood-sugar level is not appropriate. This is only a tool and each decision should be made thoughtfully and under medical supervision..
+        ///   Looks up a localized string similar to The display shows suggested insulin and estimated blood-sugar based on previously entered data.  Note, these are only estimations based on previously injected insulin and its effects.  You may need to adjust the suggested amount of insulin, especially if you see that the estimated blood-sugar level is not appropriate. .
         /// </summary>
         public static string SuggestedInsulinHeader {
             get {
@@ -1676,11 +1676,20 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USE AT YOUR OWN RISK..
+        ///   Looks up a localized string similar to USE AT YOUR OWN RISK. .
         /// </summary>
         public static string SuggestedInsulinHeaderWarning {
             get {
                 return ResourceManager.GetString("SuggestedInsulinHeaderWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is only a tool and each decision should be made thoughtfully and under medical supervision..
+        /// </summary>
+        public static string SuggestedInsulinHeaderWarning2 {
+            get {
+                return ResourceManager.GetString("SuggestedInsulinHeaderWarning2", resourceCulture);
             }
         }
         

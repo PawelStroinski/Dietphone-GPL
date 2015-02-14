@@ -94,6 +94,7 @@
                                 <TextBlock.Inlines>
                                     <Run Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.SuggestedInsulinHeaderWarning, Source={StaticResource Translations}}"/>
                                     <Run Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Translations.SuggestedInsulinHeader, Source={StaticResource Translations}}"/>
+                                    <Run Foreground="Red" Text="{Binding Translations.SuggestedInsulinHeaderWarning2, Source={StaticResource Translations}}"/>
                                 </TextBlock.Inlines>
                             </TextBlock>
                             <!--Incomplete-->
