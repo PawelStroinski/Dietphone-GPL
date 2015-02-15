@@ -20,9 +20,9 @@ namespace Dietphone.BinarySerializers.Tests
             var circumstanceToWrite = fixture.Create<InsulinCircumstance>();
             circumstanceToWrite.Kind = kind;
             var storage = new InsulinCircumstanceBinaryStorage();
-            var readedCircumstance = WriteAndRead(storage, circumstanceToWrite);
+            var readCircumstance = WriteAndRead(storage, circumstanceToWrite);
             circumstanceToWrite.AsSource().OfLikeness<InsulinCircumstance>()
-                .ShouldEqual(readedCircumstance);
+                .ShouldEqual(readCircumstance);
         }
 
         [Test]

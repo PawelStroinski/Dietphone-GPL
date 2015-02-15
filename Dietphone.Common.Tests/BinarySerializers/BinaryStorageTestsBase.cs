@@ -26,9 +26,9 @@ namespace Dietphone.BinarySerializers.Tests
                 stream.WriteByte(overrideVersion.Value);
                 stream.Position = 0;
             }
-            var readedItem = storage.Load().Single();
+            var readItem = storage.Load().Single();
             stream.Dispose();
-            return readedItem;
+            return readItem;
         }
 
         public class NonDisposableMemoryStream : MemoryStream

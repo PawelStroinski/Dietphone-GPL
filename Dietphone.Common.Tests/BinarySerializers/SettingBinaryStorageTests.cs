@@ -17,11 +17,11 @@ namespace Dietphone.BinarySerializers.Tests
             settingsToWrite.SugarUnit = SugarUnit.mmolL;
             settingsToWrite.Unit = Unit.Ounce;
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite);
+            var readSettings = WriteAndRead(storage, settingsToWrite);
             settingsToWrite.AsSource().OfLikeness<Settings>()
                 .Without(settings => settings.MruProductIds)
-                .ShouldEqual(readedSettings);
-            Assert.AreEqual(settingsToWrite.MruProductIds, readedSettings.MruProductIds);
+                .ShouldEqual(readSettings);
+            Assert.AreEqual(settingsToWrite.MruProductIds, readSettings.MruProductIds);
         }
 
         [Test]
@@ -29,8 +29,8 @@ namespace Dietphone.BinarySerializers.Tests
         {
             var settingsToWrite = new Settings();
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
-            Assert.AreEqual(4, readedSettings.SugarsAfterInsulinHours);
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(4, readSettings.SugarsAfterInsulinHours);
         }
 
         [Test]
@@ -38,8 +38,8 @@ namespace Dietphone.BinarySerializers.Tests
         {
             var settingsToWrite = new Settings();
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
-            Assert.AreEqual(5, readedSettings.MaxBolus);
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(5, readSettings.MaxBolus);
         }
 
         [Test]
@@ -47,10 +47,10 @@ namespace Dietphone.BinarySerializers.Tests
         {
             var settingsToWrite = new Settings();
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
-            Assert.IsEmpty(readedSettings.CloudSecret);
-            Assert.IsEmpty(readedSettings.CloudToken);
-            Assert.AreEqual(DateTime.MinValue, readedSettings.CloudExportDue);
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.IsEmpty(readSettings.CloudSecret);
+            Assert.IsEmpty(readSettings.CloudToken);
+            Assert.AreEqual(DateTime.MinValue, readSettings.CloudExportDue);
         }
 
         [Test]
@@ -58,8 +58,8 @@ namespace Dietphone.BinarySerializers.Tests
         {
             var settingsToWrite = new Settings();
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
-            Assert.AreEqual(10, readedSettings.MruProductMaxCount);
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(10, readSettings.MruProductMaxCount);
         }
 
         [TestCase("pl-PL", SugarUnit.mgdL)]
@@ -72,8 +72,8 @@ namespace Dietphone.BinarySerializers.Tests
             thread.CurrentCulture = new CultureInfo(culture);
             var settingsToWrite = new Settings();
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
-            Assert.AreEqual(unit, readedSettings.SugarUnit);
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 3);
+            Assert.AreEqual(unit, readSettings.SugarUnit);
         }
 
         [TestCase("pl-PL", "pl-PL", "pl-PL")]
@@ -87,9 +87,9 @@ namespace Dietphone.BinarySerializers.Tests
             thread.CurrentCulture = new CultureInfo(systemCulture);
             var settingsToWrite = new Settings();
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 2);
-            Assert.AreEqual(expectedUiCulture, readedSettings.CurrentUiCulture);
-            Assert.AreEqual(expectedProductCulture, readedSettings.CurrentProductCulture);
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 2);
+            Assert.AreEqual(expectedUiCulture, readSettings.CurrentUiCulture);
+            Assert.AreEqual(expectedProductCulture, readSettings.CurrentProductCulture);
         }
 
         [TestCase("pl-PL", Unit.Gram)]
@@ -101,8 +101,8 @@ namespace Dietphone.BinarySerializers.Tests
             thread.CurrentCulture = new CultureInfo(culture);
             var settingsToWrite = new Settings();
             var storage = new SettingsBinaryStorage();
-            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 5);
-            Assert.AreEqual(unit, readedSettings.Unit);
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 5);
+            Assert.AreEqual(unit, readSettings.Unit);
         }
     }
 }
