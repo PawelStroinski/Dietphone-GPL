@@ -1820,6 +1820,46 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to welcome screen.
+        /// </summary>
+        public static string WelcomeScreen {
+            get {
+                return ResourceManager.GetString("WelcomeScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome! Tap OK to watch a short introductory video..
+        /// </summary>
+        public static string WelcomeScreenHeader {
+            get {
+                return ResourceManager.GetString("WelcomeScreenHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://goo.gl/oWKq0S.
+        /// </summary>
+        public static string WelcomeScreenLink {
+            get {
+                return ResourceManager.GetString("WelcomeScreenLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diabetes management is a 24/7 job requiring a very frequent decision - how many units of insulin should be taken with a meal.  With the Diabetes Spy App required quantities of insulin are calculated (based on historical data) and blood-sugar levels are estimated.  This system allows for an increasingly accurate food/insulin balance for future meals.
+        ///
+        ///How to use the App:
+        ///
+        ///1. Enter meal ingredients.  An automatic display will then show the calorie count, fat, protein and carbohydrate contents.  An extensi [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string WelcomeScreenText {
+            get {
+                return ResourceManager.GetString("WelcomeScreenText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to yesterday.
         /// </summary>
         public static string Yesterday {

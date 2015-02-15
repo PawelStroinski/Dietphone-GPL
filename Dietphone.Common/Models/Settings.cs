@@ -23,6 +23,7 @@ namespace Dietphone.Models
         public DateTime CloudExportDue { get; set; }
         public Unit Unit { get; set; }
         public byte TrialCounter { get; set; }
+        public bool ShowWelcomeScreen { get; set; }
         private string currentUiCulture;
         private string currentProductCulture;
         private string nextUiCulture;
@@ -42,6 +43,7 @@ namespace Dietphone.Models
             CloudSecret = string.Empty;
             CloudToken = string.Empty;
             Unit = GetDefaultUnit();
+            ShowWelcomeScreen = true;
         }
 
         public string CurrentUiCulture

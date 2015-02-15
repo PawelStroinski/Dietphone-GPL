@@ -83,7 +83,9 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreEqual(-1, args[3]);
                 return new Timer(timerCallback);
             });
-            var sut = new MainViewModel(Substitute.For<Factories>(), cloud, timerFactory,
+            var factories = Substitute.For<Factories>();
+            factories.Settings.Returns(new Settings());
+            var sut = new MainViewModel(factories, cloud, timerFactory,
                 new BackgroundWorkerSyncFactory());
             sut.StateProvider = Substitute.For<StateProvider>();
             var exportToCloudErrored = false;
@@ -99,6 +101,25 @@ namespace Dietphone.Common.Phone.Tests
                 Assert.AreEqual(throwInExport, exportToCloudErrored);
             } else
                 Assert.IsNull(timerCallback);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void UiRenderedShowsWelcomeScreen(bool showWelcomeScreen)
+        {
+            var factories = new FactoriesImpl();
+            factories.StorageCreator = new StorageCreatorStub();
+            factories.Settings.ShowWelcomeScreen = showWelcomeScreen;
+            var sut = new MainViewModel(factories, Substitute.For<Cloud>(),
+                Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory());
+            var stateProvider = Substitute.For<StateProvider>();
+            stateProvider.State.Returns(new Dictionary<string, object>());
+            sut.StateProvider = stateProvider;
+            var showWelcomeScreenCalled = false;
+            sut.ShowWelcomeScreen += delegate { showWelcomeScreenCalled = true; };
+            sut.UiRendered();
+            Assert.AreEqual(showWelcomeScreen, showWelcomeScreenCalled);
+            Assert.IsFalse(factories.Settings.ShowWelcomeScreen);
         }
     }
 }

@@ -694,4 +694,29 @@ Czy chciałbyś zakupić licencję teraz?</value>
   <data name="SuggestedInsulinHeaderWarning2" xml:space="preserve">
     <value>Jest to tylko narzędzie i każdą decyzję należy przemyśleć i skonsultować z lekarzem.</value>
   </data>
+  <data name="WelcomeScreen" xml:space="preserve">
+    <value>ekran powitalny</value>
+  </data>
+  <data name="WelcomeScreenHeader" xml:space="preserve">
+    <value>Witamy! Naciśnij OK aby obejrzeć wideo wprowadzające.</value>
+  </data>
+  <data name="WelcomeScreenText" xml:space="preserve">
+    <value>Zarządzanie cukrzycą to ciągłe zajęcie wymagające bardzo częstej decyzji - jaka ilość jednostek insuliny powinna zostać podana z posiłkiem.  Z aplikacją Diabetes Spy liczone są wymagane ilości insuliny (bazując na danych historycznych) i estymowane są poziomy cukru.  System ten umożliwia rosnąco poprawne zbilansowanie jedzenia i insuliny w przyszłych posiłkach.
+
+Jak używać tej aplikacji:
+
+1. Wprowadź składniki posiłku.  Automatycznie wyświetlone zostaną ilość kalorii oraz zawartość tłuszczu, białka i węglowodanów.  Dostępna jest również rozbudowana i łatwo dopasowywalna baza danych produktów dla rynków Polski, Wielkiej Brytanii, Francji i Stanów Zjednoczonych.
+2. Wprowadź ilość insuliny wraz z aktualnym poziomem cukru oraz warunkami fizycznymi i okolicznościami (np. wysiłek fizyczny, choroba, itp.).  Powinien zostać także wprowadzony przynajmniej jeden poziom cukru zmierzony po posiłku/insulinie.
+3. Następnym razem kiedy będziesz mieć podobny posiłek w podobnych okolicznościach i zaczniesz wprowadzać szczegóły insuliny, zostanie wyświetlona sugerowania ilość insuliny.  Pokazany zostanie także wykres obrazujący estymowany poziom cukru po podaniu sugerowanej ilości insuliny.
+
+OSTRZEŻENIE: Aplikacja ta to tylko narzędzie i powinna być używana tylko pod opieką lekarską i z ostrożnością!
+
+Diabetes Spy jest innowacyjnym rozwiązaniem i ponieważ jest to pierwsza wersja tej aplikacji, rozumiemy że tymczasowo nie została ona jeszcze dopasowana do wszystkich potrzeb w każdym czasie.  W związku z tym, zapraszamy do udzielenia nam każdej informacji zwrotnej.  Aplikacja ta może być stosowana przez użytkowników pomp insulinowych i penów.
+
+Inne funkcje aplikacji:
+
+- Umożliwia opcjonalne wykonanie kopii zapasowej i synchronizacji danych w chmurze.  Umożliwia eksportowanie i importowanie danych w formacie pozwalającym na ich ponowne użycie.
+- Nie wymaga połączenia z internetem do pracy.
+- Preferowane jednostki, wersja bazy danych produktów, itp. mogą być wybrane poprzez ustawienia aplikacji.</value>
+  </data>
 </root>

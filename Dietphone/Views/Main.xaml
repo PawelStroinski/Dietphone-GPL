@@ -62,6 +62,7 @@
                 <shell:ApplicationBarMenuItem Text="-" Click="Settings_Click"/>
                 <shell:ApplicationBarMenuItem Text="-" Click="ExportAndImport_Click"/>
                 <shell:ApplicationBarMenuItem Text="-" Click="About_Click"/>
+                <shell:ApplicationBarMenuItem Text="-" Click="WelcomeScreen_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

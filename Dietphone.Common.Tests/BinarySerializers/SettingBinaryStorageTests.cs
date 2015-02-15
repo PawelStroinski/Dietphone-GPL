@@ -16,6 +16,7 @@ namespace Dietphone.BinarySerializers.Tests
             var settingsToWrite = fixture.Create<Settings>();
             settingsToWrite.SugarUnit = SugarUnit.mmolL;
             settingsToWrite.Unit = Unit.Ounce;
+            settingsToWrite.ShowWelcomeScreen = false;
             var storage = new SettingsBinaryStorage();
             var readSettings = WriteAndRead(storage, settingsToWrite);
             settingsToWrite.AsSource().OfLikeness<Settings>()
@@ -103,6 +104,15 @@ namespace Dietphone.BinarySerializers.Tests
             var storage = new SettingsBinaryStorage();
             var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 5);
             Assert.AreEqual(unit, readSettings.Unit);
+        }
+
+        [Test]
+        public void Default_ShowWelcomeScreen()
+        {
+            var settingsToWrite = new Settings { ShowWelcomeScreen = false };
+            var storage = new SettingsBinaryStorage();
+            var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 7);
+            Assert.IsTrue(readSettings.ShowWelcomeScreen);
         }
     }
 }
