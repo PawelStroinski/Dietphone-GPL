@@ -6,6 +6,7 @@ using Microsoft.Phone.Tasks;
 using Telerik.Windows.Controls;
 using Dietphone.Views;
 using Dietphone.BinarySerializers;
+using Dietphone.Tools;
 
 namespace Dietphone
 {
@@ -88,7 +89,7 @@ namespace Dietphone
 
         private void InitializeStreamProvider()
         {
-            MyApp.StreamProvider = new PhoneBinaryStreamProvider();
+            MyApp.StreamProvider = new PhoneBinaryStreamProvider(new IsolatedFileFactory());
         }
 
         private static void SaveFactories()

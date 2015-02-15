@@ -12,6 +12,7 @@ namespace Dietphone.ViewModels
         public MealEditingViewModel MealEditing { private get; set; }
         public event EventHandler ShowProductsOnly;
         public event EventHandler ExportToCloudError;
+        public event EventHandler ShowWelcomeScreen;
         private string search = string.Empty;
         private Navigator navigator;
         private MealItem tempMealItem;
@@ -91,6 +92,7 @@ namespace Dietphone.ViewModels
             UntombstoneMealItemEditing();
             if (cloud.ShouldExport())
                 CreateTimerToExportToCloud();
+            HandleShowWelcomeScreen();
         }
 
         protected void OnNavigatorChanged()
@@ -111,6 +113,16 @@ namespace Dietphone.ViewModels
                 worker.RunWorkerCompleted += delegate { timer.Dispose(); };
                 worker.RunWorkerAsync();
             }, state: null, dueTime: 500, period: -1);
+        }
+
+        private void HandleShowWelcomeScreen()
+        {
+            var settings = factories.Settings;
+            if (settings.ShowWelcomeScreen)
+            {
+                OnShowWelcomeScreen();
+                settings.ShowWelcomeScreen = false;
+            }
         }
 
         private void AddingMealItem()
@@ -202,6 +214,14 @@ namespace Dietphone.ViewModels
             if (ExportToCloudError != null)
             {
                 ExportToCloudError(this, EventArgs.Empty);
+            }
+        }
+
+        protected void OnShowWelcomeScreen()
+        {
+            if (ShowWelcomeScreen != null)
+            {
+                ShowWelcomeScreen(this, EventArgs.Empty);
             }
         }
     }

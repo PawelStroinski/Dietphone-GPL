@@ -18,7 +18,7 @@ namespace Dietphone.BinarySerializers
         {
             get
             {
-                return 6;
+                return 8;
             }
         }
 
@@ -41,6 +41,8 @@ namespace Dietphone.BinarySerializers
             writer.Write(item.CloudExportDue);
             writer.Write(item.MruProductMaxCount);
             writer.Write((byte)item.Unit);
+            writer.Write(item.TrialCounter);
+            writer.Write(item.ShowWelcomeScreen);
         }
 
         public override void ReadItem(BinaryReader reader, Settings item)
@@ -70,6 +72,10 @@ namespace Dietphone.BinarySerializers
                 item.MruProductMaxCount = reader.ReadByte();
             if (ReadingVersion >= 6)
                 item.Unit = (Unit)reader.ReadByte();
+            if (ReadingVersion >= 7)
+                item.TrialCounter = reader.ReadByte();
+            if (ReadingVersion >= 8)
+                item.ShowWelcomeScreen = reader.ReadBoolean();
         }
     }
 }

@@ -86,124 +86,132 @@
 
             <!--suggestion-->
             <controls:PivotItem Header="{Binding Path=Translations.Suggestion, Source={StaticResource Translations}}">
-                <StackPanel>
-                    <StackPanel Visibility="{Binding IsCalculated, Converter={StaticResource BooleanToVisibility}}">
-                        <!--Header-->
-                        <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Translations.SuggestedInsulinHeader, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,8,12,0"/>
-                        <!--Incomplete-->
-                        <commonViews:InteractionEffectContainer Tap="CalculationIncomplete_Tap" Visibility="{Binding IsCalculationIncomplete, Converter={StaticResource BooleanToVisibility}}">
-                            <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneAccentBrush}" Text="{Binding Translations.InsulinCalculationIncomplete, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="12,28,12,28" Margin="0,0,0,-28"/>
-                        </commonViews:InteractionEffectContainer>
-                        <!--Suggested bolus-->
-                        <TextBlock Text="{Binding Translations.SuggestedBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,17,12,-12"/>
-                        <Grid Margin="12,0,10,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="65*"/>
-                                <ColumnDefinition Width="35*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Calculated.Text}" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}"/>
-                            <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0 1 0 0">
-                                <c4f:RoundButton ImageSource="/images/appbar.check.rest.png" Tap="UseCalculation_Tap"/>
-                                <c4f:RoundButton ImageSource="/images/more.png" Tap="CalculationDetails_Tap" Margin="15 0 0 0"/>
-                            </StackPanel>
-                        </Grid>
-                        <!--Chart-->
-                        <TextBlock Text="{Binding Translations.EstimatedBloodSugar, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,-6,12,0"/>
-                        <Border Margin="12 -51 12 0" Height="275">
-                            <chart:RadCartesianChart x:Name="Chart" EmptyContent="" Tap="Chart_Tap">
-                                <chart:RadCartesianChart.HorizontalAxis>
-                                    <chart:DateTimeCategoricalAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
-                                </chart:RadCartesianChart.HorizontalAxis>
-                                <chart:RadCartesianChart.VerticalAxis>
-                                    <chart:LinearAxis Minimum="{Binding SugarChartMinimum}" Maximum="{Binding SugarChartMaximum}" LineThickness="0" TickThickness="0">
-                                        <chart:LinearAxis.LabelStyle>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Foreground" Value="Transparent"/>
-                                                <Setter Property="Width" Value="20"/>
-                                            </Style>
-                                        </chart:LinearAxis.LabelStyle>
-                                    </chart:LinearAxis>
-                                </chart:RadCartesianChart.VerticalAxis>
-                                <chart:SplineSeries ClipToPlotArea="False" Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="DateTime" ValueBinding="BloodSugar" ShowLabels="True" ItemsSource="{Binding SugarChart}"/>
-                            </chart:RadCartesianChart>
-                        </Border>
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel Visibility="{Binding IsCalculated, Converter={StaticResource BooleanToVisibility}}">
+                            <!--Header-->
+                            <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,8,12,0">
+                                <TextBlock.Inlines>
+                                    <Run Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.SuggestedInsulinHeaderWarning, Source={StaticResource Translations}}"/>
+                                    <Run Foreground="{StaticResource PhoneSubtleBrush}" Text="{Binding Translations.SuggestedInsulinHeader, Source={StaticResource Translations}}"/>
+                                    <Run Foreground="Red" Text="{Binding Translations.SuggestedInsulinHeaderWarning2, Source={StaticResource Translations}}"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                            <!--Incomplete-->
+                            <commonViews:InteractionEffectContainer Tap="CalculationIncomplete_Tap" Visibility="{Binding IsCalculationIncomplete, Converter={StaticResource BooleanToVisibility}}">
+                                <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneAccentBrush}" Text="{Binding Translations.InsulinCalculationIncomplete, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="12,6,12,28" Margin="0,0,0,-28"/>
+                            </commonViews:InteractionEffectContainer>
+                            <!--Suggested bolus-->
+                            <TextBlock Text="{Binding Translations.SuggestedBolus, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,17,12,-12"/>
+                            <Grid Margin="12,0,10,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="65*"/>
+                                    <ColumnDefinition Width="35*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Calculated.Text}" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}"/>
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0 1 0 0">
+                                    <c4f:RoundButton ImageSource="/images/appbar.check.rest.png" Tap="UseCalculation_Tap"/>
+                                    <c4f:RoundButton ImageSource="/images/more.png" Tap="CalculationDetails_Tap" Margin="15 0 0 0"/>
+                                </StackPanel>
+                            </Grid>
+                            <!--Chart-->
+                            <TextBlock Text="{Binding Translations.EstimatedBloodSugar, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="31" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,-6,12,0"/>
+                            <Border Margin="12 -51 12 0" Height="275">
+                                <chart:RadCartesianChart x:Name="Chart" EmptyContent="" Tap="Chart_Tap">
+                                    <chart:RadCartesianChart.HorizontalAxis>
+                                        <chart:DateTimeCategoricalAxis LabelFormat="HH:mm" LineThickness="0" TickThickness="0"/>
+                                    </chart:RadCartesianChart.HorizontalAxis>
+                                    <chart:RadCartesianChart.VerticalAxis>
+                                        <chart:LinearAxis Minimum="{Binding SugarChartMinimum}" Maximum="{Binding SugarChartMaximum}" LineThickness="0" TickThickness="0">
+                                            <chart:LinearAxis.LabelStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="Transparent"/>
+                                                    <Setter Property="Width" Value="20"/>
+                                                </Style>
+                                            </chart:LinearAxis.LabelStyle>
+                                        </chart:LinearAxis>
+                                    </chart:RadCartesianChart.VerticalAxis>
+                                    <chart:SplineSeries ClipToPlotArea="False" Stroke="{StaticResource PhoneAccentBrush}" CategoryBinding="DateTime" ValueBinding="BloodSugar" ShowLabels="True" ItemsSource="{Binding SugarChart}"/>
+                                </chart:RadCartesianChart>
+                            </Border>
+                        </StackPanel>
+                        <!--Empty-->
+                        <TextBlock Visibility="{Binding IsCalculationEmpty, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSuggestion, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                        <!--No meal present-->
+                        <TextBlock Visibility="{Binding NoMealPresent, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoMealPresent, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                        <!--No sugar entered-->
+                        <TextBlock Visibility="{Binding NoSugarEntered, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSugarEntered, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
+                        <!--Details-->
+                        <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsPicker" x:FieldModifier="private" Height="0" Width="0" IsPopupClosedOnBackButton="False">
+                            <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                                <telerikPrimitives:ApplicationBarInfo>
+                                    <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetails_Click"/>
+                                </telerikPrimitives:ApplicationBarInfo>
+                            </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                            <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
+                                <telerikPrimitives:RadDataBoundListBox IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" ItemsSource="{Binding ReplacementItems}">
+                                    <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="0,0,0,13">
+                                                <Grid Margin="0,0,0,4.5">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <!--Product-->
+                                                    <TextBlock Text="{Binding Pattern.For.ProductName}" VerticalAlignment="Top" Padding="0,3,0,1" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="43" Grid.ColumnSpan="5" />
+                                                    <!--g-->
+                                                    <TextBlock Text="{Binding Pattern.For.ValueWithUnit}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1"/>
+                                                    <!--0-->
+                                                    <TextBlock Text="{Binding Pattern.For.Scores.First}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="1"/>
+                                                    <!--0-->
+                                                    <TextBlock Text="{Binding Pattern.For.Scores.Second}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="2"/>
+                                                    <!--0-->
+                                                    <TextBlock Text="{Binding Pattern.For.Scores.Third}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="3"/>
+                                                    <!--0-->
+                                                    <TextBlock Text="{Binding Pattern.For.Scores.Fourth}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="4"/>
+                                                </Grid>
+                                                <views:Pattern DataContext="{Binding Pattern}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                                </telerikPrimitives:RadDataBoundListBox>
+                            </Border>
+                        </telerikPrimitives:RadPickerBox>
+                        <!--Details Alternatives-->
+                        <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsAlternativesPicker" x:FieldModifier="private" Height="0" Width="0" IsPopupClosedOnBackButton="False">
+                            <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                                <telerikPrimitives:ApplicationBarInfo>
+                                    <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetailsAlternatives_Click"/>
+                                </telerikPrimitives:ApplicationBarInfo>
+                            </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
+                            <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
+                                <telerikPrimitives:RadDataBoundListBox IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" ItemsSource="{Binding CalculationDetailsAlternatives}">
+                                    <telerikPrimitives:RadDataBoundListBox.ListHeaderContent>
+                                        <TextBlock Text="{Binding Path=Translations.AlternativeOptions, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="0,-7,0,17"/>
+                                    </telerikPrimitives:RadDataBoundListBox.ListHeaderContent>
+                                    <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="0,0,0,13">
+                                                <views:Pattern/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                                </telerikPrimitives:RadDataBoundListBox>
+                            </Border>
+                        </telerikPrimitives:RadPickerBox>
                     </StackPanel>
-                    <!--Empty-->
-                    <TextBlock Visibility="{Binding IsCalculationEmpty, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSuggestion, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
-                    <!--No meal present-->
-                    <TextBlock Visibility="{Binding NoMealPresent, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoMealPresent, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
-                    <!--No sugar entered-->
-                    <TextBlock Visibility="{Binding NoSugarEntered, Converter={StaticResource BooleanToVisibility}}" Text="{Binding Translations.NoSugarEntered, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" VerticalAlignment="Top" LineHeight="34" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" Margin="12,7,12,39"/>
-                    <!--Details-->
-                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsPicker" x:FieldModifier="private" Height="0" Width="0" IsPopupClosedOnBackButton="False">
-                        <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
-                            <telerikPrimitives:ApplicationBarInfo>
-                                <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetails_Click"/>
-                            </telerikPrimitives:ApplicationBarInfo>
-                        </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
-                        <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
-                            <telerikPrimitives:RadDataBoundListBox IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" ItemsSource="{Binding ReplacementItems}">
-                                <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="0,0,0,13">
-                                            <Grid Margin="0,0,0,4.5">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <!--Product-->
-                                                <TextBlock Text="{Binding Pattern.For.ProductName}" VerticalAlignment="Top" Padding="0,3,0,1" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="43" Grid.ColumnSpan="5" />
-                                                <!--g-->
-                                                <TextBlock Text="{Binding Pattern.For.ValueWithUnit}" Opacity="0.65" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1"/>
-                                                <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.First}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="1"/>
-                                                <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.Second}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="2"/>
-                                                <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.Third}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="3"/>
-                                                <!--0-->
-                                                <TextBlock Text="{Binding Pattern.For.Scores.Fourth}" Opacity="0.65" HorizontalAlignment="Center" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Row="1" Grid.Column="4"/>
-                                            </Grid>
-                                            <views:Pattern DataContext="{Binding Pattern}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-                            </telerikPrimitives:RadDataBoundListBox>
-                        </Border>
-                    </telerikPrimitives:RadPickerBox>
-                    <!--Details Alternatives-->
-                    <telerikPrimitives:RadPickerBox x:Name="CalculationDetailsAlternativesPicker" x:FieldModifier="private" Height="0" Width="0" IsPopupClosedOnBackButton="False">
-                        <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
-                            <telerikPrimitives:ApplicationBarInfo>
-                                <telerikPrimitives:ApplicationBarButton Text="-" IconUri="/images/appbar.cancel.rest.png" Click="CloseCalculationDetailsAlternatives_Click"/>
-                            </telerikPrimitives:ApplicationBarInfo>
-                        </telerikPrimitives:RadPickerBox.ApplicationBarInfo>
-                        <Border Background="{StaticResource PhoneBackgroundBrush}" Padding="24,24,24,0">
-                            <telerikPrimitives:RadDataBoundListBox IsAsyncBalanceEnabled="True" AsyncBalanceMode="FillViewportFirst" ItemsSource="{Binding CalculationDetailsAlternatives}">
-                                <telerikPrimitives:RadDataBoundListBox.ListHeaderContent>
-                                    <TextBlock Text="{Binding Path=Translations.AlternativeOptions, Source={StaticResource Translations}}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Margin="0,-7,0,17"/>
-                                </telerikPrimitives:RadDataBoundListBox.ListHeaderContent>
-                                <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="0,0,0,13">
-                                            <views:Pattern/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-                            </telerikPrimitives:RadDataBoundListBox>
-                        </Border>
-                    </telerikPrimitives:RadPickerBox>
-                </StackPanel>
+                </ScrollViewer>
             </controls:PivotItem>
 
             <!--date-->

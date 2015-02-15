@@ -6,10 +6,8 @@ using DropNetRT.Models;
 
 namespace Dietphone.Tools
 {
-    public class DropboxProvider : CloudProvider
+    public partial class DropboxProvider : CloudProvider
     {
-        private const string API_KEY = "unjuv12op8rn1hv";
-        private const string APP_SECRET = "rzs4wvyeqhyxhlm";
         private const string PATH = "/";
         private readonly DropNetClient client;
 

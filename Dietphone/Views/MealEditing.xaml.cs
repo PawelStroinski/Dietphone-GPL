@@ -8,6 +8,8 @@ using System.Windows.Navigation;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework;
 
 namespace Dietphone.Views
 {
@@ -19,7 +21,7 @@ namespace Dietphone.Views
         public MealEditing()
         {
             InitializeComponent();
-            ViewModel = new MealEditingViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory())
+            ViewModel = new MealEditingViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory(), CreateTrial())
             {
                 StateProvider = this,
                 ItemEditing = ItemEditing.ViewModel
@@ -168,6 +170,22 @@ namespace Dietphone.Views
             {
                 ViewModel.DeleteAndSaveAndReturn();
             }
+        }
+
+        private TrialViewModel CreateTrial()
+        {
+            return new TrialViewModelImpl(MyApp.Factories,
+#if DEBUG
+                isTrial: () => true,
+#else
+                isTrial: () => Guide.IsTrialMode,
+#endif
+                show: () =>
+                {
+                    if (MessageBox.Show(Translations.HelloThanksForTryingOut, Translations.ThisIsAnUnregisteredCopy,
+                            MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        Guide.ShowMarketplace(PlayerIndex.One);
+                });
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)

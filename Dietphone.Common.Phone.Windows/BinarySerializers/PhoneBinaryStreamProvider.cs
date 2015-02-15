@@ -7,11 +7,17 @@ namespace Dietphone.BinarySerializers
 {
     public sealed class PhoneBinaryStreamProvider : BinaryStreamProvider
     {
+        private readonly FileFactory fileFactory;
         private const string FIRST_RUN_DIRECTORY = "firstrun";
+
+        public PhoneBinaryStreamProvider(FileFactory fileFactory)
+        {
+            this.fileFactory = fileFactory;
+        }
 
         public Stream GetInputStream(string fileName)
         {
-            var file = new IsolatedFile(fileName);
+            var file = fileFactory.Create(fileName);
             if (file.Exists)
             {
                 return file.GetReadingStream();
@@ -24,10 +30,9 @@ namespace Dietphone.BinarySerializers
             }
         }
 
-        public Stream GetOutputStream(string fileName)
+        public OutputStream GetOutputStream(string fileName)
         {
-            var file = new IsolatedFile(fileName);
-            return file.GetWritingStream();
+            return new PhoneOutputStream(fileFactory, fileName);
         }
     }
 }

@@ -30,14 +30,16 @@ namespace Dietphone.BinarySerializers
 
         protected void WriteFile(List<T> items)
         {
-            using (var output = StreamProvider.GetOutputStream(FileName))
+            var output = StreamProvider.GetOutputStream(FileName);
+            var outputStream = output.Stream;
+            long size;
+            using (var writer = new BinaryWriter(outputStream))
             {
-                using (var writer = new BinaryWriter(output))
-                {
-                    writer.Write(WritingVersion);
-                    writer.WriteList<T>(items, this);
-                }
+                writer.Write(WritingVersion);
+                writer.WriteList<T>(items, this);
+                size = outputStream.Length;
             }
+            output.Commit(size);
         }
     }
 }

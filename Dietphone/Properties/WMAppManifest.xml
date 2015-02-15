@@ -5,7 +5,7 @@
     <Language code="pl" />
     <Language code="" />
   </Languages>
-  <App xmlns="" ProductID="{ec94ac4f-137e-4033-b31e-1da170656421}" Title="Dietphone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Dietphone author" Description="Sample description" Publisher="Dietphone" PublisherID="{35e5d55e-998d-4fec-b7e8-a0b2d46c8e57}">
+  <App xmlns="" ProductID="{ec94ac4f-137e-4033-b31e-1da170656421}" Title="Diabetes Spy" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Diabetes Spy author" Description="Sample description" Publisher="Diabetes Spy" PublisherID="{35e5d55e-998d-4fec-b7e8-a0b2d46c8e57}">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -15,12 +15,12 @@
       <DefaultTask Name="_default" NavigationPage="Views/Main.xaml" />
     </Tasks>
     <Tokens>
-      <PrimaryToken TokenID="DietphoneToken" TaskName="_default">
+      <PrimaryToken TokenID="DiabetesSpyToken" TaskName="_default">
         <TemplateFlip>
           <SmallImageURI IsResource="false" IsRelative="true">Background.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsResource="false" IsRelative="true">Background.png</BackgroundImageURI>
-          <Title>Dietphone</Title>
+          <Title>Diabetes Spy</Title>
           <BackContent></BackContent>
           <BackBackgroundImageURI></BackBackgroundImageURI>
           <BackTitle></BackTitle>

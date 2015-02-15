@@ -20,9 +20,9 @@ namespace Dietphone.BinarySerializers.Tests
             var circumstanceToWrite = fixture.Create<InsulinCircumstance>();
             circumstanceToWrite.Kind = kind;
             var storage = new InsulinCircumstanceBinaryStorage();
-            var readedCircumstance = WriteAndRead(storage, circumstanceToWrite);
+            var readCircumstance = WriteAndRead(storage, circumstanceToWrite);
             circumstanceToWrite.AsSource().OfLikeness<InsulinCircumstance>()
-                .ShouldEqual(readedCircumstance);
+                .ShouldEqual(readCircumstance);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Dietphone.BinarySerializers.Tests
             var storage = new InsulinCircumstanceBinaryStorage();
             var stream = new NonDisposableMemoryStream();
             var streamProvider = new Mock<BinaryStreamProvider>();
-            streamProvider.Setup(p => p.GetOutputStream(It.IsAny<string>())).Returns(stream);
+            streamProvider.Setup(p => p.GetOutputStream(It.IsAny<string>())).Returns(new OutputStreamStub(stream));
             storage.StreamProvider = streamProvider.Object;
             storage.Save(new List<InsulinCircumstance> { circumstanceToWrite });
             stream.Position = 0;

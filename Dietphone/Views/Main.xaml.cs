@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Shell;
 using Dietphone.Models;
+using Microsoft.Phone.Tasks;
 
 namespace Dietphone.Views
 {
@@ -42,6 +43,7 @@ namespace Dietphone.Views
             };
             ViewModel.ShowProductsOnly += ViewModel_ShowProductsOnly;
             ViewModel.ExportToCloudError += ViewModel_ExportToCloudError;
+            ViewModel.ShowWelcomeScreen += WelcomeScreen_Click;
             DataContext = ViewModel;
             subConnector = new SubViewModelConnector(ViewModel);
             subConnector.Loaded += SubConnector_Loaded;
@@ -133,6 +135,20 @@ namespace Dietphone.Views
             Dispatcher.BeginInvoke(() =>
             {
                 MessageBox.Show(Translations.ThereWasAnErrorDuringTheExportToDropbox);
+            });
+        }
+
+        private void WelcomeScreen_Click(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (MessageBox.Show(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader,
+                    MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    var webBrowserTask = new WebBrowserTask();
+                    webBrowserTask.Uri = new Uri(Translations.WelcomeScreenLink);
+                    webBrowserTask.Show();
+                }
             });
         }
 
@@ -338,6 +354,7 @@ namespace Dietphone.Views
             this.GetMenuItem(0).Text = Translations.Settings;
             this.GetMenuItem(1).Text = Translations.ExportAndImportData;
             this.GetMenuItem(2).Text = Translations.About;
+            this.GetMenuItem(3).Text = Translations.WelcomeScreen;
         }
 
         private void GetApplicationBarIcons()

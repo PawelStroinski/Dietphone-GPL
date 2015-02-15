@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinarySerializers\BinaryStorageTestsBase.cs" />
+    <Compile Include="BinarySerializers\BinaryFileTests.cs" />
     <Compile Include="BinarySerializers\InsulinBinaryStorageTests.cs" />
     <Compile Include="BinarySerializers\InsulinCircumstanceBinaryStorageTests.cs" />
     <Compile Include="BinarySerializers\SettingBinaryStorageTests.cs" />

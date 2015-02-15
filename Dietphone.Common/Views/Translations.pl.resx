@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>o dietphone</value>
+    <value>o diabetes spy</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>dodaj</value>
@@ -216,9 +216,6 @@ Został wprowadzony, żeby ułatwić liczenie węglowodanów w posiłku.</value>
     <value>WBT czyli wymiennik białkowo-tłuszczowy to wartość energetyczna (kcal) pochodząca z białka i tłuszczu podzielona przez 100.
 Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w posiłku.</value>
   </data>
-  <data name="Dietphone" xml:space="preserve">
-    <value>DIETPHONE</value>
-  </data>
   <data name="ExportAndImport" xml:space="preserve">
     <value>eksport import</value>
   </data>
@@ -250,7 +247,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Wystąpił błąd podczas importu. Upewnij się, że importowane dane nie były naruszone.</value>
   </data>
   <data name="SendToAnEMailAddress" xml:space="preserve">
-    <value>Wyślij na adres e-mail</value>
+    <value>Wyślij pod adres e-mail</value>
   </data>
   <data name="DownloadFileFromAddress" xml:space="preserve">
     <value>Adres pliku do pobrania</value>
@@ -424,7 +421,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Białko (g)</value>
   </data>
   <data name="CarbohydratesG" xml:space="preserve">
-    <value>Węglowodany (g)</value>
+    <value>Węglow.+błonnik (g)</value>
   </data>
   <data name="FatG" xml:space="preserve">
     <value>Tłuszcz (g)</value>
@@ -433,10 +430,10 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>Błonnik (g)</value>
   </data>
   <data name="EnergyCaloriesUppercase" xml:space="preserve">
-    <value>Wartość energetyczna (kcal)</value>
+    <value>Wart. energet. (kcal)</value>
   </data>
   <data name="DigestibleCarbsG" xml:space="preserve">
-    <value>Węglowodany przyswajalne (g)</value>
+    <value>Węglow. przysw. (g)</value>
   </data>
   <data name="FullSquareMeansMaximumInCategory" xml:space="preserve">
     <value>Pełny kwadrat oznacza maksimum w kategorii.</value>
@@ -625,10 +622,10 @@ Początkowy eksport został również wykonany.</value>
     <value>sugestia</value>
   </data>
   <data name="SuggestedInsulinHeader" xml:space="preserve">
-    <value>UŻYWASZ NA WŁASNE RYZYKO. Sugerowany bolus i poziom cukru estymowany po jego podaniu wynikają z Twoich poprzednich wpisów. Nie należy ich traktować jako wartości prawidłowych. Jest to jedynie estymacja bazująca na tym jaki bolus poprzednio podano i jakie były tego efekty. Jest to tylko narzędzie i każdą decyzję należy przemyśleć.</value>
+    <value>Wyświetlono sugerowaną insulinę i estymowany poziom cukru bazujące na poprzednio wprowadzonych danych.  Uwaga, są to tylko szacunki bazujące na poprzednio podanej insulinie i jej efektach.  Możliwe, że należy dostosować sugerowaną ilość insuliny, szczególnie jeśli widzisz, że estymowany poziom cukru nie jest odpowiedni. </value>
   </data>
   <data name="SuggestedBolus" xml:space="preserve">
-    <value>Sugerowany bolus</value>
+    <value>Sugerowana insulina</value>
   </data>
   <data name="InsulinCalculationIncomplete" xml:space="preserve">
     <value>Dopasowanie posiłku nie jest kompletne.</value>
@@ -655,7 +652,7 @@ Początkowy eksport został również wykonany.</value>
     <value>OPCJE ALTERNATYWNE</value>
   </data>
   <data name="IngredientsNotIncluded" xml:space="preserve">
-    <value>Składniki pominięte</value>
+    <value>Składniki pominięte:</value>
   </data>
   <data name="MaxBolus" xml:space="preserve">
     <value>Bolus maksymalny</value>
@@ -680,5 +677,46 @@ Początkowy eksport został również wykonany.</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>kopiuj</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
+    <value>UŻYWASZ NA WŁASNE RYZYKO. </value>
+  </data>
+  <data name="HelloThanksForTryingOut" xml:space="preserve">
+    <value>Cześć! Dzięki za sprawdzanie Diabetes Spy.
+
+Jest to niezarejestrowana wersja ewaluacyjna i chociaż okres próbny jest nieograniczony, w celu dalszego używania licencja musi być zakupiona.
+ 
+Czy chciałbyś zakupić licencję teraz?</value>
+  </data>
+  <data name="ThisIsAnUnregisteredCopy" xml:space="preserve">
+    <value>Jest to niezarejestrowana kopia</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning2" xml:space="preserve">
+    <value>Jest to tylko narzędzie i każdą decyzję należy przemyśleć i skonsultować z lekarzem.</value>
+  </data>
+  <data name="WelcomeScreen" xml:space="preserve">
+    <value>ekran powitalny</value>
+  </data>
+  <data name="WelcomeScreenHeader" xml:space="preserve">
+    <value>Witamy! Naciśnij OK aby obejrzeć wideo wprowadzające.</value>
+  </data>
+  <data name="WelcomeScreenText" xml:space="preserve">
+    <value>Zarządzanie cukrzycą to ciągłe zajęcie wymagające bardzo częstej decyzji - jaka ilość jednostek insuliny powinna zostać podana z posiłkiem.  Z aplikacją Diabetes Spy liczone są wymagane ilości insuliny (bazując na danych historycznych) i estymowane są poziomy cukru.  System ten umożliwia rosnąco poprawne zbilansowanie jedzenia i insuliny w przyszłych posiłkach.
+
+Jak używać tej aplikacji:
+
+1. Wprowadź składniki posiłku.  Automatycznie wyświetlone zostaną ilość kalorii oraz zawartość tłuszczu, białka i węglowodanów.  Dostępna jest również rozbudowana i łatwo dopasowywalna baza danych produktów dla rynków Polski, Wielkiej Brytanii, Francji i Stanów Zjednoczonych.
+2. Wprowadź ilość insuliny wraz z aktualnym poziomem cukru oraz warunkami fizycznymi i okolicznościami (np. wysiłek fizyczny, choroba, itp.).  Powinien zostać także wprowadzony przynajmniej jeden poziom cukru zmierzony po posiłku/insulinie.
+3. Następnym razem kiedy będziesz mieć podobny posiłek w podobnych okolicznościach i zaczniesz wprowadzać szczegóły insuliny, zostanie wyświetlona sugerowania ilość insuliny.  Pokazany zostanie także wykres obrazujący estymowany poziom cukru po podaniu sugerowanej ilości insuliny.
+
+OSTRZEŻENIE: Aplikacja ta to tylko narzędzie i powinna być używana tylko pod opieką lekarską i z ostrożnością!
+
+Diabetes Spy jest innowacyjnym rozwiązaniem i ponieważ jest to pierwsza wersja tej aplikacji, rozumiemy że tymczasowo nie została ona jeszcze dopasowana do wszystkich potrzeb w każdym czasie.  W związku z tym, zapraszamy do udzielenia nam każdej informacji zwrotnej.  Aplikacja ta może być stosowana przez użytkowników pomp insulinowych i penów.
+
+Inne funkcje aplikacji:
+
+- Umożliwia opcjonalne wykonanie kopii zapasowej i synchronizacji danych w chmurze.  Umożliwia eksportowanie i importowanie danych w formacie pozwalającym na ich ponowne użycie.
+- Nie wymaga połączenia z internetem do pracy.
+- Preferowane jednostki, wersja bazy danych produktów, itp. mogą być wybrane poprzez ustawienia aplikacji.</value>
   </data>
 </root>

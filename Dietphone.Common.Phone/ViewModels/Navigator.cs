@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dietphone.Tools;
+using Dietphone.Views;
 using Pabloware.About;
 
 namespace Dietphone.ViewModels
@@ -45,7 +46,7 @@ namespace Dietphone.ViewModels
         private const string ADD_MEAL_ITEM = "AddMealItem";
         private const string ABOUT_MAIL = "wp7@pabloware.com";
         private const string ABOUT_PATH_TO_LICENSE = "/Dietphone.Rarely.Phone;component/documents/license.{0}.txt";
-        private const string ABOUT_CHANGELOG_URL = "http://www.pabloware.com/wp7/dietphone.changelog.{0}.xaml";
+        private const string ABOUT_CHANGELOG_URL = "http://www.pabloware.com/wp7/diabetes-spy.changelog.{0}.xaml";
         private const string ABOUT_URL = "http://www.pabloware.com/wp7";
         private const string ABOUT_PUBLISHER = "Pabloware";
 
@@ -254,7 +255,7 @@ namespace Dietphone.ViewModels
         {
             var dto = about.Dto;
             var appVersion = new AppVersion();
-            dto.AppName = appVersion.GetAppName();
+            dto.AppName = Translations.DiabetesSpyTitleCase;
             dto.Version = appVersion.GetAppVersion();
             dto.Mail = ABOUT_MAIL;
             dto.Url = ABOUT_URL;

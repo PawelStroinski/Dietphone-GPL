@@ -12,10 +12,11 @@ namespace Dietphone.BinarySerializers
             return new FileStream(path, FileMode.Open);
         }
 
-        public Stream GetOutputStream(string fileName)
+        public OutputStream GetOutputStream(string fileName)
         {
             var path = Path.Combine(DIRECTORY, fileName);
-            return new FileStream(path, FileMode.Truncate);
+            var stream = new FileStream(path, FileMode.Truncate);
+            return new DesktopOutputStream(stream);
         }
     }
 }

@@ -289,7 +289,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BLOOD SUGAR.
+        ///   Looks up a localized string similar to BLOOD-SUGAR.
         /// </summary>
         public static string BloodSugar {
             get {
@@ -415,7 +415,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Carbohydrates (g).
+        ///   Looks up a localized string similar to Carbs + fiber (g).
         /// </summary>
         public static string CarbohydratesG {
             get {
@@ -623,20 +623,29 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DIABETES SPY.
+        /// </summary>
+        public static string DiabetesSpy {
+            get {
+                return ResourceManager.GetString("DiabetesSpy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diabetes Spy.
+        /// </summary>
+        public static string DiabetesSpyTitleCase {
+            get {
+                return ResourceManager.GetString("DiabetesSpyTitleCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dietary fiber (g).
         /// </summary>
         public static string DietaryFiberG {
             get {
                 return ResourceManager.GetString("DietaryFiberG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DIETPHONE.
-        /// </summary>
-        public static string Dietphone {
-            get {
-                return ResourceManager.GetString("Dietphone", resourceCulture);
             }
         }
         
@@ -731,7 +740,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Estimated blood sugar.
+        ///   Looks up a localized string similar to Estimated blood-sugar.
         /// </summary>
         public static string EstimatedBloodSugar {
             get {
@@ -922,6 +931,19 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hello! Thanks for trying out Diabetes Spy.
+        /// 
+        ///This is an unregistered evaluation version, and although the trial is untimed, a license must be purchased for continued use.
+        /// 
+        ///Would you like to purchase a license now?.
+        /// </summary>
+        public static string HelloThanksForTryingOut {
+            get {
+                return ResourceManager.GetString("HelloThanksForTryingOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import completed successfully..
         /// </summary>
         public static string ImportCompletedSuccessfully {
@@ -986,7 +1008,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ingredients not included.
+        ///   Looks up a localized string similar to Ingredients not included:.
         /// </summary>
         public static string IngredientsNotIncluded {
             get {
@@ -1195,7 +1217,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A current meal was not added.
+        ///   Looks up a localized string similar to A current meal has not been added.
         /// </summary>
         public static string NoMealPresent {
             get {
@@ -1240,7 +1262,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A current blood sugar was not entered.
+        ///   Looks up a localized string similar to A current blood-sugar has not been entered.
         /// </summary>
         public static string NoSugarEntered {
             get {
@@ -1636,7 +1658,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Suggested bolus.
+        ///   Looks up a localized string similar to Suggested insulin.
         /// </summary>
         public static string SuggestedBolus {
             get {
@@ -1645,12 +1667,29 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USE AT YOUR OWN RISK. The suggested bolus and the blood sugar estimated after its injection result from your previous entries. These should not be taken as valid values. It is only an estimate based on previously injected bolus and its effects.
-        ///This is only a tool and each decision should be taken thoughtfully..
+        ///   Looks up a localized string similar to The display shows suggested insulin and estimated blood-sugar based on previously entered data.  Note, these are only estimations based on previously injected insulin and its effects.  You may need to adjust the suggested amount of insulin, especially if you see that the estimated blood-sugar level is not appropriate. .
         /// </summary>
         public static string SuggestedInsulinHeader {
             get {
                 return ResourceManager.GetString("SuggestedInsulinHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USE AT YOUR OWN RISK. .
+        /// </summary>
+        public static string SuggestedInsulinHeaderWarning {
+            get {
+                return ResourceManager.GetString("SuggestedInsulinHeaderWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is only a tool and each decision should be made thoughtfully and under medical supervision..
+        /// </summary>
+        public static string SuggestedInsulinHeaderWarning2 {
+            get {
+                return ResourceManager.GetString("SuggestedInsulinHeaderWarning2", resourceCulture);
             }
         }
         
@@ -1745,6 +1784,15 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is an unregistered copy.
+        /// </summary>
+        public static string ThisIsAnUnregisteredCopy {
+            get {
+                return ResourceManager.GetString("ThisIsAnUnregisteredCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
         public static string Time {
@@ -1768,6 +1816,46 @@ namespace Dietphone.Views {
         public static string UnknownInsulinCircumstance {
             get {
                 return ResourceManager.GetString("UnknownInsulinCircumstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to welcome screen.
+        /// </summary>
+        public static string WelcomeScreen {
+            get {
+                return ResourceManager.GetString("WelcomeScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome! Tap OK to watch a short introductory video..
+        /// </summary>
+        public static string WelcomeScreenHeader {
+            get {
+                return ResourceManager.GetString("WelcomeScreenHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://goo.gl/SHSwx6.
+        /// </summary>
+        public static string WelcomeScreenLink {
+            get {
+                return ResourceManager.GetString("WelcomeScreenLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diabetes management is a 24/7 job requiring a very frequent decision - how many units of insulin should be taken with a meal.  With the Diabetes Spy App required quantities of insulin are calculated (based on historical data) and blood-sugar levels are estimated.  This system allows for an increasingly accurate food/insulin balance for future meals.
+        ///
+        ///How to use the App:
+        ///
+        ///1. Enter meal ingredients.  An automatic display will then show the calorie count, fat, protein and carbohydrate contents.  An extensi [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string WelcomeScreenText {
+            get {
+                return ResourceManager.GetString("WelcomeScreenText", resourceCulture);
             }
         }
         
