@@ -1838,7 +1838,7 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://goo.gl/oWKq0S.
+        ///   Looks up a localized string similar to http://goo.gl/SHSwx6.
         /// </summary>
         public static string WelcomeScreenLink {
             get {
