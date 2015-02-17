@@ -10,12 +10,23 @@ namespace Dietphone.Models
             IList<ReplacementItem> usingReplacementItems);
     }
 
+    public interface CuFpuSugarWeighter
+    {
+        float WeigthCu(Meal meal, CollectedSugar collectedSugar);
+        float WeigthFpu(Meal meal, CollectedSugar collectedSugar);
+    }
+
     public class SugarEstimatorImpl : SugarEstimator
     {
         private readonly SugarCollector sugarCollector = new SugarCollector();
         private readonly SugarRelator sugarRelator = new SugarRelator();
-        private readonly SugarWeighter sugarWeighter = new SugarWeighter();
+        private readonly SugarWeighter sugarWeighter;
         private readonly SugarAggregator sugarAggregator = new SugarAggregator();
+
+        public SugarEstimatorImpl(Factories factories)
+        {
+            sugarWeighter = new SugarWeighter(new CuFpuSugarWeighterImpl(factories.Settings));
+        }
 
         public IList<Sugar> GetEstimatedSugarsAfter(Meal meal, Sugar currentBefore,
             IList<ReplacementItem> usingReplacementItems)
@@ -23,7 +34,7 @@ namespace Dietphone.Models
             var collectedByHour = sugarCollector.CollectByHour(meal, usingReplacementItems);
             var collectedSugars = collectedByHour.Values.SelectMany(values => values).ToList();
             sugarRelator.Relate(currentBefore, collectedSugars);
-            sugarWeighter.Weigth(meal, collectedSugars);
+            sugarWeighter.Weight(meal, collectedSugars);
             var result = sugarAggregator.Aggregate(collectedByHour);
             return result.Keys.ToList();
         }
@@ -74,20 +85,77 @@ namespace Dietphone.Models
 
     public class SugarWeighter
     {
-        public void Weigth(Meal meal, List<CollectedSugar> collectedSugars)
+        private readonly CuFpuSugarWeighter cuFpuSugarWeighter;
+
+        public SugarWeighter(CuFpuSugarWeighter cuFpuSugarWeighter)
+        {
+            this.cuFpuSugarWeighter = cuFpuSugarWeighter;
+        }
+
+        public void Weight(Meal meal, List<CollectedSugar> collectedSugars)
         {
             foreach (var collected in collectedSugars)
             {
                 var pattern = collected.Source.Pattern;
-                // TODO: Maybe instead of just always looking at percent of energy in meal I should look at
-                // percent of CU when sugar is just after meal and also percent of FPU afterwards.
-                var mealItemsPercentOfEnergyInMeal
-                    = pattern.For.PercentOfEnergyInMeal(meal);
-                var replacementMealItemsPercentOfEnergyInReplacementMeal
-                    = pattern.Match.PercentOfEnergyInMeal(pattern.From);
-                collected.Weight
-                    = mealItemsPercentOfEnergyInMeal * replacementMealItemsPercentOfEnergyInReplacementMeal;
+                var cuToFpuRatio = meal.CuToFpuRatio * pattern.From.CuToFpuRatio;
+                var fpuToCuRatio = meal.FpuToCuRatio * pattern.From.FpuToCuRatio;
+                var weight
+                    = cuFpuSugarWeighter.WeigthCu(meal, collected) * cuToFpuRatio
+                    + cuFpuSugarWeighter.WeigthFpu(meal, collected) * fpuToCuRatio;
+                collected.Weight = (float)weight;
             }
+        }
+    }
+
+    public class CuFpuSugarWeighterImpl : CuFpuSugarWeighter
+    {
+        private readonly Settings settings;
+        private static readonly TimeSpan MAX_SMOOTHING = TimeSpan.FromHours(1);
+
+        public CuFpuSugarWeighterImpl(Settings settings)
+        {
+            this.settings = settings;
+        }
+
+        public float WeigthCu(Meal meal, CollectedSugar collectedSugar)
+        {
+            var pattern = collectedSugar.Source.Pattern;
+            var mealItemsPercentOfCuInMeal
+                = pattern.For.PercentOfCuInMeal(meal);
+            var replacementMealItemsPercentOfCuInReplacementMeal
+                = pattern.Match.PercentOfCuInMeal(pattern.From);
+            var timeSpan = collectedSugar.Related.DateTime - meal.DateTime;
+            var margin = TimeSpan.FromHours(settings.CuSugarsHoursToExcludingPlusOneSmoothing);
+            var pastMargin = timeSpan - margin;
+            var time = CalculateTime(pastMargin);
+            return mealItemsPercentOfCuInMeal * replacementMealItemsPercentOfCuInReplacementMeal * time;
+        }
+
+        public float WeigthFpu(Meal meal, CollectedSugar collectedSugar)
+        {
+            var pattern = collectedSugar.Source.Pattern;
+            var mealItemsPercentOfFpuInMeal
+                = pattern.For.PercentOfFpuInMeal(meal);
+            var replacementMealItemsPercentOfFpuInReplacementMeal
+                = pattern.Match.PercentOfFpuInMeal(pattern.From);
+            var timeSpan = collectedSugar.Related.DateTime - meal.DateTime;
+            var margin = TimeSpan.FromHours(settings.FpuSugarsHoursFromExcludingMinusOneSmoothing);
+            var toMargin = margin - timeSpan;
+            var time = CalculateTime(toMargin);
+            return mealItemsPercentOfFpuInMeal * replacementMealItemsPercentOfFpuInReplacementMeal * time;
+        }
+
+        private float CalculateTime(TimeSpan overMargin)
+        {
+            if (overMargin > TimeSpan.Zero)
+                if (overMargin < MAX_SMOOTHING)
+                {
+                    var smoothing = overMargin.TotalHours / MAX_SMOOTHING.TotalHours;
+                    return (float)(1 - smoothing);
+                }
+                else
+                    return 0;
+            return 1f;
         }
     }
 
@@ -112,7 +180,7 @@ namespace Dietphone.Models
     {
         public Sugar Collected { get; set; }
         public Sugar Related { get; set; }
-        public int Weight { get; set; }
+        public float Weight { get; set; }
         public ReplacementItem Source { get; set; }
     }
 }

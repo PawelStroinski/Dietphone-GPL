@@ -14,6 +14,8 @@ namespace Dietphone.Models
         public bool ScoreCu { get; set; }
         public bool ScoreFpu { get; set; }
         public int SugarsAfterInsulinHours { get; set; }
+        public float CuSugarsHoursToExcludingPlusOneSmoothing { get; set; }
+        public float FpuSugarsHoursFromExcludingMinusOneSmoothing { get; set; }
         public SugarUnit SugarUnit { get; set; }
         public float MaxBolus { get; set; }
         public List<Guid> MruProductIds { get; set; }
@@ -38,6 +40,8 @@ namespace Dietphone.Models
             MruProductIds = new List<Guid>();
             MruProductMaxCount = 10;
             SugarsAfterInsulinHours = 4;
+            CuSugarsHoursToExcludingPlusOneSmoothing = 3.25f;
+            FpuSugarsHoursFromExcludingMinusOneSmoothing = 1.75f;
             SugarUnit = GetDefaultSugarUnit();
             MaxBolus = 5;
             CloudSecret = string.Empty;

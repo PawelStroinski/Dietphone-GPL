@@ -18,7 +18,7 @@ namespace Dietphone.BinarySerializers
         {
             get
             {
-                return 8;
+                return 9;
             }
         }
 
@@ -43,6 +43,8 @@ namespace Dietphone.BinarySerializers
             writer.Write((byte)item.Unit);
             writer.Write(item.TrialCounter);
             writer.Write(item.ShowWelcomeScreen);
+            writer.Write(item.CuSugarsHoursToExcludingPlusOneSmoothing);
+            writer.Write(item.FpuSugarsHoursFromExcludingMinusOneSmoothing);
         }
 
         public override void ReadItem(BinaryReader reader, Settings item)
@@ -76,6 +78,11 @@ namespace Dietphone.BinarySerializers
                 item.TrialCounter = reader.ReadByte();
             if (ReadingVersion >= 8)
                 item.ShowWelcomeScreen = reader.ReadBoolean();
+            if (ReadingVersion >= 9)
+            {
+                item.CuSugarsHoursToExcludingPlusOneSmoothing = reader.ReadSingle();
+                item.FpuSugarsHoursFromExcludingMinusOneSmoothing = reader.ReadSingle();
+            }
         }
     }
 }

@@ -280,6 +280,16 @@ namespace Dietphone.Models
         {
             return (byte)Math.Round((double)Energy / meal.Energy * 100);
         }
+
+        public byte PercentOfCuInMeal(Meal meal)
+        {
+            return (byte)Math.Round((double)Cu / meal.Cu * 100);
+        }
+
+        public byte PercentOfFpuInMeal(Meal meal)
+        {
+            return (byte)Math.Round((double)Fpu / meal.Fpu * 100);
+        }
     }
 
     public class MealItemWithValidation : MealItemWithNutrients

@@ -355,7 +355,7 @@ namespace Dietphone.Views
                 new PatternBuilderImpl.PointsForFactorCloserToOne());
             var replacementBuilder = new ReplacementBuilderImpl(new ReplacementBuilderImpl.IsComplete(),
                 new ReplacementBuilderImpl.InsulinTotal());
-            var sugarEstimator = new SugarEstimatorImpl();
+            var sugarEstimator = new SugarEstimatorImpl(MyApp.Factories);
             var facade = new ReplacementBuilderAndSugarEstimatorFacadeImpl(patternBuilder,
                 replacementBuilder, sugarEstimator);
             return facade;

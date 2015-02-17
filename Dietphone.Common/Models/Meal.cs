@@ -93,6 +93,28 @@ namespace Dietphone.Models
             }
         }
 
+        public double CuToFpuRatio
+        {
+            get
+            {
+                if (Fpu == 0)
+                    return 0;
+                else
+                    return Cu / Fpu;
+            }
+        }
+
+        public double FpuToCuRatio
+        {
+            get
+            {
+                if (Cu == 0)
+                    return 0;
+                else
+                    return Fpu / Cu;
+            }
+        }
+
         public void InitializeItems(List<MealItem> newItems)
         {
             var alreadyInitialized = items != null;

@@ -114,5 +114,15 @@ namespace Dietphone.BinarySerializers.Tests
             var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 7);
             Assert.IsTrue(readSettings.ShowWelcomeScreen);
         }
+
+        [Test]
+        public void Default_CuSugarsHours_And_FpuSugarsHours()
+        {
+            var settingsToWrite = new Settings();
+            var storage = new SettingsBinaryStorage();
+            var readedSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 8);
+            Assert.AreEqual(3.25f, readedSettings.CuSugarsHoursToExcludingPlusOneSmoothing);
+            Assert.AreEqual(1.75f, readedSettings.FpuSugarsHoursFromExcludingMinusOneSmoothing);
+        }
     }
 }

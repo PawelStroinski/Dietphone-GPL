@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using System.Globalization;
 using Ploeh.AutoFixture;
+using NSubstitute;
 
 namespace Dietphone.Models.Tests
 {
@@ -35,9 +36,11 @@ namespace Dietphone.Models.Tests
             };
             foreach (var replacementItem in replacementItems)
                 replacementItem.Pattern.Match = replacementItem.Pattern.From.Items.First();
-            var sut = new SugarEstimatorImpl();
+            factories.Settings.CuSugarsHoursToExcludingPlusOneSmoothing = 1;
+            factories.Settings.FpuSugarsHoursFromExcludingMinusOneSmoothing = 1;
+            var sut = new SugarEstimatorImpl(factories);
             var actual = sut.GetEstimatedSugarsAfter(meal, currentBefore, replacementItems);
-            var expected = AddSugars("12:25 124 13:32 104 14:35 180");
+            var expected = AddSugars("12:25 122.8 13:32 103.8 14:35 180");
             Assert.AreEqual(expected, actual);
         }
     }
@@ -177,34 +180,121 @@ namespace Dietphone.Models.Tests
 
     public class SugarWeighterTests : ModelBasedTests
     {
-        [TestCase("1 100g", "1 100g = 100*100")]
-        [TestCase("1 150g 2 50g", "1 100g = 75*100", "2 50g 1 150g = 25*25")]
-        [TestCase("1 150g 2 50g", "1 50g 2 150g = 75*25", "1 80g 2 20g = 75*80", "2 40g 1 40g = 25*50")]
-        // In this test always the first meal item of replacement meal is the replacement meal item
-        public void ReturnsProductOfMealItemPercentOfEnergyInMealAndReplacementMealItemPercentOfEnergyInReplacementMeal(
-            string meal, params string[] replacementMealAndExpectedWeigth)
+        [TestCase("both", "12:00 1 50g 7 50g", 5, 10, "15:00 1 75g 7 60g", 7.5, 14)]
+        [TestCase("noCu", "12:00 7 50g", 0, 3.5, "15:00 7 100g", 0, 7)]
+        [TestCase("noFpu", "12:00 8 50g", 2.5, 0, "15:00 8 100g", 5, 0)]
+        [TestCase("noCuInMeal", "12:00 7 50g", 0, 3.5, "15:00 1 75g 7 60g", 7.5, 14)]
+        [TestCase("noFpuInMeal", "12:00 8 50g", 2.5, 0, "15:00 1 75g 7 60g", 7.5, 14)]
+        [TestCase("noCuInReplacement", "12:00 1 50g 7 50g", 5, 10, "15:00 7 100g", 0, 7)]
+        [TestCase("noFpuInReplacement", "12:00 1 50g 7 50g", 5, 10, "15:00 8 100g", 5, 0)]
+        public void ReturnsSumOfWeightsReturnedByCuFpuSugarWeighterWeightedByCuToFpuRatioInMealAndReplacementMeal(
+            string caseName, string meal, double mealCu, double mealFpu,
+            string replacement, double replacementCu, double replacementFpu)
         {
             var collectedSugars = new List<CollectedSugar>();
-            var expectedWeigths = new List<int>();
-            var currentMeal = AddMeal("12:00 " + meal);
-            foreach (var toSplit in replacementMealAndExpectedWeigth)
+            var expectedWeights = new List<float>();
+            AddProduct(7, energy: 0, carbs: 0, protein: 40, fat: 60);
+            AddProduct(8, energy: 0, carbs: 50, protein: 0, fat: 0);
+            var currentMeal = AddMeal(meal);
+            var replacementMeal = AddMeal(replacement);
+            Assert.AreEqual(currentMeal.Cu, mealCu);
+            Assert.AreEqual(currentMeal.Fpu, mealFpu);
+            Assert.AreEqual(replacementMeal.Cu, replacementCu);
+            Assert.AreEqual(replacementMeal.Fpu, replacementFpu);
+            var cuFpuSugarWeighter = Substitute.For<CuFpuSugarWeighter>();
+            for (int i = 1; i <= 5; i++)
             {
-                var splet = toSplit.Split('=').Select(substring => substring.Trim()).ToList();
-                var replacementMeal = AddMeal("12:00 " + splet[0]);
-                var expectedWeight = splet[1].Split('*').Select(substring => int.Parse(substring))
-                    .Aggregate((left, right) => left * right);
                 var collectedSugar = new CollectedSugar { Source = new ReplacementItem { Pattern = new Pattern() } };
-                var pattern = collectedSugar.Source.Pattern;
-                pattern.Match = replacementMeal.Items[0];
-                pattern.From = replacementMeal;
-                pattern.For = currentMeal.Items.First(item => item.Product == pattern.Match.Product);
+                collectedSugar.Source.Pattern.From = replacementMeal;
                 collectedSugars.Add(collectedSugar);
-                expectedWeigths.Add(expectedWeight);
+                cuFpuSugarWeighter.WeigthCu(currentMeal, collectedSugar).Returns(i * 5000);
+                cuFpuSugarWeighter.WeigthFpu(currentMeal, collectedSugar).Returns(i * 10000);
+                var expectedWeight = 0.0;
+                if (caseName == "both") expectedWeight = i * 5000 * (5.0 / 10) * (7.5 / 14)
+                                                       + i * 10000 * (10.0 / 5) * (14 / 7.5);
+                else if (caseName == "noCu") expectedWeight = i * 10000;
+                else if (caseName == "noFpu") expectedWeight = i * 5000;
+                else if (caseName == "noCuInMeal") expectedWeight = i * 10000 * 1 * (14 / 7.5);
+                else if (caseName == "noFpuInMeal") expectedWeight = i * 5000 * 1 * (7.5 / 14);
+                else if (caseName == "noCuInReplacement") expectedWeight = i * 10000 * (10.0 / 5) * 1;
+                else if (caseName == "noFpuInReplacement") expectedWeight = i * 5000 * (5.0 / 10) * 1;
+                else throw new InvalidOperationException("Unknown caseName");
+                expectedWeights.Add((float)expectedWeight);
             }
-            var sut = new SugarWeighter();
-            sut.Weigth(currentMeal, collectedSugars);
+            var sut = new SugarWeighter(cuFpuSugarWeighter);
+            sut.Weight(currentMeal, collectedSugars);
             var actualWeights = collectedSugars.Select(collected => collected.Weight).ToList();
-            Assert.AreEqual(expectedWeigths, actualWeights);
+            Assert.AreEqual(expectedWeights, actualWeights);
+        }
+    }
+
+    public class CuFpuSugarWeighterTests : ModelBasedTests
+    {
+        private Meal currentMeal;
+        private Meal replacementMeal;
+        private float expected;
+        private CollectedSugar collectedSugar;
+
+        private void Initialize(
+            string meal, string replacementMealWithFirstItemAsReplacementItem, string sugarTime, string expectedWeigth)
+        {
+            currentMeal = AddMeal("12:00 " + meal);
+            replacementMeal = AddMeal("18:00 " + replacementMealWithFirstItemAsReplacementItem);
+            var sugar = AddSugars(sugarTime + " 100")[0];
+            expected = expectedWeigth.Split('*').Select(substring => float.Parse(substring, new CultureInfo("en")))
+                .Aggregate((left, right) => left * right);
+            collectedSugar = new CollectedSugar { Source = new ReplacementItem { Pattern = new Pattern() } };
+            collectedSugar.Collected = sugar;
+            collectedSugar.Related = sugar;
+            var pattern = collectedSugar.Source.Pattern;
+            pattern.Match = replacementMeal.Items[0];
+            pattern.From = replacementMeal;
+            pattern.For = currentMeal.Items.First(item => item.Product == pattern.Match.Product);
+        }
+
+        [TestCase("1 100g", "1 100g", "12:00", "100*100*1")]
+        [TestCase("1 100g", "1 100g", "11:30", "100*100*1")]
+        [TestCase("1 100g", "1 100g", "12:30", "100*100*1")]
+        [TestCase("1 150g 2 50g", "1 100g", "14:00", "75*100*1")]
+        [TestCase("1 150g 2 50g", "2 50g 1 150g", "14:30", "25*25*0.5")]
+        [TestCase("1 150g 3 100g", "3 50g 1 100g", "12:30", "25*20*1")]
+        [TestCase("3 100g", "3 100g", "14:54", "100*100*0.1")]
+        [TestCase("3 100g", "3 100g", "15:00", "100*100*0")]
+        [TestCase("3 100g", "3 100g", "15:30", "100*100*0")]
+        public void ReturnsProductOfMealItemPercentOfCuInMealAndReplacementMealItemPercentOfCuInReplacementMealAndTime(
+            string meal, string replacementMealWithFirstItemAsReplacementItem, string sugarTime, string expectedWeigth)
+        {
+            var settings = new Settings { CuSugarsHoursToExcludingPlusOneSmoothing = 2 };
+            var half = factories.Finder.FindProductById(((byte)3).ToGuid());
+            half.CarbsTotalPer100g = 50;
+            Assume.That(factories.Products.First().CuPer100g / 2 == half.CuPer100g);
+            Initialize(meal, replacementMealWithFirstItemAsReplacementItem, sugarTime, expectedWeigth);
+            var sut = new CuFpuSugarWeighterImpl(settings);
+            var actual = sut.WeigthCu(currentMeal, collectedSugar);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase("1 100g", "1 100g", "12:00", "100*100*0")]
+        [TestCase("1 100g", "1 100g", "11:30", "100*100*0")]
+        [TestCase("1 100g", "1 100g", "12:30", "100*100*0")]
+        [TestCase("1 100g", "1 100g", "12:36", "100*100*0.1")]
+        [TestCase("2 100g", "2 100g", "13:24", "100*100*0.9")]
+        [TestCase("3 100g", "3 100g", "13:30", "100*100*1")]
+        [TestCase("1 150g 2 50g", "1 100g", "14:00", "75*100*1")]
+        [TestCase("1 150g 2 50g", "2 50g 1 150g", "13:00", "25*25*0.5")]
+        [TestCase("1 150g 3 100g", "3 50g 1 100g", "16:00", "25*20*1")]
+        public void ReturnsProductOfMealItemPercentOfFpuInMealAndReplacementMealItemPercentOfFpuInReplacementMealAndTime(
+            string meal, string replacementMealWithFirstItemAsReplacementItem, string sugarTime, string expectedWeigth)
+        {
+            var settings = new Settings { FpuSugarsHoursFromExcludingMinusOneSmoothing = 1.5f };
+            var half = factories.Finder.FindProductById(((byte)3).ToGuid());
+            half.ProteinPer100g = 73;
+            half.FatPer100g = 40;
+            Assume.That(factories.Products.First().FpuPer100g / 2 == half.FpuPer100g);
+            Initialize(meal, replacementMealWithFirstItemAsReplacementItem, sugarTime, expectedWeigth);
+            var sut = new CuFpuSugarWeighterImpl(settings);
+            var actual = sut.WeigthFpu(currentMeal, collectedSugar);
+            Assert.AreEqual(expected, actual);
         }
     }
 
@@ -263,6 +353,12 @@ namespace Dietphone.Models.Tests
             var sut = new SugarAggregator();
             var actual = sut.Aggregate(collectedByHour);
             Assert.AreEqual(new TimeSpan(21, 10, 00), actual.Single().Key.DateTime.TimeOfDay);
+        }
+
+        [Test]
+        public void SkipsWhenSumOfWeightIsVerySmall()
+        {
+            // TODO
         }
     }
 }

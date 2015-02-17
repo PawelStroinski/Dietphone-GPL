@@ -94,7 +94,7 @@ namespace Dietphone.Models.Tests
             {
                 var sugar = factories.CreateSugar();
                 sugar.DateTime = basedate + TimeSpan.Parse(splet[i]);
-                sugar.BloodSugar = int.Parse(splet[i + 1]);
+                sugar.BloodSugar = float.Parse(splet[i + 1], new CultureInfo("en"));
                 sugars.Add(sugar);
             }
             return sugars;

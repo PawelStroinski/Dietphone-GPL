@@ -7,7 +7,7 @@ namespace Dietphone.Models.Tests
     public class MealItemTests
     {
         [Test]
-        public void PercentOfEnergyInMeal()
+        public void PercentOfEnergyCuFpuInMeal()
         {
             var factories = new FactoriesImpl();
             factories.StorageCreator = new StorageCreatorStub();
@@ -15,8 +15,14 @@ namespace Dietphone.Models.Tests
             var meal2 = factories.CreateMeal();
             var product1 = factories.CreateProduct();
             product1.EnergyPer100g = 100;
+            product1.CarbsTotalPer100g = 200;
+            product1.FatPer100g = 300;
+            product1.ProteinPer100g = 400;
             var product2 = factories.CreateProduct();
             product2.EnergyPer100g = 200;
+            product2.CarbsTotalPer100g = 100;
+            product2.FatPer100g = 50;
+            product2.ProteinPer100g = 25;
             var item1 = meal1.AddItem();
             item1.ProductId = product1.Id;
             item1.Value = 10;
@@ -27,6 +33,12 @@ namespace Dietphone.Models.Tests
             Assert.AreEqual(17, item1.PercentOfEnergyInMeal(meal1));
             Assert.AreEqual(83, item2.PercentOfEnergyInMeal(meal1));
             Assert.AreEqual(0, item3.PercentOfEnergyInMeal(meal2));
+            Assert.AreEqual(44, item1.PercentOfCuInMeal(meal1));
+            Assert.AreEqual(56, item2.PercentOfCuInMeal(meal1));
+            Assert.AreEqual(0, item3.PercentOfCuInMeal(meal2));
+            Assert.AreEqual(75, item1.PercentOfFpuInMeal(meal1));
+            Assert.AreEqual(25, item2.PercentOfFpuInMeal(meal1));
+            Assert.AreEqual(0, item3.PercentOfFpuInMeal(meal2));
         }
 
         public class NutrientsTests : MealItemTests
