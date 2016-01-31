@@ -3,6 +3,7 @@
 // http://joshsmithonwpf.wordpress.com/
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Dietphone.ViewModels
 {
@@ -30,7 +31,7 @@ namespace Dietphone.ViewModels
             }
             // verify that the property name matches a real,  
             // public, instance property on this object.
-            if (GetType().GetProperty(propertyName) == null)
+            if (GetType().GetRuntimeProperty(propertyName) == null)
             {
                 Debug.Assert(false, "Invalid property name: " + propertyName);
             }

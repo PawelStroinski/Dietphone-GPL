@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 
 namespace Dietphone.Models
 {
@@ -208,8 +208,7 @@ namespace Dietphone.Models
         {
             get
             {
-                var thread = Thread.CurrentThread;
-                var culture = thread.CurrentCulture;
+                var culture = CultureInfo.CurrentCulture;
                 return culture.Name;
             }
         }

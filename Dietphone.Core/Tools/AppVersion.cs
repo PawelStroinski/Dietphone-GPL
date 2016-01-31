@@ -22,7 +22,7 @@ namespace Dietphone.Tools
 
         private string GetPartOfAssemblyName(byte partNumber)
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            var assembly = this.GetType().GetTypeInfo().Assembly;
             var name = assembly.FullName;
             var parts = name.Split(',');
             return parts[partNumber];

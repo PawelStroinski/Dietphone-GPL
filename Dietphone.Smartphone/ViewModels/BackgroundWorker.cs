@@ -17,7 +17,8 @@ namespace Dietphone.ViewModels
 
         protected virtual void OnRunWorkerCompleted(RunWorkerCompletedEventArgs eventArguments)
         {
-            RunWorkerCompleted(this, eventArguments);
+            if (RunWorkerCompleted != null)
+                RunWorkerCompleted(this, eventArguments);
         }
     }
 

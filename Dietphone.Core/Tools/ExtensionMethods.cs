@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Dietphone.Tools
 {
@@ -44,11 +45,11 @@ namespace Dietphone.Tools
         public static void CopyFrom<T>(this T target, T source) where T : class
         {
             var type = typeof(T);
-            var properties = type.GetProperties();
+            var properties = type.GetRuntimeProperties();
             foreach (var property in properties)
             {
-                var getMethod = property.GetGetMethod();
-                var setMethod = property.GetSetMethod();
+                var getMethod = property.GetMethod;
+                var setMethod = property.SetMethod;
                 if (getMethod != null && setMethod != null)
                 {
                     var value = getMethod.Invoke(source, null);
@@ -62,8 +63,8 @@ namespace Dietphone.Tools
         {
             var targetType = target.GetType();
             var sourceType = source.GetType();
-            var targetProperties = targetType.GetProperties();
-            var sourceProperties = sourceType.GetProperties();
+            var targetProperties = targetType.GetRuntimeProperties();
+            var sourceProperties = sourceType.GetRuntimeProperties();
             foreach (var sourceProperty in sourceProperties)
             {
                 foreach (var targetProperty in targetProperties)
@@ -72,8 +73,8 @@ namespace Dietphone.Tools
                     {
                         continue;
                     }
-                    var setMethod = targetProperty.GetSetMethod();
-                    var getMethod = sourceProperty.GetGetMethod();
+                    var setMethod = targetProperty.SetMethod;
+                    var getMethod = sourceProperty.GetMethod;
                     if (setMethod != null && getMethod != null)
                     {
                         var value = getMethod.Invoke(source, null);
@@ -150,15 +151,15 @@ namespace Dietphone.Tools
         public static void SetNullStringPropertiesToEmpty(this object target)
         {
             var type = target.GetType();
-            var properties = type.GetProperties();
+            var properties = type.GetRuntimeProperties();
             var emptyString = new object[] { string.Empty };
             var stringType = typeof(string);
             foreach (var property in properties)
             {
                 if (property.PropertyType == stringType)
                 {
-                    var getMethod = property.GetGetMethod();
-                    var setMethod = property.GetSetMethod();
+                    var getMethod = property.GetMethod;
+                    var setMethod = property.SetMethod;
                     if (getMethod != null && setMethod != null)
                     {
                         var value = getMethod.Invoke(target, null);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Reflection;
 
 namespace Dietphone.Models
 {
@@ -41,7 +42,7 @@ namespace Dietphone.Models
             {
                 return;
             }
-            if (typeof(TStorage).IsSubclassOf(typeof(TBaseStorageForEntity)))
+            if (typeof(TStorage).GetTypeInfo().IsSubclassOf(typeof(TBaseStorageForEntity)))
             {
                 rightStorageForEntity = new TStorage() as TBaseStorageForEntity;
             }

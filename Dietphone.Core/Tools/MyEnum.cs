@@ -1,5 +1,6 @@
 ﻿// Based on http://stackoverflow.com/questions/105372/c-how-to-enumerate-an-enum
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Dietphone.Tools
@@ -8,14 +9,11 @@ namespace Dietphone.Tools
     {
         public static IEnumerable<T> GetValues<T>()
         {
-            var enumerations = new List<T>();
             var enumType = typeof(T);
-            var enumFields = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
-            foreach (var fieldInfo in enumFields)
-            {
-                enumerations.Add((T)fieldInfo.GetValue(enumType));
-            }
-            return enumerations;
+            var fields = enumType.GetRuntimeFields();
+            var enumFields = fields.Where(fieldInfo => fieldInfo.IsStatic && fieldInfo.IsPublic);
+            var enumerations = enumFields.Select(fieldInfo => fieldInfo.GetValue(enumType));
+            return enumerations.Cast<T>();
         }
     }
 }

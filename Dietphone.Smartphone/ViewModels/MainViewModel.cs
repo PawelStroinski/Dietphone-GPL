@@ -105,14 +105,12 @@ namespace Dietphone.ViewModels
 
         private void CreateTimerToExportToCloud()
         {
-            Timer timer = null;
-            timer = timerFactory.Create(callback: _ =>
+            timerFactory.Create(callback: () =>
             {
                 var worker = workerFactory.Create();
                 worker.DoWork += delegate { ExportToCloud(); };
-                worker.RunWorkerCompleted += delegate { timer.Dispose(); };
                 worker.RunWorkerAsync();
-            }, state: null, dueTime: 500, period: -1);
+            }, dueTime: 500);
         }
 
         private void HandleShowWelcomeScreen()

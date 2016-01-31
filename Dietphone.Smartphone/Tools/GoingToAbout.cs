@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Globalization;
 using Dietphone.Tools;
+using System.Reflection;
 
 namespace Pabloware.About
 {
@@ -36,10 +37,10 @@ namespace Pabloware.About
         {
             var builder = new StringBuilder();
             var type = typeof(AboutDto);
-            var properties = type.GetProperties();
+            var properties = type.GetRuntimeProperties();
             foreach (var property in properties)
             {
-                var getMethod = property.GetGetMethod();
+                var getMethod = property.GetMethod;
                 if (getMethod != null)
                 {
                     var value = getMethod.Invoke(Dto, null);

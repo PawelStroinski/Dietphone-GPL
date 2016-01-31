@@ -74,14 +74,11 @@ namespace Dietphone.Smartphone.Tests
             cloud.When(Cloud => Cloud.Export()).Do(_ => { if (throwInExport) throw new Exception(); });
             cloud.ShouldExport().Returns(shouldExport);
             var timerFactory = Substitute.For<TimerFactory>();
-            TimerCallback timerCallback = null;
-            timerFactory.Create(null, null, 0, 0).ReturnsForAnyArgs((args) =>
+            Action timerCallback = null;
+            timerFactory.WhenForAnyArgs(factory => factory.Create(null, 0)).Do((args) =>
             {
-                timerCallback = (TimerCallback)args[0];
-                Assert.IsNull(args[1]);
-                Assert.AreEqual(500, args[2]);
-                Assert.AreEqual(-1, args[3]);
-                return new Timer(timerCallback);
+                timerCallback = (Action)args[0];
+                Assert.AreEqual(500, args[1]);
             });
             var factories = Substitute.For<Factories>();
             factories.Settings.Returns(new Settings());
@@ -96,7 +93,7 @@ namespace Dietphone.Smartphone.Tests
             {
                 Assert.IsNotNull(timerCallback);
                 cloud.DidNotReceive().Export();
-                timerCallback(null);
+                timerCallback();
                 cloud.Received().Export();
                 Assert.AreEqual(throwInExport, exportToCloudErrored);
             } else
