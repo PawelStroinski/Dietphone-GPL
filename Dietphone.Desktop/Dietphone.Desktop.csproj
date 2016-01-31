@@ -8,8 +8,8 @@
     <ProjectGuid>{8240280C-6C6B-4969-85FC-029AA0A85A1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dietphone.Common.Desktop</RootNamespace>
-    <AssemblyName>Dietphone.Common.Desktop</AssemblyName>
+    <RootNamespace>Dietphone.Desktop</RootNamespace>
+    <AssemblyName>Dietphone.Desktop</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

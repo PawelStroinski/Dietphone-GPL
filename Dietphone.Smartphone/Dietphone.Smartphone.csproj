@@ -36,9 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">
+    <ProjectReference Include="..\Dietphone.Core\Dietphone.Core.csproj">
       <Project>{62a44f50-63f5-4f79-a980-1f85a8793e82}</Project>
-      <Name>Dietphone.Common</Name>
+      <Name>Dietphone.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

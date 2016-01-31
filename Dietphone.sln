@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone", "Dietphone\Dietphone.csproj", "{87742C9F-0ED0-48E1-81D6-F5DFFF417259}"
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Phone", "Dietphone.Phone\Dietphone.Phone.csproj", "{87742C9F-0ED0-48E1-81D6-F5DFFF417259}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Rarely.Phone", "Dietphone.Rarely.Phone\Dietphone.Rarely.Phone.csproj", "{6799EBF8-6CFB-4E40-8743-8DEFD9D4F1AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Phone.Rarely", "Dietphone.Phone.Rarely\Dietphone.Phone.Rarely.csproj", "{6799EBF8-6CFB-4E40-8743-8DEFD9D4F1AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Sometimes.Phone", "Dietphone.Sometimes.Phone\Dietphone.Sometimes.Phone.csproj", "{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Phone.Sometimes", "Dietphone.Phone.Sometimes\Dietphone.Phone.Sometimes.csproj", "{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common", "Dietphone.Common\Dietphone.Common.csproj", "{62A44F50-63F5-4F79-A980-1F85A8793E82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Core", "Dietphone.Core\Dietphone.Core.csproj", "{62A44F50-63F5-4F79-A980-1F85A8793E82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Tests", "Dietphone.Common.Tests\Dietphone.Common.Tests.csproj", "{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Core.Tests", "Dietphone.Core.Tests\Dietphone.Core.Tests.csproj", "{BFCCD72A-9BFF-4252-855A-C188B6C7B6FB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3040AB20-0956-4BD8-A0C0-DDEEBB1508F9}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,20 +20,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3040AB
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone.Tests", "Dietphone.Common.Phone.Tests\Dietphone.Common.Phone.Tests.csproj", "{92635A0B-446F-4A4E-9DCA-13D847B93054}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Smartphone.Tests", "Dietphone.Smartphone.Tests\Dietphone.Smartphone.Tests.csproj", "{92635A0B-446F-4A4E-9DCA-13D847B93054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone", "Dietphone.Common.Phone\Dietphone.Common.Phone.csproj", "{2788C479-27D7-4B73-94EA-988274ABB912}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Smartphone", "Dietphone.Smartphone\Dietphone.Smartphone.csproj", "{2788C479-27D7-4B73-94EA-988274ABB912}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Phone.Windows", "Dietphone.Common.Phone.Windows\Dietphone.Common.Phone.Windows.csproj", "{5B491308-7819-405D-9F2F-D6949A7022AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Phone.Tools", "Dietphone.Phone.Tools\Dietphone.Phone.Tools.csproj", "{5B491308-7819-405D-9F2F-D6949A7022AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Dropbox", "Dietphone.Dropbox\Dietphone.Dropbox.csproj", "{D5F64748-4E67-4BFE-A9C7-80739672C21A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Rarely.Phone.Tests", "Dietphone.Rarely.Phone.Tests\Dietphone.Rarely.Phone.Tests.csproj", "{30C9DA4E-19AD-4E5E-80B6-4361B4E326F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Phone.Rarely.Tests", "Dietphone.Phone.Rarely.Tests\Dietphone.Phone.Rarely.Tests.csproj", "{30C9DA4E-19AD-4E5E-80B6-4361B4E326F0}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Dietphone.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -146,5 +145,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Dietphone.vsmdi
 	EndGlobalSection
 EndGlobal

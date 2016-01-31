@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.DesktopHelper", "Dietphone.DesktopHelper.csproj", "{523DA5E8-F233-491E-B2E0-62494918E0CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Common.Desktop", "..\Dietphone.Common.Desktop\Dietphone.Common.Desktop.csproj", "{8240280C-6C6B-4969-85FC-029AA0A85A1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Desktop", "..\Dietphone.Desktop\Dietphone.Desktop.csproj", "{8240280C-6C6B-4969-85FC-029AA0A85A1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

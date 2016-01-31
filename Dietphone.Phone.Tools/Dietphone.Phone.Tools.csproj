@@ -128,13 +128,13 @@
     <Compile Include="Views\StateProviderPage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dietphone.Common.Phone\Dietphone.Common.Phone.csproj">
+    <ProjectReference Include="..\Dietphone.Smartphone\Dietphone.Smartphone.csproj">
       <Project>{2788C479-27D7-4B73-94EA-988274ABB912}</Project>
-      <Name>Dietphone.Common.Phone</Name>
+      <Name>Dietphone.Smartphone</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">
+    <ProjectReference Include="..\Dietphone.Core\Dietphone.Core.csproj">
       <Project>{62A44F50-63F5-4F79-A980-1F85A8793E82}</Project>
-      <Name>Dietphone.Common</Name>
+      <Name>Dietphone.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dietphone.Dropbox\Dietphone.Dropbox.csproj">
       <Project>{D5F64748-4E67-4BFE-A9C7-80739672C21A}</Project>

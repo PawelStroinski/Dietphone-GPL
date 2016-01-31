@@ -96,9 +96,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dietphone.Common.Desktop\Dietphone.Common.Desktop.csproj">
+    <ProjectReference Include="..\Dietphone.Desktop\Dietphone.Desktop.csproj">
       <Project>{8240280C-6C6B-4969-85FC-029AA0A85A1C}</Project>
-      <Name>Dietphone.Common.Desktop</Name>
+      <Name>Dietphone.Desktop</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

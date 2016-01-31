@@ -322,25 +322,25 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dietphone.Common.Phone.Windows\Dietphone.Common.Phone.Windows.csproj">
+    <ProjectReference Include="..\Dietphone.Phone.Tools\Dietphone.Phone.Tools.csproj">
       <Project>{5B491308-7819-405D-9F2F-D6949A7022AD}</Project>
-      <Name>Dietphone.Common.Phone.Windows</Name>
+      <Name>Dietphone.Phone.Tools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dietphone.Common.Phone\Dietphone.Common.Phone.csproj">
+    <ProjectReference Include="..\Dietphone.Smartphone\Dietphone.Smartphone.csproj">
       <Project>{2788C479-27D7-4B73-94EA-988274ABB912}</Project>
-      <Name>Dietphone.Common.Phone</Name>
+      <Name>Dietphone.Smartphone</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dietphone.Common\Dietphone.Common.csproj">
+    <ProjectReference Include="..\Dietphone.Core\Dietphone.Core.csproj">
       <Project>{62A44F50-63F5-4F79-A980-1F85A8793E82}</Project>
-      <Name>Dietphone.Common</Name>
+      <Name>Dietphone.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dietphone.Sometimes.Phone\Dietphone.Sometimes.Phone.csproj">
+    <ProjectReference Include="..\Dietphone.Phone.Sometimes\Dietphone.Phone.Sometimes.csproj">
       <Project>{BDC02E97-D6B0-48A8-ABFD-6CFB46DE1D38}</Project>
-      <Name>Dietphone.Sometimes.Phone</Name>
+      <Name>Dietphone.Phone.Sometimes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dietphone.Rarely.Phone\Dietphone.Rarely.Phone.csproj">
+    <ProjectReference Include="..\Dietphone.Phone.Rarely\Dietphone.Phone.Rarely.csproj">
       <Project>{6799EBF8-6CFB-4E40-8743-8DEFD9D4F1AF}</Project>
-      <Name>Dietphone.Rarely.Phone</Name>
+      <Name>Dietphone.Phone.Rarely</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
