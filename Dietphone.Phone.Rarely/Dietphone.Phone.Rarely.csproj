@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dietphone</RootNamespace>
-    <AssemblyName>Dietphone.Rarely.Phone</AssemblyName>
+    <AssemblyName>Dietphone.Phone.Rarely</AssemblyName>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>
     </SilverlightVersion>

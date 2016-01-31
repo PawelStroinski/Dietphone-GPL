@@ -7,8 +7,8 @@
     <ProjectGuid>{92635A0B-446F-4A4E-9DCA-13D847B93054}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dietphone.Common.Phone.Tests</RootNamespace>
-    <AssemblyName>Dietphone.Common.Phone.Tests</AssemblyName>
+    <RootNamespace>Dietphone.Smartphone.Tests</RootNamespace>
+    <AssemblyName>Dietphone.Smartphone.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

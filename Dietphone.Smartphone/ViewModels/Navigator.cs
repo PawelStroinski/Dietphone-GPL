@@ -45,7 +45,7 @@ namespace Dietphone.ViewModels
         private const string RELATED_MEAL_ID = "RelatedMealId";
         private const string ADD_MEAL_ITEM = "AddMealItem";
         private const string ABOUT_MAIL = "wp7@pabloware.com";
-        private const string ABOUT_PATH_TO_LICENSE = "/Dietphone.Rarely.Phone;component/documents/license.{0}.txt";
+        private const string ABOUT_PATH_TO_LICENSE = "/Dietphone.Phone.Rarely;component/documents/license.{0}.txt";
         private const string ABOUT_CHANGELOG_URL = "http://www.pabloware.com/wp7/diabetes-spy.changelog.{0}.xaml";
         private const string ABOUT_URL = "http://www.pabloware.com/wp7";
         private const string ABOUT_PUBLISHER = "Pabloware";
@@ -243,9 +243,9 @@ namespace Dietphone.ViewModels
             switch (assembly)
             {
                 case Assembly.Sometimes:
-                    return "/Dietphone.Sometimes.Phone;component";
+                    return "/Dietphone.Phone.Sometimes;component";
                 case Assembly.Rarely:
-                    return "/Dietphone.Rarely.Phone;component";
+                    return "/Dietphone.Phone.Rarely;component";
                 default:
                     return string.Empty;
             }

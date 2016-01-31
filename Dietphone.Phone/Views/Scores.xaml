@@ -8,7 +8,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Common.Phone.Windows">
+    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Tools">
 
     <Grid>
         <Grid.RowDefinitions>
