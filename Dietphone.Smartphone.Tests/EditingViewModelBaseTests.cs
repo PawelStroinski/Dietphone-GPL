@@ -7,7 +7,7 @@ using Dietphone.Tools;
 using NSubstitute;
 using Dietphone.Models;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class EditingViewModelBaseTests
     {

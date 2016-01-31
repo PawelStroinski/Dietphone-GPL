@@ -4,7 +4,7 @@ using NSubstitute;
 using Dietphone.Models;
 using Dietphone.ViewModels;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class TrialViewModelTests
     {

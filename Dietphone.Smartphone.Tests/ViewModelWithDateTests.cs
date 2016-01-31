@@ -4,7 +4,7 @@ using Dietphone.ViewModels;
 using NUnit.Framework;
 using NSubstitute;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class ViewModelWithDateTests
     {

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class InsulinViewModelTests
     {

@@ -6,7 +6,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 
-namespace Dietphone.Common.Tests.Models
+namespace Dietphone.Core.Tests.Models
 {
     public class MruProductsTests
     {

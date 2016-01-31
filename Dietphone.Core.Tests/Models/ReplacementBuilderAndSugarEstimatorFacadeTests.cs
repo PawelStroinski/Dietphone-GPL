@@ -5,7 +5,7 @@ using Dietphone.Models;
 using NUnit.Framework;
 using NSubstitute;
 
-namespace Dietphone.Common.Tests.Models
+namespace Dietphone.Core.Tests.Models
 {
     public class ReplacementBuilderAndSugarEstimatorFacadeTests
     {

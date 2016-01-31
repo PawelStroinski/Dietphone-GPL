@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Globalization;
 
-namespace Dietphone.Rarely.Phone.Tests
+namespace Dietphone.Phone.Rarely.Tests
 {
     public class SettingsViewModelTests
     {

@@ -4,7 +4,7 @@ using Dietphone.Models.Tests;
 using Dietphone.ViewModels;
 using NUnit.Framework;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class MealItemViewModelTests
     {

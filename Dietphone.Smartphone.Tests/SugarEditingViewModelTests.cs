@@ -5,7 +5,7 @@ using Dietphone.ViewModels;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class SugarEditingViewModelTests
     {

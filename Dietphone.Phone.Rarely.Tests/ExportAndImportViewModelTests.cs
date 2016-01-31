@@ -8,7 +8,7 @@ using System.Threading;
 using System;
 using System.Collections.Generic;
 
-namespace Dietphone.Rarely.Phone.Tests
+namespace Dietphone.Phone.Rarely.Tests
 {
     public class ExportAndImportViewModelTests
     {

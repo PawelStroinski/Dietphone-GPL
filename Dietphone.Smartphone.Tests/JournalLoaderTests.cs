@@ -7,7 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class JournalLoaderTests
     {

@@ -8,7 +8,7 @@ using System.Threading;
 using Dietphone.Models.Tests;
 using System.Collections.Generic;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class MainViewModelTests
     {

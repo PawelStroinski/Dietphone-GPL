@@ -2,7 +2,7 @@
 using Dietphone.Models;
 using Dietphone.Views;
 
-namespace Dietphone.Common.Tests.Models
+namespace Dietphone.Core.Tests.Models
 {
     public class InsulinCircumstanceTests
     {

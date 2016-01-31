@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Threading;
 using Dietphone.Views;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class InsulinEditingViewModelTests
     {

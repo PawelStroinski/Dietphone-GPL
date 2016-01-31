@@ -5,7 +5,7 @@ using Dietphone.Models;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Dietphone.Common.Tests.Models
+namespace Dietphone.Core.Tests.Models
 {
     public class ExportAndImportTests
     {

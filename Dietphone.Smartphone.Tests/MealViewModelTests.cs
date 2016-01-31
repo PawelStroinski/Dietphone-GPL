@@ -7,7 +7,7 @@ using Ploeh.AutoFixture;
 using System.Linq;
 using System;
 
-namespace Dietphone.Common.Phone.Tests
+namespace Dietphone.Smartphone.Tests
 {
     public class MealViewModelTests
     {
