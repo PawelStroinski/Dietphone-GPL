@@ -1,16 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Windows;
+﻿using System.IO;
 using Dietphone.Tools;
 
 namespace Dietphone.BinarySerializers
 {
-    public sealed class PhoneBinaryStreamProvider : BinaryStreamProvider
+    public abstract class SmartphoneBinaryStreamProvider : BinaryStreamProvider
     {
         private readonly FileFactory fileFactory;
-        private const string FIRST_RUN_DIRECTORY = "firstrun";
 
-        public PhoneBinaryStreamProvider(FileFactory fileFactory)
+        public SmartphoneBinaryStreamProvider(FileFactory fileFactory)
         {
             this.fileFactory = fileFactory;
         }
@@ -24,15 +21,15 @@ namespace Dietphone.BinarySerializers
             }
             else
             {
-                var relativePath = Path.Combine(FIRST_RUN_DIRECTORY, fileName);
-                var resource = Application.GetResourceStream(new Uri(relativePath, UriKind.Relative));
-                return resource.Stream;
+                return GetFirstRunInputStream(fileName);
             }
         }
 
         public OutputStream GetOutputStream(string fileName)
         {
-            return new PhoneOutputStream(fileFactory, fileName);
+            return new SmartphoneOutputStream(fileFactory, fileName);
         }
+
+        protected abstract Stream GetFirstRunInputStream(string fileName);
     }
 }

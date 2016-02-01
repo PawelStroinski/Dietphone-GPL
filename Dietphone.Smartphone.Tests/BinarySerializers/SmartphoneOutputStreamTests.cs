@@ -5,10 +5,10 @@ using System;
 
 namespace Dietphone.BinarySerializers.Tests
 {
-    public class PhoneOutputStreamTests
+    public class SmartphoneOutputStreamTests
     {
         private FileFactory fileFactory;
-        private PhoneOutputStream sut;
+        private SmartphoneOutputStream sut;
         private File foo;
         private File fooTemp1;
         private File fooTemp2;
@@ -34,7 +34,7 @@ namespace Dietphone.BinarySerializers.Tests
             fooTemp1.GetReadingStream().Returns(fooTemp1ReadingStream);
             foo.Exists.Returns(true);
             fooTemp1ReadingStream.Length.Returns(1000);
-            sut = new PhoneOutputStream(fileFactory, "foo");
+            sut = new SmartphoneOutputStream(fileFactory, "foo");
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Dietphone.BinarySerializers.Tests
             Assert.AreSame(fooTemp1WritingStream, sut.Stream);
         }
 
-        public class Commit : PhoneOutputStreamTests
+        public class Commit : SmartphoneOutputStreamTests
         {
             [Test]
             public void ChecksTheSizeOfFooTemp1AndThenMovesIt()

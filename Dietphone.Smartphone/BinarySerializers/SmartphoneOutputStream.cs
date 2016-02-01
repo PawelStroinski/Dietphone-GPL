@@ -3,7 +3,7 @@ using Dietphone.Tools;
 
 namespace Dietphone.BinarySerializers
 {
-    public sealed class PhoneOutputStream : OutputStream
+    public sealed class SmartphoneOutputStream : OutputStream
     {
         public System.IO.Stream Stream { get; private set; }
         private readonly File file;
@@ -12,7 +12,7 @@ namespace Dietphone.BinarySerializers
         private readonly File fileTemp3;
         private const string TEMP_NAME = "{0}_temp{1}_{2}";
 
-        public PhoneOutputStream(FileFactory fileFactory, string fileName)
+        public SmartphoneOutputStream(FileFactory fileFactory, string fileName)
         {
             var guid = Guid.NewGuid().ToString();
             file = fileFactory.Create(fileName);

@@ -111,16 +111,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinarySerializers\PhoneBinaryStreamProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\IsolatedFile.cs" />
-    <Compile Include="Tools\MyStopwatch.cs" />
     <Compile Include="Tools\NavigationServiceImpl.cs" />
     <Compile Include="Tools\UIExtensionMethods.cs" />
     <Compile Include="Tools\Vibration.cs" />
     <Compile Include="Tools\XnaInputBox.cs" />
-    <Compile Include="ViewModels\TelerikJournalViewModel.cs" />
-    <Compile Include="ViewModels\TelerikProductListingViewModel.cs" />
     <Compile Include="Views\BooleanToVisibilityConverter.cs" />
     <Compile Include="Views\InteractionEffectContainer.cs" />
     <Compile Include="Views\LearningCuAndFpu.cs" />
