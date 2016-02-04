@@ -122,9 +122,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dietphone.Phone.Tools\Dietphone.Phone.Tools.csproj">
+    <ProjectReference Include="..\Dietphone.Phone.Shared\Dietphone.Phone.Shared.csproj">
       <Project>{5B491308-7819-405D-9F2F-D6949A7022AD}</Project>
-      <Name>Dietphone.Phone.Tools</Name>
+      <Name>Dietphone.Phone.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dietphone.Smartphone\Dietphone.Smartphone.csproj">
       <Project>{2788C479-27D7-4B73-94EA-988274ABB912}</Project>

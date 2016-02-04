@@ -16,7 +16,7 @@
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Tools"
+    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Shared"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 
     <phone:PhoneApplicationPage.Resources>

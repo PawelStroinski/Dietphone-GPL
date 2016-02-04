@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Smartphone.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Smartphone", "Dietphone.Smartphone\Dietphone.Smartphone.csproj", "{2788C479-27D7-4B73-94EA-988274ABB912}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Phone.Tools", "Dietphone.Phone.Tools\Dietphone.Phone.Tools.csproj", "{5B491308-7819-405D-9F2F-D6949A7022AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Phone.Shared", "Dietphone.Phone.Shared\Dietphone.Phone.Shared.csproj", "{5B491308-7819-405D-9F2F-D6949A7022AD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietphone.Dropbox", "Dietphone.Dropbox\Dietphone.Dropbox.csproj", "{D5F64748-4E67-4BFE-A9C7-80739672C21A}"
 EndProject

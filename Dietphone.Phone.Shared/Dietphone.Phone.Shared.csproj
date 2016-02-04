@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dietphone</RootNamespace>
-    <AssemblyName>Dietphone.Phone.Tools</AssemblyName>
+    <AssemblyName>Dietphone.Phone.Shared</AssemblyName>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>
     </SilverlightVersion>
