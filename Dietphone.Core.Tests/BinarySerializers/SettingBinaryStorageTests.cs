@@ -109,10 +109,12 @@ namespace Dietphone.BinarySerializers.Tests
         [Test]
         public void Default_ShowWelcomeScreen()
         {
+#if !DEBUG || NCRUNCH
             var settingsToWrite = new Settings { ShowWelcomeScreen = false };
             var storage = new SettingsBinaryStorage();
             var readSettings = WriteAndRead(storage, settingsToWrite, overrideVersion: 7);
             Assert.IsTrue(readSettings.ShowWelcomeScreen);
+#endif
         }
     }
 }

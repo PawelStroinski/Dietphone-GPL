@@ -43,7 +43,9 @@ namespace Dietphone.Models
             CloudSecret = string.Empty;
             CloudToken = string.Empty;
             Unit = GetDefaultUnit();
+#if !DEBUG || NCRUNCH
             ShowWelcomeScreen = true;
+#endif
         }
 
         public string CurrentUiCulture
