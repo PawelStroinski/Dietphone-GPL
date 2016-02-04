@@ -6,6 +6,9 @@ using System.Net;
 using System.Text;
 using System.Windows;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dietphone.ViewModels
 {
@@ -34,6 +37,7 @@ namespace Dietphone.ViewModels
         private bool browserIsNavigatingDoWorkWentOkay;
         private bool exportToCloudNowWentOkay;
         private bool importFromCloudWentOkay;
+        private Task<HttpResponseMessage> downloadFromAdress;
         private CloudProvider cloudProvider;
         private BrowserIsNavigatingHint browserIsNavigatingHint;
         private readonly Factories factories;
@@ -66,7 +70,6 @@ namespace Dietphone.ViewModels
             {
                 isBusy = value;
                 OnPropertyChanged("IsBusy");
-                OnPropertyChanged("IsBusyAsVisibility");
             }
         }
 
@@ -105,14 +108,6 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public Visibility IsBusyAsVisibility
-        {
-            get
-            {
-                return IsBusy.ToVisibility();
-            }
-        }
-
         public void ExportToEmail()
         {
             if (IsBusy)
@@ -143,7 +138,22 @@ namespace Dietphone.ViewModels
             {
                 return;
             }
-            DownloadFromAddress();
+            if (!Url.IsValidUri())
+            {
+                OnDownloadingFailedDuringImportFromAddress();
+                return;
+            }
+            var worker = new VerboseBackgroundWorker();
+            worker.DoWork += delegate
+            {
+                DownloadFromAddress();
+            };
+            worker.RunWorkerCompleted += delegate
+            {
+                DownloadFromAddressCompleted();
+            };
+            IsBusy = true;
+            worker.RunWorkerAsync();
         }
 
         public void ExportToCloud()
@@ -231,22 +241,15 @@ namespace Dietphone.ViewModels
 
         private void DownloadFromAddress()
         {
-            if (!Url.IsValidUri())
-            {
-                OnDownloadingFailedDuringImportFromAddress();
-                return;
-            }
-            IsBusy = true;
-            var web = new WebClient();
-            web.Encoding = Encoding.Unicode;
-            web.DownloadStringCompleted += DownloadFromAddress_Completed;
-            web.DownloadStringAsync(new Uri(Url));
+            var client = new HttpClient();
+            downloadFromAdress = client.GetAsync(Url);
+            downloadFromAdress.Wait();
         }
 
-        private void SendByEmail_Completed(object sender, UploadStringCompletedEventArgs e)
+        private void SendByEmail_Completed(object sender, PostSenderCompletedEventArgs e)
         {
             IsBusy = false;
-            if (e.IsGeneralSuccess() && e.Result == MAILEXPORT_SUCCESS_RESULT)
+            if (e.Success && e.Result == MAILEXPORT_SUCCESS_RESULT)
             {
                 OnExportToEmailSuccessful();
             }
@@ -256,11 +259,12 @@ namespace Dietphone.ViewModels
             }
         }
 
-        private void DownloadFromAddress_Completed(object sender, DownloadStringCompletedEventArgs e)
+        private void DownloadFromAddressCompleted()
         {
-            if (e.IsGeneralSuccess())
+            if (downloadFromAdress.IsGeneralSuccess() && downloadFromAdress.Result.IsSuccessStatusCode)
             {
-                data = e.Result;
+                var bytes = downloadFromAdress.Result.Content.ReadAsByteArrayAsync().Result;
+                data = Encoding.Unicode.GetString(bytes, 0, bytes.Length);
                 ImportDownloadedFromAddress();
             }
             else

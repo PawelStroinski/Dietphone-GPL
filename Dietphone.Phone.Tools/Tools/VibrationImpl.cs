@@ -3,11 +3,6 @@ using Microsoft.Devices;
 
 namespace Dietphone.Tools
 {
-    public interface Vibration
-    {
-        void VibrateOnButtonPress();
-    }
-
     public class VibrationImpl : Vibration
     {
         private readonly VibrateController vibration = VibrateController.Default;

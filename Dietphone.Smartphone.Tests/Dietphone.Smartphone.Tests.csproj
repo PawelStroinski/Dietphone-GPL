@@ -60,11 +60,13 @@
   <ItemGroup>
     <Compile Include="BinarySerializers\SmartphoneOutputStreamTests.cs" />
     <Compile Include="CategoriesAndProductsLoaderTests.cs" />
+    <Compile Include="ExportAndImportViewModelTests.cs" />
     <Compile Include="MealItemViewModelTests.cs" />
     <Compile Include="MealViewModelTests.cs" />
     <Compile Include="MainViewModelTests.cs" />
     <Compile Include="MealItemEditingViewModelTests.cs" />
     <Compile Include="ProductViewModelTests.cs" />
+    <Compile Include="SettingsViewModelTests.cs" />
     <Compile Include="SugarEditingViewModelTests.cs">
       <SubType>Code</SubType>
     </Compile>

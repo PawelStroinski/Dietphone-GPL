@@ -32,14 +32,14 @@
             <TextBlock Text="{Binding Translations.ExportAndImport, Source={StaticResource Translations}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <ScrollViewer Grid.Row="1">
             <StackPanel Margin="12,14,12,0">
                 <TextBlock TextWrapping="Wrap" 
-                           Visibility="{Binding IsBusyAsVisibility}"
+                           Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibility}}"
                            Style="{StaticResource PhoneTextTitle2Style}"
                            Text="{Binding Translations.PleaseWait, Source={StaticResource Translations}}"
                            Foreground="{StaticResource PhoneAccentBrush}"/>
-                <TextBlock Visibility="{Binding IsBusyAsVisibility}"
+                <TextBlock Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibility}}"
                            Text=" " />
                 <ToggleButton ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToCloud_Click" IsChecked="{Binding IsExportToCloudActive, Mode=TwoWay}">
                     <views:MultiLineItem x:Name="ExportToCloud"/>
@@ -54,7 +54,7 @@
                     <views:MultiLineItem x:Name="ImportFromAddress"/>
                 </Button>
             </StackPanel>
-        </StackPanel>
+        </ScrollViewer>
         <ProgressBar VerticalAlignment="Top" IsIndeterminate="{Binding IsBusy}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibility}}"/>
         <telerikPrimitives:RadModalWindow Name="EmailAndAddressWindow"
                                           Placement="TopCenter"

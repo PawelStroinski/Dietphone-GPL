@@ -182,14 +182,14 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public Visibility CultureChanged
+        public bool CultureChanged
         {
             get
             {
                 var uiCultureChanged = settings.CurrentUiCulture != settings.NextUiCulture;
                 var productCultureChanged = settings.CurrentProductCulture != settings.NextProductCulture;
                 var cultureChanged = uiCultureChanged || productCultureChanged;
-                return cultureChanged.ToVisibility();
+                return cultureChanged;
             }
         }
 

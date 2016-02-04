@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.ComponentModel;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Dietphone.Tools
 {
@@ -238,9 +239,10 @@ namespace Dietphone.Tools
             }
         }
 
-        public static bool IsGeneralSuccess(this AsyncCompletedEventArgs operation)
+        public static bool IsGeneralSuccess<TResult>(this Task<TResult> task)
         {
-            return operation.Error == null && !operation.Cancelled;
+            return task.IsCompleted && !task.IsCanceled && !task.IsFaulted
+                && task.Exception == null && task.Result != null;
         }
     }
 }
