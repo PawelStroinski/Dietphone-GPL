@@ -7,6 +7,8 @@ using Telerik.Windows.Controls;
 using Dietphone.Views;
 using Dietphone.BinarySerializers;
 using Dietphone.Tools;
+using MvvmCross.Platform;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone
 {
@@ -32,6 +34,8 @@ namespace Dietphone
             InitializeComponent();
             // Phone-specific initialization
             InitializePhoneApplication();
+            var setup = new Setup(RootFrame);
+            setup.Initialize();
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -84,6 +88,7 @@ namespace Dietphone
             RootFrame = new RadPhoneApplicationFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
             RootFrame.NavigationFailed += RootFrame_NavigationFailed;
+            RootFrame.Navigating += RootFrame_Navigating;
             phoneApplicationInitialized = true;
         }
 
@@ -126,6 +131,13 @@ namespace Dietphone
                 SendExceptionQuestion(exception.ToString());
                 e.Handled = true;
             }
+        }
+
+        private void RootFrame_Navigating(object sender, NavigatingCancelEventArgs args)
+        {
+            args.Cancel = true;
+            RootFrame.Navigating -= RootFrame_Navigating;
+            RootFrame.Dispatcher.BeginInvoke(() => { Mvx.Resolve<IMvxAppStart>().Start(); });
         }
 
         private void SendException(string exception)

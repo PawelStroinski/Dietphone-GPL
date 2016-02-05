@@ -1,14 +1,22 @@
 ﻿using System;
 using Dietphone.BinarySerializers;
 using Dietphone.Models;
+using Dietphone.ViewModels;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform.IoC;
 
 namespace Dietphone
 {
-    public class MyApp
+    public class MyApp : MvxApplication
     {
         public static BinaryStreamProvider StreamProvider { private get; set; }
         private static Factories factories = null;
         private static readonly object factoriesLock = new object();
+
+        public override void Initialize()
+        {
+            RegisterAppStart<MainViewModel>();
+        }
 
         public static Factories Factories
         {

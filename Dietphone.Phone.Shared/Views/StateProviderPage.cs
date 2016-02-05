@@ -1,10 +1,10 @@
-﻿using Microsoft.Phone.Controls;
-using System.Windows.Navigation;
+﻿using System.Windows.Navigation;
 using Dietphone.Tools;
+using MvvmCross.WindowsPhone.Views;
 
 namespace Dietphone.Views
 {
-    public class StateProviderPage : PhoneApplicationPage, StateProvider
+    public class StateProviderPage : MvxPhonePage, StateProvider
     {
         public bool IsOpened { get; private set; }
 

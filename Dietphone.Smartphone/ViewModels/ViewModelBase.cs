@@ -1,9 +1,9 @@
 ﻿// Code taken from http://www.japf.fr/2009/02/very-simple-mvvm-demo-application/ and adjusted for SL as well as added support for notification of all properties
 // The following code is inspired by the work of Josh Smith
 // http://joshsmithonwpf.wordpress.com/
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -11,12 +11,12 @@ namespace Dietphone.ViewModels
     /// Base class for all ViewModel classes in the application. Provides support for 
     /// property changes notification.
     /// </summary>
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : MvxViewModel
     {
-        /// <summary>
-        /// Raised when a property on this object has a new value.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ViewModelBase()
+        {
+            ShouldAlwaysRaiseInpcOnUserInterfaceThread(false);
+        }
 
         /// <summary>
         /// Warns the developer if this object does not have a public property with
@@ -44,11 +44,7 @@ namespace Dietphone.ViewModels
         protected virtual void OnPropertyChanged(string propertyName)
         {
             VerifyPropertyName(propertyName);
-
-            if (PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            RaisePropertyChanged(propertyName);
         }
     }
 }

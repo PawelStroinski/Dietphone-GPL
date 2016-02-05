@@ -110,6 +110,30 @@
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="MvvmCross.Binding, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\wp8\MvvmCross.Binding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Core.4.0.0\lib\wp8\MvvmCross.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Localization, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\wp8\MvvmCross.Localization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Platform, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\wp8\MvvmCross.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Platform.WindowsPhone, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\wp8\MvvmCross.Platform.WindowsPhone.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.WindowsPhone, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Core.4.0.0\lib\wp8\MvvmCross.WindowsPhone.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Pabloware.About.Phone">
       <HintPath>..\Dependencies\Pabloware.About.Phone\Pabloware.About.Phone.dll</HintPath>
     </Reference>
@@ -152,6 +176,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BinarySerializers\PhoneBinaryStreamProvider.cs" />
+    <Compile Include="DebugTrace.cs" />
+    <Compile Include="Setup.cs" />
     <Compile Include="Tools\IsolatedFile.cs" />
     <Compile Include="Tools\MyStopwatch.cs" />
     <Compile Include="ViewModels\TelerikJournalViewModel.cs" />
