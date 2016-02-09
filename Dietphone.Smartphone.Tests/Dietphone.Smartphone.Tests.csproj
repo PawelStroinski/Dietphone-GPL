@@ -50,6 +50,10 @@
       <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\net45\MvvmCross.Platform.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MvvmCross.Test.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Tests.4.0.0\lib\net45\MvvmCross.Test.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MvvmCross.Wpf, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmCross.Core.4.0.0\lib\net45\MvvmCross.Wpf.dll</HintPath>
       <Private>True</Private>
@@ -81,12 +85,14 @@
     <Compile Include="MealViewModelTests.cs" />
     <Compile Include="MainViewModelTests.cs" />
     <Compile Include="MealItemEditingViewModelTests.cs" />
+    <Compile Include="NavigatorImplTests.cs" />
     <Compile Include="ProductViewModelTests.cs" />
     <Compile Include="SettingsViewModelTests.cs" />
     <Compile Include="SugarEditingViewModelTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="JournalItemViewModelTests.cs" />
+    <Compile Include="Tools\MockDispatcher.cs" />
     <Compile Include="TrialViewModelTests.cs" />
     <Compile Include="ViewModelWithDateTests.cs" />
     <Compile Include="JournalViewModelTests.cs" />

@@ -133,6 +133,7 @@
     <Compile Include="Tools\VibrationImpl.cs" />
     <Compile Include="Tools\XnaInputBox.cs" />
     <Compile Include="Views\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Views\InitializedPage.cs" />
     <Compile Include="Views\InteractionEffectContainer.cs" />
     <Compile Include="Views\LearningCuAndFpu.cs" />
     <Compile Include="Views\StateAdapterPage.cs" />

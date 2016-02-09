@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using Dietphone.BinarySerializers;
 using Dietphone.Models;
 using Dietphone.ViewModels;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
 
 namespace Dietphone
@@ -15,6 +17,19 @@ namespace Dietphone
 
         public override void Initialize()
         {
+            var assemblyWithViewModel = typeof(MainViewModel).GetTypeInfo().Assembly;
+            var assemblyWithFactories = typeof(Factories).GetTypeInfo().Assembly;
+            CreatableTypes(assemblyWithViewModel)
+                .AsTypes()
+                .RegisterAsDynamic();
+            CreatableTypes(assemblyWithViewModel)
+                .AsInterfaces()
+                .RegisterAsDynamic();
+            CreatableTypes(assemblyWithFactories)
+                .AsInterfaces()
+                .RegisterAsDynamic();
+            Mvx.RegisterSingleton(() => Factories);
+            Mvx.RegisterType<BackgroundWorkerFactory, BackgroundWorkerWrapperFactory>();
             RegisterAppStart<MainViewModel>();
         }
 

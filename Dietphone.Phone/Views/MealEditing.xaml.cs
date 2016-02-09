@@ -1,31 +1,27 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.Phone.Controls;
 using Dietphone.ViewModels;
 using Telerik.Windows.Controls;
 using Dietphone.Tools;
 using System.Windows.Navigation;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework;
 
 namespace Dietphone.Views
 {
     public partial class MealEditing : StateProviderPage
     {
-        public MealEditingViewModel ViewModel { get; private set; }
+        public new MealEditingViewModel ViewModel { get { return (MealEditingViewModel)base.ViewModel; } }
         private const string TOP_ITEM_INDEX = "TOP_ITEM_INDEX";
 
         public MealEditing()
         {
             InitializeComponent();
-            ViewModel = new MealEditingViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory(), CreateTrial())
-            {
-                StateProvider = this,
-                ItemEditing = ItemEditing.ViewModel
-            };
+        }
+
+        protected override void OnInitializePage()
+        {
+            ViewModel.StateProvider = this;
+            ViewModel.ItemEditing = ItemEditing.ViewModel;
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             ViewModel.CannotSave += ViewModel_CannotSave;
             ViewModel.InvalidateItems += ViewModel_InvalidateItems;
@@ -45,7 +41,6 @@ namespace Dietphone.Views
                 ViewModel.Navigator = navigator;
                 ViewModel.Load();
                 Scores.DataContext = ViewModel.Subject.Scores;
-                DataContext = ViewModel;
             }
             else
             {
@@ -170,22 +165,6 @@ namespace Dietphone.Views
             {
                 ViewModel.DeleteAndSaveAndReturn();
             }
-        }
-
-        private TrialViewModel CreateTrial()
-        {
-            return new TrialViewModelImpl(MyApp.Factories,
-#if DEBUG
-                isTrial: () => true,
-#else
-                isTrial: () => Guide.IsTrialMode,
-#endif
-                show: () =>
-                {
-                    if (MessageBox.Show(Translations.HelloThanksForTryingOut, Translations.ThisIsAnUnregisteredCopy,
-                            MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                        Guide.ShowMarketplace(PlayerIndex.One);
-                });
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)

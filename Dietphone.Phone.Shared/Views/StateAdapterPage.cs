@@ -1,25 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Navigation;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.WindowsPhone.Views;
 
 namespace Dietphone.Views
 {
-    public abstract class StateAdapterPage : MvxPhonePage
+    public abstract class StateAdapterPage : InitializedPage
     {
-        private const string stateKey = "bundle";
+        private const string STATE_KEY = "bundle";
 
         protected override IMvxBundle LoadStateBundle(NavigationEventArgs navigationEventArgs)
         {
-            if (State.ContainsKey(stateKey))
-                return new MvxBundle((IDictionary<string, string>)State[stateKey]);
+            if (State.ContainsKey(STATE_KEY))
+                return new MvxBundle((IDictionary<string, string>)State[STATE_KEY]);
             else
                 return null;
         }
 
         protected override void SaveStateBundle(NavigationEventArgs navigationEventArgs, IMvxBundle bundle)
         {
-            State[stateKey] = bundle.Data;
+            State[STATE_KEY] = bundle.Data;
         }
     }
 }

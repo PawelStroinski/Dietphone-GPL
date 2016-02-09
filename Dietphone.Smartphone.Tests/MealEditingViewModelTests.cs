@@ -25,13 +25,14 @@ namespace Dietphone.Smartphone.Tests
             meal = new Meal { Id = Guid.NewGuid() };
             meal.InitializeItems(new List<MealItem>());
             factories = Substitute.For<Factories>();
-            factories.Finder.FindMealById(Guid.Empty).Returns(meal);
+            factories.Finder.FindMealById(meal.Id).Returns(meal);
             factories.MealNames.Returns(new List<MealName>());
             trial = Substitute.For<TrialViewModel>();
             sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory(), trial);
             sut.Navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;
+            sut.Init(new MealEditingViewModel.Navigation { MealId = meal.Id });
         }
 
         [Test]

@@ -7,14 +7,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using Microsoft.Phone.Shell;
-using Dietphone.Models;
 using Microsoft.Phone.Tasks;
 
 namespace Dietphone.Views
 {
     public partial class Main : StateProviderPage
     {
-        public MainViewModel ViewModel { get; private set; }
+        public new MainViewModel ViewModel { get { return (MainViewModel)base.ViewModel; } }
         private SubViewModelConnector subConnector;
         private bool searchShowed;
         private bool searchFocused;
@@ -30,21 +29,16 @@ namespace Dietphone.Views
         public Main()
         {
             InitializeComponent();
-            ViewModel = new MainViewModel(MyApp.Factories,
-                new CloudImpl(new DropboxProviderFactory(MyApp.Factories),
-                    MyApp.Factories,
-                    new ExportAndImportImpl(MyApp.Factories)),
-                new TimerFactoryImpl(),
-                new BackgroundWorkerWrapperFactory())
-            {
-                ProductListing = ProductListing.ViewModel,
-                MealItemEditing = MealItemEditing.ViewModel,
-                StateProvider = this
-            };
+        }
+
+        protected override void OnInitializePage()
+        {
+            ViewModel.ProductListing = ProductListing.ViewModel;
+            ViewModel.MealItemEditing = MealItemEditing.ViewModel;
+            ViewModel.StateProvider = this;
             ViewModel.ShowProductsOnly += ViewModel_ShowProductsOnly;
             ViewModel.ExportToCloudError += ViewModel_ExportToCloudError;
             ViewModel.ShowWelcomeScreen += WelcomeScreen_Click;
-            DataContext = ViewModel;
             subConnector = new SubViewModelConnector(ViewModel);
             subConnector.Loaded += SubConnector_Loaded;
             subConnector.Refreshed += delegate { RestoreSearchUi(); };
@@ -98,10 +92,10 @@ namespace Dietphone.Views
             }
             else
                 if (Pivot.SelectedItem == Journal)
-                {
-                    subConnector.SubViewModel = JournalListing.ViewModel;
-                    ShowJournalIcons();
-                }
+            {
+                subConnector.SubViewModel = JournalListing.ViewModel;
+                ShowJournalIcons();
+            }
         }
 
         private void SubConnector_Loaded(object sender, EventArgs e)

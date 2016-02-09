@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Dietphone.Tools;
 using Dietphone.Views;
+using MvvmCross.Core.ViewModels;
 using Pabloware.About;
 
 namespace Dietphone.ViewModels
@@ -20,7 +21,6 @@ namespace Dietphone.ViewModels
         void GoToAbout();
         void GoToExportAndImport();
         void GoToSettings();
-        Guid GetMealIdToEdit();
         Guid GetProductIdToEdit();
         Guid GetInsulinIdToEdit();
         Guid GetRelatedMealId();
@@ -29,7 +29,7 @@ namespace Dietphone.ViewModels
 
     public enum Assembly { Default, Sometimes, Rarely };
 
-    public class NavigatorImpl : Navigator
+    public class NavigatorImpl : MvxNavigatingObject, Navigator
     {
         private string path;
         private string idName;
@@ -39,7 +39,6 @@ namespace Dietphone.ViewModels
         private readonly NavigationService service;
         private readonly IDictionary<string, string> passedQueryString;
         private readonly GoingToAbout about;
-        private const string MEAL_ID_TO_EDIT = "MealIdToEdit";
         private const string PRODUCT_ID_TO_EDIT = "ProductIdToEdit";
         private const string INSULIN_ID_TO_EDIT = "ProductIdToEdit";
         private const string RELATED_MEAL_ID = "RelatedMealId";
@@ -67,11 +66,8 @@ namespace Dietphone.ViewModels
 
         public void GoToMealEditing(Guid mealId)
         {
-            idName = MEAL_ID_TO_EDIT;
-            idValue = mealId;
-            path = "/Views/MealEditing.xaml";
-            assembly = Assembly.Default;
-            NavigateWithId();
+            var navigation = new MealEditingViewModel.Navigation { MealId = mealId };
+            ShowViewModel<MealEditingViewModel>(navigation);
         }
 
         public void GoToProductEditing(Guid productId)
@@ -117,7 +113,7 @@ namespace Dietphone.ViewModels
             assembly = Assembly.Default;
             Navigate(destination);
         }
-        
+
         public void GoToMain()
         {
             path = "/Views/Main.xaml";
@@ -151,12 +147,6 @@ namespace Dietphone.ViewModels
             path = "/Views/Settings.xaml";
             assembly = Assembly.Rarely;
             Navigate();
-        }
-
-        public Guid GetMealIdToEdit()
-        {
-            idName = MEAL_ID_TO_EDIT;
-            return GetId();
         }
 
         public Guid GetProductIdToEdit()

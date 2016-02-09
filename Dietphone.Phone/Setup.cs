@@ -3,7 +3,7 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.WindowsPhone.Platform;
 using Microsoft.Phone.Controls;
 using MvvmCross.Platform;
-using MvvmCross.Core.Platform;
+using Dietphone.Tools;
 
 namespace Dietphone
 {
@@ -21,6 +21,12 @@ namespace Dietphone
         protected override IMvxTrace CreateDebugTrace()
         {
             return new DebugTrace();
+        }
+
+        protected override void InitializeLastChance()
+        {
+            base.InitializeLastChance();
+            Mvx.RegisterType<Trial, TrialImpl>();
         }
     }
 }

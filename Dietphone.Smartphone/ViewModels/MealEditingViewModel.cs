@@ -14,6 +14,7 @@ namespace Dietphone.ViewModels
         public bool NeedsScrollingItemsDown { get; set; }
         public ObservableCollection<MealNameViewModel> Names { get; private set; }
         public event EventHandler InvalidateItems;
+        private Navigation navigation;
         private List<MealNameViewModel> addedNames = new List<MealNameViewModel>();
         private List<MealNameViewModel> deletedNames = new List<MealNameViewModel>();
         private MealNameViewModel defaultName;
@@ -71,6 +72,11 @@ namespace Dietphone.ViewModels
             {
                 return string.Format("{0}, {1}", NameOfName, Subject.DateAndTime);
             }
+        }
+
+        public void Init(Navigation navigation)
+        {
+            this.navigation = navigation;
         }
 
         public void AddAndSetName(string name)
@@ -172,7 +178,7 @@ namespace Dietphone.ViewModels
 
         protected override void FindAndCopyModel()
         {
-            var id = Navigator.GetMealIdToEdit();
+            var id = navigation.MealId;
             modelSource = finder.FindMealById(id);
             if (modelSource != null)
             {
@@ -406,6 +412,11 @@ namespace Dietphone.ViewModels
             {
                 InvalidateItems(this, e);
             }
+        }
+
+        public class Navigation
+        {
+            public Guid MealId { get; set; }
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NSubstitute;
 using Dietphone.Models;
 using Dietphone.ViewModels;
+using Dietphone.Tools;
 
 namespace Dietphone.Smartphone.Tests
 {
@@ -19,16 +19,15 @@ namespace Dietphone.Smartphone.Tests
             var factories = Substitute.For<Factories>();
             factories.Settings.Returns(new Settings());
             factories.Settings.TrialCounter = initialTrialCounter;
-            var isTrial = Substitute.For<Func<bool>>();
-            isTrial.Invoke().Returns(isTrialSetup);
-            var show = Substitute.For<Action>();
-            var sut = new TrialViewModelImpl(factories, isTrial, show);
+            var trial = Substitute.For<Trial>();
+            trial.IsTrial().Returns(isTrialSetup);
+            var sut = new TrialViewModelImpl(factories, trial);
             sut.Run();
             Assert.AreEqual(expectZeroTrialCounter ? 0 : initialTrialCounter + 1, factories.Settings.TrialCounter);
             if (expectShow)
-                show.Received().Invoke();
+                trial.Received().Show();
             else
-                show.DidNotReceive().Invoke();
+                trial.DidNotReceive().Show();
         }
     }
 }

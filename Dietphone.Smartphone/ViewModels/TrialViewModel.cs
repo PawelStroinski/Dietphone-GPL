@@ -1,5 +1,5 @@
-﻿using System;
-using Dietphone.Models;
+﻿using Dietphone.Models;
+using Dietphone.Tools;
 
 namespace Dietphone.ViewModels
 {
@@ -11,15 +11,13 @@ namespace Dietphone.ViewModels
     public class TrialViewModelImpl : TrialViewModel
     {
         private readonly Factories factories;
-        private readonly Func<bool> isTrial;
-        private readonly Action show;
+        private readonly Trial trial;
         internal const byte PERIOD = 50;
 
-        public TrialViewModelImpl(Factories factories, Func<bool> isTrial, Action show)
+        public TrialViewModelImpl(Factories factories, Trial trial)
         {
             this.factories = factories;
-            this.isTrial = isTrial;
-            this.show = show;
+            this.trial = trial;
         }
 
         public void Run()
@@ -27,8 +25,8 @@ namespace Dietphone.ViewModels
             var settings = factories.Settings;
             var modulo = settings.TrialCounter % PERIOD;
             var isInPeriod = modulo == 0 && settings.TrialCounter > 0;
-            if (isInPeriod && isTrial())
-                show();
+            if (isInPeriod && trial.IsTrial())
+                trial.Show();
             settings.TrialCounter = (byte)(isInPeriod ? 0 : settings.TrialCounter + 1);
         }
     }
