@@ -37,5 +37,14 @@ namespace Dietphone.Smartphone.Tests
             Assert.AreEqual(typeof(MealEditingViewModel), request.ViewModelType);
             Assert.AreEqual(id.ToString(), request.ParameterValues["MealId"]);
         }
+
+        [Test]
+        public void GoToMainToAddMealItem()
+        {
+            sut.GoToMainToAddMealItem();
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(MainViewModel), request.ViewModelType);
+            Assert.AreEqual("True", request.ParameterValues["ShouldAddMealItem"]);
+        }
     }
 }

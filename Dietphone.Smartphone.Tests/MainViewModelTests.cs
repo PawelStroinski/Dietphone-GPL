@@ -19,6 +19,7 @@ namespace Dietphone.Smartphone.Tests
             private ProductListingViewModel productListing;
             private MealItemEditingViewModel mealItemEditing;
             private Navigator navigator;
+            private MainViewModel.Navigation navigation;
 
             [SetUp]
             public void TestInitialize()
@@ -27,6 +28,8 @@ namespace Dietphone.Smartphone.Tests
                 factories.StorageCreator = new StorageCreatorStub();
                 sut = new MainViewModel(factories, Substitute.For<Cloud>(),
                     Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory());
+                navigation = new MainViewModel.Navigation();
+                sut.Init(navigation);
                 productListing = new ProductListingViewModel(factories,
                     new BackgroundWorkerSyncFactory());
                 sut.ProductListing = productListing;
@@ -42,7 +45,7 @@ namespace Dietphone.Smartphone.Tests
             [TestCase(false)]
             public void SetsAddMruToTrue(bool shouldAddMealItem)
             {
-                navigator.ShouldAddMealItem().Returns(shouldAddMealItem);
+                navigation.ShouldAddMealItem = shouldAddMealItem;
                 sut.Navigator = navigator;
                 Assert.AreEqual(shouldAddMealItem, productListing.AddMru);
             }
@@ -50,7 +53,7 @@ namespace Dietphone.Smartphone.Tests
             [Test]
             public void InitializesUnit()
             {
-                navigator.ShouldAddMealItem().Returns(true);
+                navigation.ShouldAddMealItem = true;
                 sut.Navigator = navigator;
                 var product = factories.CreateProduct();
                 var productViewModel = new ProductViewModel(product);
@@ -96,7 +99,8 @@ namespace Dietphone.Smartphone.Tests
                 timerCallback();
                 cloud.Received().Export();
                 Assert.AreEqual(throwInExport, exportToCloudErrored);
-            } else
+            }
+            else
                 Assert.IsNull(timerCallback);
         }
 

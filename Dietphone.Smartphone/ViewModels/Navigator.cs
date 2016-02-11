@@ -24,7 +24,6 @@ namespace Dietphone.ViewModels
         Guid GetProductIdToEdit();
         Guid GetInsulinIdToEdit();
         Guid GetRelatedMealId();
-        bool ShouldAddMealItem();
     }
 
     public enum Assembly { Default, Sometimes, Rarely };
@@ -42,7 +41,6 @@ namespace Dietphone.ViewModels
         private const string PRODUCT_ID_TO_EDIT = "ProductIdToEdit";
         private const string INSULIN_ID_TO_EDIT = "ProductIdToEdit";
         private const string RELATED_MEAL_ID = "RelatedMealId";
-        private const string ADD_MEAL_ITEM = "AddMealItem";
         private const string ABOUT_MAIL = "wp7@pabloware.com";
         private const string ABOUT_PATH_TO_LICENSE = "/Dietphone.Phone.Rarely;component/documents/license.{0}.txt";
         private const string ABOUT_CHANGELOG_URL = "http://www.pabloware.com/wp7/diabetes-spy.changelog.{0}.xaml";
@@ -123,10 +121,8 @@ namespace Dietphone.ViewModels
 
         public void GoToMainToAddMealItem()
         {
-            action = ADD_MEAL_ITEM;
-            path = "/Views/Main.xaml";
-            assembly = Assembly.Default;
-            NavigateWithAction();
+            var navigation = new MainViewModel.Navigation { ShouldAddMealItem = true };
+            ShowViewModel<MainViewModel>(navigation);
         }
 
         public void GoToAbout()
@@ -165,12 +161,6 @@ namespace Dietphone.ViewModels
         {
             idName = RELATED_MEAL_ID;
             return GetId();
-        }
-
-        public bool ShouldAddMealItem()
-        {
-            action = ADD_MEAL_ITEM;
-            return GetAction();
         }
 
         private Guid GetId()

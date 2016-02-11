@@ -15,6 +15,7 @@ namespace Dietphone.ViewModels
         public event EventHandler ShowWelcomeScreen;
         private string search = string.Empty;
         private Navigator navigator;
+        private Navigation navigation;
         private MealItem tempMealItem;
         private bool addMealItem;
         private readonly Factories factories;
@@ -58,6 +59,11 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public void Init(Navigation navigation)
+        {
+            this.navigation = navigation;
+        }
+
         public void GoingToMealEditing()
         {
             if (addMealItem)
@@ -97,7 +103,7 @@ namespace Dietphone.ViewModels
 
         protected void OnNavigatorChanged()
         {
-            if (navigator.ShouldAddMealItem())
+            if (navigation.ShouldAddMealItem)
             {
                 AddingMealItem();
             }
@@ -221,6 +227,11 @@ namespace Dietphone.ViewModels
             {
                 ShowWelcomeScreen(this, EventArgs.Empty);
             }
+        }
+
+        public class Navigation
+        {
+            public bool ShouldAddMealItem { get; set; }
         }
     }
 }
