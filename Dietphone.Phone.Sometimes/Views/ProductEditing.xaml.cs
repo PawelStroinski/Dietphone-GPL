@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.Phone.Controls;
 using Dietphone.ViewModels;
 using System.Windows.Navigation;
 using Dietphone.Tools;
 using Telerik.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Collections.Generic;
 
 namespace Dietphone.Views
 {
     public partial class ProductEditing : StateProviderPage
     {
-        private ProductEditingViewModel viewModel;
+        public new ProductEditingViewModel ViewModel { get { return (ProductEditingViewModel)base.ViewModel; } }
 
         public ProductEditing()
         {
@@ -22,31 +20,27 @@ namespace Dietphone.Views
             TranslateApplicationBar();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnInitializePage()
         {
-            base.OnNavigatedTo(e);
-            var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService),
-                new NavigationContextImpl(NavigationContext));
-            viewModel = new ProductEditingViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory());
-            viewModel.StateProvider = this;
-            viewModel.Navigator = navigator;
-            viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
-            viewModel.CannotSave += ViewModel_CannotSave;
-            viewModel.Load();
-            DataContext = viewModel;
+            var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService));
+            ViewModel.StateProvider = this;
+            ViewModel.Navigator = navigator;
+            ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
+            ViewModel.CannotSave += ViewModel_CannotSave;
+            ViewModel.Load();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
-                viewModel.Tombstone();
+                ViewModel.Tombstone();
             }
         }
 
         private void ProductEditing_Loaded(object sender, RoutedEventArgs e)
         {
-            var product = viewModel.Subject;
+            var product = ViewModel.Subject;
             if (string.IsNullOrEmpty(product.Name))
             {
                 NameBox.Focus();
@@ -64,7 +58,7 @@ namespace Dietphone.Views
             input.Show();
             input.Confirmed += delegate
             {
-                viewModel.AddAndSetCategory(input.Text);
+                ViewModel.AddAndSetCategory(input.Text);
                 Category.ForceRefresh(ProgressBar);
             };
         }
@@ -76,19 +70,19 @@ namespace Dietphone.Views
             {
                 Title = Translations.EditCategory,
                 Description = Translations.Name,
-                Text = viewModel.CategoryName
+                Text = ViewModel.CategoryName
             };
             input.Show();
             input.Confirmed += delegate
             {
-                viewModel.CategoryName = input.Text;
+                ViewModel.CategoryName = input.Text;
                 Category.ForceRefresh(ProgressBar);
             };
         }
 
         private void DeleteCategory_Click(object sender, RoutedEventArgs e)
         {
-            if (viewModel.CanDeleteCategory())
+            if (ViewModel.CanDeleteCategory())
             {
                 DeleteCategory();
             }
@@ -103,16 +97,16 @@ namespace Dietphone.Views
         {
             if (MessageBox.Show(
                 String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisCategory,
-                viewModel.CategoryName),
+                ViewModel.CategoryName),
                 Translations.DeleteCategory, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 Save.IsEnabled = false;
                 Category.IsExpanded = false;
                 Dispatcher.BeginInvoke(() =>
                 {
-                    viewModel.DeleteCategory();
+                    ViewModel.DeleteCategory();
                     Category.ForceRefresh(ProgressBar);
-                    Save.IsEnabled = viewModel.IsDirty;
+                    Save.IsEnabled = ViewModel.IsDirty;
                 });
             }
         }
@@ -122,33 +116,33 @@ namespace Dietphone.Views
             Focus();
             Dispatcher.BeginInvoke(() =>
             {
-                if (viewModel.CanSave())
+                if (ViewModel.CanSave())
                 {
-                    viewModel.SaveAndReturn();
+                    ViewModel.SaveAndReturn();
                 }
             });
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            viewModel.CancelAndReturn();
+            ViewModel.CancelAndReturn();
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            var product = viewModel.Subject;
+            var product = ViewModel.Subject;
             if (MessageBox.Show(
                 String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisProduct,
                 product.Name),
                 Translations.DeleteProduct, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                viewModel.DeleteAndSaveAndReturn();
+                ViewModel.DeleteAndSaveAndReturn();
             }
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)
         {
-            Save.IsEnabled = viewModel.IsDirty;
+            Save.IsEnabled = ViewModel.IsDirty;
         }
 
         private void ViewModel_CannotSave(object sender, CannotSaveEventArgs e)

@@ -24,8 +24,7 @@ namespace Dietphone.Smartphone.Tests
             Ioc.RegisterSingleton<IMvxViewDispatcher>(mockDispatcher);
             Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
             var navigationService = Substitute.For<NavigationService>();
-            var navigationContext = Substitute.For<NavigationContext>();
-            sut = new NavigatorImpl(navigationService, navigationContext);
+            sut = new NavigatorImpl(navigationService);
         }
 
         [Test]
@@ -36,6 +35,16 @@ namespace Dietphone.Smartphone.Tests
             var request = mockDispatcher.Requests.Single();
             Assert.AreEqual(typeof(MealEditingViewModel), request.ViewModelType);
             Assert.AreEqual(mealId.ToString(), request.ParameterValues["MealIdToEdit"]);
+        }
+
+        [Test]
+        public void GoToProductEditing()
+        {
+            var productId = Guid.NewGuid();
+            sut.GoToProductEditing(productId);
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(ProductEditingViewModel), request.ViewModelType);
+            Assert.AreEqual(productId.ToString(), request.ParameterValues["ProductIdToEdit"]);
         }
 
         [Test]
@@ -98,6 +107,22 @@ namespace Dietphone.Smartphone.Tests
             var request = mockDispatcher.Requests.Single();
             Assert.AreEqual(typeof(MainViewModel), request.ViewModelType);
             Assert.AreEqual("True", request.ParameterValues["ShouldAddMealItem"]);
+        }
+
+        [Test]
+        public void GoToExportAndImport()
+        {
+            sut.GoToExportAndImport();
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(ExportAndImportViewModel), request.ViewModelType);
+        }
+
+        [Test]
+        public void GoToSettings()
+        {
+            sut.GoToSettings();
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(SettingsViewModel), request.ViewModelType);
         }
     }
 }

@@ -36,8 +36,7 @@ namespace Dietphone.Views
             base.OnNavigatedTo(e);
             if (ViewModel.Navigator == null)
             {
-                var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService),
-                    new NavigationContextImpl(NavigationContext));
+                var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService));
                 ViewModel.Navigator = navigator;
                 ViewModel.Load();
                 Scores.DataContext = ViewModel.Subject.Scores;

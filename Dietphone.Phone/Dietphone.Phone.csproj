@@ -177,6 +177,8 @@
     </Compile>
     <Compile Include="BinarySerializers\PhoneBinaryStreamProvider.cs" />
     <Compile Include="DebugTrace.cs" />
+    <Compile Include="LazyViewFinder.cs" />
+    <Compile Include="MultiAssemblyViewsContainer.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Tools\ClipboardImpl.cs" />
     <Compile Include="Tools\IsolatedFile.cs" />

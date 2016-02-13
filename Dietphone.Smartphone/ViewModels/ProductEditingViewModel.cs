@@ -3,12 +3,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Dietphone.Tools;
 using System.Linq;
+using System;
 
 namespace Dietphone.ViewModels
 {
     public class ProductEditingViewModel : EditingViewModelBase<Product, ProductViewModel>
     {
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
+        private Navigation navigation;
         private List<CategoryViewModel> addedCategories = new List<CategoryViewModel>();
         private List<CategoryViewModel> deletedCategories = new List<CategoryViewModel>();
         private readonly BackgroundWorkerFactory workerFactory;
@@ -43,6 +45,11 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public void Init(Navigation navigation)
+        {
+            this.navigation = navigation;
+        }
+
         public void AddAndSetCategory(string name)
         {
             var tempModel = factories.CreateCategory();
@@ -66,13 +73,13 @@ namespace Dietphone.ViewModels
             }
             else
                 if (productsInCategory.Count == 1)
-                {
-                    otherProductsInCategory = productsInCategory[0] != modelSource;
-                }
-                else
-                {
-                    otherProductsInCategory = true;
-                }
+            {
+                otherProductsInCategory = productsInCategory[0] != modelSource;
+            }
+            else
+            {
+                otherProductsInCategory = true;
+            }
             return !otherProductsInCategory && Categories.Count > 1;
         }
 
@@ -101,7 +108,7 @@ namespace Dietphone.ViewModels
 
         protected override void FindAndCopyModel()
         {
-            var id = Navigator.GetProductIdToEdit();
+            var id = navigation.ProductIdToEdit;
             modelSource = finder.FindProductById(id);
             if (modelSource != null)
             {
@@ -229,6 +236,11 @@ namespace Dietphone.ViewModels
             {
                 models.Remove(category.Model);
             }
+        }
+
+        public class Navigation
+        {
+            public Guid ProductIdToEdit { get; set; }
         }
     }
 }

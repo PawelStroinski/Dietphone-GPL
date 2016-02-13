@@ -6,27 +6,24 @@ namespace Dietphone.Views
 {
     public partial class Settings : StateProviderPage
     {
-        private SettingsViewModel viewModel;
+        public new SettingsViewModel ViewModel { get { return (SettingsViewModel)base.ViewModel; } }
 
         public Settings()
         {
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnInitializePage()
         {
-            base.OnNavigatedTo(e);
-            viewModel = new SettingsViewModel(MyApp.Factories);
-            viewModel.StateProvider = this;
-            viewModel.Untombstone();
-            DataContext = viewModel;
+            ViewModel.StateProvider = this;
+            ViewModel.Untombstone();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode != NavigationMode.Back)
             {
-                viewModel.Tombstone();
+                ViewModel.Tombstone();
             }
         }
 

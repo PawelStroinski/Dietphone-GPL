@@ -6,25 +6,22 @@ using Dietphone.ViewModels;
 using System.Windows.Media;
 using System.Windows.Input;
 using Dietphone.Tools;
-using Dietphone.Models;
 using System.ComponentModel;
 
 namespace Dietphone.Views
 {
-    public partial class ExportAndImport : PhoneApplicationPage
+    public partial class ExportAndImport : StateProviderPage
     {
-        public ExportAndImportViewModel ViewModel { get; private set; }
+        public new ExportAndImportViewModel ViewModel { get { return (ExportAndImportViewModel)base.ViewModel; } }
         private bool exportMode;
 
         public ExportAndImport()
         {
             InitializeComponent();
-            ViewModel = new ExportAndImportViewModel(MyApp.Factories,
-                new DropboxProviderFactory(MyApp.Factories),
-                new VibrationImpl(),
-                new CloudImpl(new DropboxProviderFactory(MyApp.Factories),
-                    MyApp.Factories,
-                    new ExportAndImportImpl(MyApp.Factories)));
+        }
+
+        protected override void OnInitializePage()
+        {
             ViewModel.ExportToEmailSuccessful += ViewModel_ExportToEmailSuccessful;
             ViewModel.ImportFromAddressSuccessful += ViewModel_ImportFromAddressSuccessful;
             ViewModel.SendingFailedDuringExportToEmail += ViewModel_SendingFailedDuringExportToEmail;
@@ -37,7 +34,6 @@ namespace Dietphone.Views
             ViewModel.ImportFromCloudSuccessful += ViewModel_ImportFromCloudSuccessful;
             ViewModel.CloudError += ViewModel_CloudError;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            DataContext = ViewModel;
             SetWindowBackground();
             SetWindowSize();
             TranslateButtons();

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Dietphone.Tools
 {
@@ -27,23 +26,4 @@ namespace Dietphone.Tools
             service.GoBack();
         }
     }
-
-    public class NavigationContextImpl : NavigationContext
-    {
-        private System.Windows.Navigation.NavigationContext context;
-
-        public NavigationContextImpl(System.Windows.Navigation.NavigationContext context)
-        {
-            this.context = context;
-        }
-
-        public IDictionary<string, string> QueryString
-        {
-            get
-            {
-                return context.QueryString;
-            }
-        }
-    }
-
 }
