@@ -3,7 +3,6 @@ using System.Windows;
 using Dietphone.ViewModels;
 using System.Windows.Navigation;
 using Dietphone.Tools;
-using Dietphone.Models;
 using System.Linq;
 using System.Collections;
 using System.ComponentModel;
@@ -14,18 +13,20 @@ namespace Dietphone.Views
 {
     public partial class InsulinEditing : StateProviderPage
     {
+        public new InsulinEditingViewModel ViewModel { get { return (InsulinEditingViewModel)base.ViewModel; } }
         private const int CHART_PADDING_TOP = 51;
-        private InsulinEditingViewModel viewModel;
 
         public InsulinEditing()
         {
             InitializeComponent();
-            viewModel = new InsulinEditingViewModel(MyApp.Factories, CreateFacade(),
-                new BackgroundWorkerWrapperFactory(), Clipboard.SetText);
-            viewModel.StateProvider = this;
-            viewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
-            viewModel.CannotSave += ViewModel_CannotSave;
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        protected override void OnInitializePage()
+        {
+            ViewModel.StateProvider = this;
+            ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
+            ViewModel.CannotSave += ViewModel_CannotSave;
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             MealScores.ScoreClick += MealScores_ScoreClick;
             Save = this.GetIcon(0);
             TranslateApplicationBar();
@@ -33,7 +34,7 @@ namespace Dietphone.Views
                 += InsulinCircumstancesSummaryForSelectedItemsDelegate;
             Loaded += delegate
             {
-                if (viewModel.ShouldFocusSugar())
+                if (ViewModel.ShouldFocusSugar())
                     CurrentSugar.Focus();
                 RestoreCalculationDetailsPickers();
             };
@@ -42,18 +43,17 @@ namespace Dietphone.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (viewModel.Navigator == null)
+            if (ViewModel.Navigator == null)
             {
                 var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService),
                     new NavigationContextImpl(NavigationContext));
-                viewModel.Navigator = navigator;
-                viewModel.Load();
-                MealScores.DataContext = viewModel.MealScores;
-                DataContext = viewModel;
+                ViewModel.Navigator = navigator;
+                ViewModel.Load();
+                MealScores.DataContext = ViewModel.MealScores;
             }
             else
             {
-                viewModel.ReturnedFromNavigation();
+                ViewModel.ReturnedFromNavigation();
                 RestoreCalculationDetailsPickers();
             }
             PopulateListPickerWithSelectedInsulinCircumstances();
@@ -68,15 +68,15 @@ namespace Dietphone.Views
             CalculationDetailsPicker.IsPopupOpen = false;
             if (e.NavigationMode != NavigationMode.Back)
             {
-                viewModel.Tombstone();
+                ViewModel.Tombstone();
             }
         }
 
         protected override void OnBackKeyPress(CancelEventArgs e)
         {
-            if (viewModel.CalculationDetailsVisible || viewModel.CalculationDetailsAlternativesVisible)
+            if (ViewModel.CalculationDetailsVisible || ViewModel.CalculationDetailsAlternativesVisible)
             {
-                viewModel.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                ViewModel.CloseCalculationDetailsÓrAlternativesOnBackButton();
                 e.Cancel = true;
             }
             base.OnBackKeyPress(e);
@@ -92,13 +92,13 @@ namespace Dietphone.Views
             input.Show();
             input.Confirmed += delegate
             {
-                viewModel.AddCircumstance(input.Text);
+                ViewModel.AddCircumstance(input.Text);
             };
         }
 
         private void EditCircumstance_Click(object sender, RoutedEventArgs e)
         {
-            if (viewModel.CanEditCircumstance())
+            if (ViewModel.CanEditCircumstance())
             {
                 EditCircumstanceDo();
             }
@@ -110,7 +110,7 @@ namespace Dietphone.Views
 
         private void DeleteCircumstance_Click(object sender, RoutedEventArgs e)
         {
-            var canDelete = viewModel.CanDeleteCircumstance();
+            var canDelete = ViewModel.CanDeleteCircumstance();
             switch (canDelete)
             {
                 case InsulinEditingViewModel.CanDeleteCircumstanceResult.Yes:
@@ -133,13 +133,13 @@ namespace Dietphone.Views
             {
                 Title = Translations.EditCircumstance,
                 Description = Translations.Circumstance,
-                Text = viewModel.NameOfFirstChoosenCircumstance
+                Text = ViewModel.NameOfFirstChoosenCircumstance
             };
             input.Show();
             input.Confirmed += delegate
             {
                 InsulinCircumstances.QuicklyCollapse();
-                viewModel.NameOfFirstChoosenCircumstance = input.Text;
+                ViewModel.NameOfFirstChoosenCircumstance = input.Text;
                 InvalidateCircumstancesListPicker();
             };
         }
@@ -148,7 +148,7 @@ namespace Dietphone.Views
         {
             if (MessageBox.Show(
                 String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisCircumstance,
-                viewModel.NameOfFirstChoosenCircumstance),
+                ViewModel.NameOfFirstChoosenCircumstance),
                 Translations.DeleteCircumstance, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 Save.IsEnabled = false;
@@ -166,8 +166,8 @@ namespace Dietphone.Views
                         InsulinCircumstances.SummaryForSelectedItemsDelegate
                             += InsulinCircumstancesSummaryForSelectedItemsDelegate;
                     }
-                    viewModel.DeleteCircumstance();
-                    Save.IsEnabled = viewModel.IsDirty;
+                    ViewModel.DeleteCircumstance();
+                    Save.IsEnabled = ViewModel.IsDirty;
                 });
             }
         }
@@ -177,42 +177,42 @@ namespace Dietphone.Views
             Focus();
             Dispatcher.BeginInvoke(() =>
             {
-                if (viewModel.CanSave())
+                if (ViewModel.CanSave())
                 {
-                    viewModel.SaveWithUpdatedTimeAndReturn();
+                    ViewModel.SaveWithUpdatedTimeAndReturn();
                 }
             });
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            viewModel.CancelAndReturn();
+            ViewModel.CancelAndReturn();
         }
 
         private void Meal_Click(object sender, EventArgs e)
         {
-            viewModel.GoToMealEditing();
+            ViewModel.GoToMealEditing();
         }
 
         private void CopyAsText_Click(object sender, EventArgs e)
         {
-            viewModel.CopyAsText();
+            ViewModel.CopyAsText();
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
                 String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisInsulin,
-                viewModel.Subject.DateAndTime),
+                ViewModel.Subject.DateAndTime),
                 Translations.DeleteInsulin, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                viewModel.DeleteAndSaveAndReturn();
+                ViewModel.DeleteAndSaveAndReturn();
             }
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)
         {
-            Save.IsEnabled = viewModel.IsDirty;
+            Save.IsEnabled = ViewModel.IsDirty;
         }
 
         private void ViewModel_CannotSave(object sender, CannotSaveEventArgs e)
@@ -224,46 +224,46 @@ namespace Dietphone.Views
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "CalculationDetailsVisible")
-                CalculationDetailsPicker.IsPopupOpen = viewModel.CalculationDetailsVisible;
+                CalculationDetailsPicker.IsPopupOpen = ViewModel.CalculationDetailsVisible;
             if (e.PropertyName == "CalculationDetailsAlternativesVisible")
-                CalculationDetailsAlternativesPicker.IsPopupOpen = viewModel.CalculationDetailsAlternativesVisible;
+                CalculationDetailsAlternativesPicker.IsPopupOpen = ViewModel.CalculationDetailsAlternativesVisible;
         }
 
         private void MealScores_ScoreClick(object sender, EventArgs e)
         {
-            viewModel.OpenScoresSettings();
+            ViewModel.OpenScoresSettings();
         }
 
         private void Chart_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var position = e.GetPosition(Chart);
             if (position.Y > CHART_PADDING_TOP)
-                MessageBox.Show(viewModel.SugarChartAsText);
+                MessageBox.Show(ViewModel.SugarChartAsText);
         }
 
         private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            MessageBox.Show(viewModel.ListOfMealItemsNotIncludedInCalculation);
+            MessageBox.Show(ViewModel.ListOfMealItemsNotIncludedInCalculation);
         }
 
         private void UseCalculation_Tap(object sender, RoutedEventArgs e)
         {
-            viewModel.UseCalculation();
+            ViewModel.UseCalculation();
         }
 
         private void CalculationDetails_Tap(object sender, RoutedEventArgs e)
         {
-            viewModel.CalculationDetails();
+            ViewModel.CalculationDetails();
         }
 
         private void CloseCalculationDetails_Click(object sender, EventArgs e)
         {
-            viewModel.CloseCalculationDetails();
+            ViewModel.CloseCalculationDetails();
         }
 
         private void CloseCalculationDetailsAlternatives_Click(object sender, EventArgs e)
         {
-            viewModel.CloseCalculationDetailsAlternatives();
+            ViewModel.CloseCalculationDetailsAlternatives();
         }
 
         private void TranslateApplicationBar()
@@ -286,14 +286,14 @@ namespace Dietphone.Views
 
         private void RestoreCalculationDetailsPickers()
         {
-            if (viewModel.CalculationDetailsVisible || viewModel.CalculationDetailsAlternativesVisible)
+            if (ViewModel.CalculationDetailsVisible || ViewModel.CalculationDetailsAlternativesVisible)
                 Dispatcher.BeginInvoke(() =>
                 {
                     CalculationDetailsPicker.IsPopupOpen
-                        = viewModel.CalculationDetailsVisible;
+                        = ViewModel.CalculationDetailsVisible;
                     DispatchWithDelay(TimeSpan.FromSeconds(0.5), () =>
                         CalculationDetailsAlternativesPicker.IsPopupOpen
-                            = viewModel.CalculationDetailsAlternativesVisible);
+                            = ViewModel.CalculationDetailsAlternativesVisible);
                     DispatchWithDelay(TimeSpan.FromSeconds(5), () =>
                     {
                         CalculationDetailsPicker.IsPopupAnimationEnabled = true;
@@ -316,13 +316,13 @@ namespace Dietphone.Views
 
         private string InsulinCircumstancesSummaryForSelectedItemsDelegate(IList newValue)
         {
-            viewModel.Subject.Circumstances = newValue.Cast<InsulinCircumstanceViewModel>().ToList();
-            return viewModel.Subject.CircumstancesSummary;
+            ViewModel.Subject.Circumstances = newValue.Cast<InsulinCircumstanceViewModel>().ToList();
+            return ViewModel.Subject.CircumstancesSummary;
         }
 
         private void PopulateListPickerWithSelectedInsulinCircumstances()
         {
-            foreach (var circumstance in viewModel.Subject.Circumstances.ToList())
+            foreach (var circumstance in ViewModel.Subject.Circumstances.ToList())
                 InsulinCircumstances.SelectedItems.Add(circumstance);
         }
 
@@ -333,7 +333,7 @@ namespace Dietphone.Views
             try
             {
                 InsulinCircumstances.SelectedItems.Clear();
-                viewModel.InvalidateCircumstances();
+                ViewModel.InvalidateCircumstances();
             }
             finally
             {
@@ -341,24 +341,6 @@ namespace Dietphone.Views
                     += InsulinCircumstancesSummaryForSelectedItemsDelegate;
             }
             PopulateListPickerWithSelectedInsulinCircumstances();
-        }
-
-        private ReplacementBuilderAndSugarEstimatorFacade CreateFacade()
-        {
-            var patternBuilder = new PatternBuilderImpl(MyApp.Factories,
-                new PatternBuilderImpl.Factor(),
-                new PatternBuilderImpl.PointsForPercentOfEnergy(),
-                new PatternBuilderImpl.PointsForRecentMeal(),
-                new PatternBuilderImpl.PointsForSimillarHour(new HourDifferenceImpl()),
-                new PatternBuilderImpl.PointsForSameCircumstances(),
-                new PatternBuilderImpl.PointsForSimillarSugarBefore(),
-                new PatternBuilderImpl.PointsForFactorCloserToOne());
-            var replacementBuilder = new ReplacementBuilderImpl(new ReplacementBuilderImpl.IsComplete(),
-                new ReplacementBuilderImpl.InsulinTotal());
-            var sugarEstimator = new SugarEstimatorImpl();
-            var facade = new ReplacementBuilderAndSugarEstimatorFacadeImpl(patternBuilder,
-                replacementBuilder, sugarEstimator);
-            return facade;
         }
     }
 }

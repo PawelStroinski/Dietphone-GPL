@@ -178,6 +178,7 @@
     <Compile Include="BinarySerializers\PhoneBinaryStreamProvider.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Setup.cs" />
+    <Compile Include="Tools\ClipboardImpl.cs" />
     <Compile Include="Tools\IsolatedFile.cs" />
     <Compile Include="Tools\MyStopwatch.cs" />
     <Compile Include="Tools\TrialImpl.cs" />

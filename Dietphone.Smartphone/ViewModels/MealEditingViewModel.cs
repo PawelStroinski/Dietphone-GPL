@@ -178,7 +178,7 @@ namespace Dietphone.ViewModels
 
         protected override void FindAndCopyModel()
         {
-            var id = navigation.MealId;
+            var id = navigation.MealIdToEdit;
             modelSource = finder.FindMealById(id);
             if (modelSource != null)
             {
@@ -416,7 +416,7 @@ namespace Dietphone.ViewModels
 
         public class Navigation
         {
-            public Guid MealId { get; set; }
+            public Guid MealIdToEdit { get; set; }
         }
     }
 }

@@ -22,8 +22,6 @@ namespace Dietphone.ViewModels
         void GoToExportAndImport();
         void GoToSettings();
         Guid GetProductIdToEdit();
-        Guid GetInsulinIdToEdit();
-        Guid GetRelatedMealId();
     }
 
     public enum Assembly { Default, Sometimes, Rarely };
@@ -33,14 +31,11 @@ namespace Dietphone.ViewModels
         private string path;
         private string idName;
         private Guid idValue;
-        private string action;
         private Assembly assembly;
         private readonly NavigationService service;
         private readonly IDictionary<string, string> passedQueryString;
         private readonly GoingToAbout about;
         private const string PRODUCT_ID_TO_EDIT = "ProductIdToEdit";
-        private const string INSULIN_ID_TO_EDIT = "ProductIdToEdit";
-        private const string RELATED_MEAL_ID = "RelatedMealId";
         private const string ABOUT_MAIL = "wp7@pabloware.com";
         private const string ABOUT_PATH_TO_LICENSE = "/Dietphone.Phone.Rarely;component/documents/license.{0}.txt";
         private const string ABOUT_CHANGELOG_URL = "http://www.pabloware.com/wp7/diabetes-spy.changelog.{0}.xaml";
@@ -64,7 +59,7 @@ namespace Dietphone.ViewModels
 
         public void GoToMealEditing(Guid mealId)
         {
-            var navigation = new MealEditingViewModel.Navigation { MealId = mealId };
+            var navigation = new MealEditingViewModel.Navigation { MealIdToEdit = mealId };
             ShowViewModel<MealEditingViewModel>(navigation);
         }
 
@@ -79,37 +74,30 @@ namespace Dietphone.ViewModels
 
         public void GoToInsulinEditing(Guid insulinId)
         {
-            idName = INSULIN_ID_TO_EDIT;
-            idValue = insulinId;
-            path = "/Views/InsulinEditing.xaml";
-            assembly = Assembly.Default;
-            NavigateWithId();
+            var navigation = new InsulinEditingViewModel.Navigation { InsulinIdToEdit = insulinId };
+            ShowViewModel<InsulinEditingViewModel>(navigation);
         }
 
         public void GoToNewInsulin()
         {
-            path = "/Views/InsulinEditing.xaml";
-            assembly = Assembly.Default;
-            Navigate();
+            var navigation = new InsulinEditingViewModel.Navigation();
+            ShowViewModel<InsulinEditingViewModel>(navigation);
         }
 
         public void GoToNewInsulinRelatedToMeal(Guid mealId)
         {
-            idName = RELATED_MEAL_ID;
-            idValue = mealId;
-            path = "/Views/InsulinEditing.xaml";
-            assembly = Assembly.Default;
-            NavigateWithId();
+            var navigation = new InsulinEditingViewModel.Navigation { RelatedMealId = mealId };
+            ShowViewModel<InsulinEditingViewModel>(navigation);
         }
 
         public void GoToInsulinEditingRelatedToMeal(Guid insulinId, Guid mealId)
         {
-            var destination = new UriBuilder();
-            destination.Path = "/Views/InsulinEditing.xaml";
-            destination.Query = String.Format("{0}={1}&{2}={3}",
-                INSULIN_ID_TO_EDIT, insulinId, RELATED_MEAL_ID, mealId);
-            assembly = Assembly.Default;
-            Navigate(destination);
+            var navigation = new InsulinEditingViewModel.Navigation
+            {
+                InsulinIdToEdit = insulinId,
+                RelatedMealId = mealId
+            };
+            ShowViewModel<InsulinEditingViewModel>(navigation);
         }
 
         public void GoToMain()
@@ -151,18 +139,6 @@ namespace Dietphone.ViewModels
             return GetId();
         }
 
-        public Guid GetInsulinIdToEdit()
-        {
-            idName = INSULIN_ID_TO_EDIT;
-            return GetId();
-        }
-
-        public Guid GetRelatedMealId()
-        {
-            idName = RELATED_MEAL_ID;
-            return GetId();
-        }
-
         private Guid GetId()
         {
             if (passedQueryString.ContainsKey(idName))
@@ -172,18 +148,6 @@ namespace Dietphone.ViewModels
             else
             {
                 return Guid.Empty;
-            }
-        }
-
-        private bool GetAction()
-        {
-            if (passedQueryString.ContainsKey(action))
-            {
-                return bool.Parse(passedQueryString[action]);
-            }
-            else
-            {
-                return false;
             }
         }
 
@@ -199,14 +163,6 @@ namespace Dietphone.ViewModels
             var destination = new UriBuilder();
             destination.Path = path;
             destination.Query = String.Format("{0}={1}", idName, idValue);
-            Navigate(destination);
-        }
-
-        private void NavigateWithAction()
-        {
-            var destination = new UriBuilder();
-            destination.Path = path;
-            destination.Query = String.Format("{0}={1}", action, true);
             Navigate(destination);
         }
 

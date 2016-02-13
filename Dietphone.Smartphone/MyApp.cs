@@ -30,6 +30,8 @@ namespace Dietphone
                 .RegisterAsDynamic();
             Mvx.RegisterSingleton(() => Factories);
             Mvx.RegisterType<BackgroundWorkerFactory, BackgroundWorkerWrapperFactory>();
+            Mvx.RegisterType(Builder.CreatePatternBuilder);
+            Mvx.RegisterType(Builder.CreateReplacementBuilder);
             RegisterAppStart<MainViewModel>();
         }
 
@@ -79,6 +81,27 @@ namespace Dietphone
             {
                 var settings = Factories.Settings;
                 return settings.CurrentProductCulture;
+            }
+        }
+
+        public static class Builder
+        {
+            public static PatternBuilder CreatePatternBuilder()
+            {
+                return new PatternBuilderImpl(Factories,
+                    new PatternBuilderImpl.Factor(),
+                    new PatternBuilderImpl.PointsForPercentOfEnergy(),
+                    new PatternBuilderImpl.PointsForRecentMeal(),
+                    new PatternBuilderImpl.PointsForSimillarHour(new HourDifferenceImpl()),
+                    new PatternBuilderImpl.PointsForSameCircumstances(),
+                    new PatternBuilderImpl.PointsForSimillarSugarBefore(),
+                    new PatternBuilderImpl.PointsForFactorCloserToOne());
+            }
+
+            public static ReplacementBuilder CreateReplacementBuilder()
+            {
+                return new ReplacementBuilderImpl(new ReplacementBuilderImpl.IsComplete(),
+                    new ReplacementBuilderImpl.InsulinTotal());
             }
         }
     }

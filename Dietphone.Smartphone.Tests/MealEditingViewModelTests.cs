@@ -32,7 +32,7 @@ namespace Dietphone.Smartphone.Tests
             sut.Navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;
-            sut.Init(new MealEditingViewModel.Navigation { MealId = meal.Id });
+            sut.Init(new MealEditingViewModel.Navigation { MealIdToEdit = meal.Id });
         }
 
         [Test]

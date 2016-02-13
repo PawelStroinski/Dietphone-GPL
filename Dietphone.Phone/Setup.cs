@@ -26,6 +26,7 @@ namespace Dietphone
         protected override void InitializeLastChance()
         {
             base.InitializeLastChance();
+            Mvx.RegisterType<Clipboard, ClipboardImpl>();
             Mvx.RegisterType<Trial, TrialImpl>();
         }
     }

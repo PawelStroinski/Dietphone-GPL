@@ -31,11 +31,55 @@ namespace Dietphone.Smartphone.Tests
         [Test]
         public void GoToMealEditing()
         {
-            var id = Guid.NewGuid();
-            sut.GoToMealEditing(id);
+            var mealId = Guid.NewGuid();
+            sut.GoToMealEditing(mealId);
             var request = mockDispatcher.Requests.Single();
             Assert.AreEqual(typeof(MealEditingViewModel), request.ViewModelType);
-            Assert.AreEqual(id.ToString(), request.ParameterValues["MealId"]);
+            Assert.AreEqual(mealId.ToString(), request.ParameterValues["MealIdToEdit"]);
+        }
+
+        [Test]
+        public void GoToInsulinEditing()
+        {
+            var insulinId = Guid.NewGuid();
+            sut.GoToInsulinEditing(insulinId);
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(InsulinEditingViewModel), request.ViewModelType);
+            Assert.AreEqual(insulinId.ToString(), request.ParameterValues["InsulinIdToEdit"]);
+            Assert.AreEqual(Guid.Empty.ToString(), request.ParameterValues["RelatedMealId"]);
+        }
+
+        [Test]
+        public void GoToNewInsulin()
+        {
+            sut.GoToNewInsulin();
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(InsulinEditingViewModel), request.ViewModelType);
+            Assert.AreEqual(Guid.Empty.ToString(), request.ParameterValues["InsulinIdToEdit"]);
+            Assert.AreEqual(Guid.Empty.ToString(), request.ParameterValues["RelatedMealId"]);
+        }
+
+        [Test]
+        public void GoToNewInsulinRelatedToMeal()
+        {
+            var mealId = Guid.NewGuid();
+            sut.GoToNewInsulinRelatedToMeal(mealId);
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(InsulinEditingViewModel), request.ViewModelType);
+            Assert.AreEqual(Guid.Empty.ToString(), request.ParameterValues["InsulinIdToEdit"]);
+            Assert.AreEqual(mealId.ToString(), request.ParameterValues["RelatedMealId"]);
+        }
+
+        [Test]
+        public void GoToInsulinEditingRelatedToMeal()
+        {
+            var insulinId = Guid.NewGuid();
+            var mealId = Guid.NewGuid();
+            sut.GoToInsulinEditingRelatedToMeal(insulinId: insulinId, mealId: mealId);
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(InsulinEditingViewModel), request.ViewModelType);
+            Assert.AreEqual(insulinId.ToString(), request.ParameterValues["InsulinIdToEdit"]);
+            Assert.AreEqual(mealId.ToString(), request.ParameterValues["RelatedMealId"]);
         }
 
         [Test]

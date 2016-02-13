@@ -24,7 +24,8 @@ namespace Dietphone.Smartphone.Tests
         private Sugar sugar;
         private Settings settings;
         private Meal meal;
-        private Action<string> setClipboard;
+        private Clipboard clipboard;
+        private InsulinEditingViewModel.Navigation navigation;
 
         [SetUp]
         public void TestInitialize()
@@ -34,7 +35,8 @@ namespace Dietphone.Smartphone.Tests
             navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             facade = Substitute.For<ReplacementBuilderAndSugarEstimatorFacade>();
-            setClipboard = Substitute.For<Action<string>>();
+            clipboard = Substitute.For<Clipboard>();
+            navigation = new InsulinEditingViewModel.Navigation();
             CreateSut();
             insulin = fixture.Create<Insulin>();
             insulin.InitializeCircumstances(new List<Guid>());
@@ -60,9 +62,10 @@ namespace Dietphone.Smartphone.Tests
 
         private void CreateSut()
         {
-            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory(), setClipboard);
+            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory(), clipboard);
             sut.Navigator = navigator;
             sut.StateProvider = stateProvider;
+            sut.Init(navigation);
         }
 
         private void InitializeViewModel()
@@ -92,7 +95,7 @@ namespace Dietphone.Smartphone.Tests
             public void FindAndCopyModelAndMakeViewModel(bool editingExisting)
             {
                 if (editingExisting)
-                    navigator.GetInsulinIdToEdit().Returns(insulin.Id);
+                    navigation.InsulinIdToEdit = insulin.Id;
                 else
                     factories.CreateInsulin().Returns(insulin);
                 sut.Load();
@@ -104,7 +107,7 @@ namespace Dietphone.Smartphone.Tests
             public void FindAndCopyModelCopiesDateTimeFromMealWhenNewInsulin(bool editingExisting)
             {
                 if (editingExisting)
-                    navigator.GetInsulinIdToEdit().Returns(insulin.Id);
+                    navigation.InsulinIdToEdit = insulin.Id;
                 else
                     factories.CreateInsulin().Returns(insulin);
                 sut.Load();
@@ -296,7 +299,7 @@ namespace Dietphone.Smartphone.Tests
             [Test]
             public void SaveWithUpdatedTimeAndReturnGoesForwardToMainPageInsteadOfGoingBackWhenRelatedMealIdGiven()
             {
-                navigator.GetRelatedMealId().Returns(Guid.NewGuid());
+                navigation.RelatedMealId = Guid.NewGuid();
                 InitializeViewModel();
                 sut.SaveWithUpdatedTimeAndReturn();
                 navigator.Received().GoToMain();
@@ -558,7 +561,7 @@ namespace Dietphone.Smartphone.Tests
                     factories.CreateMeal().Returns(meal);
                 if (relatedMealProvided)
                 {
-                    navigator.GetRelatedMealId().Returns(meal.Id);
+                    navigation.RelatedMealId = meal.Id;
                     factories.Finder.FindMealById(meal.Id).Returns(meal);
                 }
                 sut.GoToMealEditing();
@@ -629,7 +632,7 @@ namespace Dietphone.Smartphone.Tests
             {
                 InitializeViewModel();
                 sut.CopyAsText();
-                setClipboard.Received().Invoke(sut.Subject.Text);
+                clipboard.Received().Set(sut.Subject.Text);
             }
         }
 
@@ -1009,7 +1012,7 @@ namespace Dietphone.Smartphone.Tests
             public void UsesRelatedMealIdWhenProvided()
             {
                 var relatedMeal = new Meal { Id = Guid.NewGuid() };
-                navigator.GetRelatedMealId().Returns(relatedMeal.Id);
+                navigation.RelatedMealId = relatedMeal.Id;
                 factories.Finder.FindMealById(relatedMeal.Id).Returns(relatedMeal);
                 InitializeViewModel();
                 var replacementAndEstimatedSugars = new ReplacementAndEstimatedSugars

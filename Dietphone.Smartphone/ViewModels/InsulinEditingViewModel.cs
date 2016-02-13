@@ -37,9 +37,10 @@ namespace Dietphone.ViewModels
         private IList<ReplacementItem> replacementItems;
         private IEnumerable<MealNameViewModel> names;
         private MealNameViewModel defaultName;
+        private Navigation navigation;
         private readonly ReplacementBuilderAndSugarEstimatorFacade facade;
         private readonly BackgroundWorkerFactory workerFactory;
-        private readonly Action<string> setClipboard;
+        private readonly Clipboard clipboard;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MGDL = (decimal)10;
         private const decimal SUGAR_CHART_MARGIN_MAXIMUM_MGDL = (decimal)55;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MMOLL = (decimal)0.55;
@@ -58,12 +59,12 @@ namespace Dietphone.ViewModels
         private const string CALCULATION_DETAILS_ALTERNATIVES_INDEX = "CALCULATION_DETAILS_ALTERNATIVES_INDEX";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
-            BackgroundWorkerFactory workerFactory, Action<string> setClipboard)
+            BackgroundWorkerFactory workerFactory, Clipboard clipboard)
             : base(factories)
         {
             this.facade = facade;
             this.workerFactory = workerFactory;
-            this.setClipboard = setClipboard;
+            this.clipboard = clipboard;
         }
 
         public string NameOfFirstChoosenCircumstance
@@ -231,6 +232,11 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public void Init(Navigation navigation)
+        {
+            this.navigation = navigation;
+        }
+
         public void AddCircumstance(string name)
         {
             var tempModel = factories.CreateInsulinCircumstance();
@@ -269,7 +275,7 @@ namespace Dietphone.ViewModels
         public void SaveWithUpdatedTimeAndReturn()
         {
             SaveWithUpdatedTime();
-            var relatedMealId = Navigator.GetRelatedMealId();
+            var relatedMealId = navigation.RelatedMealId;
             if (relatedMealId == Guid.Empty)
                 Navigator.GoBack();
             else
@@ -303,7 +309,7 @@ namespace Dietphone.ViewModels
 
         public void CopyAsText()
         {
-            setClipboard(Subject.Text);
+            clipboard.Set(Subject.Text);
         }
 
         public void OpenScoresSettings()
@@ -382,7 +388,7 @@ namespace Dietphone.ViewModels
 
         protected override void FindAndCopyModel()
         {
-            var id = Navigator.GetInsulinIdToEdit();
+            var id = navigation.InsulinIdToEdit;
             if (id == Guid.Empty)
                 id = UntombstoneInsulinId();
             var modelIsNew = id == Guid.Empty;
@@ -678,7 +684,7 @@ namespace Dietphone.ViewModels
 
         private void FindMeal()
         {
-            var relatedMealId = Navigator.GetRelatedMealId();
+            var relatedMealId = navigation.RelatedMealId;
             if (relatedMealId == Guid.Empty)
                 meal = finder.FindMealByInsulin(modelSource);
             else
@@ -858,6 +864,12 @@ namespace Dietphone.ViewModels
             {
                 target.Add(sugar);
             }
+        }
+
+        public class Navigation
+        {
+            public Guid InsulinIdToEdit { get; set; }
+            public Guid RelatedMealId { get; set; }
         }
     }
 }
