@@ -83,6 +83,15 @@ namespace Dietphone.Smartphone.Tests
         }
 
         [Test]
+        public void GoToMain()
+        {
+            sut.GoToMain();
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(MainViewModel), request.ViewModelType);
+            Assert.AreEqual("False", request.ParameterValues["ShouldAddMealItem"]);
+        }
+
+        [Test]
         public void GoToMainToAddMealItem()
         {
             sut.GoToMainToAddMealItem();

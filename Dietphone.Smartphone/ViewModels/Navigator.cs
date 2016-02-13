@@ -102,9 +102,8 @@ namespace Dietphone.ViewModels
 
         public void GoToMain()
         {
-            path = "/Views/Main.xaml";
-            assembly = Assembly.Default;
-            Navigate();
+            var navigation = new MainViewModel.Navigation();
+            ShowViewModel<MainViewModel>(navigation);
         }
 
         public void GoToMainToAddMealItem()
