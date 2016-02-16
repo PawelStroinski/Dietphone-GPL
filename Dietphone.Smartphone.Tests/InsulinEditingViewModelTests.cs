@@ -1248,7 +1248,7 @@ namespace Dietphone.Smartphone.Tests
             {
                 var fixture = new Fixture();
                 var expected = fixture.CreateMany<ReplacementItem>().ToList();
-                factories.Finder.FindProductById(Arg.Any<Guid>()).Returns(fixture.CreateAnonymous<Product>());
+                factories.Finder.FindProductById(Arg.Any<Guid>()).Returns(fixture.Create<Product>());
                 factories.Finder.FindInsulinCircumstanceById(Arg.Any<Guid>()).Returns(new InsulinCircumstance());
                 InitializeReplacementItems(expected);
                 expected[1].Pattern.Factor = 1.177F;
