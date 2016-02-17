@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace Dietphone.Views
 {
-    public partial class MealEditing : StateProviderPage
+    public partial class MealEditing : PageBase
     {
         public new MealEditingViewModel ViewModel { get { return (MealEditingViewModel)base.ViewModel; } }
         private const string TOP_ITEM_INDEX = "TOP_ITEM_INDEX";
@@ -20,7 +20,6 @@ namespace Dietphone.Views
 
         protected override void OnInitializePage()
         {
-            ViewModel.StateProvider = this;
             ViewModel.ItemEditing = ItemEditing.ViewModel;
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             ViewModel.CannotSave += ViewModel_CannotSave;
@@ -217,7 +216,7 @@ namespace Dietphone.Views
 
         private void Items_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsOpened)
+            if (ViewModel.StateProvider.IsOpened)
             {
                 if (ViewModel.NeedsScrollingItemsDown)
                 {
@@ -231,7 +230,7 @@ namespace Dietphone.Views
             }
             Dispatcher.BeginInvoke(() =>
             {
-                if (IsOpened)
+                if (ViewModel.StateProvider.IsOpened)
                 {
                     ViewModel.UiRendered();
                 }

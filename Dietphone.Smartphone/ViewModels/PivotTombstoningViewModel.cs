@@ -2,9 +2,8 @@
 
 namespace Dietphone.ViewModels
 {
-    public class PivotTombstoningViewModel : ViewModelBase
+    public class PivotTombstoningViewModel : ViewModelWithStateProvider
     {
-        public StateProvider StateProvider { protected get; set; }
         private int pivot;
         private const string PIVOT = "PIVOT";
 

@@ -88,6 +88,7 @@
     <Compile Include="NavigatorImplTests.cs" />
     <Compile Include="ProductViewModelTests.cs" />
     <Compile Include="SettingsViewModelTests.cs" />
+    <Compile Include="StateSerializerTests.cs" />
     <Compile Include="SugarEditingViewModelTests.cs">
       <SubType>Code</SubType>
     </Compile>

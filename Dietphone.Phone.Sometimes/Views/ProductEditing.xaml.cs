@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Dietphone.Views
 {
-    public partial class ProductEditing : StateProviderPage
+    public partial class ProductEditing : PageBase
     {
         public new ProductEditingViewModel ViewModel { get { return (ProductEditingViewModel)base.ViewModel; } }
 
@@ -23,7 +23,6 @@ namespace Dietphone.Views
         protected override void OnInitializePage()
         {
             var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService));
-            ViewModel.StateProvider = this;
             ViewModel.Navigator = navigator;
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             ViewModel.CannotSave += ViewModel_CannotSave;

@@ -4,7 +4,7 @@ using System.Windows.Navigation;
 
 namespace Dietphone.Views
 {
-    public partial class Settings : StateProviderPage
+    public partial class Settings : PageBase
     {
         public new SettingsViewModel ViewModel { get { return (SettingsViewModel)base.ViewModel; } }
 
@@ -15,7 +15,6 @@ namespace Dietphone.Views
 
         protected override void OnInitializePage()
         {
-            ViewModel.StateProvider = this;
             ViewModel.Untombstone();
         }
 

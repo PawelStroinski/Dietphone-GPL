@@ -11,7 +11,7 @@ using System.Windows.Threading;
 
 namespace Dietphone.Views
 {
-    public partial class InsulinEditing : StateProviderPage
+    public partial class InsulinEditing : PageBase
     {
         public new InsulinEditingViewModel ViewModel { get { return (InsulinEditingViewModel)base.ViewModel; } }
         private const int CHART_PADDING_TOP = 51;
@@ -23,7 +23,6 @@ namespace Dietphone.Views
 
         protected override void OnInitializePage()
         {
-            ViewModel.StateProvider = this;
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             ViewModel.CannotSave += ViewModel_CannotSave;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;

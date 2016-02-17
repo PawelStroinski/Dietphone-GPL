@@ -4,7 +4,6 @@ using NUnit.Framework;
 using NSubstitute;
 using Dietphone.Tools;
 using System;
-using System.Threading;
 using Dietphone.Models.Tests;
 using System.Collections.Generic;
 

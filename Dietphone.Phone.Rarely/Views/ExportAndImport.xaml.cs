@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace Dietphone.Views
 {
-    public partial class ExportAndImport : StateProviderPage
+    public partial class ExportAndImport : PageBase
     {
         public new ExportAndImportViewModel ViewModel { get { return (ExportAndImportViewModel)base.ViewModel; } }
         private bool exportMode;

@@ -1,4 +1,4 @@
-﻿<commonViews:StateProviderPage 
+﻿<sharedViews:PageBase 
     x:Class="Dietphone.Views.ProductEditing"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -16,7 +16,7 @@
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Shared"
+    xmlns:sharedViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Shared"
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 
     <phone:PhoneApplicationPage.Resources>
@@ -105,20 +105,20 @@
                         <TextBox Height="72" InputScope="TelephoneNumber" Text="{Binding Subject.DigestibleCarbsPer100g}" IsReadOnly="True"/>
                     </StackPanel>
                     <TextBlock TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyNormal}" LineHeight="22" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Translations.FullSquareMeansMaximumInCategory, Source={StaticResource Translations}}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,7,24,9" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"/>
-                    <commonViews:InteractionEffectContainer Margin="24,0,18,0" Grid.Column="0" Grid.Row="5" MouseLeftButtonUp="Cu_Click">
+                    <sharedViews:InteractionEffectContainer Margin="24,0,18,0" Grid.Column="0" Grid.Row="5" MouseLeftButtonUp="Cu_Click">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding Subject.DoubledWidthOfFilledCuRect}" Height="50" VerticalAlignment="Center" />
                             <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding Subject.DoubledWidthOfEmptyCuRect}" Height="50" VerticalAlignment="Center" />
                             <TextBlock Text="{Binding Subject.CuPer100g}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="16,0,0,0"/>
                         </StackPanel>
-                    </commonViews:InteractionEffectContainer>
-                    <commonViews:InteractionEffectContainer Margin="18,0,24,0" Grid.Column="1" Grid.Row="5" MouseLeftButtonUp="Fpu_Click">
+                    </sharedViews:InteractionEffectContainer>
+                    <sharedViews:InteractionEffectContainer Margin="18,0,24,0" Grid.Column="1" Grid.Row="5" MouseLeftButtonUp="Fpu_Click">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Fill="{StaticResource PhoneAccentBrush}" Width="{Binding Subject.DoubledWidthOfFilledFpuRect}" Height="50" VerticalAlignment="Center" />
                             <Rectangle Fill="{StaticResource PhoneSubtleBrush}" Width="{Binding Subject.DoubledWidthOfEmptyFpuRect}" Height="50" VerticalAlignment="Center" />
                             <TextBlock Text="{Binding Subject.FpuPer100g}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Margin="16,0,0,0"/>
                         </StackPanel>
-                    </commonViews:InteractionEffectContainer>
+                    </sharedViews:InteractionEffectContainer>
                 </Grid>
             </controls:PivotItem>
 
@@ -198,4 +198,4 @@
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-</commonViews:StateProviderPage>
+</sharedViews:PageBase>

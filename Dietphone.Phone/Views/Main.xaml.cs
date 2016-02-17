@@ -11,7 +11,7 @@ using Microsoft.Phone.Tasks;
 
 namespace Dietphone.Views
 {
-    public partial class Main : StateProviderPage
+    public partial class Main : PageBase
     {
         public new MainViewModel ViewModel { get { return (MainViewModel)base.ViewModel; } }
         private SubViewModelConnector subConnector;
@@ -35,7 +35,6 @@ namespace Dietphone.Views
         {
             ViewModel.ProductListing = ProductListing.ViewModel;
             ViewModel.MealItemEditing = MealItemEditing.ViewModel;
-            ViewModel.StateProvider = this;
             ViewModel.ShowProductsOnly += ViewModel_ShowProductsOnly;
             ViewModel.ExportToCloudError += ViewModel_ExportToCloudError;
             ViewModel.ShowWelcomeScreen += WelcomeScreen_Click;
@@ -45,8 +44,8 @@ namespace Dietphone.Views
             TranslateApplicationBar();
             GetApplicationBarIcons();
             ShowJournalIcons();
-            ProductListing.StateProvider = this;
-            JournalListing.StateProvider = this;
+            ProductListing.StateProvider = ViewModel.StateProvider;
+            JournalListing.StateProvider = ViewModel.StateProvider;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -100,7 +99,7 @@ namespace Dietphone.Views
         private void SubConnector_Loaded(object sender, EventArgs e)
         {
             RestoreSearchUi();
-            if (IsOpened)
+            if (ViewModel.StateProvider.IsOpened)
             {
                 ViewModel.UiRendered();
             }

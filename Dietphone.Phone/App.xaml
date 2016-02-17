@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Shared"
+    xmlns:sharedViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Shared"
     xmlns:commonViews2="clr-namespace:Dietphone.Views;assembly=Dietphone.Smartphone"
     mc:Ignorable="d">
 
@@ -163,7 +163,7 @@
             </Setter>
         </Style>
 
-        <commonViews:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <sharedViews:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
 
         <commonViews2:TranslationsFactory x:Key="Translations"/>
 

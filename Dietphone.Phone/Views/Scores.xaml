@@ -8,7 +8,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480"
-    xmlns:commonViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Shared">
+    xmlns:sharedViews="clr-namespace:Dietphone.Views;assembly=Dietphone.Phone.Shared">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -20,21 +20,21 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <!--0-->
-        <commonViews:InteractionEffectContainer MouseLeftButtonUp="Score_Click">
+        <sharedViews:InteractionEffectContainer MouseLeftButtonUp="Score_Click">
             <TextBlock Text="{Binding First}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}"/>
-        </commonViews:InteractionEffectContainer>
+        </sharedViews:InteractionEffectContainer>
         <!--0-->
-        <commonViews:InteractionEffectContainer Grid.Column="1" MouseLeftButtonUp="Score_Click">
+        <sharedViews:InteractionEffectContainer Grid.Column="1" MouseLeftButtonUp="Score_Click">
             <TextBlock Text="{Binding Second}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" TextAlignment="Center" />
-        </commonViews:InteractionEffectContainer>
+        </sharedViews:InteractionEffectContainer>
         <!--0-->
-        <commonViews:InteractionEffectContainer Grid.Row="1" MouseLeftButtonUp="Score_Click">
+        <sharedViews:InteractionEffectContainer Grid.Row="1" MouseLeftButtonUp="Score_Click">
             <TextBlock Text="{Binding Third}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" Visibility="{Binding ThirdExists, Converter={StaticResource BooleanToVisibility}}"/>
-        </commonViews:InteractionEffectContainer>
+        </sharedViews:InteractionEffectContainer>
         <!--0-->
-        <commonViews:InteractionEffectContainer Grid.Row="1" Grid.Column="1" MouseLeftButtonUp="Score_Click">
+        <sharedViews:InteractionEffectContainer Grid.Row="1" Grid.Column="1" MouseLeftButtonUp="Score_Click">
             <TextBlock Text="{Binding Fourth}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}" TextAlignment="Center" Visibility="{Binding ThirdExists, Converter={StaticResource BooleanToVisibility}}" />
-        </commonViews:InteractionEffectContainer>
+        </sharedViews:InteractionEffectContainer>
     </Grid>
     
 </UserControl>

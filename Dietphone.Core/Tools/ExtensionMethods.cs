@@ -216,9 +216,14 @@ namespace Dietphone.Tools
 
         public static T Deserialize<T>(this string source, string defaultNamespaceUri)
         {
-            var serializer = new XmlSerializer(typeof(T), defaultNamespaceUri);
+            return (T)source.Deserialize(defaultNamespaceUri, typeof(T));
+        }
+
+        public static object Deserialize(this string source, string defaultNamespaceUri, Type type)
+        {
+            var serializer = new XmlSerializer(type, defaultNamespaceUri);
             var reader = new StringReader(source);
-            return (T)serializer.Deserialize(reader);
+            return serializer.Deserialize(reader);
         }
 
         public static bool IsValidEmail(this string candidate)
