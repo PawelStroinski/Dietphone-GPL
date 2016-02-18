@@ -17,6 +17,7 @@ namespace Dietphone.Smartphone.Tests
         private Factories factories;
         private StateProvider stateProvider;
         private TrialViewModel trial;
+        private MealEditingViewModel.BackNavigation backNavigation;
         private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
 
         [SetUp]
@@ -28,7 +29,8 @@ namespace Dietphone.Smartphone.Tests
             factories.Finder.FindMealById(meal.Id).Returns(meal);
             factories.MealNames.Returns(new List<MealName>());
             trial = Substitute.For<TrialViewModel>();
-            sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory(), trial);
+            backNavigation = new MealEditingViewModel.BackNavigation();
+            sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory(), trial, backNavigation);
             sut.Navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;
@@ -132,8 +134,8 @@ namespace Dietphone.Smartphone.Tests
             factories.Settings.Returns(new Settings());
             factories.Products.Returns(new Fixture().CreateMany<Product>().ToList());
             sut.Load();
-            sut.AddCopyOfThisItem = new MealItem { ProductId = factories.Products.First().Id };
-            sut.AddCopyOfThisItem.SetOwner(factories);
+            backNavigation.AddCopyOfThisItem = new MealItem { ProductId = factories.Products.First().Id };
+            backNavigation.AddCopyOfThisItem.SetOwner(factories);
             sut.ReturnedFromNavigation();
             Assert.AreEqual(factories.Products.Take(1), factories.MruProducts.Products);
         }
@@ -147,8 +149,8 @@ namespace Dietphone.Smartphone.Tests
             factories.Finder.Returns(new FinderImpl(factories));
             factories.Products.Returns(new Fixture().CreateMany<Product>().ToList());
             sut.Load();
-            sut.AddCopyOfThisItem = new MealItem { ProductId = factories.Products.First().Id };
-            sut.AddCopyOfThisItem.SetOwner(factories);
+            backNavigation.AddCopyOfThisItem = new MealItem { ProductId = factories.Products.First().Id };
+            backNavigation.AddCopyOfThisItem.SetOwner(factories);
             var productName = string.Empty;
             sut.Subject.Items.CollectionChanged += delegate
             {

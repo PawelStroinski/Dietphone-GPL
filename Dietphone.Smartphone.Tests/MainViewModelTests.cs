@@ -11,6 +11,9 @@ namespace Dietphone.Smartphone.Tests
 {
     public class MainViewModelTests
     {
+        private MealEditingViewModel.BackNavigation mealEditingBackNavigation
+            = new MealEditingViewModel.BackNavigation();
+
         public class WhenAddingMealItem : MainViewModelTests
         {
             private Factories factories;
@@ -26,7 +29,7 @@ namespace Dietphone.Smartphone.Tests
                 factories = new FactoriesImpl();
                 factories.StorageCreator = new StorageCreatorStub();
                 sut = new MainViewModel(factories, Substitute.For<Cloud>(),
-                    Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory());
+                    Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory(), mealEditingBackNavigation);
                 navigation = new MainViewModel.Navigation();
                 sut.Init(navigation);
                 productListing = new ProductListingViewModel(factories,
@@ -85,7 +88,7 @@ namespace Dietphone.Smartphone.Tests
             var factories = Substitute.For<Factories>();
             factories.Settings.Returns(new Settings());
             var sut = new MainViewModel(factories, cloud, timerFactory,
-                new BackgroundWorkerSyncFactory());
+                new BackgroundWorkerSyncFactory(), mealEditingBackNavigation);
             sut.StateProvider = Substitute.For<StateProvider>();
             var exportToCloudErrored = false;
             sut.ExportToCloudError += delegate { exportToCloudErrored = true; };
@@ -111,7 +114,7 @@ namespace Dietphone.Smartphone.Tests
             factories.StorageCreator = new StorageCreatorStub();
             factories.Settings.ShowWelcomeScreen = showWelcomeScreen;
             var sut = new MainViewModel(factories, Substitute.For<Cloud>(),
-                Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory());
+                Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory(), mealEditingBackNavigation);
             var stateProvider = Substitute.For<StateProvider>();
             stateProvider.State.Returns(new Dictionary<string, object>());
             sut.StateProvider = stateProvider;

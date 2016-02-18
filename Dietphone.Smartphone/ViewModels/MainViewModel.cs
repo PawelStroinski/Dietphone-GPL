@@ -9,7 +9,6 @@ namespace Dietphone.ViewModels
     {
         public ProductListingViewModel ProductListing { private get; set; }
         public MealItemEditingViewModel MealItemEditing { private get; set; }
-        public MealEditingViewModel MealEditing { private get; set; }
         public event EventHandler ShowProductsOnly;
         public event EventHandler ExportToCloudError;
         public event EventHandler ShowWelcomeScreen;
@@ -17,21 +16,22 @@ namespace Dietphone.ViewModels
         private Navigator navigator;
         private Navigation navigation;
         private MealItem tempMealItem;
-        private bool addMealItem;
         private readonly Factories factories;
         private readonly Cloud cloud;
         private readonly TimerFactory timerFactory;
         private readonly BackgroundWorkerFactory workerFactory;
+        private readonly MealEditingViewModel.BackNavigation mealEditingBackNavigation;
         private const string MEAL_ITEM_EDITING = "MEAL_ITEM_EDITING";
         private const string MEAL_ITEM_PRODUCT = "MEAL_ITEM_PRODUCT";
 
         public MainViewModel(Factories factories, Cloud cloud, TimerFactory timerFactory,
-            BackgroundWorkerFactory workerFactory)
+            BackgroundWorkerFactory workerFactory, MealEditingViewModel.BackNavigation mealEditingBackNavigation)
         {
             this.factories = factories;
             this.cloud = cloud;
             this.timerFactory = timerFactory;
             this.workerFactory = workerFactory;
+            this.mealEditingBackNavigation = mealEditingBackNavigation;
         }
 
         public string Search
@@ -62,14 +62,6 @@ namespace Dietphone.ViewModels
         public void Init(Navigation navigation)
         {
             this.navigation = navigation;
-        }
-
-        public void GoingToMealEditing()
-        {
-            if (addMealItem)
-            {
-                MealEditing.AddCopyOfThisItem = tempMealItem;
-            }
         }
 
         public void About()
@@ -192,7 +184,7 @@ namespace Dietphone.ViewModels
 
         private void MealItemEditing_Confirmed(object sender, EventArgs e)
         {
-            addMealItem = true;
+            mealEditingBackNavigation.AddCopyOfThisItem = tempMealItem;
             navigator.GoBack();
         }
 

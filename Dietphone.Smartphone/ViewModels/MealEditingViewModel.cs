@@ -10,7 +10,6 @@ namespace Dietphone.ViewModels
 {
     public class MealEditingViewModel : EditingViewModelWithDate<Meal, MealViewModel>
     {
-        public MealItem AddCopyOfThisItem { get; set; }
         public bool NeedsScrollingItemsDown { get; set; }
         public ObservableCollection<MealNameViewModel> Names { get; private set; }
         public event EventHandler InvalidateItems;
@@ -24,16 +23,19 @@ namespace Dietphone.ViewModels
         private bool setIsDirtyWhenReady;
         private readonly BackgroundWorkerFactory workerFactory;
         private readonly TrialViewModel trial;
+        private readonly BackNavigation backNavigation;
         private const string MEAL = "MEAL";
         private const string NAMES = "NAMES";
         private const string ITEM_EDITING = "EDIT_ITEM";
         private const string EDIT_ITEM_INDEX = "EDIT_ITEM_INDEX";
 
-        public MealEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory, TrialViewModel trial)
+        public MealEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory, TrialViewModel trial,
+            BackNavigation backNavigation)
             : base(factories)
         {
             this.workerFactory = workerFactory;
             this.trial = trial;
+            this.backNavigation = backNavigation;
         }
 
         public MealItemEditingViewModel ItemEditing
@@ -386,22 +388,23 @@ namespace Dietphone.ViewModels
 
         private void AddCopyOfItem()
         {
-            if (AddCopyOfThisItem != null)
+            var addCopyOfThisItem = backNavigation.AddCopyOfThisItem;
+            if (addCopyOfThisItem != null)
             {
                 if (Subject == null)
                 {
                     var model = modelCopy.AddItem();
-                    model.CopyFrom(AddCopyOfThisItem);
+                    model.CopyFrom(addCopyOfThisItem);
                     setIsDirtyWhenReady = true;
                 }
                 else
                 {
                     var viewModel = Subject.AddItem();
-                    viewModel.CopyFromModel(AddCopyOfThisItem);
+                    viewModel.CopyFromModel(addCopyOfThisItem);
                 }
                 var mruProducts = factories.MruProducts;
-                mruProducts.AddProduct(AddCopyOfThisItem.Product);
-                AddCopyOfThisItem = null;
+                mruProducts.AddProduct(addCopyOfThisItem.Product);
+                backNavigation.AddCopyOfThisItem = null;
                 NeedsScrollingItemsDown = true;
             }
         }
@@ -417,6 +420,11 @@ namespace Dietphone.ViewModels
         public class Navigation
         {
             public Guid MealIdToEdit { get; set; }
+        }
+
+        public class BackNavigation
+        {
+            public MealItem AddCopyOfThisItem { get; set; }
         }
     }
 }

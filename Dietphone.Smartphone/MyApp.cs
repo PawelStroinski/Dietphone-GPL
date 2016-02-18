@@ -32,6 +32,7 @@ namespace Dietphone
             Mvx.RegisterType<BackgroundWorkerFactory, BackgroundWorkerWrapperFactory>();
             Mvx.RegisterType(Builder.CreatePatternBuilder);
             Mvx.RegisterType(Builder.CreateReplacementBuilder);
+            Mvx.RegisterSingleton(new MealEditingViewModel.BackNavigation());
             RegisterAppStart<MainViewModel>();
         }
 

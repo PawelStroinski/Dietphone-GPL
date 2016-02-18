@@ -59,17 +59,6 @@ namespace Dietphone.Views
             ViewModel.Navigator = navigator;
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            if (e.Content is MealEditing)
-            {
-                var mealEditing = (e.Content as MealEditing).ViewModel;
-                ViewModel.MealEditing = mealEditing;
-                ViewModel.GoingToMealEditing();
-            }
-            base.OnNavigatedFrom(e);
-        }
-
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode != NavigationMode.Back)
