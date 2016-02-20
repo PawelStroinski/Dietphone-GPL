@@ -585,7 +585,7 @@ Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w
     <value>{0} ostatnio używanych</value>
   </data>
   <data name="AutomaticallySavesDataToDropboxOnceAWeek" xml:space="preserve">
-    <value>Automatycznie raz w tygodniu zapisuje dane na Dropboksie. Dane zostaną zapisanie w folderze Aplikacje w formacie XML.</value>
+    <value>Automatycznie raz w tygodniu zapisuje dane na Dropboksie. Dane zostaną zapisane w folderze Aplikacje w formacie XML.</value>
   </data>
   <data name="ExportToDropbox" xml:space="preserve">
     <value>eksportuj na Dropboksa</value>
