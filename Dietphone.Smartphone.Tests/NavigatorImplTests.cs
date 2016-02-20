@@ -5,13 +5,12 @@ using Dietphone.Tools;
 using Dietphone.ViewModels;
 using MvvmCross.Core.Platform;
 using MvvmCross.Core.Views;
-using MvvmCross.Test.Core;
 using NSubstitute;
 using NUnit.Framework;
 
 namespace Dietphone.Smartphone.Tests
 {
-    public class NavigatorImplTests : MvxIoCSupportingTest
+    public class NavigatorImplTests : TestBase
     {
         private Navigator sut;
         private MockDispatcher mockDispatcher;
@@ -19,7 +18,6 @@ namespace Dietphone.Smartphone.Tests
         [SetUp]
         public void TestInitialize()
         {
-            base.Setup();
             mockDispatcher = new MockDispatcher();
             Ioc.RegisterSingleton<IMvxViewDispatcher>(mockDispatcher);
             Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());

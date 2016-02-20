@@ -42,10 +42,10 @@
                            Foreground="{StaticResource PhoneAccentBrush}"/>
                 <TextBlock Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibility}}"
                            Text=" " />
-                <ToggleButton ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportToCloud_Click" IsChecked="{Binding IsExportToCloudActive, Mode=TwoWay}">
+                <ToggleButton ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Command="{Binding ExportToCloud}" IsChecked="{Binding IsExportToCloudActive, Mode=TwoWay}">
                     <views:MultiLineItem x:Name="ExportToCloud"/>
                 </ToggleButton>
-                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ImportFromCloud_Click">
+                <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Command="{Binding ImportFromCloud}">
                     <views:MultiLineItem x:Name="ImportFromCloud"/>
                 </Button>
                 <Button ContentTemplate="{StaticResource MultiLineButtonTemplate}" HorizontalContentAlignment="Left" Click="ExportByEmail_Click">
@@ -96,7 +96,7 @@
                         </telerikInput:RadListPicker.ItemTemplate>
                     </telerikInput:RadListPicker>
                     <Button Content="{Binding Translations.Done, Source={StaticResource Translations}}"
-                            Click="ImportFromCloudWithSelection_Click"/>
+                            Command="{Binding ImportFromCloudWithSelection}"/>
                 </StackPanel>
             </Border>
             <telerikPrimitives:RadModalWindow.OpenAnimation>

@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.ComponentModel;
 using Dietphone.Views;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -318,19 +320,31 @@ namespace Dietphone.ViewModels
             Navigator.GoToSettings();
         }
 
-        public void UseCalculation()
+        public ICommand UseCalculation
         {
-            Subject.NormalBolus = Calculated.NormalBolus;
-            Subject.SquareWaveBolus = Calculated.SquareWaveBolus;
-            Subject.SquareWaveBolusHours = Calculated.SquareWaveBolusHours;
-            Pivot = 0;
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    Subject.NormalBolus = Calculated.NormalBolus;
+                    Subject.SquareWaveBolus = Calculated.SquareWaveBolus;
+                    Subject.SquareWaveBolusHours = Calculated.SquareWaveBolusHours;
+                    Pivot = 0;
+                });
+            }
         }
 
-        public void CalculationDetails()
+        public ICommand CalculationDetails
         {
-            ReplacementItemsToViewModels();
-            OnPropertyChanged("ReplacementItems");
-            CalculationDetailsVisible = true;
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    ReplacementItemsToViewModels();
+                    OnPropertyChanged("ReplacementItems");
+                    CalculationDetailsVisible = true;
+                });
+            }
         }
 
         public void CloseCalculationDetails()
@@ -343,7 +357,7 @@ namespace Dietphone.ViewModels
             CalculationDetailsAlternativesVisible = false;
         }
 
-        public void CloseCalculationDetailsÓrAlternativesOnBackButton()
+        public void CloseCalculationDetailsOrAlternativesOnBackButton()
         {
             if (CalculationDetailsAlternativesVisible)
             {

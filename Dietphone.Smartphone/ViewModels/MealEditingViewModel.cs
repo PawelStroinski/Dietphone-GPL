@@ -5,6 +5,8 @@ using Dietphone.Tools;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -123,10 +125,16 @@ namespace Dietphone.ViewModels
             Navigator.GoBack();
         }
 
-        public void AddItem()
+        public ICommand AddItem
         {
-            trial.Run();
-            Navigator.GoToMainToAddMealItem();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    trial.Run();
+                    Navigator.GoToMainToAddMealItem();
+                });
+            }
         }
 
         public void EditItem(MealItemViewModel itemViewModel)

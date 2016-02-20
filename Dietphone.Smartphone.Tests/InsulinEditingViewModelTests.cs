@@ -7,13 +7,11 @@ using NSubstitute;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using System.Linq;
-using System.ComponentModel;
-using System.Threading;
 using Dietphone.Views;
 
 namespace Dietphone.Smartphone.Tests
 {
-    public class InsulinEditingViewModelTests
+    public class InsulinEditingViewModelTests : TestBase
     {
         private Factories factories;
         private Navigator navigator;
@@ -728,7 +726,7 @@ namespace Dietphone.Smartphone.Tests
             {
                 navigator.ClearReceivedCalls();
                 sut.Subject.NormalBolus = "2.1";
-                actual.GoToMeal();
+                actual.GoToMeal.Call();
                 if (!tombstone)
                     Assert.AreEqual(2.1, insulin.NormalBolus, 0.01);
                 navigator.Received().GoToMealEditing(expected.From.Id);
@@ -738,7 +736,7 @@ namespace Dietphone.Smartphone.Tests
             {
                 navigator.ClearReceivedCalls();
                 sut.Subject.NormalBolus = "2.2";
-                actual.GoToInsulin();
+                actual.GoToInsulin.Call();
                 if (!tombstone)
                     Assert.AreEqual(2.2, insulin.NormalBolus, 0.01);
                 navigator.Received().GoToInsulinEditing(expected.Insulin.Id);
@@ -749,7 +747,7 @@ namespace Dietphone.Smartphone.Tests
             {
                 if (!actual.HasAlternatives)
                 {
-                    Assert.Throws<InvalidOperationException>(() => actual.ShowAlternatives());
+                    Assert.Throws<InvalidOperationException>(() => actual.ShowAlternatives.Call());
                     return;
                 }
                 Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
@@ -758,7 +756,7 @@ namespace Dietphone.Smartphone.Tests
                 {
                     sut.ChangesProperty("CalculationDetailsAlternatives", () =>
                     {
-                        actual.ShowAlternatives();
+                        actual.ShowAlternatives.Call();
                     });
                 });
                 if (tombstone)
@@ -775,8 +773,8 @@ namespace Dietphone.Smartphone.Tests
                 Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
                 if (!tombstone)
                 {
-                    actual.ShowAlternatives();
-                    sut.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                    actual.ShowAlternatives.Call();
+                    sut.CloseCalculationDetailsOrAlternativesOnBackButton();
                     Assert.IsFalse(sut.CalculationDetailsAlternativesVisible);
                     Assert.IsTrue(sut.CalculationDetailsVisible);
                 }
@@ -1210,7 +1208,7 @@ namespace Dietphone.Smartphone.Tests
                     sut.Subject.ChangesProperty("SquareWaveBolus", () =>
                         sut.Subject.ChangesProperty("SquareWaveBolusHours", () =>
                             sut.ChangesProperty("Pivot", () =>
-                                sut.UseCalculation()))));
+                                sut.UseCalculation.Call()))));
                 Assert.AreEqual(sut.Calculated.Text, sut.Subject.Text);
                 Assert.AreEqual(0, sut.Pivot);
             }
@@ -1227,7 +1225,7 @@ namespace Dietphone.Smartphone.Tests
                 Assert.IsFalse(sut.CalculationDetailsVisible);
                 sut.ChangesProperty("CalculationDetailsVisible", () =>
                 {
-                    sut.CalculationDetails();
+                    sut.CalculationDetails.Call();
                 });
                 if (tombstone)
                     TombstoneCreateInitialize();
@@ -1237,8 +1235,8 @@ namespace Dietphone.Smartphone.Tests
                     sut.CloseCalculationDetails();
                 });
                 Assert.IsFalse(sut.CalculationDetailsVisible);
-                sut.CalculationDetails();
-                sut.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                sut.CalculationDetails.Call();
+                sut.CloseCalculationDetailsOrAlternativesOnBackButton();
                 Assert.IsFalse(sut.CalculationDetailsVisible);
             }
 
@@ -1259,7 +1257,7 @@ namespace Dietphone.Smartphone.Tests
                 Assert.IsEmpty(sut.ReplacementItems);
                 sut.ChangesProperty("ReplacementItems", () =>
                 {
-                    sut.CalculationDetails();
+                    sut.CalculationDetails.Call();
                 });
                 if (tombstone)
                 {
@@ -1281,7 +1279,7 @@ namespace Dietphone.Smartphone.Tests
             public void CalculationDetailsThrowsExceptionIfNoCalculation()
             {
                 InitializeViewModel();
-                Assert.Throws<InvalidOperationException>(() => sut.CalculationDetails());
+                Assert.Throws<InvalidOperationException>(() => sut.CalculationDetails.Call());
             }
         }
 

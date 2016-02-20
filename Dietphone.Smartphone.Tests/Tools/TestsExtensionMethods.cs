@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
 using NUnit.Framework;
 
 namespace Dietphone
@@ -47,6 +48,11 @@ namespace Dietphone
                 viewModel.PropertyChanged -= propertyChangedEventHandler;
             }
             Assert.IsFalse(changed, string.Format("Expected property {0} not changed", propertyName));
+        }
+
+        public static void Call(this ICommand command)
+        {
+            command.Execute(null);
         }
     }
 }

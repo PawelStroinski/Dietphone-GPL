@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using Dietphone.Models;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -49,22 +51,40 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public void GoToMeal()
+        public ICommand GoToMeal
         {
-            save();
-            navigator.GoToMealEditing(From.Id);
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    save();
+                    navigator.GoToMealEditing(From.Id);
+                });
+            }
         }
 
-        public void GoToInsulin()
+        public ICommand GoToInsulin
         {
-            save();
-            navigator.GoToInsulinEditing(Insulin.Id);
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    save();
+                    navigator.GoToInsulinEditing(Insulin.Id);
+                });
+            }
         }
 
-        public void ShowAlternatives()
+        public ICommand ShowAlternatives
         {
-            CheckHasAlternatives();
-            showAlternatives();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    CheckHasAlternatives();
+                    showAlternatives();
+                });
+            }
         }
 
         private void CheckHasAlternatives()

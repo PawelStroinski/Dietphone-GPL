@@ -37,7 +37,7 @@
                     <!--0-->
                     <views:Scores x:Name="Scores"/>
                     <!--+-->
-                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddItem_Click" Grid.Column="1" Margin="-10 -2 0 0" x:Name="AddItem"/>
+                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Command="{Binding AddItem}" Grid.Column="1" Margin="-10 -2 0 0" x:Name="AddItem"/>
                     <!--[]-->
                     <telerikPrimitives:RadDataBoundListBox Name="Items" ItemsSource="{Binding Subject.Items}" Margin="-21,20,2,0" Grid.Row="1" Grid.ColumnSpan="2" EmptyContent="" ItemTap="Items_ItemTap" Loaded="Items_Loaded">
                         <telerikPrimitives:RadDataBoundListBox.ItemTemplate>

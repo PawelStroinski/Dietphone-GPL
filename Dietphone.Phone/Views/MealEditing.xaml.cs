@@ -176,11 +176,6 @@ namespace Dietphone.Views
                 MessageBoxButton.OKCancel) == MessageBoxResult.OK);
         }
 
-        private void AddItem_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.AddItem();
-        }
-
         private void Items_ItemTap(object sender, ListBoxItemTapEventArgs e)
         {
             var item = Items.SelectedItem as MealItemViewModel;

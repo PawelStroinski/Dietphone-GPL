@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -156,42 +158,60 @@ namespace Dietphone.ViewModels
             worker.RunWorkerAsync();
         }
 
-        public void ExportToCloud()
+        public ICommand ExportToCloud
         {
-            vibration.VibrateOnButtonPress();
-            if (IsExportToCloudActive)
-                DeactivateExportToCloud();
-            else
-                ActivateExportToCloud(BrowserIsNavigatingHint.Export);
-            NotifyIsExportToCloudActive();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    vibration.VibrateOnButtonPress();
+                    if (IsExportToCloudActive)
+                        DeactivateExportToCloud();
+                    else
+                        ActivateExportToCloud(BrowserIsNavigatingHint.Export);
+                    NotifyIsExportToCloudActive();
+                });
+            }
         }
 
-        public void ImportFromCloud()
+        public ICommand ImportFromCloud
         {
-            if (IsExportToCloudActive)
-                ShowImportFromCloudItems();
-            else
-                ActivateExportToCloud(BrowserIsNavigatingHint.Import);
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    if (IsExportToCloudActive)
+                        ShowImportFromCloudItems();
+                    else
+                        ActivateExportToCloud(BrowserIsNavigatingHint.Import);
+                });
+            }
         }
 
-        public void ImportFromCloudWithSelection()
+        public ICommand ImportFromCloudWithSelection
         {
-            var worker = new VerboseBackgroundWorker();
-            var hasSelection = !string.IsNullOrEmpty(ImportFromCloudSelectedItem);
-            worker.DoWork += delegate
+            get
             {
-                if (hasSelection)
-                    CatchedImportFromCloud();
-            };
-            worker.RunWorkerCompleted += delegate
-            {
-                if (hasSelection && importFromCloudWentOkay)
-                    OnImportFromCloudSuccessful();
-                IsBusy = false;
-            };
-            ImportFromCloudVisible = false;
-            IsBusy = true;
-            worker.RunWorkerAsync();
+                return new MvxCommand(() =>
+                {
+                    var worker = new VerboseBackgroundWorker();
+                    var hasSelection = !string.IsNullOrEmpty(ImportFromCloudSelectedItem);
+                    worker.DoWork += delegate
+                    {
+                        if (hasSelection)
+                            CatchedImportFromCloud();
+                    };
+                    worker.RunWorkerCompleted += delegate
+                    {
+                        if (hasSelection && importFromCloudWentOkay)
+                            OnImportFromCloudSuccessful();
+                        IsBusy = false;
+                    };
+                    ImportFromCloudVisible = false;
+                    IsBusy = true;
+                    worker.RunWorkerAsync();
+                });
+            }
         }
 
         public void BrowserIsNavigating(string url)

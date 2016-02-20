@@ -110,9 +110,9 @@
             <TextBlock Text="{Binding Factor}" FontSize="{StaticResource PhoneFontSizeSmall}" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" Grid.Column="3"/>
         </Grid>
         <StackPanel Orientation="Horizontal" Margin="-18,12,0,0">
-            <c4f:RoundButton ImageSource="/images/meal.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Tap="Meal_Tap"/>
-            <c4f:RoundButton ImageSource="/images/insulin.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Tap="Insulin_Tap"/>
-            <c4f:RoundButton ImageSource="/images/alternatives.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Visibility="{Binding HasAlternatives, Converter={StaticResource BooleanToVisibility}}" Tap="Alternatives_Tap"/>
+            <c4f:RoundButton ImageSource="/images/meal.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Command="{Binding GoToMeal}"/>
+            <c4f:RoundButton ImageSource="/images/insulin.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Command="{Binding GoToInsulin}"/>
+            <c4f:RoundButton ImageSource="/images/alternatives.roundbutton.png" Stretch="Fill" Padding="7.5,0,7.5,0" Visibility="{Binding HasAlternatives, Converter={StaticResource BooleanToVisibility}}" Command="{Binding ShowAlternatives}"/>
         </StackPanel>
     </StackPanel>
 

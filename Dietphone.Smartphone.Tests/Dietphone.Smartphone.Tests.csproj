@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="JournalItemViewModelTests.cs" />
     <Compile Include="Tools\MockDispatcher.cs" />
+    <Compile Include="Tools\TestBase.cs" />
     <Compile Include="TrialViewModelTests.cs" />
     <Compile Include="ViewModelWithDateTests.cs" />
     <Compile Include="JournalViewModelTests.cs" />

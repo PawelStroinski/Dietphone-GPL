@@ -133,21 +133,6 @@ namespace Dietphone.Views
                 SetMenuItemEnabledDependingOnIsExportToCloudActive();
         }
 
-        private void ExportToCloud_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ExportToCloud();
-        }
-
-        private void ImportFromCloud_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ImportFromCloud();
-        }
-
-        private void ImportFromCloudWithSelection_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.ImportFromCloudWithSelection();
-        }
-
         private void ExportByEmail_Click(object sender, RoutedEventArgs e)
         {
             exportMode = true;

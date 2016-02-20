@@ -74,7 +74,7 @@ namespace Dietphone.Views
         {
             if (ViewModel.CalculationDetailsVisible || ViewModel.CalculationDetailsAlternativesVisible)
             {
-                ViewModel.CloseCalculationDetailsÓrAlternativesOnBackButton();
+                ViewModel.CloseCalculationDetailsOrAlternativesOnBackButton();
                 e.Cancel = true;
             }
             base.OnBackKeyPress(e);
@@ -242,16 +242,6 @@ namespace Dietphone.Views
         private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             MessageBox.Show(ViewModel.ListOfMealItemsNotIncludedInCalculation);
-        }
-
-        private void UseCalculation_Tap(object sender, RoutedEventArgs e)
-        {
-            ViewModel.UseCalculation();
-        }
-
-        private void CalculationDetails_Tap(object sender, RoutedEventArgs e)
-        {
-            ViewModel.CalculationDetails();
         }
 
         private void CloseCalculationDetails_Click(object sender, EventArgs e)

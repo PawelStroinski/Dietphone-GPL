@@ -10,7 +10,7 @@ using Ploeh.AutoFixture;
 
 namespace Dietphone.Smartphone.Tests
 {
-    public class MealEditingViewModelTests
+    public class MealEditingViewModelTests : TestBase
     {
         private MealEditingViewModel sut;
         private Meal meal;
@@ -190,7 +190,7 @@ namespace Dietphone.Smartphone.Tests
         public void AddItemCallsTrialRunAndThenNavigatorGoToMainToAddMealItem()
         {
             sut.Navigator.When(navigator => navigator.GoToMainToAddMealItem()).Do(_ => trial.Received().Run());
-            sut.AddItem();
+            sut.AddItem.Call();
             sut.Navigator.Received().GoToMainToAddMealItem();
         }
     }

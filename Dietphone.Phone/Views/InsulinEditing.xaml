@@ -113,8 +113,8 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Calculated.Text}" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilyNormal}" VerticalAlignment="Top" LineHeight="43" LineStackingStrategy="BlockLineHeight" Foreground="{StaticResource PhoneForegroundBrush}"/>
                                 <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="0 1 0 0">
-                                    <c4f:RoundButton ImageSource="/images/appbar.check.rest.png" Tap="UseCalculation_Tap"/>
-                                    <c4f:RoundButton ImageSource="/images/more.png" Tap="CalculationDetails_Tap" Margin="15 0 0 0"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.check.rest.png" Command="{Binding UseCalculation}"/>
+                                    <c4f:RoundButton ImageSource="/images/more.png" Command="{Binding CalculationDetails}" Margin="15 0 0 0"/>
                                 </StackPanel>
                             </Grid>
                             <!--Chart-->
