@@ -10,7 +10,7 @@ namespace Dietphone.Views
 {
     public partial class MealEditing : PageBase
     {
-        public new MealEditingViewModel ViewModel { get { return (MealEditingViewModel)base.ViewModel; } }
+        private new MealEditingViewModel ViewModel { get { return (MealEditingViewModel)base.ViewModel; } }
         private const string TOP_ITEM_INDEX = "TOP_ITEM_INDEX";
 
         public MealEditing()
@@ -20,7 +20,7 @@ namespace Dietphone.Views
 
         protected override void OnInitializePage()
         {
-            ViewModel.ItemEditing = ItemEditing.ViewModel;
+            ItemEditing.Initialize(ViewModel.ItemEditing);
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
             ViewModel.CannotSave += ViewModel_CannotSave;
             ViewModel.InvalidateItems += ViewModel_InvalidateItems;

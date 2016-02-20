@@ -1,14 +1,14 @@
 ﻿using System;
 using Dietphone.Models;
 using Dietphone.Tools;
-using System.Threading;
 
 namespace Dietphone.ViewModels
 {
     public class MainViewModel : PivotTombstoningViewModel
     {
-        public ProductListingViewModel ProductListing { private get; set; }
-        public MealItemEditingViewModel MealItemEditing { private get; set; }
+        public JournalViewModel Journal { get { return journal; } }
+        public ProductListingViewModel ProductListing { get { return productListing; } }
+        public MealItemEditingViewModel MealItemEditing { get { return mealItemEditing; } }
         public event EventHandler ShowProductsOnly;
         public event EventHandler ExportToCloudError;
         public event EventHandler ShowWelcomeScreen;
@@ -21,17 +21,25 @@ namespace Dietphone.ViewModels
         private readonly TimerFactory timerFactory;
         private readonly BackgroundWorkerFactory workerFactory;
         private readonly MealEditingViewModel.BackNavigation mealEditingBackNavigation;
+        private readonly JournalViewModel journal;
+        private readonly ProductListingViewModel productListing;
+        private readonly MealItemEditingViewModel mealItemEditing;
         private const string MEAL_ITEM_EDITING = "MEAL_ITEM_EDITING";
         private const string MEAL_ITEM_PRODUCT = "MEAL_ITEM_PRODUCT";
 
         public MainViewModel(Factories factories, Cloud cloud, TimerFactory timerFactory,
-            BackgroundWorkerFactory workerFactory, MealEditingViewModel.BackNavigation mealEditingBackNavigation)
+            BackgroundWorkerFactory workerFactory, MealEditingViewModel.BackNavigation mealEditingBackNavigation,
+            JournalViewModel journal, ProductListingViewModel productListing, MealItemEditingViewModel mealItemEditing)
         {
             this.factories = factories;
             this.cloud = cloud;
             this.timerFactory = timerFactory;
             this.workerFactory = workerFactory;
             this.mealEditingBackNavigation = mealEditingBackNavigation;
+            this.journal = journal;
+            this.productListing = productListing;
+            this.mealItemEditing = mealItemEditing;
+            ShareStateProvider();
         }
 
         public string Search
@@ -101,6 +109,12 @@ namespace Dietphone.ViewModels
             }
         }
 
+        private void ShareStateProvider()
+        {
+            journal.StateProvider = StateProvider;
+            mealItemEditing.StateProvider = StateProvider;
+        }
+
         private void CreateTimerToExportToCloud()
         {
             timerFactory.Create(callback: () =>
@@ -123,24 +137,24 @@ namespace Dietphone.ViewModels
 
         private void AddingMealItem()
         {
-            ProductListing.Choosed -= ProductListing_Choosed;
-            ProductListing.Choosed += ProductListing_Choosed;
-            ProductListing.AddMru = true;
-            MealItemEditing.Confirmed -= MealItemEditing_Confirmed;
-            MealItemEditing.Confirmed += MealItemEditing_Confirmed;
-            MealItemEditing.StateProvider = StateProvider;
+            productListing.Choosed -= ProductListing_Choosed;
+            productListing.Choosed += ProductListing_Choosed;
+            productListing.AddMru = true;
+            mealItemEditing.Confirmed -= MealItemEditing_Confirmed;
+            mealItemEditing.Confirmed += MealItemEditing_Confirmed;
+            mealItemEditing.StateProvider = StateProvider;
             OnShowProductsOnly();
         }
 
         private void TombstoneMealItemEditing()
         {
             var state = StateProvider.State;
-            state[MEAL_ITEM_EDITING] = MealItemEditing.IsVisible;
-            if (MealItemEditing.IsVisible)
+            state[MEAL_ITEM_EDITING] = mealItemEditing.IsVisible;
+            if (mealItemEditing.IsVisible)
             {
-                var mealItem = MealItemEditing.Subject;
+                var mealItem = mealItemEditing.Subject;
                 state[MEAL_ITEM_PRODUCT] = mealItem.ProductId;
-                MealItemEditing.Tombstone();
+                mealItemEditing.Tombstone();
             }
         }
 
@@ -155,7 +169,7 @@ namespace Dietphone.ViewModels
             if (mealItemEditing)
             {
                 var productId = (Guid)state[MEAL_ITEM_PRODUCT];
-                var products = ProductListing.Products;
+                var products = productListing.Products;
                 var product = products.FindById(productId);
                 if (product != null)
                 {
@@ -194,7 +208,7 @@ namespace Dietphone.ViewModels
             tempMealItem.ProductId = product.Id;
             var tempViewModel = new MealItemViewModel(tempMealItem, factories);
             tempViewModel.InitializeUnit();
-            MealItemEditing.Show(tempViewModel);
+            mealItemEditing.Show(tempViewModel);
         }
 
         protected void OnShowProductsOnly()

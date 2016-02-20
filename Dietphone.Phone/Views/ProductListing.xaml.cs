@@ -5,16 +5,14 @@ using Dietphone.ViewModels;
 using Telerik.Windows.Controls;
 using Telerik.Windows.Data;
 using Dietphone.Tools;
-using Microsoft.Phone.Shell;
-using Microsoft.Phone.Controls;
 
 namespace Dietphone.Views
 {
     public partial class ProductListing : UserControl
     {
         public StateProvider StateProvider { private get; set; }
-        public TelerikProductListingViewModel ViewModel { get; private set; }
         public event EventHandler CategoriesPoppedUp;
+        private TelerikProductListingViewModel ViewModel { get; set; }
         private bool isTopItemCategory;
         private Guid topItemId;
         private const string IS_TOP_ITEM_CATEGORY = "IS_TOP_ITEM_CATEGORY";
@@ -23,8 +21,11 @@ namespace Dietphone.Views
         public ProductListing()
         {
             InitializeComponent();
-            ViewModel = new TelerikProductListingViewModel(MyApp.Factories,
-                new BackgroundWorkerWrapperFactory());
+        }
+
+        public void Initialize(ProductListingViewModel viewModel)
+        {
+            ViewModel = (TelerikProductListingViewModel)viewModel;
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.SortDescriptors = List.SortDescriptors;
@@ -78,15 +79,15 @@ namespace Dietphone.Views
                 }
                 else
                     if (topItem is DataGroup)
+                {
+                    var dataGroup = topItem as DataGroup;
+                    if (dataGroup.Key is CategoryViewModel)
                     {
-                        var dataGroup = topItem as DataGroup;
-                        if (dataGroup.Key is CategoryViewModel)
-                        {
-                            var category = dataGroup.Key as CategoryViewModel;
-                            topItemId = category.Id;
-                            isTopItemCategory = true;
-                        }
+                        var category = dataGroup.Key as CategoryViewModel;
+                        topItemId = category.Id;
+                        isTopItemCategory = true;
                     }
+                }
             }
         }
 

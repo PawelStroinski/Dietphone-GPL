@@ -30,7 +30,8 @@ namespace Dietphone.Smartphone.Tests
             factories.MealNames.Returns(new List<MealName>());
             trial = Substitute.For<TrialViewModel>();
             backNavigation = new MealEditingViewModel.BackNavigation();
-            sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory(), trial, backNavigation);
+            sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory(), trial, backNavigation,
+                new MealItemEditingViewModel());
             sut.Navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;
@@ -74,7 +75,6 @@ namespace Dietphone.Smartphone.Tests
         [Test]
         public void TombstoneOthers_Tombstones_NotIsLockedDateTime()
         {
-            sut.ItemEditing = new MealItemEditingViewModel();
             sut.Load();
             sut.Tombstone();
             Assert.AreEqual(sut.NotIsLockedDateTime, stateProvider.State[NOT_IS_LOCKED_DATE_TIME]);

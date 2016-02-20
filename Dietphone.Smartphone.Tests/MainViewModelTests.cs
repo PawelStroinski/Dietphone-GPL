@@ -11,8 +11,22 @@ namespace Dietphone.Smartphone.Tests
 {
     public class MainViewModelTests
     {
-        private MealEditingViewModel.BackNavigation mealEditingBackNavigation
-            = new MealEditingViewModel.BackNavigation();
+        private MainViewModel CreateSut(Factories factories, Cloud cloud = null, TimerFactory timerFactory = null,
+            ProductListingViewModel productListing = null, MealItemEditingViewModel mealItemEditing = null)
+        {
+            if (cloud == null)
+                cloud = Substitute.For<Cloud>();
+            if (timerFactory == null)
+                timerFactory = Substitute.For<TimerFactory>();
+            if (productListing == null)
+                productListing = new ProductListingViewModel(factories, new BackgroundWorkerSyncFactory());
+            if (mealItemEditing == null)
+                mealItemEditing = new MealItemEditingViewModel();
+            var journal = new JournalViewModel(factories, new BackgroundWorkerSyncFactory(),
+                new SugarEditingViewModel());
+            return new MainViewModel(factories, cloud, timerFactory, new BackgroundWorkerSyncFactory(),
+                new MealEditingViewModel.BackNavigation(), journal, productListing, mealItemEditing);
+        }
 
         public class WhenAddingMealItem : MainViewModelTests
         {
@@ -28,15 +42,12 @@ namespace Dietphone.Smartphone.Tests
             {
                 factories = new FactoriesImpl();
                 factories.StorageCreator = new StorageCreatorStub();
-                sut = new MainViewModel(factories, Substitute.For<Cloud>(),
-                    Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory(), mealEditingBackNavigation);
-                navigation = new MainViewModel.Navigation();
-                sut.Init(navigation);
                 productListing = new ProductListingViewModel(factories,
                     new BackgroundWorkerSyncFactory());
-                sut.ProductListing = productListing;
                 mealItemEditing = new MealItemEditingViewModel();
-                sut.MealItemEditing = mealItemEditing;
+                sut = CreateSut(factories, productListing: productListing, mealItemEditing: mealItemEditing);
+                navigation = new MainViewModel.Navigation();
+                sut.Init(navigation);
                 var stateProvider = Substitute.For<StateProvider>();
                 stateProvider.State.Returns(new Dictionary<string, object>());
                 sut.StateProvider = stateProvider;
@@ -87,8 +98,7 @@ namespace Dietphone.Smartphone.Tests
             });
             var factories = Substitute.For<Factories>();
             factories.Settings.Returns(new Settings());
-            var sut = new MainViewModel(factories, cloud, timerFactory,
-                new BackgroundWorkerSyncFactory(), mealEditingBackNavigation);
+            var sut = CreateSut(factories, cloud, timerFactory);
             sut.StateProvider = Substitute.For<StateProvider>();
             var exportToCloudErrored = false;
             sut.ExportToCloudError += delegate { exportToCloudErrored = true; };
@@ -113,8 +123,7 @@ namespace Dietphone.Smartphone.Tests
             var factories = new FactoriesImpl();
             factories.StorageCreator = new StorageCreatorStub();
             factories.Settings.ShowWelcomeScreen = showWelcomeScreen;
-            var sut = new MainViewModel(factories, Substitute.For<Cloud>(),
-                Substitute.For<TimerFactory>(), new BackgroundWorkerSyncFactory(), mealEditingBackNavigation);
+            var sut = CreateSut(factories);
             var stateProvider = Substitute.For<StateProvider>();
             stateProvider.State.Returns(new Dictionary<string, object>());
             sut.StateProvider = stateProvider;

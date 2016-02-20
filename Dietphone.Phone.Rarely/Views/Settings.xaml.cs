@@ -6,7 +6,7 @@ namespace Dietphone.Views
 {
     public partial class Settings : PageBase
     {
-        public new SettingsViewModel ViewModel { get { return (SettingsViewModel)base.ViewModel; } }
+        private new SettingsViewModel ViewModel { get { return (SettingsViewModel)base.ViewModel; } }
 
         public Settings()
         {

@@ -13,7 +13,7 @@ namespace Dietphone.Views
 {
     public partial class InsulinEditing : PageBase
     {
-        public new InsulinEditingViewModel ViewModel { get { return (InsulinEditingViewModel)base.ViewModel; } }
+        private new InsulinEditingViewModel ViewModel { get { return (InsulinEditingViewModel)base.ViewModel; } }
         private const int CHART_PADDING_TOP = 51;
 
         public InsulinEditing()

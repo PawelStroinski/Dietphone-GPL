@@ -6,6 +6,7 @@ using MvvmCross.Platform;
 using Dietphone.Tools;
 using MvvmCross.WindowsPhone.Views;
 using Dietphone.Views;
+using Dietphone.ViewModels;
 
 namespace Dietphone
 {
@@ -39,6 +40,8 @@ namespace Dietphone
         {
             base.InitializeLastChance();
             Mvx.RegisterType<Clipboard, ClipboardImpl>();
+            Mvx.RegisterType<JournalViewModel, TelerikJournalViewModel>();
+            Mvx.RegisterType<ProductListingViewModel, TelerikProductListingViewModel>();
             Mvx.RegisterType<Trial, TrialImpl>();
             Mvx.RegisterType<Vibration, VibrationImpl>();
         }

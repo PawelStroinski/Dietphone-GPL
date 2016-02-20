@@ -10,9 +10,9 @@ namespace Dietphone.Views
 {
     public partial class Journal : UserControl
     {
-        public StateProvider StateProvider { private get; set; }
-        public TelerikJournalViewModel ViewModel { get; private set; }
         public event EventHandler DatesPoppedUp;
+        private TelerikJournalViewModel ViewModel { get; set; }
+        private StateProvider StateProvider { get { return ViewModel.StateProvider; } }
         private bool isTopItemJournal;
         private bool isTopItemDate;
         private bool isTopItemTop;
@@ -26,8 +26,12 @@ namespace Dietphone.Views
         public Journal()
         {
             InitializeComponent();
-            ViewModel = new TelerikJournalViewModel(MyApp.Factories, new BackgroundWorkerWrapperFactory(),
-                SugarEditing.ViewModel);
+        }
+
+        public void Initialize(JournalViewModel viewModel)
+        {
+            ViewModel = (TelerikJournalViewModel)viewModel;
+            SugarEditing.Initialize(ViewModel.SugarEditing);
             DataContext = ViewModel;
             ViewModel.GroupDescriptors = List.GroupDescriptors;
             ViewModel.FilterDescriptors = List.FilterDescriptors;
@@ -54,7 +58,6 @@ namespace Dietphone.Views
             state[IS_TOP_ITEM_DATE] = isTopItemDate;
             state[TOP_ITEM_JOURNAL_ID] = topItemJournalId;
             state[TOP_ITEM_DATE] = topItemDate;
-            SetStateProvider();
             ViewModel.Tombstone();
         }
 
@@ -69,7 +72,6 @@ namespace Dietphone.Views
                 topItemDate = (DateTime)state[TOP_ITEM_DATE];
                 RestoreTopItem();
             }
-            SetStateProvider();
             ViewModel.Untombstone();
         }
 
@@ -89,16 +91,16 @@ namespace Dietphone.Views
                 }
                 else
                     if (topItem is DataGroup)
+                {
+                    var dataGroup = topItem as DataGroup;
+                    if (dataGroup.Key is DateViewModel)
                     {
-                        var dataGroup = topItem as DataGroup;
-                        if (dataGroup.Key is DateViewModel)
-                        {
-                            var date = dataGroup.Key as DateViewModel;
-                            topItemDate = date.Date;
-                            isTopItemDate = true;
-                            isTopItemTop = date == ViewModel.Dates.FirstOrDefault();
-                        }
+                        var date = dataGroup.Key as DateViewModel;
+                        topItemDate = date.Date;
+                        isTopItemDate = true;
+                        isTopItemTop = date == ViewModel.Dates.FirstOrDefault();
                     }
+                }
             }
         }
 
@@ -113,23 +115,17 @@ namespace Dietphone.Views
             }
             else
                 if (isTopItemDate)
-                {
-                    var date = ViewModel.FindDate(topItemDate);
-                    var group = from dataGroup in List.Groups
-                                where dataGroup.Key == date
-                                select dataGroup;
-                    topItem = group.FirstOrDefault();
-                }
+            {
+                var date = ViewModel.FindDate(topItemDate);
+                var group = from dataGroup in List.Groups
+                            where dataGroup.Key == date
+                            select dataGroup;
+                topItem = group.FirstOrDefault();
+            }
             if (topItem != null)
             {
                 List.BringIntoView(topItem);
             }
-        }
-
-        private void SetStateProvider()
-        {
-            ViewModel.StateProvider = StateProvider;
-            SugarEditing.ViewModel.StateProvider = StateProvider;
         }
 
         private void List_ItemTap(object sender, ListBoxItemTapEventArgs e)

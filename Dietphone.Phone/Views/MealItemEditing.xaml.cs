@@ -9,14 +9,18 @@ namespace Dietphone.Views
 {
     public partial class MealItemEditing : UserControl
     {
-        public MealItemEditingViewModel ViewModel { get; private set; }
+        private MealItemEditingViewModel ViewModel { get; set; }
         private bool controlledClosing;
 
         public MealItemEditing()
         {
             InitializeComponent();
+        }
+
+        public void Initialize(MealItemEditingViewModel viewModel)
+        {
             Delete = Picker.ApplicationBarInfo.Buttons[2];
-            ViewModel = new MealItemEditingViewModel();
+            ViewModel = viewModel;
             ViewModel.NeedToShow += delegate
             {
                 DataContext = ViewModel.Subject;

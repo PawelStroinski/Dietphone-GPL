@@ -9,9 +9,9 @@ namespace Dietphone.ViewModels
 {
     public class JournalViewModel : SearchSubViewModel
     {
-        public StateProvider StateProvider { protected get; set; }
         public ObservableCollection<JournalItemViewModel> Items { get; protected set; }
         public ObservableCollection<DateViewModel> Dates { get; protected set; }
+        public SugarEditingViewModel SugarEditing { get { return sugarEditing; } }
         private Sugar editedSugar;
         private SugarViewModel editedSugarViewModel;
         private bool choosedAnAdded;
@@ -20,6 +20,7 @@ namespace Dietphone.ViewModels
         private readonly SugarEditingViewModel sugarEditing;
         private const string SUGAR_EDITING = "SUGAR_EDITING";
         private const string EDITED_SUGAR_DATE = "EDITED_SUGAR_DATE";
+        private StateProvider stateProvider;
 
         public JournalViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
             SugarEditingViewModel sugarEditing)
@@ -28,6 +29,19 @@ namespace Dietphone.ViewModels
             this.workerFactory = workerFactory;
             this.sugarEditing = sugarEditing;
             InitializeSugarEditing();
+        }
+
+        public StateProvider StateProvider
+        {
+            get
+            {
+                return stateProvider;
+            }
+            set
+            {
+                stateProvider = value;
+                sugarEditing.StateProvider = value;
+            }
         }
 
         public override void Load()

@@ -12,46 +12,33 @@ namespace Dietphone.ViewModels
     {
         public bool NeedsScrollingItemsDown { get; set; }
         public ObservableCollection<MealNameViewModel> Names { get; private set; }
+        public MealItemEditingViewModel ItemEditing { get { return itemEditing; } }
         public event EventHandler InvalidateItems;
         private Navigation navigation;
         private List<MealNameViewModel> addedNames = new List<MealNameViewModel>();
         private List<MealNameViewModel> deletedNames = new List<MealNameViewModel>();
         private MealNameViewModel defaultName;
-        private MealItemEditingViewModel itemEditing;
         private MealItemViewModel editItem;
         private bool wentToSettings;
         private bool setIsDirtyWhenReady;
         private readonly BackgroundWorkerFactory workerFactory;
         private readonly TrialViewModel trial;
         private readonly BackNavigation backNavigation;
+        private readonly MealItemEditingViewModel itemEditing;
         private const string MEAL = "MEAL";
         private const string NAMES = "NAMES";
         private const string ITEM_EDITING = "EDIT_ITEM";
         private const string EDIT_ITEM_INDEX = "EDIT_ITEM_INDEX";
 
         public MealEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory, TrialViewModel trial,
-            BackNavigation backNavigation)
+            BackNavigation backNavigation, MealItemEditingViewModel itemEditing)
             : base(factories)
         {
             this.workerFactory = workerFactory;
             this.trial = trial;
             this.backNavigation = backNavigation;
-        }
-
-        public MealItemEditingViewModel ItemEditing
-        {
-            private get
-            {
-                return itemEditing;
-            }
-            set
-            {
-                if (itemEditing != value)
-                {
-                    itemEditing = value;
-                    OnItemEditingChanged();
-                }
-            }
+            this.itemEditing = itemEditing;
+            OnItemEditingChanged();
         }
 
         public string NameOfName
@@ -148,7 +135,7 @@ namespace Dietphone.ViewModels
             {
                 editItem = itemViewModel;
                 editItem.MakeBuffer();
-                ItemEditing.Show(editItem);
+                itemEditing.Show(editItem);
             }
         }
 
@@ -219,22 +206,22 @@ namespace Dietphone.ViewModels
 
         protected void OnItemEditingChanged()
         {
-            ItemEditing.Confirmed += delegate
+            itemEditing.Confirmed += delegate
             {
                 editItem.FlushBuffer();
                 editItem.Invalidate();
             };
-            ItemEditing.Cancelled += delegate
+            itemEditing.Cancelled += delegate
             {
                 editItem.ClearBuffer();
                 editItem.Invalidate();
             };
-            ItemEditing.NeedToDelete += delegate
+            itemEditing.NeedToDelete += delegate
             {
                 Subject.DeleteItem(editItem);
             };
-            ItemEditing.CanDelete = true;
-            ItemEditing.StateProvider = StateProvider;
+            itemEditing.CanDelete = true;
+            itemEditing.StateProvider = StateProvider;
         }
 
         private void LoadNames()
@@ -322,13 +309,13 @@ namespace Dietphone.ViewModels
         private void TombstoneItemEditing()
         {
             var state = StateProvider.State;
-            state[ITEM_EDITING] = ItemEditing.IsVisible;
-            if (ItemEditing.IsVisible)
+            state[ITEM_EDITING] = itemEditing.IsVisible;
+            if (itemEditing.IsVisible)
             {
                 var items = Subject.Items;
                 var editItemIndex = items.IndexOf(editItem);
                 state[EDIT_ITEM_INDEX] = editItemIndex;
-                ItemEditing.Tombstone();
+                itemEditing.Tombstone();
             }
         }
 

@@ -13,7 +13,7 @@ namespace Dietphone.Views
 {
     public partial class Main : PageBase
     {
-        public new MainViewModel ViewModel { get { return (MainViewModel)base.ViewModel; } }
+        private new MainViewModel ViewModel { get { return (MainViewModel)base.ViewModel; } }
         private SubViewModelConnector subConnector;
         private bool searchShowed;
         private bool searchFocused;
@@ -33,8 +33,9 @@ namespace Dietphone.Views
 
         protected override void OnInitializePage()
         {
-            ViewModel.ProductListing = ProductListing.ViewModel;
-            ViewModel.MealItemEditing = MealItemEditing.ViewModel;
+            JournalListing.Initialize(ViewModel.Journal);
+            ProductListing.Initialize(ViewModel.ProductListing);
+            MealItemEditing.Initialize(ViewModel.MealItemEditing);
             ViewModel.ShowProductsOnly += ViewModel_ShowProductsOnly;
             ViewModel.ExportToCloudError += ViewModel_ExportToCloudError;
             ViewModel.ShowWelcomeScreen += WelcomeScreen_Click;
@@ -45,7 +46,6 @@ namespace Dietphone.Views
             GetApplicationBarIcons();
             ShowJournalIcons();
             ProductListing.StateProvider = ViewModel.StateProvider;
-            JournalListing.StateProvider = ViewModel.StateProvider;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -74,13 +74,13 @@ namespace Dietphone.Views
         {
             if (Pivot.SelectedItem == Products)
             {
-                subConnector.SubViewModel = ProductListing.ViewModel;
+                subConnector.SubViewModel = ViewModel.ProductListing;
                 HideJournalIcons();
             }
             else
                 if (Pivot.SelectedItem == Journal)
             {
-                subConnector.SubViewModel = JournalListing.ViewModel;
+                subConnector.SubViewModel = ViewModel.Journal;
                 ShowJournalIcons();
             }
         }

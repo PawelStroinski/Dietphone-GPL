@@ -10,7 +10,7 @@ namespace Dietphone.Views
 {
     public partial class ProductEditing : PageBase
     {
-        public new ProductEditingViewModel ViewModel { get { return (ProductEditingViewModel)base.ViewModel; } }
+        private new ProductEditingViewModel ViewModel { get { return (ProductEditingViewModel)base.ViewModel; } }
 
         public ProductEditing()
         {

@@ -12,7 +12,7 @@ namespace Dietphone.Views
 {
     public partial class ExportAndImport : PageBase
     {
-        public new ExportAndImportViewModel ViewModel { get { return (ExportAndImportViewModel)base.ViewModel; } }
+        private new ExportAndImportViewModel ViewModel { get { return (ExportAndImportViewModel)base.ViewModel; } }
         private bool exportMode;
 
         public ExportAndImport()
