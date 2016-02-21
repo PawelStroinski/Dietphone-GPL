@@ -4,23 +4,32 @@ using System.Collections.Generic;
 using Dietphone.Tools;
 using System.Linq;
 using System;
+using Dietphone.Views;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
     public class ProductEditingViewModel : EditingViewModelBase<Product, ProductViewModel>
     {
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
+        public event EventHandler BeforeAddingEditingCategory;
+        public event EventHandler AfterAddedEditedCategory;
+        public event EventHandler<Action> CategoryDelete;
         private Navigation navigation;
         private List<CategoryViewModel> addedCategories = new List<CategoryViewModel>();
         private List<CategoryViewModel> deletedCategories = new List<CategoryViewModel>();
         private readonly BackgroundWorkerFactory workerFactory;
+        private readonly LearningCuAndFpu learningCuAndFpu;
         private const string PRODUCT = "PRODUCT";
         private const string CATEGORIES = "CATEGORIES";
 
-        public ProductEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
-            : base(factories)
+        public ProductEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory,
+            MessageDialog messageDialog, LearningCuAndFpu learningCuAndFpu)
+            : base(factories, messageDialog)
         {
             this.workerFactory = workerFactory;
+            this.learningCuAndFpu = learningCuAndFpu;
         }
 
         public string CategoryName
@@ -50,48 +59,84 @@ namespace Dietphone.ViewModels
             this.navigation = navigation;
         }
 
-        public void AddAndSetCategory(string name)
+        public ICommand AddCategory
         {
-            var tempModel = factories.CreateCategory();
-            var models = factories.Categories;
-            models.Remove(tempModel);
-            var viewModel = new CategoryViewModel(tempModel, factories);
-            viewModel.Name = name;
-            Categories.Add(viewModel);
-            Subject.Category = viewModel;
-            addedCategories.Add(viewModel);
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    OnBeforeAddingEditingCategory(EventArgs.Empty);
+                    var name = messageDialog.Input(Translations.Name, Translations.AddCategory);
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        AddAndSetCategory(name);
+                        OnAfterAddedEditedCategory(EventArgs.Empty);
+                    }
+                });
+            }
         }
 
-        public bool CanDeleteCategory()
+        public ICommand EditCategory
         {
-            var categoryId = modelCopy.CategoryId;
-            var productsInCategory = finder.FindProductsByCategory(categoryId);
-            bool otherProductsInCategory;
-            if (productsInCategory.Count == 0)
+            get
             {
-                otherProductsInCategory = false;
+                return new MvxCommand(() =>
+                {
+                    OnBeforeAddingEditingCategory(EventArgs.Empty);
+                    var newName = messageDialog.Input(Translations.Name, Translations.EditCategory, value: CategoryName);
+                    if (!string.IsNullOrEmpty(newName))
+                    {
+                        CategoryName = newName;
+                        OnAfterAddedEditedCategory(EventArgs.Empty);
+                    }
+                });
             }
-            else
-                if (productsInCategory.Count == 1)
-            {
-                otherProductsInCategory = productsInCategory[0] != modelSource;
-            }
-            else
-            {
-                otherProductsInCategory = true;
-            }
-            return !otherProductsInCategory && Categories.Count > 1;
         }
 
-        public void DeleteCategory()
+        public ICommand DeleteCategory
         {
-            var toDelete = Subject.Category;
-            Subject.Category = Categories.GetNextItemToSelectWhenDeleteSelected(toDelete);
-            Categories.Remove(toDelete);
-            deletedCategories.Add(toDelete);
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    if (!CanDeleteCategory())
+                    {
+                        messageDialog.Show(Translations.ThisCategoryIncludesOtherProducts, Translations.CannotDelete);
+                        return;
+                    }
+                    if (messageDialog.Confirm(string.Format(
+                        Translations.AreYouSureYouWantToPermanentlyDeleteThisCategory, CategoryName),
+                        Translations.DeleteCategory))
+                    {
+                        OnCategoryDelete(() => DeleteCategoryDo());
+                    }
+                });
+            }
         }
 
-        public void SaveAndReturn()
+        public ICommand LearnCu
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    learningCuAndFpu.LearnCu();
+                });
+            }
+        }
+
+        public ICommand LearnFpu
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    learningCuAndFpu.LearnFpu();
+                });
+            }
+        }
+
+        protected override void DoSaveAndReturn()
         {
             modelSource.CopyFrom(modelCopy);
             SaveCategories();
@@ -100,10 +145,13 @@ namespace Dietphone.ViewModels
 
         public void DeleteAndSaveAndReturn()
         {
-            var models = factories.Products;
-            models.Remove(modelSource);
-            SaveCategories();
-            Navigator.GoBack();
+            if (messageDialog.Confirm(
+                string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisProduct,
+                Subject.Name),
+                Translations.DeleteProduct))
+            {
+                DeleteAndSaveAndReturnDo();
+            }
         }
 
         protected override void FindAndCopyModel()
@@ -162,6 +210,66 @@ namespace Dietphone.ViewModels
         protected override void TombstoneOtherThings()
         {
             TombstoneCategories();
+        }
+
+        internal override Messages Messages
+        {
+            get
+            {
+                return new Messages
+                {
+                    CannotSaveCaption = Translations.AreYouSureYouWantToSaveThisProduct
+                };
+            }
+        }
+
+        private void AddAndSetCategory(string name)
+        {
+            var tempModel = factories.CreateCategory();
+            var models = factories.Categories;
+            models.Remove(tempModel);
+            var viewModel = new CategoryViewModel(tempModel, factories);
+            viewModel.Name = name;
+            Categories.Add(viewModel);
+            Subject.Category = viewModel;
+            addedCategories.Add(viewModel);
+        }
+
+        private bool CanDeleteCategory()
+        {
+            var categoryId = modelCopy.CategoryId;
+            var productsInCategory = finder.FindProductsByCategory(categoryId);
+            bool otherProductsInCategory;
+            if (productsInCategory.Count == 0)
+            {
+                otherProductsInCategory = false;
+            }
+            else
+                if (productsInCategory.Count == 1)
+            {
+                otherProductsInCategory = productsInCategory[0] != modelSource;
+            }
+            else
+            {
+                otherProductsInCategory = true;
+            }
+            return !otherProductsInCategory && Categories.Count > 1;
+        }
+
+        private void DeleteCategoryDo()
+        {
+            var toDelete = Subject.Category;
+            Subject.Category = Categories.GetNextItemToSelectWhenDeleteSelected(toDelete);
+            Categories.Remove(toDelete);
+            deletedCategories.Add(toDelete);
+        }
+
+        private void DeleteAndSaveAndReturnDo()
+        {
+            var models = factories.Products;
+            models.Remove(modelSource);
+            SaveCategories();
+            Navigator.GoBack();
         }
 
         private void TombstoneCategories()
@@ -236,6 +344,30 @@ namespace Dietphone.ViewModels
             {
                 models.Remove(category.Model);
             }
+        }
+
+        protected void OnBeforeAddingEditingCategory(EventArgs e)
+        {
+            if (BeforeAddingEditingCategory != null)
+            {
+                BeforeAddingEditingCategory(this, e);
+            }
+        }
+
+        protected void OnAfterAddedEditedCategory(EventArgs e)
+        {
+            if (AfterAddedEditedCategory != null)
+            {
+                AfterAddedEditedCategory(this, e);
+            }
+        }
+
+        protected void OnCategoryDelete(Action action)
+        {
+            if (CategoryDelete == null)
+                action();
+            else
+                CategoryDelete(this, action);
         }
 
         public class Navigation

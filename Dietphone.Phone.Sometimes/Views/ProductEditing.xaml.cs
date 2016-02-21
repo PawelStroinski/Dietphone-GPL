@@ -25,7 +25,9 @@ namespace Dietphone.Views
             var navigator = new NavigatorImpl(new NavigationServiceImpl(NavigationService));
             ViewModel.Navigator = navigator;
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
-            ViewModel.CannotSave += ViewModel_CannotSave;
+            ViewModel.BeforeAddingEditingCategory += ViewModel_BeforeAddingEditingCategory;
+            ViewModel.AfterAddedEditedCategory += ViewModel_AfterAddedEditedCategory;
+            ViewModel.CategoryDelete += ViewModel_CategoryDelete;
             ViewModel.Load();
         }
 
@@ -46,79 +48,12 @@ namespace Dietphone.Views
             }
         }
 
-        private void AddCategory_Click(object sender, RoutedEventArgs e)
-        {
-            Category.IsExpanded = false;
-            var input = new XnaInputBox(this)
-            {
-                Title = Translations.AddCategory,
-                Description = Translations.Name
-            };
-            input.Show();
-            input.Confirmed += delegate
-            {
-                ViewModel.AddAndSetCategory(input.Text);
-                Category.ForceRefresh(ProgressBar);
-            };
-        }
-
-        private void EditCategory_Click(object sender, RoutedEventArgs e)
-        {
-            Category.IsExpanded = false;
-            var input = new XnaInputBox(this)
-            {
-                Title = Translations.EditCategory,
-                Description = Translations.Name,
-                Text = ViewModel.CategoryName
-            };
-            input.Show();
-            input.Confirmed += delegate
-            {
-                ViewModel.CategoryName = input.Text;
-                Category.ForceRefresh(ProgressBar);
-            };
-        }
-
-        private void DeleteCategory_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.CanDeleteCategory())
-            {
-                DeleteCategory();
-            }
-            else
-            {
-                MessageBox.Show(Translations.ThisCategoryIncludesOtherProducts,
-                    Translations.CannotDelete, MessageBoxButton.OK);
-            }
-        }
-
-        private void DeleteCategory()
-        {
-            if (MessageBox.Show(
-                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisCategory,
-                ViewModel.CategoryName),
-                Translations.DeleteCategory, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            {
-                Save.IsEnabled = false;
-                Category.IsExpanded = false;
-                Dispatcher.BeginInvoke(() =>
-                {
-                    ViewModel.DeleteCategory();
-                    Category.ForceRefresh(ProgressBar);
-                    Save.IsEnabled = ViewModel.IsDirty;
-                });
-            }
-        }
-
         private void Save_Click(object sender, EventArgs e)
         {
             Focus();
             Dispatcher.BeginInvoke(() =>
             {
-                if (ViewModel.CanSave())
-                {
-                    ViewModel.SaveAndReturn();
-                }
+                ViewModel.SaveAndReturn();
             });
         }
 
@@ -129,14 +64,7 @@ namespace Dietphone.Views
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            var product = ViewModel.Subject;
-            if (MessageBox.Show(
-                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisProduct,
-                product.Name),
-                Translations.DeleteProduct, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            {
-                ViewModel.DeleteAndSaveAndReturn();
-            }
+            ViewModel.DeleteAndSaveAndReturn();
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)
@@ -144,10 +72,26 @@ namespace Dietphone.Views
             Save.IsEnabled = ViewModel.IsDirty;
         }
 
-        private void ViewModel_CannotSave(object sender, CannotSaveEventArgs e)
+        private void ViewModel_BeforeAddingEditingCategory(object sender, EventArgs e)
         {
-            e.Ignore = (MessageBox.Show(e.Reason, Translations.AreYouSureYouWantToSaveThisProduct,
-                MessageBoxButton.OKCancel) == MessageBoxResult.OK);
+            Category.IsExpanded = false;
+        }
+
+        private void ViewModel_AfterAddedEditedCategory(object sender, EventArgs e)
+        {
+            Category.ForceRefresh(ProgressBar);
+        }
+
+        private void ViewModel_CategoryDelete(object sender, Action action)
+        {
+            Save.IsEnabled = false;
+            Category.IsExpanded = false;
+            Dispatcher.BeginInvoke(() =>
+            {
+                action();
+                Category.ForceRefresh(ProgressBar);
+                Save.IsEnabled = ViewModel.IsDirty;
+            });
         }
 
         private void Categories_ItemClick(object sender, SelectorItemClickEventArgs e)
@@ -158,14 +102,12 @@ namespace Dietphone.Views
 
         private void Cu_Click(object sender, MouseButtonEventArgs e)
         {
-            var learn = new LearningCuAndFpu();
-            learn.LearnCu();
+            ViewModel.LearnCu.Execute(null);
         }
 
         private void Fpu_Click(object sender, MouseButtonEventArgs e)
         {
-            var learn = new LearningCuAndFpu();
-            learn.LearnFpu();
+            ViewModel.LearnFpu.Execute(null);
         }
 
         private void TranslateApplicationBar()

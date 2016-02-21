@@ -54,9 +54,9 @@
                             <telerikInput:RadListPicker.PopupHeader>
                                 <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -16">
                                     <TextBlock Text="{Binding Translations.Circumstances, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Width="180"/>
-                                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCircumstance_Click"/>
-                                    <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCircumstance_Click"/>
-                                    <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCircumstance_Click"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Command="{Binding AddCircumstance}"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Command="{Binding EditCircumstance}"/>
+                                    <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Command="{Binding DeleteCircumstance}"/>
                                 </StackPanel>
                             </telerikInput:RadListPicker.PopupHeader>
                         </telerikInput:RadListPicker>

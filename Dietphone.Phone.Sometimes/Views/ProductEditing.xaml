@@ -55,9 +55,9 @@
                         <telerikInput:RadListPicker.PopupHeader>
                             <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -16">
                                 <TextBlock Text="{Binding Translations.CategoryUppercase, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Width="180"/>
-                                <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddCategory_Click"/>
-                                <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditCategory_Click"/>
-                                <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteCategory_Click"/>
+                                <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Command="{Binding AddCategory}"/>
+                                <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Command="{Binding EditCategory}"/>
+                                <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Command="{Binding DeleteCategory}"/>
                             </StackPanel>
                         </telerikInput:RadListPicker.PopupHeader>
                     </telerikInput:RadListPicker>

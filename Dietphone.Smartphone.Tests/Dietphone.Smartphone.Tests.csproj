@@ -81,6 +81,7 @@
     <Compile Include="BinarySerializers\SmartphoneOutputStreamTests.cs" />
     <Compile Include="CategoriesAndProductsLoaderTests.cs" />
     <Compile Include="ExportAndImportViewModelTests.cs" />
+    <Compile Include="ProductEditingViewModelTests.cs" />
     <Compile Include="MealItemViewModelTests.cs" />
     <Compile Include="MealViewModelTests.cs" />
     <Compile Include="MainViewModelTests.cs" />

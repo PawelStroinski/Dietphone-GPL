@@ -102,9 +102,9 @@
                         <telerikInput:RadListPicker.PopupHeader>
                             <StackPanel Orientation="Horizontal" Margin="0, -17, 0, -16">
                                 <TextBlock Text="{Binding Path=Translations.NameUppercase, Source={StaticResource Translations}}" Margin="-1, 24, 1, 0" FontSize="{StaticResource PhoneFontSizeMedium}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" Width="180"/>
-                                <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Click="AddMealName_Click"/>
-                                <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Click="EditMealName_Click"/>
-                                <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Click="DeleteMealName_Click"/>
+                                <c4f:RoundButton ImageSource="/images/appbar.add.rest.png" Command="{Binding AddName}"/>
+                                <c4f:RoundButton ImageSource="/images/appbar.edit.rest.png" Command="{Binding EditName}"/>
+                                <c4f:RoundButton ImageSource="/images/appbar.delete.rest.png" Command="{Binding DeleteName}"/>
                             </StackPanel>
                         </telerikInput:RadListPicker.PopupHeader>
                     </telerikInput:RadListPicker>

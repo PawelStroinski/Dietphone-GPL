@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
@@ -16,6 +17,9 @@ namespace Dietphone.ViewModels
         public ObservableCollection<MealNameViewModel> Names { get; private set; }
         public MealItemEditingViewModel ItemEditing { get { return itemEditing; } }
         public event EventHandler InvalidateItems;
+        public event EventHandler BeforeAddingEditingName;
+        public event EventHandler AfterAddedEditedName;
+        public event EventHandler<Action> NameDelete;
         private Navigation navigation;
         private List<MealNameViewModel> addedNames = new List<MealNameViewModel>();
         private List<MealNameViewModel> deletedNames = new List<MealNameViewModel>();
@@ -33,8 +37,8 @@ namespace Dietphone.ViewModels
         private const string EDIT_ITEM_INDEX = "EDIT_ITEM_INDEX";
 
         public MealEditingViewModel(Factories factories, BackgroundWorkerFactory workerFactory, TrialViewModel trial,
-            BackNavigation backNavigation, MealItemEditingViewModel itemEditing)
-            : base(factories)
+            BackNavigation backNavigation, MealItemEditingViewModel itemEditing, MessageDialog messageDialog)
+            : base(factories, messageDialog)
         {
             this.workerFactory = workerFactory;
             this.trial = trial;
@@ -70,37 +74,65 @@ namespace Dietphone.ViewModels
             this.navigation = navigation;
         }
 
-        public void AddAndSetName(string name)
+        public ICommand AddName
         {
-            var tempModel = factories.CreateMealName();
-            var models = factories.MealNames;
-            models.Remove(tempModel);
-            var viewModel = new MealNameViewModel(tempModel, factories);
-            viewModel.Name = name;
-            Names.Add(viewModel);
-            Subject.Name = viewModel;
-            addedNames.Add(viewModel);
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    OnBeforeAddingEditingName(EventArgs.Empty);
+                    var name = messageDialog.Input(Translations.Name, Translations.AddName);
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        AddAndSetName(name);
+                        OnAfterAddedEditedName(EventArgs.Empty);
+                    }
+                });
+            }
         }
 
-        public bool CanEditName()
+        public ICommand EditName
         {
-            return Subject.Name != defaultName;
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    if (!CanEditName())
+                    {
+                        messageDialog.Show(NameOfName, Translations.CannotEditThisName);
+                        return;
+                    }
+                    OnBeforeAddingEditingName(EventArgs.Empty);
+                    var newName = messageDialog.Input(Translations.Name, Translations.EditName, value: NameOfName);
+                    if (string.IsNullOrEmpty(newName))
+                        return;
+                    NameOfName = newName;
+                    OnAfterAddedEditedName(EventArgs.Empty);
+                });
+            }
         }
 
-        public bool CanDeleteName()
+        public ICommand DeleteName
         {
-            return Subject.Name != defaultName;
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    if (!CanDeleteName())
+                    {
+                        messageDialog.Show(NameOfName, Translations.CannotDeleteThisName);
+                        return;
+                    }
+                    if (messageDialog.Confirm(string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisName,
+                        NameOfName), Translations.DeleteName))
+                    {
+                        OnNameDelete(() => DeleteNameDo());
+                    }
+                });
+            }
         }
 
-        public void DeleteName()
-        {
-            var toDelete = Subject.Name;
-            Subject.Name = Names.GetNextItemToSelectWhenDeleteSelected(toDelete);
-            Names.Remove(toDelete);
-            deletedNames.Add(toDelete);
-        }
-
-        public void SaveWithUpdatedTimeAndReturn()
+        protected override void DoSaveAndReturn()
         {
             SaveWithUpdatedTime();
             Navigator.GoBack();
@@ -119,10 +151,13 @@ namespace Dietphone.ViewModels
 
         public void DeleteAndSaveAndReturn()
         {
-            var models = factories.Meals;
-            models.Remove(modelSource);
-            SaveNames();
-            Navigator.GoBack();
+            if (messageDialog.Confirm(
+                string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisMeal,
+                IdentifiableName),
+                Translations.DeleteMeal))
+            {
+                DeleteAndSaveAndReturnDo();
+            }
         }
 
         public ICommand AddItem
@@ -232,6 +267,44 @@ namespace Dietphone.ViewModels
             itemEditing.StateProvider = StateProvider;
         }
 
+        private void AddAndSetName(string name)
+        {
+            var tempModel = factories.CreateMealName();
+            var models = factories.MealNames;
+            models.Remove(tempModel);
+            var viewModel = new MealNameViewModel(tempModel, factories);
+            viewModel.Name = name;
+            Names.Add(viewModel);
+            Subject.Name = viewModel;
+            addedNames.Add(viewModel);
+        }
+
+        private bool CanEditName()
+        {
+            return Subject.Name != defaultName;
+        }
+
+        private bool CanDeleteName()
+        {
+            return Subject.Name != defaultName;
+        }
+
+        private void DeleteNameDo()
+        {
+            var toDelete = Subject.Name;
+            Subject.Name = Names.GetNextItemToSelectWhenDeleteSelected(toDelete);
+            Names.Remove(toDelete);
+            deletedNames.Add(toDelete);
+        }
+
+        private void DeleteAndSaveAndReturnDo()
+        {
+            var models = factories.Meals;
+            models.Remove(modelSource);
+            SaveNames();
+            Navigator.GoBack();
+        }
+
         private void LoadNames()
         {
             var loader = new JournalViewModel.JournalLoader(factories, sortCircumstances: false, sortNames: true,
@@ -269,6 +342,17 @@ namespace Dietphone.ViewModels
             base.TombstoneOtherThings();
             TombstoneNames();
             TombstoneItemEditing();
+        }
+
+        internal override Messages Messages
+        {
+            get
+            {
+                return new Messages
+                {
+                    CannotSaveCaption = Translations.AreYouSureYouWantToSaveThisMeal
+                };
+            }
         }
 
         private void TombstoneNames()
@@ -410,6 +494,30 @@ namespace Dietphone.ViewModels
             {
                 InvalidateItems(this, e);
             }
+        }
+
+        protected void OnBeforeAddingEditingName(EventArgs e)
+        {
+            if (BeforeAddingEditingName != null)
+            {
+                BeforeAddingEditingName(this, e);
+            }
+        }
+
+        protected void OnAfterAddedEditedName(EventArgs e)
+        {
+            if (AfterAddedEditedName != null)
+            {
+                AfterAddedEditedName(this, e);
+            }
+        }
+
+        protected void OnNameDelete(Action action)
+        {
+            if (NameDelete == null)
+                action();
+            else
+                NameDelete(this, action);
         }
 
         public class Navigation

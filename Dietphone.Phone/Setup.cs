@@ -41,6 +41,7 @@ namespace Dietphone
             base.InitializeLastChance();
             Mvx.RegisterType<Clipboard, ClipboardImpl>();
             Mvx.RegisterType<JournalViewModel, TelerikJournalViewModel>();
+            Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
             Mvx.RegisterType<ProductListingViewModel, TelerikProductListingViewModel>();
             Mvx.RegisterType<Trial, TrialImpl>();
             Mvx.RegisterType<Vibration, VibrationImpl>();

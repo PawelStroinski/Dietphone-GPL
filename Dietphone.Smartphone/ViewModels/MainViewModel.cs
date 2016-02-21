@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Windows.Input;
 using Dietphone.Models;
 using Dietphone.Tools;
+using Dietphone.Views;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -9,9 +12,8 @@ namespace Dietphone.ViewModels
         public JournalViewModel Journal { get { return journal; } }
         public ProductListingViewModel ProductListing { get { return productListing; } }
         public MealItemEditingViewModel MealItemEditing { get { return mealItemEditing; } }
+        public WelcomeScreen WelcomeScreen { get; private set; }
         public event EventHandler ShowProductsOnly;
-        public event EventHandler ExportToCloudError;
-        public event EventHandler ShowWelcomeScreen;
         private string search = string.Empty;
         private Navigator navigator;
         private Navigation navigation;
@@ -24,12 +26,15 @@ namespace Dietphone.ViewModels
         private readonly JournalViewModel journal;
         private readonly ProductListingViewModel productListing;
         private readonly MealItemEditingViewModel mealItemEditing;
+        private readonly MessageDialog messageDialog;
+        private readonly CloudMessages cloudMessages;
         private const string MEAL_ITEM_EDITING = "MEAL_ITEM_EDITING";
         private const string MEAL_ITEM_PRODUCT = "MEAL_ITEM_PRODUCT";
 
         public MainViewModel(Factories factories, Cloud cloud, TimerFactory timerFactory,
             BackgroundWorkerFactory workerFactory, MealEditingViewModel.BackNavigation mealEditingBackNavigation,
-            JournalViewModel journal, ProductListingViewModel productListing, MealItemEditingViewModel mealItemEditing)
+            JournalViewModel journal, ProductListingViewModel productListing, MealItemEditingViewModel mealItemEditing,
+            MessageDialog messageDialog, WelcomeScreen welcomeScreen, CloudMessages cloudMessages)
         {
             this.factories = factories;
             this.cloud = cloud;
@@ -39,6 +44,9 @@ namespace Dietphone.ViewModels
             this.journal = journal;
             this.productListing = productListing;
             this.mealItemEditing = mealItemEditing;
+            this.messageDialog = messageDialog;
+            this.cloudMessages = cloudMessages;
+            WelcomeScreen = welcomeScreen;
             ShareStateProvider();
         }
 
@@ -130,7 +138,7 @@ namespace Dietphone.ViewModels
             var settings = factories.Settings;
             if (settings.ShowWelcomeScreen)
             {
-                OnShowWelcomeScreen();
+                WelcomeScreen.Show.Execute(null);
                 settings.ShowWelcomeScreen = false;
             }
         }
@@ -186,7 +194,7 @@ namespace Dietphone.ViewModels
             }
             catch (Exception)
             {
-                OnExportToCloudError();
+                messageDialog.Show(cloudMessages.ExportToCloudError);
             }
         }
 
@@ -219,25 +227,48 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected void OnExportToCloudError()
-        {
-            if (ExportToCloudError != null)
-            {
-                ExportToCloudError(this, EventArgs.Empty);
-            }
-        }
-
-        protected void OnShowWelcomeScreen()
-        {
-            if (ShowWelcomeScreen != null)
-            {
-                ShowWelcomeScreen(this, EventArgs.Empty);
-            }
-        }
-
         public class Navigation
         {
             public bool ShouldAddMealItem { get; set; }
+        }
+    }
+
+    public abstract class WelcomeScreen
+    {
+        public event EventHandler<string> LaunchBrowser;
+
+        public abstract ICommand Show { get; }
+
+        protected void OnLaunchBrowser(string url)
+        {
+            if (LaunchBrowser != null)
+            {
+                LaunchBrowser(this, url);
+            }
+        }
+    }
+
+    public class WelcomeScreenImpl : WelcomeScreen
+    {
+        private readonly MessageDialog messageDialog;
+
+        public WelcomeScreenImpl(MessageDialog messageDialog)
+        {
+            this.messageDialog = messageDialog;
+        }
+
+        public override ICommand Show
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    if (messageDialog.Confirm(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader))
+                    {
+                        OnLaunchBrowser(Translations.WelcomeScreenLink);
+                    }
+                });
+            }
         }
     }
 }

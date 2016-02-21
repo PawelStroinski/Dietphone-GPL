@@ -2,15 +2,13 @@
 using Dietphone.Models;
 using System.ComponentModel;
 using Dietphone.Tools;
-using System.Net;
 using System.Text;
-using System.Windows;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using Dietphone.Views;
 
 namespace Dietphone.ViewModels
 {
@@ -20,17 +18,7 @@ namespace Dietphone.ViewModels
         public string Url { private get; set; }
         public List<string> ImportFromCloudItems { get; private set; }
         public string ImportFromCloudSelectedItem { get; set; }
-        public event EventHandler ExportToEmailSuccessful;
-        public event EventHandler ImportFromAddressSuccessful;
-        public event EventHandler SendingFailedDuringExportToEmail;
-        public event EventHandler DownloadingFailedDuringImportFromAddress;
-        public event EventHandler ReadingFailedDuringImportFromAddress;
         public event EventHandler<string> NavigateInBrowser;
-        public event EventHandler<ConfirmEventArgs> ConfirmExportToCloudDeactivation;
-        public event EventHandler ExportToCloudActivationSuccessful;
-        public event EventHandler ExportToCloudSuccessful;
-        public event EventHandler ImportFromCloudSuccessful;
-        public event EventHandler CloudError;
         private string data;
         private bool isBusy;
         private bool browserVisible;
@@ -47,19 +35,23 @@ namespace Dietphone.ViewModels
         private readonly CloudProviderFactory cloudProviderFactory;
         private readonly Vibration vibration;
         private readonly Cloud cloud;
+        private readonly MessageDialog messageDialog;
+        private readonly CloudMessages cloudMessages;
         private const string MAILEXPORT_URL = "http://www.bizmaster.pl/varia/dietphone/MailExport.aspx";
         private const string MAILEXPORT_SUCCESS_RESULT = "Success!";
         internal const string TOKEN_ACQUIRING_CALLBACK_URL = "http://localhost/HelloTestingSuccess";
         internal const string TOKEN_ACQUIRING_NAVIGATE_AWAY_URL = "about:blank";
 
         public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory,
-            Vibration vibration, Cloud cloud)
+            Vibration vibration, Cloud cloud, MessageDialog messageDialog, CloudMessages cloudMessages)
         {
             this.factories = factories;
             exportAndImport = new ExportAndImportImpl(factories);
             this.cloudProviderFactory = cloudProviderFactory;
             this.vibration = vibration;
             this.cloud = cloud;
+            this.messageDialog = messageDialog;
+            this.cloudMessages = cloudMessages;
         }
 
         public bool IsBusy
@@ -347,9 +339,8 @@ namespace Dietphone.ViewModels
 
         private void DeactivateExportToCloud()
         {
-            var eventArgs = new ConfirmEventArgs();
-            OnConfirmExportToCloudDeactivation(eventArgs);
-            if (eventArgs.Confirm)
+            var confirm = OnConfirmExportToCloudDeactivation();
+            if (confirm)
             {
                 var settings = factories.Settings;
                 settings.CloudSecret = string.Empty;
@@ -497,42 +488,27 @@ namespace Dietphone.ViewModels
 
         protected void OnExportToEmailSuccessful()
         {
-            if (ExportToEmailSuccessful != null)
-            {
-                ExportToEmailSuccessful(this, EventArgs.Empty);
-            }
+            messageDialog.Show(Translations.ExportCompletedSuccessfully);
         }
 
         protected void OnImportFromAddressSuccesful()
         {
-            if (ImportFromAddressSuccessful != null)
-            {
-                ImportFromAddressSuccessful(this, EventArgs.Empty);
-            }
+            messageDialog.Show(Translations.ImportCompletedSuccessfully);
         }
 
         protected void OnSendingFailedDuringExportToEmail()
         {
-            if (SendingFailedDuringExportToEmail != null)
-            {
-                SendingFailedDuringExportToEmail(this, EventArgs.Empty);
-            }
+            messageDialog.Show(Translations.AnErrorOccurredWhileSendingTheExportedData);
         }
 
         protected void OnDownloadingFailedDuringImportFromAddress()
         {
-            if (DownloadingFailedDuringImportFromAddress != null)
-            {
-                DownloadingFailedDuringImportFromAddress(this, EventArgs.Empty);
-            }
+            messageDialog.Show(Translations.AnErrorOccurredWhileRetrievingTheImportedData);
         }
 
         protected void OnReadingFailedDuringImportFromAddress()
         {
-            if (ReadingFailedDuringImportFromAddress != null)
-            {
-                ReadingFailedDuringImportFromAddress(this, EventArgs.Empty);
-            }
+            messageDialog.Show(Translations.AnErrorOccurredDuringImport);
         }
 
         protected void OnNavigateInBrowser(string url)
@@ -543,44 +519,29 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected void OnConfirmExportToCloudDeactivation(ConfirmEventArgs e)
+        protected bool OnConfirmExportToCloudDeactivation()
         {
-            if (ConfirmExportToCloudDeactivation != null)
-            {
-                ConfirmExportToCloudDeactivation(this, e);
-            }
+            return messageDialog.Confirm(cloudMessages.ConfirmExportToCloudDeactivation, string.Empty);
         }
 
         protected void OnExportToCloudActivationSuccessful()
         {
-            if (ExportToCloudActivationSuccessful != null)
-            {
-                ExportToCloudActivationSuccessful(this, EventArgs.Empty);
-            }
+            messageDialog.Show(cloudMessages.ExportToCloudActivationSuccessful);
         }
 
         protected void OnExportToCloudSuccessful()
         {
-            if (ExportToCloudSuccessful != null)
-            {
-                ExportToCloudSuccessful(this, EventArgs.Empty);
-            }
+            messageDialog.Show(cloudMessages.ExportToCloudSuccessful);
         }
 
         protected void OnImportFromCloudSuccessful()
         {
-            if (ImportFromCloudSuccessful != null)
-            {
-                ImportFromCloudSuccessful(this, EventArgs.Empty);
-            }
+            messageDialog.Show(cloudMessages.ImportFromCloudSuccessful);
         }
 
         protected void OnCloudError()
         {
-            if (CloudError != null)
-            {
-                CloudError(this, EventArgs.Empty);
-            }
+            messageDialog.Show(cloudMessages.CloudError);
         }
 
         private void NotifyIsExportToCloudActive()
@@ -589,10 +550,5 @@ namespace Dietphone.ViewModels
         }
 
         private enum BrowserIsNavigatingHint { Unknown, Import, Export }
-    }
-
-    public class ConfirmEventArgs : EventArgs
-    {
-        public bool Confirm { get; set; }
     }
 }

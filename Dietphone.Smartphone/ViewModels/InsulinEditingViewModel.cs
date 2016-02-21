@@ -21,6 +21,8 @@ namespace Dietphone.ViewModels
         public IList<PatternViewModel> CalculationDetailsAlternatives { get; private set; }
         public ScoreSelector MealScores { get; private set; }
         public bool MealScoresVisible { get; private set; }
+        public event EventHandler<Action> CircumstanceEdit;
+        public event EventHandler<Action> CircumstanceDelete;
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
         private List<InsulinCircumstanceViewModel> deletedCircumstances = new List<InsulinCircumstanceViewModel>();
         private Sugar sugarSource;
@@ -61,8 +63,8 @@ namespace Dietphone.ViewModels
         private const string CALCULATION_DETAILS_ALTERNATIVES_INDEX = "CALCULATION_DETAILS_ALTERNATIVES_INDEX";
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
-            BackgroundWorkerFactory workerFactory, Clipboard clipboard)
-            : base(factories)
+            BackgroundWorkerFactory workerFactory, Clipboard clipboard, MessageDialog messageDialog)
+            : base(factories, messageDialog)
         {
             this.facade = facade;
             this.workerFactory = workerFactory;
@@ -207,6 +209,17 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public ICommand ShowSugarChartAsText
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    messageDialog.Show(SugarChartAsText);
+                });
+            }
+        }
+
         public string SugarChartAsText
         {
             get
@@ -218,6 +231,17 @@ namespace Dietphone.ViewModels
                         .Select(item => string.Format("{0}   {1}",
                             item.DateTime.ToString("t"),
                             string.Format(sugarUnit, item.BloodSugar))));
+            }
+        }
+
+        public ICommand ShowListOfMealItemsNotIncludedInCalculation
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    messageDialog.Show(ListOfMealItemsNotIncludedInCalculation);
+                });
             }
         }
 
@@ -239,7 +263,66 @@ namespace Dietphone.ViewModels
             this.navigation = navigation;
         }
 
-        public void AddCircumstance(string name)
+        public ICommand AddCircumstance
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    var name = messageDialog.Input(Translations.Name, Translations.AddCircumstance);
+                    if (!string.IsNullOrEmpty(name))
+                        AddCircumstanceDo(name);
+                });
+            }
+        }
+
+        public ICommand EditCircumstance
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    if (!CanEditCircumstance())
+                    {
+                        messageDialog.Show(Translations.SelectCircumstanceFirst);
+                        return;
+                    }
+                    var newName = messageDialog.Input(Translations.Circumstance, Translations.EditCircumstance,
+                        value: NameOfFirstChoosenCircumstance);
+                    if (string.IsNullOrEmpty(newName))
+                        return;
+                    OnCircumstanceEdit(() => NameOfFirstChoosenCircumstance = newName);
+                });
+            }
+        }
+
+        public ICommand DeleteCircumstance
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    if (ThereIsOnlyOneCircumstance())
+                    {
+                        messageDialog.Show(Translations.CannotDeleteCircumstanceBecauseOnlyOneLeft);
+                        return;
+                    }
+                    if (NoCircumstanceChoosen())
+                    {
+                        messageDialog.Show(Translations.SelectCircumstanceFirst);
+                        return;
+                    }
+                    if (messageDialog.Confirm(string.Format(
+                        Translations.AreYouSureYouWantToPermanentlyDeleteThisCircumstance,
+                        NameOfFirstChoosenCircumstance), Translations.DeleteCircumstance))
+                    {
+                        OnCircumstanceDelete(() => DeleteCircumstanceDo());
+                    }
+                });
+            }
+        }
+
+        internal void AddCircumstanceDo(string name)
         {
             var tempModel = factories.CreateInsulinCircumstance();
             var models = factories.InsulinCircumstances;
@@ -250,21 +333,22 @@ namespace Dietphone.ViewModels
             addedCircumstances.Add(viewModel);
         }
 
-        public bool CanEditCircumstance()
+        private bool CanEditCircumstance()
         {
             return Subject.Circumstances.Any();
         }
 
-        public CanDeleteCircumstanceResult CanDeleteCircumstance()
+        private bool ThereIsOnlyOneCircumstance()
         {
-            if (Circumstances.Count < 2)
-                return CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance;
-            if (!Subject.Circumstances.Any())
-                return CanDeleteCircumstanceResult.NoCircumstanceChoosen;
-            return CanDeleteCircumstanceResult.Yes;
+            return Circumstances.Count < 2;
         }
 
-        public void DeleteCircumstance()
+        private bool NoCircumstanceChoosen()
+        {
+            return !Subject.Circumstances.Any();
+        }
+
+        internal void DeleteCircumstanceDo()
         {
             var toDelete = Subject.Circumstances.First();
             var choosenViewModels = Subject.Circumstances.ToList();
@@ -274,7 +358,7 @@ namespace Dietphone.ViewModels
             deletedCircumstances.Add(toDelete);
         }
 
-        public void SaveWithUpdatedTimeAndReturn()
+        protected override void DoSaveAndReturn()
         {
             SaveWithUpdatedTime();
             var relatedMealId = navigation.RelatedMealId;
@@ -286,11 +370,11 @@ namespace Dietphone.ViewModels
 
         public void DeleteAndSaveAndReturn()
         {
-            var models = factories.Insulins;
-            models.Remove(modelSource);
-            DeleteNewSugar();
-            SaveCircumstances();
-            Navigator.GoBack();
+            if (messageDialog.Confirm(string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisInsulin,
+                Subject.DateAndTime), Translations.DeleteInsulin))
+            {
+                DeleteAndSaveAndReturnDo();
+            }
         }
 
         public override void CancelAndReturn()
@@ -431,7 +515,7 @@ namespace Dietphone.ViewModels
 
         protected override string Validate()
         {
-            return string.Empty;
+            return string.Empty; // TODO: Add validation
         }
 
         protected override void TombstoneModel()
@@ -470,6 +554,33 @@ namespace Dietphone.ViewModels
                 StartCalculation();
         }
 
+        internal override Messages Messages
+        {
+            get
+            {
+                return new Messages
+                {
+                    CannotSaveCaption = Translations.AreYouSureYouWantToSaveThisInsulin
+                };
+            }
+        }
+
+        protected void OnCircumstanceEdit(Action action)
+        {
+            if (CircumstanceEdit == null)
+                action();
+            else
+                CircumstanceEdit(this, action);
+        }
+
+        protected void OnCircumstanceDelete(Action action)
+        {
+            if (CircumstanceDelete == null)
+                action();
+            else
+                CircumstanceDelete(this, action);
+        }
+
         private void SaveWithUpdatedTime()
         {
             UpdateLockedDateTime();
@@ -478,6 +589,15 @@ namespace Dietphone.ViewModels
             sugarSource.CopyFrom(sugarCopy);
             sugarSource.DateTime = modelSource.DateTime;
             SaveCircumstances();
+        }
+
+        private void DeleteAndSaveAndReturnDo()
+        {
+            var models = factories.Insulins;
+            models.Remove(modelSource);
+            DeleteNewSugar();
+            SaveCircumstances();
+            Navigator.GoBack();
         }
 
         private void DeleteNewSugar()
@@ -859,8 +979,6 @@ namespace Dietphone.ViewModels
             OnPropertyChanged("CalculationDetailsAlternatives");
             CalculationDetailsAlternativesVisible = true;
         }
-
-        public enum CanDeleteCircumstanceResult { Yes, NoCircumstanceChoosen, NoThereIsOnlyOneCircumstance };
 
         public class SugarChartItemViewModel
         {

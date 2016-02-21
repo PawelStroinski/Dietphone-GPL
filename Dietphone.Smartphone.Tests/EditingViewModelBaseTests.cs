@@ -14,12 +14,14 @@ namespace Dietphone.Smartphone.Tests
         private TestModel modelCopy;
         private TestViewModel sut;
         private StateProvider stateProvider;
+        private MessageDialog messageDialog;
 
         [SetUp]
         public void TestInitialize()
         {
             modelCopy = new Fixture().Create<TestModel>();
-            sut = new TestViewModel(modelCopy);
+            messageDialog = Substitute.For<MessageDialog>();
+            sut = new TestViewModel(modelCopy, messageDialog);
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;
             var state = new Dictionary<string, object>();
@@ -45,10 +47,31 @@ namespace Dietphone.Smartphone.Tests
             Assert.AreEqual(tombstoned.Foo, modelCopy.Foo);
         }
 
+        [Test]
+        public void SaveAndReturn()
+        {
+            sut.SaveAndReturn();
+            Assert.AreEqual(1, sut.DoSaveAndReturnCallCount);
+            sut.ValidateSetup = "foo";
+            sut.MessagesSetup.CannotSaveCaption = "bar";
+            messageDialog.DidNotReceiveWithAnyArgs().Confirm(null, null);
+            var confirm = false;
+            messageDialog.Confirm("foo", "bar").Returns(_ => confirm);
+            sut.SaveAndReturn();
+            Assert.AreEqual(1, sut.DoSaveAndReturnCallCount);
+            confirm = true;
+            sut.SaveAndReturn();
+            Assert.AreEqual(2, sut.DoSaveAndReturnCallCount);
+        }
+
         public class TestViewModel : EditingViewModelBase<TestModel, ViewModelBase>
         {
-            public TestViewModel(TestModel modelCopy)
-                : base(Substitute.For<Factories>())
+            public string ValidateSetup;
+            public Messages MessagesSetup = new Messages();
+            public int DoSaveAndReturnCallCount;
+
+            public TestViewModel(TestModel modelCopy, MessageDialog messageDialog)
+                : base(Substitute.For<Factories>(), messageDialog)
             {
                 this.modelCopy = modelCopy;
             }
@@ -63,7 +86,20 @@ namespace Dietphone.Smartphone.Tests
 
             protected override string Validate()
             {
-                throw new NotImplementedException();
+                return ValidateSetup;
+            }
+
+            protected override void DoSaveAndReturn()
+            {
+                DoSaveAndReturnCallCount++;
+            }
+
+            internal override Messages Messages
+            {
+                get
+                {
+                    return MessagesSetup;
+                }
             }
         }
 

@@ -24,8 +24,9 @@ namespace Dietphone.Views
         protected override void OnInitializePage()
         {
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
-            ViewModel.CannotSave += ViewModel_CannotSave;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            ViewModel.CircumstanceEdit += ViewModel_CircumstanceEdit;
+            ViewModel.CircumstanceDelete += ViewModel_CircumstanceDelete;
             MealScores.ScoreClick += MealScores_ScoreClick;
             Save = this.GetIcon(0);
             TranslateApplicationBar();
@@ -80,105 +81,12 @@ namespace Dietphone.Views
             base.OnBackKeyPress(e);
         }
 
-        private void AddCircumstance_Click(object sender, RoutedEventArgs e)
-        {
-            var input = new XnaInputBox(this)
-            {
-                Title = Translations.AddCircumstance,
-                Description = Translations.Name
-            };
-            input.Show();
-            input.Confirmed += delegate
-            {
-                ViewModel.AddCircumstance(input.Text);
-            };
-        }
-
-        private void EditCircumstance_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.CanEditCircumstance())
-            {
-                EditCircumstanceDo();
-            }
-            else
-            {
-                MessageBox.Show(Translations.SelectCircumstanceFirst);
-            }
-        }
-
-        private void DeleteCircumstance_Click(object sender, RoutedEventArgs e)
-        {
-            var canDelete = ViewModel.CanDeleteCircumstance();
-            switch (canDelete)
-            {
-                case InsulinEditingViewModel.CanDeleteCircumstanceResult.Yes:
-                    DeleteCircumstanceDo();
-                    break;
-                case InsulinEditingViewModel.CanDeleteCircumstanceResult.NoCircumstanceChoosen:
-                    MessageBox.Show(Translations.SelectCircumstanceFirst);
-                    break;
-                case InsulinEditingViewModel.CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance:
-                    MessageBox.Show(Translations.CannotDeleteCircumstanceBecauseOnlyOneLeft);
-                    break;
-                default:
-                    throw new Exception(string.Format("Unknown result {0}", canDelete));
-            }
-        }
-
-        private void EditCircumstanceDo()
-        {
-            var input = new XnaInputBox(this)
-            {
-                Title = Translations.EditCircumstance,
-                Description = Translations.Circumstance,
-                Text = ViewModel.NameOfFirstChoosenCircumstance
-            };
-            input.Show();
-            input.Confirmed += delegate
-            {
-                InsulinCircumstances.QuicklyCollapse();
-                ViewModel.NameOfFirstChoosenCircumstance = input.Text;
-                InvalidateCircumstancesListPicker();
-            };
-        }
-
-        private void DeleteCircumstanceDo()
-        {
-            if (MessageBox.Show(
-                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisCircumstance,
-                ViewModel.NameOfFirstChoosenCircumstance),
-                Translations.DeleteCircumstance, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            {
-                Save.IsEnabled = false;
-                InsulinCircumstances.QuicklyCollapse();
-                Dispatcher.BeginInvoke(() =>
-                {
-                    InsulinCircumstances.SummaryForSelectedItemsDelegate
-                        -= InsulinCircumstancesSummaryForSelectedItemsDelegate;
-                    try
-                    {
-                        InsulinCircumstances.SelectedItems.RemoveAt(0);
-                    }
-                    finally
-                    {
-                        InsulinCircumstances.SummaryForSelectedItemsDelegate
-                            += InsulinCircumstancesSummaryForSelectedItemsDelegate;
-                    }
-                    ViewModel.DeleteCircumstance();
-                    Save.IsEnabled = ViewModel.IsDirty;
-                });
-            }
-        }
-
         private void Save_Click(object sender, EventArgs e)
         {
             Focus();
             Dispatcher.BeginInvoke(() =>
             {
-                if (ViewModel.CanSave())
-                {
-                    ViewModel.SaveWithUpdatedTimeAndReturn();
-                }
+                ViewModel.SaveAndReturn();
             });
         }
 
@@ -199,24 +107,12 @@ namespace Dietphone.Views
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(
-                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisInsulin,
-                ViewModel.Subject.DateAndTime),
-                Translations.DeleteInsulin, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            {
-                ViewModel.DeleteAndSaveAndReturn();
-            }
+            ViewModel.DeleteAndSaveAndReturn();
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)
         {
             Save.IsEnabled = ViewModel.IsDirty;
-        }
-
-        private void ViewModel_CannotSave(object sender, CannotSaveEventArgs e)
-        {
-            e.Ignore = (MessageBox.Show(e.Reason, Translations.AreYouSureYouWantToSaveThisInsulin,
-                MessageBoxButton.OKCancel) == MessageBoxResult.OK);
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -225,6 +121,35 @@ namespace Dietphone.Views
                 CalculationDetailsPicker.IsPopupOpen = ViewModel.CalculationDetailsVisible;
             if (e.PropertyName == "CalculationDetailsAlternativesVisible")
                 CalculationDetailsAlternativesPicker.IsPopupOpen = ViewModel.CalculationDetailsAlternativesVisible;
+        }
+
+        private void ViewModel_CircumstanceEdit(object sender, Action action)
+        {
+            InsulinCircumstances.QuicklyCollapse();
+            action();
+            InvalidateCircumstancesListPicker();
+        }
+
+        private void ViewModel_CircumstanceDelete(object sender, Action action)
+        {
+            Save.IsEnabled = false;
+            InsulinCircumstances.QuicklyCollapse();
+            Dispatcher.BeginInvoke(() =>
+            {
+                InsulinCircumstances.SummaryForSelectedItemsDelegate
+                    -= InsulinCircumstancesSummaryForSelectedItemsDelegate;
+                try
+                {
+                    InsulinCircumstances.SelectedItems.RemoveAt(0);
+                }
+                finally
+                {
+                    InsulinCircumstances.SummaryForSelectedItemsDelegate
+                        += InsulinCircumstancesSummaryForSelectedItemsDelegate;
+                }
+                action();
+                Save.IsEnabled = ViewModel.IsDirty;
+            });
         }
 
         private void MealScores_ScoreClick(object sender, EventArgs e)
@@ -236,12 +161,12 @@ namespace Dietphone.Views
         {
             var position = e.GetPosition(Chart);
             if (position.Y > CHART_PADDING_TOP)
-                MessageBox.Show(ViewModel.SugarChartAsText);
+                ViewModel.ShowSugarChartAsText.Execute(null);
         }
 
         private void CalculationIncomplete_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            MessageBox.Show(ViewModel.ListOfMealItemsNotIncludedInCalculation);
+            ViewModel.ShowListOfMealItemsNotIncludedInCalculation.Execute(null);
         }
 
         private void CloseCalculationDetails_Click(object sender, EventArgs e)

@@ -4,6 +4,7 @@ using System.Linq;
 using Dietphone.Models;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
+using Dietphone.Views;
 using NSubstitute;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
@@ -18,6 +19,7 @@ namespace Dietphone.Smartphone.Tests
         private StateProvider stateProvider;
         private TrialViewModel trial;
         private MealEditingViewModel.BackNavigation backNavigation;
+        private MessageDialog messageDialog;
         private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
 
         [SetUp]
@@ -28,10 +30,13 @@ namespace Dietphone.Smartphone.Tests
             factories = Substitute.For<Factories>();
             factories.Finder.FindMealById(meal.Id).Returns(meal);
             factories.MealNames.Returns(new List<MealName>());
+            factories.MealNames.Add(new MealName { Id = Guid.NewGuid() });
+            factories.DefaultEntities.MealName.Returns(new MealName { Id = Guid.NewGuid() });
             trial = Substitute.For<TrialViewModel>();
             backNavigation = new MealEditingViewModel.BackNavigation();
+            messageDialog = Substitute.For<MessageDialog>();
             sut = new MealEditingViewModel(factories, new BackgroundWorkerSyncFactory(), trial, backNavigation,
-                new MealItemEditingViewModel());
+                new MealItemEditingViewModel(), messageDialog);
             sut.Navigator = Substitute.For<Navigator>();
             stateProvider = Substitute.For<StateProvider>();
             sut.StateProvider = stateProvider;
@@ -192,6 +197,116 @@ namespace Dietphone.Smartphone.Tests
             sut.Navigator.When(navigator => navigator.GoToMainToAddMealItem()).Do(_ => trial.Received().Run());
             sut.AddItem.Call();
             sut.Navigator.Received().GoToMainToAddMealItem();
+        }
+
+        [Test]
+        public void Messages()
+        {
+            Assert.AreEqual(Translations.AreYouSureYouWantToSaveThisMeal, sut.Messages.CannotSaveCaption);
+        }
+
+        [TestCase("foo")]
+        [TestCase(null)]
+        public void AddName(string name)
+        {
+            sut.Load();
+            factories.CreateMealName().Returns(new MealName());
+            messageDialog.Input(Translations.Name, Translations.AddName).Returns(name);
+            var beforeAddingEditingNameCalled = false;
+            var afterAddedEditedNameCalled = false;
+            sut.BeforeAddingEditingName += delegate { beforeAddingEditingNameCalled = true; };
+            sut.AfterAddedEditedName += delegate { afterAddedEditedNameCalled = true; };
+            sut.AddName.Call();
+            factories.Received(name == null ? 0 : 1).CreateMealName();
+            Assert.IsTrue(beforeAddingEditingNameCalled);
+            Assert.AreEqual(name != null, afterAddedEditedNameCalled);
+        }
+
+        [TestCase("foo", false)]
+        [TestCase("foo", true)]
+        [TestCase(null, true)]
+        public void EditName(string newName, bool selectedNonDefault)
+        {
+            sut.Load();
+            if (selectedNonDefault)
+                sut.Subject.Name = sut.Names.Last();
+            var beforeAddingEditingNameCalled = false;
+            var afterAddedEditedNameCalled = false;
+            var inputCalled = false;
+            sut.BeforeAddingEditingName += delegate { beforeAddingEditingNameCalled = true; };
+            sut.AfterAddedEditedName += delegate { afterAddedEditedNameCalled = true; };
+            messageDialog.Input(Translations.Name, Translations.EditName, value: sut.NameOfName).Returns(_ =>
+            {
+                inputCalled = true;
+                return newName;
+            });
+            sut.EditName.Call();
+            messageDialog.Received(selectedNonDefault ? 0 : 1).Show(sut.NameOfName, Translations.CannotEditThisName);
+            Assert.AreEqual(selectedNonDefault, beforeAddingEditingNameCalled);
+            Assert.AreEqual(selectedNonDefault, inputCalled);
+            Assert.AreEqual(newName != null && selectedNonDefault, afterAddedEditedNameCalled);
+            if (newName != null && selectedNonDefault)
+                Assert.AreEqual(newName, sut.NameOfName);
+            else
+                Assert.AreNotEqual(newName, sut.NameOfName);
+        }
+
+        [TestCase(false, false)]
+        [TestCase(false, true)]
+        [TestCase(true, false)]
+        [TestCase(true, true)]
+        public void DeleteName(bool selectedNonDefault, bool confirmSetup)
+        {
+            sut.Load();
+            if (selectedNonDefault)
+                sut.Subject.Name = sut.Names.Last();
+            var nameDeleteCalled = false;
+            var expected = sut.Names.Count - 1;
+            sut.NameDelete += (_, action) =>
+            {
+                var actualBefore = sut.Names.Count;
+                Assert.AreEqual(expected + 1, actualBefore);
+                action();
+                var actualAfter = sut.Names.Count;
+                Assert.AreEqual(expected, actualAfter);
+                nameDeleteCalled = true;
+            };
+            var confirmCalled = false;
+            messageDialog.Confirm(string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisName,
+                sut.NameOfName), Translations.DeleteName).Returns(_ =>
+                {
+                    confirmCalled = true;
+                    return confirmSetup;
+                });
+            sut.DeleteName.Call();
+            messageDialog.Received(selectedNonDefault ? 0 : 1)
+                .Show(sut.NameOfName, Translations.CannotDeleteThisName);
+            Assert.AreEqual(selectedNonDefault, confirmCalled);
+            Assert.AreEqual(confirmCalled && confirmSetup, nameDeleteCalled);
+        }
+
+        [Test]
+        public void DeleteNameWhenNameDeleteEventNotHandled()
+        {
+            sut.Load();
+            sut.Subject.Name = sut.Names.Last();
+            var expected = sut.Names.Count - 1;
+            messageDialog.Confirm(null, null).ReturnsForAnyArgs(true);
+            sut.DeleteName.Call();
+            var actual = sut.Names.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void DeleteAndSaveAndReturn(bool confirm)
+        {
+            factories.Meals.Returns(new List<Meal> { meal });
+            sut.Load();
+            messageDialog.Confirm(string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisMeal,
+                sut.IdentifiableName), Translations.DeleteMeal).Returns(confirm);
+            sut.DeleteAndSaveAndReturn();
+            Assert.AreEqual(confirm ? 0 : 1, factories.Meals.Count);
         }
     }
 }

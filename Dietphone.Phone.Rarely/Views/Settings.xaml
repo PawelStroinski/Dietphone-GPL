@@ -39,7 +39,7 @@
                                     <HyperlinkButton Style="{StaticResource AccentHyperlink}"
                                                      Content="{Binding Translations.LearnMoreAboutCuAndFpu, Source={StaticResource Translations}}"
                                                      Margin="0,42,12,7"
-                                                     Click="LearnCuAndFpu_Click"/>
+                                                     Command="{Binding LearnCuAndFpu}"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

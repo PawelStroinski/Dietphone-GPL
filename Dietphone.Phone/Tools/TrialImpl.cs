@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using Dietphone.Views;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 
 namespace Dietphone.Tools
@@ -18,9 +16,7 @@ namespace Dietphone.Tools
 
         public void Show()
         {
-            if (MessageBox.Show(Translations.HelloThanksForTryingOut, Translations.ThisIsAnUnregisteredCopy,
-                    MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                Guide.ShowMarketplace(PlayerIndex.One);
+            Guide.ShowMarketplace(PlayerIndex.One);
         }
     }
 }

@@ -182,6 +182,7 @@
     <Compile Include="Setup.cs" />
     <Compile Include="Tools\ClipboardImpl.cs" />
     <Compile Include="Tools\IsolatedFile.cs" />
+    <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\MyStopwatch.cs" />
     <Compile Include="Tools\TrialImpl.cs" />
     <Compile Include="ViewModels\TelerikJournalViewModel.cs" />

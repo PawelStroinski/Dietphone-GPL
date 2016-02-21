@@ -53,6 +53,7 @@
     <Compile Include="Tools\Clipboard.cs" />
     <Compile Include="Tools\DropboxProviderFactory.cs" />
     <Compile Include="Tools\GoingToAbout.cs" />
+    <Compile Include="Tools\MessageDialog.cs" />
     <Compile Include="Tools\NavigationService.cs" />
     <Compile Include="Tools\PostSender.cs" />
     <Compile Include="Tools\StateProvider.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Tools\Vibration.cs" />
     <Compile Include="ViewModels\BackgroundWorker.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\CloudMessages.cs" />
     <Compile Include="ViewModels\ExportAndImportViewModel.cs" />
     <Compile Include="ViewModels\InlineViewModel.cs" />
     <Compile Include="ViewModels\PatternViewModel.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="ViewModels\ViewModelWithBuffer.cs" />
     <Compile Include="ViewModels\ViewModelWithBufferAcc.cs" />
     <Compile Include="ViewModels\ViewModelWithDate.cs" />
+    <Compile Include="Tools\LearningCuAndFpu.cs" />
     <Compile Include="Views\TranslationsFactory.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -22,8 +22,10 @@ namespace Dietphone.Views
         {
             ItemEditing.Initialize(ViewModel.ItemEditing);
             ViewModel.IsDirtyChanged += ViewModel_IsDirtyChanged;
-            ViewModel.CannotSave += ViewModel_CannotSave;
             ViewModel.InvalidateItems += ViewModel_InvalidateItems;
+            ViewModel.BeforeAddingEditingName += ViewModel_BeforeAddingEditingName;
+            ViewModel.AfterAddedEditedName += ViewModel_AfterAddedEditedName;
+            ViewModel.NameDelete += ViewModel_NameDelete;
             Scores.ScoreClick += Scores_ScoreClick;
             InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
             Save = this.GetIcon(0);
@@ -55,92 +57,12 @@ namespace Dietphone.Views
             }
         }
 
-        private void AddMealName_Click(object sender, RoutedEventArgs e)
-        {
-            MealName.QuicklyCollapse();
-            var input = new XnaInputBox(this)
-            {
-                Title = Translations.AddName,
-                Description = Translations.Name
-            };
-            input.Show();
-            input.Confirmed += delegate
-            {
-                ViewModel.AddAndSetName(input.Text);
-                MealName.ForceRefresh(ProgressBar);
-            };
-        }
-
-        private void EditMealName_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.CanEditName())
-            {
-                EditMealNameDo();
-            }
-            else
-            {
-                MessageBox.Show(ViewModel.NameOfName, Translations.CannotEditThisName,
-                    MessageBoxButton.OK);
-            }
-        }
-
-        private void EditMealNameDo()
-        {
-            MealName.QuicklyCollapse();
-            var input = new XnaInputBox(this)
-            {
-                Title = Translations.EditName,
-                Description = Translations.Name,
-                Text = ViewModel.NameOfName
-            };
-            input.Show();
-            input.Confirmed += delegate
-            {
-                ViewModel.NameOfName = input.Text;
-                MealName.ForceRefresh(ProgressBar);
-            };
-        }
-
-        private void DeleteMealName_Click(object sender, RoutedEventArgs e)
-        {
-            if (ViewModel.CanDeleteName())
-            {
-                DeleteMealNameDo();
-            }
-            else
-            {
-                MessageBox.Show(ViewModel.NameOfName, Translations.CannotDeleteThisName,
-                    MessageBoxButton.OK);
-            }
-        }
-
-        private void DeleteMealNameDo()
-        {
-            if (MessageBox.Show(
-                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisName,
-                ViewModel.NameOfName),
-                Translations.DeleteName, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            {
-                Save.IsEnabled = false;
-                MealName.QuicklyCollapse();
-                Dispatcher.BeginInvoke(() =>
-                {
-                    ViewModel.DeleteName();
-                    MealName.ForceRefresh(ProgressBar);
-                    Save.IsEnabled = ViewModel.IsDirty;
-                });
-            }
-        }
-
         private void Save_Click(object sender, EventArgs e)
         {
             Focus();
             Dispatcher.BeginInvoke(() =>
             {
-                if (ViewModel.CanSave())
-                {
-                    ViewModel.SaveWithUpdatedTimeAndReturn();
-                }
+                ViewModel.SaveAndReturn();
             });
         }
 
@@ -156,24 +78,12 @@ namespace Dietphone.Views
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(
-                String.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisMeal,
-                ViewModel.IdentifiableName),
-                Translations.DeleteMeal, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            {
-                ViewModel.DeleteAndSaveAndReturn();
-            }
+            ViewModel.DeleteAndSaveAndReturn();
         }
 
         private void ViewModel_IsDirtyChanged(object sender, EventArgs e)
         {
             Save.IsEnabled = ViewModel.IsDirty;
-        }
-
-        private void ViewModel_CannotSave(object sender, CannotSaveEventArgs e)
-        {
-            e.Ignore = (MessageBox.Show(e.Reason, Translations.AreYouSureYouWantToSaveThisMeal,
-                MessageBoxButton.OKCancel) == MessageBoxResult.OK);
         }
 
         private void Items_ItemTap(object sender, ListBoxItemTapEventArgs e)
@@ -235,6 +145,28 @@ namespace Dietphone.Views
         private void ViewModel_InvalidateItems(object sender, EventArgs e)
         {
             Items.ForceInvalidate();
+        }
+
+        private void ViewModel_BeforeAddingEditingName(object sender, EventArgs e)
+        {
+            MealName.QuicklyCollapse();
+        }
+
+        private void ViewModel_AfterAddedEditedName(object sender, EventArgs e)
+        {
+            MealName.ForceRefresh(ProgressBar);
+        }
+
+        private void ViewModel_NameDelete(object sender, Action action)
+        {
+            Save.IsEnabled = false;
+            MealName.QuicklyCollapse();
+            Dispatcher.BeginInvoke(() =>
+            {
+                action();
+                MealName.ForceRefresh(ProgressBar);
+                Save.IsEnabled = ViewModel.IsDirty;
+            });
         }
 
         protected void Scores_ScoreClick(object sender, EventArgs e)

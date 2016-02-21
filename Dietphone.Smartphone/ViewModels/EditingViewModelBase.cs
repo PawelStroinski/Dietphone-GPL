@@ -9,20 +9,21 @@ namespace Dietphone.ViewModels
         where TViewModel : ViewModelBase
     {
         public Navigator Navigator { get; set; }
-        public event EventHandler<CannotSaveEventArgs> CannotSave;
         public event EventHandler IsDirtyChanged;
         protected TModel modelCopy;
         protected TModel modelSource;
         protected readonly Factories factories;
         protected readonly Finder finder;
+        protected readonly MessageDialog messageDialog;
         private TViewModel subject;
         private bool isDirty;
         private const string IS_DIRTY = "IS_DIRTY";
 
-        public EditingViewModelBase(Factories factories)
+        public EditingViewModelBase(Factories factories, MessageDialog messageDialog)
         {
             this.factories = factories;
             finder = factories.Finder;
+            this.messageDialog = messageDialog;
         }
 
         public virtual TViewModel Subject
@@ -83,23 +84,25 @@ namespace Dietphone.ViewModels
             throw new NotSupportedException("Use Load() instead");
         }
 
-        public bool CanSave()
+        public void SaveAndReturn()
         {
-            var validation = Validate();
-            if (!string.IsNullOrEmpty(validation))
-            {
-                var args = new CannotSaveEventArgs();
-                args.Reason = validation;
-                OnCannotSave(args);
-                return args.Ignore;
-            }
-            return true;
+            if (CanSave())
+                DoSaveAndReturn();
         }
 
         public virtual void CancelAndReturn()
         {
             Navigator.GoBack();
         }
+
+        private bool CanSave()
+        {
+            var validation = Validate();
+            return string.IsNullOrEmpty(validation)
+                || messageDialog.Confirm(validation, Messages.CannotSaveCaption);
+        }
+
+        protected abstract void DoSaveAndReturn();
 
         protected abstract void FindAndCopyModel();
 
@@ -154,14 +157,6 @@ namespace Dietphone.ViewModels
             }
         }
 
-        protected void OnCannotSave(CannotSaveEventArgs e)
-        {
-            if (CannotSave != null)
-            {
-                CannotSave(this, e);
-            }
-        }
-
         protected void OnIsDirtyChanged()
         {
             if (IsDirtyChanged != null)
@@ -177,11 +172,12 @@ namespace Dietphone.ViewModels
         protected virtual void OnCommonUiReady()
         {
         }
+
+        internal abstract Messages Messages { get; }
     }
 
-    public class CannotSaveEventArgs : EventArgs
+    public class Messages
     {
-        public string Reason { get; set; }
-        public bool Ignore { get; set; }
+        public string CannotSaveCaption { get; set; }
     }
 }

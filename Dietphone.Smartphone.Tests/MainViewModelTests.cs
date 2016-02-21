@@ -6,14 +6,20 @@ using Dietphone.Tools;
 using System;
 using Dietphone.Models.Tests;
 using System.Collections.Generic;
+using Dietphone.Views;
+using Ploeh.AutoFixture;
 
 namespace Dietphone.Smartphone.Tests
 {
-    public class MainViewModelTests
+    public class MainViewModelTests : TestBase
     {
-        private MainViewModel CreateSut(Factories factories, Cloud cloud = null, TimerFactory timerFactory = null,
-            ProductListingViewModel productListing = null, MealItemEditingViewModel mealItemEditing = null)
+        private MainViewModel CreateSut(Factories factories = null, Cloud cloud = null,
+            TimerFactory timerFactory = null, ProductListingViewModel productListing = null,
+            MealItemEditingViewModel mealItemEditing = null, MessageDialog messageDialog = null,
+            WelcomeScreen welcomeScreen = null, CloudMessages cloudMessages = null)
         {
+            if (factories == null)
+                factories = Substitute.For<Factories>();
             if (cloud == null)
                 cloud = Substitute.For<Cloud>();
             if (timerFactory == null)
@@ -22,10 +28,17 @@ namespace Dietphone.Smartphone.Tests
                 productListing = new ProductListingViewModel(factories, new BackgroundWorkerSyncFactory());
             if (mealItemEditing == null)
                 mealItemEditing = new MealItemEditingViewModel();
+            if (messageDialog == null)
+                messageDialog = Substitute.For<MessageDialog>();
+            if (welcomeScreen == null)
+                welcomeScreen = new WelcomeScreenImpl(messageDialog);
+            if (cloudMessages == null)
+                cloudMessages = new CloudMessages();
             var journal = new JournalViewModel(factories, new BackgroundWorkerSyncFactory(),
                 new SugarEditingViewModel());
             return new MainViewModel(factories, cloud, timerFactory, new BackgroundWorkerSyncFactory(),
-                new MealEditingViewModel.BackNavigation(), journal, productListing, mealItemEditing);
+                new MealEditingViewModel.BackNavigation(), journal, productListing, mealItemEditing, messageDialog,
+                welcomeScreen, cloudMessages);
         }
 
         public class WhenAddingMealItem : MainViewModelTests
@@ -81,6 +94,21 @@ namespace Dietphone.Smartphone.Tests
             }
         }
 
+        [TestCase(true)]
+        [TestCase(false)]
+        public void WelcomeScreen(bool confirm)
+        {
+            var messageDialog = Substitute.For<MessageDialog>();
+            var sut = CreateSut(messageDialog: messageDialog);
+            string launchedBrowserWith = null;
+            var welcomeScreen = sut.WelcomeScreen;
+            welcomeScreen.LaunchBrowser += (e, url) => { launchedBrowserWith = url; };
+            messageDialog.Confirm(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader).Returns(confirm);
+            welcomeScreen.Show.Call();
+            messageDialog.Received().Confirm(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader);
+            Assert.AreEqual(confirm ? Translations.WelcomeScreenLink : null, launchedBrowserWith);
+        }
+
         [TestCase(false, false)]
         [TestCase(true, true)]
         [TestCase(true, false)]
@@ -98,10 +126,11 @@ namespace Dietphone.Smartphone.Tests
             });
             var factories = Substitute.For<Factories>();
             factories.Settings.Returns(new Settings());
-            var sut = CreateSut(factories, cloud, timerFactory);
+            var messageDialog = Substitute.For<MessageDialog>();
+            var cloudMessages = new Fixture().Create<CloudMessages>();
+            var sut = CreateSut(factories, cloud, timerFactory, messageDialog: messageDialog,
+                cloudMessages: cloudMessages);
             sut.StateProvider = Substitute.For<StateProvider>();
-            var exportToCloudErrored = false;
-            sut.ExportToCloudError += delegate { exportToCloudErrored = true; };
             Assert.IsNull(timerCallback);
             sut.UiRendered();
             if (shouldExport)
@@ -110,7 +139,7 @@ namespace Dietphone.Smartphone.Tests
                 cloud.DidNotReceive().Export();
                 timerCallback();
                 cloud.Received().Export();
-                Assert.AreEqual(throwInExport, exportToCloudErrored);
+                messageDialog.Received(throwInExport ? 1 : 0).Show(cloudMessages.ExportToCloudError);
             }
             else
                 Assert.IsNull(timerCallback);
@@ -123,14 +152,13 @@ namespace Dietphone.Smartphone.Tests
             var factories = new FactoriesImpl();
             factories.StorageCreator = new StorageCreatorStub();
             factories.Settings.ShowWelcomeScreen = showWelcomeScreen;
-            var sut = CreateSut(factories);
+            var welcomeScreen = Substitute.For<WelcomeScreen>();
+            var sut = CreateSut(factories, welcomeScreen: welcomeScreen);
             var stateProvider = Substitute.For<StateProvider>();
             stateProvider.State.Returns(new Dictionary<string, object>());
             sut.StateProvider = stateProvider;
-            var showWelcomeScreenCalled = false;
-            sut.ShowWelcomeScreen += delegate { showWelcomeScreenCalled = true; };
             sut.UiRendered();
-            Assert.AreEqual(showWelcomeScreen, showWelcomeScreenCalled);
+            welcomeScreen.Show.Received(showWelcomeScreen ? 1 : 0).Execute(null);
             Assert.IsFalse(factories.Settings.ShowWelcomeScreen);
         }
     }

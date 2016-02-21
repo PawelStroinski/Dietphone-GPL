@@ -23,6 +23,7 @@ namespace Dietphone.Smartphone.Tests
         private Settings settings;
         private Meal meal;
         private Clipboard clipboard;
+        private MessageDialog messageDialog;
         private InsulinEditingViewModel.Navigation navigation;
 
         [SetUp]
@@ -34,6 +35,7 @@ namespace Dietphone.Smartphone.Tests
             stateProvider = Substitute.For<StateProvider>();
             facade = Substitute.For<ReplacementBuilderAndSugarEstimatorFacade>();
             clipboard = Substitute.For<Clipboard>();
+            messageDialog = Substitute.For<MessageDialog>();
             navigation = new InsulinEditingViewModel.Navigation();
             CreateSut();
             insulin = fixture.Create<Insulin>();
@@ -60,7 +62,8 @@ namespace Dietphone.Smartphone.Tests
 
         private void CreateSut()
         {
-            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory(), clipboard);
+            sut = new InsulinEditingViewModel(factories, facade, new BackgroundWorkerSyncFactory(), clipboard,
+                messageDialog);
             sut.Navigator = navigator;
             sut.StateProvider = stateProvider;
             sut.Init(navigation);
@@ -210,8 +213,9 @@ namespace Dietphone.Smartphone.Tests
                 Assert.AreNotEqual(expected.Name, actual.Name);
             }
 
-            [Test]
-            public void AddCircumstance()
+            [TestCase("new")]
+            [TestCase(null)]
+            public void AddCircumstance(string name)
             {
                 var newCircumstance = new InsulinCircumstance();
                 factories.CreateInsulinCircumstance()
@@ -221,57 +225,110 @@ namespace Dietphone.Smartphone.Tests
                 var factoriesCountBefore = factories.InsulinCircumstances.Count;
                 var sutCountBefore = sut.Circumstances.Count;
                 var insulinCountBefore = sut.Subject.Circumstances.Count;
-                sut.AddCircumstance("new");
+                messageDialog.Input(Translations.Name, Translations.AddCircumstance).Returns(name);
+                sut.AddCircumstance.Call();
                 Assert.AreEqual(factoriesCountBefore, factories.InsulinCircumstances.Count);
-                Assert.AreEqual(sutCountBefore + 1, sut.Circumstances.Count);
-                Assert.AreEqual(insulinCountBefore, sut.Subject.Circumstances.Count);
-                Assert.AreEqual("new", sut.Circumstances.Last().Name);
+                if (name == null)
+                    Assert.AreEqual(sutCountBefore, sut.Circumstances.Count);
+                else
+                {
+                    Assert.AreEqual(sutCountBefore + 1, sut.Circumstances.Count);
+                    Assert.AreEqual(insulinCountBefore, sut.Subject.Circumstances.Count);
+                    Assert.AreEqual(name, sut.Circumstances.Last().Name);
+                }
             }
 
-            [Test]
-            public void CanEditCircumstance()
+            [TestCase(true, "newName")]
+            [TestCase(true, null)]
+            [TestCase(false, "newName")]
+            public void EditCircumstance(bool circumstanceChoosed, string newName)
             {
                 InitializeViewModel();
-                Assert.IsFalse(sut.CanEditCircumstance());
-                ChooseCircumstance();
-                Assert.IsTrue(sut.CanEditCircumstance());
+                if (circumstanceChoosed)
+                    ChooseCircumstance();
+                messageDialog.Input(Translations.Circumstance, Translations.EditCircumstance,
+                    value: sut.NameOfFirstChoosenCircumstance).Returns(newName);
+                var circumstanceEditCalled = false;
+                sut.CircumstanceEdit += (_, action) =>
+                {
+                    Assert.AreNotEqual(newName, sut.NameOfFirstChoosenCircumstance);
+                    action();
+                    Assert.AreEqual(newName, sut.NameOfFirstChoosenCircumstance);
+                    circumstanceEditCalled = true;
+                };
+                sut.EditCircumstance.Call();
+                messageDialog.Received(circumstanceChoosed ? 0 : 1).Show(Translations.SelectCircumstanceFirst);
+                Assert.AreEqual(circumstanceChoosed && newName != null, circumstanceEditCalled);
             }
 
             [Test]
-            public void CanDeleteCircumstance()
+            public void EditCircumstanceWhenCircumstanceEditEventNotHandled()
             {
                 InitializeViewModel();
-                Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoCircumstanceChoosen,
-                    sut.CanDeleteCircumstance());
                 ChooseCircumstance();
-                Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.Yes,
-                    sut.CanDeleteCircumstance());
+                messageDialog.Input(null, null, null).ReturnsForAnyArgs("newName");
+                sut.EditCircumstance.Call();
+                Assert.AreEqual("newName", sut.NameOfFirstChoosenCircumstance);
             }
 
-            [Test]
-            public void CanDeleteCircumstanceWhenOnlyOne()
+            [TestCase(false, true, false)]
+            [TestCase(true, false, false)]
+            [TestCase(false, false, false)]
+            [TestCase(true, true, false)]
+            [TestCase(true, true, true)]
+            public void DeleteCircumstance(bool circumstanceChoosed, bool moreThanOneCircumstance, bool confirmSetup)
             {
-                factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(1).ToList());
+                if (!moreThanOneCircumstance)
+                    factories.InsulinCircumstances.Returns(new Fixture().CreateMany<InsulinCircumstance>(1).ToList());
                 InitializeViewModel();
-                ChooseCircumstance();
-                Assert.AreEqual(InsulinEditingViewModel.CanDeleteCircumstanceResult.NoThereIsOnlyOneCircumstance,
-                    sut.CanDeleteCircumstance());
+                if (circumstanceChoosed)
+                {
+                    ChooseCircumstance();
+                    if (moreThanOneCircumstance)
+                        ChooseCircumstance();
+                }
+                var expected = sut.Subject.Circumstances.Skip(1).ToList();
+                var circumstanceDeleteCalled = false;
+                sut.CircumstanceDelete += (_, action) =>
+                {
+                    var actualBefore = sut.Subject.Circumstances;
+                    Assert.AreNotEqual(expected, actualBefore);
+                    action();
+                    var actualAfter = sut.Subject.Circumstances;
+                    Assert.AreEqual(expected, actualAfter);
+                    circumstanceDeleteCalled = true;
+                };
+                var confirmCalled = false;
+                messageDialog.Confirm(string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisCircumstance,
+                    sut.NameOfFirstChoosenCircumstance), Translations.DeleteCircumstance).Returns(_ =>
+                    {
+                        confirmCalled = true;
+                        return confirmSetup;
+                    });
+                sut.DeleteCircumstance.Call();
+                messageDialog.Received(circumstanceChoosed || !moreThanOneCircumstance ? 0 : 1)
+                    .Show(Translations.SelectCircumstanceFirst);
+                messageDialog.Received(moreThanOneCircumstance ? 0 : 1)
+                    .Show(Translations.CannotDeleteCircumstanceBecauseOnlyOneLeft);
+                Assert.AreEqual(circumstanceChoosed && moreThanOneCircumstance, confirmCalled);
+                Assert.AreEqual(confirmCalled && confirmSetup, circumstanceDeleteCalled);
             }
 
             [Test]
-            public void DeleteCircumstance()
+            public void DeleteCircumstanceWhenCircumstanceDeleteEventNotHandled()
             {
                 InitializeViewModel();
                 ChooseCircumstance();
                 ChooseCircumstance();
                 var expected = sut.Subject.Circumstances.Skip(1).ToList();
-                sut.DeleteCircumstance();
+                messageDialog.Confirm(null, null).ReturnsForAnyArgs(true);
+                sut.DeleteCircumstance.Call();
                 var actual = sut.Subject.Circumstances;
                 Assert.AreEqual(expected, actual);
             }
 
             [Test]
-            public void SaveWithUpdatedTimeAndReturn()
+            public void SaveAndReturn()
             {
                 meal.DateTime = DateTime.Now.AddSeconds(-10);
                 InitializeViewModel();
@@ -281,7 +338,7 @@ namespace Dietphone.Smartphone.Tests
                 sut.Subject.SquareWaveBolus = "2.2";
                 sut.Subject.SquareWaveBolusHours = "2.3";
                 sut.Subject.Note = "note";
-                sut.SaveWithUpdatedTimeAndReturn();
+                sut.SaveAndReturn();
                 Assert.AreEqual(140, sugar.BloodSugar);
                 Assert.AreEqual(1, insulin.Circumstances.Count());
                 Assert.AreEqual(sut.Circumstances.First().Id, insulin.ReadCircumstances().First());
@@ -295,17 +352,17 @@ namespace Dietphone.Smartphone.Tests
             }
 
             [Test]
-            public void SaveWithUpdatedTimeAndReturnGoesForwardToMainPageInsteadOfGoingBackWhenRelatedMealIdGiven()
+            public void SaveAndReturnGoesForwardToMainPageInsteadOfGoingBackWhenRelatedMealIdGiven()
             {
                 navigation.RelatedMealId = Guid.NewGuid();
                 InitializeViewModel();
-                sut.SaveWithUpdatedTimeAndReturn();
+                sut.SaveAndReturn();
                 navigator.Received().GoToMain();
                 navigator.DidNotReceive().GoBack();
             }
 
             [Test]
-            public void SaveWithUpdatedTimeAndReturnSavesCircumstances()
+            public void SaveAndReturnSavesCircumstances()
             {
                 InitializeViewModel();
                 var deletedCircumstanceId = sut.Circumstances.First().Id;
@@ -313,11 +370,11 @@ namespace Dietphone.Smartphone.Tests
                 var newCircumstance = new InsulinCircumstance();
                 factories.CreateInsulinCircumstance().Returns(newCircumstance);
                 ChooseCircumstance();
-                sut.DeleteCircumstance();
+                sut.DeleteCircumstanceDo();
                 ChooseCircumstance();
                 sut.NameOfFirstChoosenCircumstance = "newname";
-                sut.AddCircumstance("foo");
-                sut.SaveWithUpdatedTimeAndReturn();
+                sut.AddCircumstanceDo("foo");
+                sut.SaveAndReturn();
                 Assert.IsFalse(factories.InsulinCircumstances
                     .Any(circumstance => circumstance.Id == deletedCircumstanceId));
                 Assert.AreEqual("newname", factories.InsulinCircumstances
@@ -349,7 +406,7 @@ namespace Dietphone.Smartphone.Tests
                 factories.ClearReceivedCalls();
                 InitializeViewModel();
                 factories.DidNotReceive().CreateInsulin();
-                sut.SaveWithUpdatedTimeAndReturn();
+                sut.SaveAndReturn();
                 Assert.AreEqual(1.1f, insulin.NormalBolus);
             }
 
@@ -362,13 +419,13 @@ namespace Dietphone.Smartphone.Tests
                 var newCircumstance = new InsulinCircumstance();
                 factories.CreateInsulinCircumstance().Returns(newCircumstance);
                 ChooseCircumstance();
-                sut.DeleteCircumstance();
+                sut.DeleteCircumstanceDo();
                 ChooseCircumstance();
                 sut.NameOfFirstChoosenCircumstance = "newname";
-                sut.AddCircumstance("foo");
+                sut.AddCircumstanceDo("foo");
                 sut.Subject.NormalBolus = "1";
                 TombstoneCreateInitialize();
-                sut.SaveWithUpdatedTimeAndReturn();
+                sut.SaveAndReturn();
                 Assert.IsFalse(factories.InsulinCircumstances
                     .Any(circumstance => circumstance.Id == deletedCircumstanceId));
                 Assert.AreEqual("newname", factories.InsulinCircumstances
@@ -413,8 +470,8 @@ namespace Dietphone.Smartphone.Tests
                 InitializeViewModel();
                 ChooseCircumstance();
                 ChooseCircumstance();
-                sut.AddCircumstance(string.Empty);
-                sut.DeleteCircumstance();
+                sut.AddCircumstanceDo(string.Empty);
+                sut.DeleteCircumstanceDo();
                 sut.NameOfFirstChoosenCircumstance = "foo";
                 var previousAll = sut.Circumstances;
                 var previousAllIds = sut.Circumstances.Select(circumstance => circumstance.Id).ToList();
@@ -474,8 +531,9 @@ namespace Dietphone.Smartphone.Tests
                 Assert.IsTrue(sut.IsDirty);
             }
 
-            [Test]
-            public void DeleteAndSaveAndReturn()
+            [TestCase(true)]
+            [TestCase(false)]
+            public void DeleteAndSaveAndReturn(bool confirm)
             {
                 var insulins = new List<Insulin> { insulin };
                 factories.Insulins.Returns(insulins);
@@ -486,12 +544,19 @@ namespace Dietphone.Smartphone.Tests
                 sut.NameOfFirstChoosenCircumstance = "foo";
                 sut.CurrentSugar.BloodSugar = "100";
                 sut.Subject.NormalBolus = "1";
+                messageDialog.Confirm(string.Format(Translations.AreYouSureYouWantToPermanentlyDeleteThisInsulin,
+                    sut.Subject.DateAndTime), Translations.DeleteInsulin).Returns(confirm);
                 sut.DeleteAndSaveAndReturn();
-                Assert.IsEmpty(insulins);
-                Assert.AreEqual("foo", factories.InsulinCircumstances.FindById(circumtanceId).Name);
-                Assert.AreNotEqual(100, sugar.BloodSugar);
-                Assert.AreNotEqual(1, insulin.NormalBolus);
-                navigator.Received().GoBack();
+                if (confirm)
+                {
+                    Assert.IsEmpty(insulins);
+                    Assert.AreEqual("foo", factories.InsulinCircumstances.FindById(circumtanceId).Name);
+                    Assert.AreNotEqual(100, sugar.BloodSugar);
+                    Assert.AreNotEqual(1, insulin.NormalBolus);
+                }
+                else
+                    Assert.IsNotEmpty(insulins);
+                navigator.Received(confirm ? 1 : 0).GoBack();
             }
 
             [Test]
@@ -500,6 +565,7 @@ namespace Dietphone.Smartphone.Tests
                 factories.Sugars.Returns(new List<Sugar> { sugar });
                 factories.Insulins.Returns(new List<Insulin>());
                 InitializeViewModel();
+                messageDialog.Confirm(null, null).ReturnsForAnyArgs(true);
                 sut.DeleteAndSaveAndReturn();
                 Assert.IsEmpty(factories.Sugars);
             }
@@ -512,6 +578,7 @@ namespace Dietphone.Smartphone.Tests
                 factories.Sugars.Returns(new List<Sugar> { sugar });
                 factories.Insulins.Returns(new List<Insulin>());
                 InitializeViewModel();
+                messageDialog.Confirm(null, null).ReturnsForAnyArgs(true);
                 sut.DeleteAndSaveAndReturn();
                 Assert.IsNotEmpty(factories.Sugars);
             }
@@ -631,6 +698,12 @@ namespace Dietphone.Smartphone.Tests
                 InitializeViewModel();
                 sut.CopyAsText();
                 clipboard.Received().Set(sut.Subject.Text);
+            }
+
+            [Test]
+            public void Messages()
+            {
+                Assert.AreEqual(Translations.AreYouSureYouWantToSaveThisInsulin, sut.Messages.CannotSaveCaption);
             }
         }
 
@@ -1120,6 +1193,8 @@ namespace Dietphone.Smartphone.Tests
                 Assert.IsNotEmpty(expected);
                 var actual = sut.SugarChartAsText;
                 Assert.AreEqual(expected, actual);
+                sut.ShowSugarChartAsText.Call();
+                messageDialog.Received().Show(expected);
             }
 
             [Test]
@@ -1145,6 +1220,8 @@ namespace Dietphone.Smartphone.Tests
                 }
                 var actual = sut.ListOfMealItemsNotIncludedInCalculation;
                 Assert.AreEqual(expected, actual);
+                sut.ShowListOfMealItemsNotIncludedInCalculation.Call();
+                messageDialog.Received().Show(expected);
             }
 
             [Test]

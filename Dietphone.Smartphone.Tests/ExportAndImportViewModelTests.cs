@@ -7,6 +7,7 @@ using Dietphone.Tools;
 using System.Threading;
 using System;
 using System.Collections.Generic;
+using Ploeh.AutoFixture;
 
 namespace Dietphone.Smartphone.Tests
 {
@@ -18,10 +19,10 @@ namespace Dietphone.Smartphone.Tests
         private Settings settings;
         private Vibration vibration;
         private Cloud cloud;
+        private MessageDialog messageDialog;
+        private CloudMessages cloudMessages;
         private ExportAndImportViewModel sut;
         private string navigatedTo;
-        private bool calledExportToCloudActivationSuccessful, calledExportToCloudSuccessful,
-            calledImportFromCloudSuccessful, calledCloudError;
 
         [SetUp]
         public void TestInitialize()
@@ -34,17 +35,15 @@ namespace Dietphone.Smartphone.Tests
             factories.Settings.Returns(settings);
             vibration = Substitute.For<Vibration>();
             cloud = Substitute.For<Cloud>();
-            sut = new ExportAndImportViewModel(factories, cloudProviderFactory, vibration, cloud);
+            messageDialog = Substitute.For<MessageDialog>();
+            cloudMessages = new Fixture().Create<CloudMessages>();
+            sut = new ExportAndImportViewModel(factories, cloudProviderFactory, vibration, cloud, messageDialog,
+                cloudMessages);
             cloudProvider.GetAcquiredToken().Returns(new CloudToken { Secret = "foo", Token = "bar" });
             cloudProvider.GetTokenAcquiringUrl(ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL).Returns("go");
             cloud.ListImports().Returns(new List<string>());
             navigatedTo = string.Empty;
             sut.NavigateInBrowser += (_, url) => { navigatedTo = url; };
-            calledExportToCloudActivationSuccessful = calledImportFromCloudSuccessful = calledCloudError = false;
-            sut.ExportToCloudActivationSuccessful += (_, __) => { calledExportToCloudActivationSuccessful = true; };
-            sut.ExportToCloudSuccessful += (_, __) => { calledExportToCloudSuccessful = true; };
-            sut.ImportFromCloudSuccessful += (_, __) => { calledImportFromCloudSuccessful = true; };
-            sut.CloudError += (_, __) => { calledCloudError = true; };
         }
 
         public class ExportToCloud : ExportAndImportViewModelTests
@@ -53,16 +52,15 @@ namespace Dietphone.Smartphone.Tests
             [TestCase(true, "", "bar")]
             [TestCase(true, "foo", "bar")]
             [TestCase(false, "", "")]
-            public void IfItHasATokenThenItInvokesConfirmExportToCloudDeactivationOtherwiseItShowsTheTokenAcquirePage(
+            public void IfItHasATokenThenItConfirmsExportToCloudDeactivationOtherwiseItShowsTheTokenAcquirePage(
                 bool hasAToken, string secret, string token)
             {
                 settings.CloudSecret = secret;
                 settings.CloudToken = token;
-                var confirmed = false;
-                sut.ConfirmExportToCloudDeactivation += (_, __) => { confirmed = true; };
                 sut.ExportToCloud.Call();
                 Thread.Sleep(10); // Not ideal but a try to use BackgroundWorkerSync failed because sut is not in a PCL
-                Assert.AreEqual(hasAToken, confirmed);
+                messageDialog.Received(hasAToken ? 1 : 0)
+                    .Confirm(cloudMessages.ConfirmExportToCloudDeactivation, string.Empty);
                 Assert.AreEqual(!hasAToken, sut.BrowserVisible);
                 Assert.AreEqual(hasAToken ? string.Empty : "go", navigatedTo);
             }
@@ -74,7 +72,8 @@ namespace Dietphone.Smartphone.Tests
                 settings.CloudSecret = "foo";
                 settings.CloudToken = "bar";
                 settings.CloudExportDue = DateTime.Today;
-                sut.ConfirmExportToCloudDeactivation += (_, eventArgs) => { eventArgs.Confirm = confirmed; };
+                messageDialog.Confirm(cloudMessages.ConfirmExportToCloudDeactivation, string.Empty)
+                    .Returns(confirmed);
                 sut.ExportToCloud.Call();
                 Assert.AreEqual(confirmed ? string.Empty : "foo", settings.CloudSecret);
                 Assert.AreEqual(confirmed ? string.Empty : "bar", settings.CloudToken);
@@ -110,7 +109,8 @@ namespace Dietphone.Smartphone.Tests
                 settings.CloudSecret = secret;
                 settings.CloudToken = token;
                 Assert.AreEqual(expected, sut.IsExportToCloudActive);
-                sut.ConfirmExportToCloudDeactivation += (_, eventArgs) => { eventArgs.Confirm = confirmedDeactivation; };
+                messageDialog.Confirm(cloudMessages.ConfirmExportToCloudDeactivation, string.Empty)
+                    .Returns(confirmedDeactivation);
                 sut.ChangesProperty(propertyName, () => sut.ExportToCloud.Call());
                 if (!expected)
                 {
@@ -129,7 +129,7 @@ namespace Dietphone.Smartphone.Tests
                 cloudProvider.GetTokenAcquiringUrl(null).ReturnsForAnyArgs(_ => { throw new Exception(); });
                 sut.ExportToCloud.Call();
                 Thread.Sleep(10);
-                Assert.IsTrue(calledCloudError);
+                messageDialog.Received().Show(cloudMessages.CloudError);
                 Assert.IsFalse(sut.BrowserVisible);
             }
         }
@@ -169,7 +169,7 @@ namespace Dietphone.Smartphone.Tests
                     sut.ImportFromCloud.Call();
                     Thread.Sleep(10);
                 });
-                Assert.IsTrue(calledCloudError);
+                messageDialog.Received().Show(cloudMessages.CloudError);
                 Assert.IsFalse(sut.ImportFromCloudVisible);
             }
         }
@@ -185,7 +185,7 @@ namespace Dietphone.Smartphone.Tests
                 Assert.IsFalse(sut.ImportFromCloudVisible);
                 Thread.Sleep(10);
                 cloud.Received().Import(sut.ImportFromCloudSelectedItem);
-                Assert.IsTrue(calledImportFromCloudSuccessful);
+                messageDialog.Received().Show(cloudMessages.ImportFromCloudSuccessful);
             }
 
             [TestCase("")]
@@ -198,7 +198,7 @@ namespace Dietphone.Smartphone.Tests
                 Assert.IsFalse(sut.ImportFromCloudVisible);
                 Thread.Sleep(10);
                 cloud.DidNotReceiveWithAnyArgs().Import(null);
-                Assert.IsFalse(calledImportFromCloudSuccessful);
+                messageDialog.DidNotReceive().Show(cloudMessages.ImportFromCloudSuccessful);
             }
 
             [Test]
@@ -208,8 +208,8 @@ namespace Dietphone.Smartphone.Tests
                 cloud.When(c => c.Import("foo")).Do(_ => { throw new Exception(); });
                 sut.ImportFromCloudWithSelection.Call();
                 Thread.Sleep(10);
-                Assert.IsTrue(calledCloudError);
-                Assert.IsFalse(calledImportFromCloudSuccessful);
+                messageDialog.Received().Show(cloudMessages.CloudError);
+                messageDialog.DidNotReceive().Show(cloudMessages.ImportFromCloudSuccessful);
             }
         }
 
@@ -220,7 +220,7 @@ namespace Dietphone.Smartphone.Tests
                 cloud.ClearReceivedCalls();
                 settings.CloudSecret = string.Empty;
                 settings.CloudToken = string.Empty;
-                calledExportToCloudActivationSuccessful = false;
+                messageDialog.ClearReceivedCalls();
             }
 
             private void IfBrowserIsNavigatingToTokenAcquiringCallbackUrlAfterExportToCloudThenStoresTheTokenAndExports(
@@ -245,7 +245,7 @@ namespace Dietphone.Smartphone.Tests
                     cloud.DidNotReceive().Export();
                 }
                 Assert.AreNotEqual(expectedUrl, sut.BrowserVisible);
-                Assert.AreEqual(expectedUrl, calledExportToCloudActivationSuccessful);
+                messageDialog.Received(expectedUrl ? 1 : 0).Show(cloudMessages.ExportToCloudActivationSuccessful);
             }
 
             private void IfBrowserIsNavigatingToTokenAcquiringCallbackUrlAfterImportFromCloudThenStoresTheTokenAndShowsImportItems(
@@ -268,7 +268,7 @@ namespace Dietphone.Smartphone.Tests
                 Assert.AreNotEqual(expectedUrl, sut.BrowserVisible);
                 Assert.AreEqual(expectedUrl, sut.ImportFromCloudVisible);
                 cloud.DidNotReceive().Export();
-                Assert.IsFalse(calledExportToCloudActivationSuccessful);
+                messageDialog.DidNotReceive().Show(cloudMessages.ExportToCloudActivationSuccessful);
             }
 
             [TestCase(false, "http://foo")]
@@ -315,9 +315,9 @@ namespace Dietphone.Smartphone.Tests
                 Thread.Sleep(10);
                 sut.BrowserIsNavigating(ExportAndImportViewModel.TOKEN_ACQUIRING_CALLBACK_URL);
                 Thread.Sleep(10);
-                Assert.IsTrue(calledCloudError);
+                messageDialog.Received().Show(cloudMessages.CloudError);
                 Assert.IsFalse(sut.BrowserVisible);
-                Assert.IsFalse(calledExportToCloudActivationSuccessful);
+                messageDialog.DidNotReceive().Show(cloudMessages.ExportToCloudActivationSuccessful);
                 if (errorAtGetAcquiredToken)
                     cloud.DidNotReceive().Export();
             }
@@ -333,7 +333,7 @@ namespace Dietphone.Smartphone.Tests
                 sut.ChangesProperty("IsBusy", () => sut.ExportToCloudNow());
                 Thread.Sleep(10);
                 cloud.Received().Export();
-                Assert.IsTrue(calledExportToCloudSuccessful);
+                messageDialog.Received().Show(cloudMessages.ExportToCloudSuccessful);
                 Assert.IsFalse(sut.IsBusy);
             }
 
@@ -352,8 +352,8 @@ namespace Dietphone.Smartphone.Tests
                 cloud.When(c => c.Export()).Do(_ => { throw new Exception(); });
                 sut.ExportToCloudNow();
                 Thread.Sleep(10);
-                Assert.IsTrue(calledCloudError);
-                Assert.IsFalse(calledExportToCloudSuccessful);
+                messageDialog.Received().Show(cloudMessages.CloudError);
+                messageDialog.DidNotReceive().Show(cloudMessages.ExportToCloudSuccessful);
                 Assert.IsFalse(sut.IsBusy);
             }
         }

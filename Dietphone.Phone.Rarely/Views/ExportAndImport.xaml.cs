@@ -22,17 +22,7 @@ namespace Dietphone.Views
 
         protected override void OnInitializePage()
         {
-            ViewModel.ExportToEmailSuccessful += ViewModel_ExportToEmailSuccessful;
-            ViewModel.ImportFromAddressSuccessful += ViewModel_ImportFromAddressSuccessful;
-            ViewModel.SendingFailedDuringExportToEmail += ViewModel_SendingFailedDuringExportToEmail;
-            ViewModel.DownloadingFailedDuringImportFromAddress += ViewModel_DownloadingFailedDuringImportFromAddress;
-            ViewModel.ReadingFailedDuringImportFromAddress += ViewModel_ReadingFailedDuringImportFromAddress;
             ViewModel.NavigateInBrowser += ViewModel_NavigateInBrowser;
-            ViewModel.ConfirmExportToCloudDeactivation += ViewModel_ConfirmExportToCloudDeactivation;
-            ViewModel.ExportToCloudActivationSuccessful += ViewModel_ExportToCloudActivationSuccessful;
-            ViewModel.ExportToCloudSuccessful += ViewModel_ExportToCloudSuccessful;
-            ViewModel.ImportFromCloudSuccessful += ViewModel_ImportFromCloudSuccessful;
-            ViewModel.CloudError += ViewModel_CloudError;
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             SetWindowBackground();
             SetWindowSize();
@@ -41,89 +31,11 @@ namespace Dietphone.Views
             SetMenuItemEnabledDependingOnIsExportToCloudActive();
         }
 
-        private void ViewModel_ExportToEmailSuccessful(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.ExportCompletedSuccessfully);
-            });
-        }
-
-        private void ViewModel_ImportFromAddressSuccessful(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.ImportCompletedSuccessfully);
-            });
-        }
-
-        private void ViewModel_SendingFailedDuringExportToEmail(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.AnErrorOccurredWhileSendingTheExportedData);
-            });
-        }
-
-        private void ViewModel_DownloadingFailedDuringImportFromAddress(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.AnErrorOccurredWhileRetrievingTheImportedData);
-            });
-        }
-
-        private void ViewModel_ReadingFailedDuringImportFromAddress(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.AnErrorOccurredDuringImport);
-            });
-        }
-
         private void ViewModel_NavigateInBrowser(object sender, string e)
         {
             Dispatcher.BeginInvoke(() =>
             {
                 Browser.Navigate(new Uri(e));
-            });
-        }
-
-        private void ViewModel_ConfirmExportToCloudDeactivation(object sender, ConfirmEventArgs e)
-        {
-            e.Confirm = MessageBox.Show(Translations.ExportToDropboxIsActiveDoYouWantToTurnItOff, string.Empty,
-                MessageBoxButton.OKCancel) == MessageBoxResult.OK;
-        }
-
-        private void ViewModel_ExportToCloudActivationSuccessful(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.ExportToDropboxActivationWasSuccessful);
-            });
-        }
-
-        private void ViewModel_ExportToCloudSuccessful(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.ExportToDropboxWasSuccessful);
-            });
-        }
-
-        private void ViewModel_ImportFromCloudSuccessful(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.ImportCompletedSuccessfully);
-            });
-        }
-
-        private void ViewModel_CloudError(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.AnErrorOccurredDuringTheDropboxOperation);
             });
         }
 

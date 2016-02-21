@@ -2,19 +2,20 @@
 using Dietphone.ViewModels;
 using NUnit.Framework;
 using NSubstitute;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Globalization;
+using Dietphone.Tools;
 
 namespace Dietphone.Smartphone.Tests
 {
-    public class SettingsViewModelTests
+    public class SettingsViewModelTests : TestBase
     {
         private static string mgdL = Dietphone.Views.Translations.MgdL;
         private static string mmolL = Dietphone.Views.Translations.MmolL;
         private Factories factories;
         private Settings settings;
+        private LearningCuAndFpu learningCuAndFpu;
         private SettingsViewModel sut;
 
         [SetUp]
@@ -23,7 +24,8 @@ namespace Dietphone.Smartphone.Tests
             factories = Substitute.For<Factories>();
             settings = new Settings();
             factories.Settings.Returns(settings);
-            sut = new SettingsViewModel(factories);
+            learningCuAndFpu = Substitute.For<LearningCuAndFpu>();
+            sut = new SettingsViewModel(factories, learningCuAndFpu);
         }
 
         [Test]
@@ -112,11 +114,18 @@ namespace Dietphone.Smartphone.Tests
         }
 
         [Test]
+        public void LearnCuAndFpu()
+        {
+            sut.LearnCuAndFpu.Call();
+            learningCuAndFpu.Received().LearnCuAndFpu();
+        }
+
+        [Test]
         public void UiCulturesAndProductCulturesAndUiCultureAndProductCulture()
         {
             var thread = Thread.CurrentThread;
             thread.CurrentCulture = new CultureInfo("en-US");
-            sut = new SettingsViewModel(factories);
+            sut = new SettingsViewModel(factories, learningCuAndFpu);
             Assert.AreEqual(sut.UiCultures.Count, sut.UiCultures.Distinct().Count());
             Assert.AreEqual(sut.ProductCultures.Count, sut.ProductCultures.Distinct().Count());
             Assert.IsTrue(sut.UiCultures

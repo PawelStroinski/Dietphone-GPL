@@ -6,6 +6,8 @@ using System.Globalization;
 using System.Windows;
 using Dietphone.Tools;
 using System.Linq;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -14,13 +16,15 @@ namespace Dietphone.ViewModels
         public List<string> UiCultures { get; private set; }
         public List<string> ProductCultures { get; private set; }
         private readonly Settings settings;
+        private readonly LearningCuAndFpu learningCuAndFpu;
         private static readonly Constrains number = new Constrains { Min = 0.1, Max = 100 };
         private static readonly Constrains hours = new Constrains { Min = 1, Max = 12 };
         private const byte MAX_SCORES = 4;
 
-        public SettingsViewModel(Factories factories)
+        public SettingsViewModel(Factories factories, LearningCuAndFpu learningCuAndFpu)
         {
             settings = factories.Settings;
+            this.learningCuAndFpu = learningCuAndFpu;
             UiCultures = new List<string>();
             ProductCultures = new List<string>();
             BuildUiCulturesAndProductCultures();
@@ -293,6 +297,17 @@ namespace Dietphone.ViewModels
                 var newValue = ((short)oldValue).TryGetValueOf(value);
                 settings.SugarsAfterInsulinHours = hours.Constraint(newValue);
                 OnPropertyChanged("SugarsAfterInsulinHours");
+            }
+        }
+
+        public ICommand LearnCuAndFpu
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    learningCuAndFpu.LearnCuAndFpu();
+                });
             }
         }
 

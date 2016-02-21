@@ -16,8 +16,8 @@ namespace Dietphone.ViewModels
         private const byte LOCKED_DATE_TIME_RECENT_MINUTES = 3;
         private const string NOT_IS_LOCKED_DATE_TIME = "NOT_IS_LOCKED_DATE_TIME";
 
-        public EditingViewModelWithDate(Factories factories)
-            : base(factories)
+        public EditingViewModelWithDate(Factories factories, MessageDialog messageDialog)
+            : base(factories, messageDialog)
         {
         }
 

@@ -37,8 +37,8 @@ namespace Dietphone.Views
             ProductListing.Initialize(ViewModel.ProductListing);
             MealItemEditing.Initialize(ViewModel.MealItemEditing);
             ViewModel.ShowProductsOnly += ViewModel_ShowProductsOnly;
-            ViewModel.ExportToCloudError += ViewModel_ExportToCloudError;
-            ViewModel.ShowWelcomeScreen += WelcomeScreen_Click;
+            var welcomeScreen = ViewModel.WelcomeScreen;
+            welcomeScreen.LaunchBrowser += WelcomeScreen_LaunchBrowser;
             subConnector = new SubViewModelConnector(ViewModel);
             subConnector.Loaded += SubConnector_Loaded;
             subConnector.Refreshed += delegate { RestoreSearchUi(); };
@@ -111,26 +111,17 @@ namespace Dietphone.Views
             Pivot.Items.Remove(Journal);
         }
 
-        private void ViewModel_ExportToCloudError(object sender, EventArgs e)
+        private void WelcomeScreen_LaunchBrowser(object sender, string url)
         {
-            Dispatcher.BeginInvoke(() =>
-            {
-                MessageBox.Show(Translations.ThereWasAnErrorDuringTheExportToDropbox);
-            });
+            var webBrowserTask = new WebBrowserTask();
+            webBrowserTask.Uri = new Uri(url);
+            webBrowserTask.Show();
         }
 
         private void WelcomeScreen_Click(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(() =>
-            {
-                if (MessageBox.Show(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader,
-                    MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                {
-                    var webBrowserTask = new WebBrowserTask();
-                    webBrowserTask.Uri = new Uri(Translations.WelcomeScreenLink);
-                    webBrowserTask.Show();
-                }
-            });
+            var welcomeScreen = ViewModel.WelcomeScreen;
+            welcomeScreen.Show.Execute(null);
         }
 
         private void About_Click(object sender, EventArgs e)

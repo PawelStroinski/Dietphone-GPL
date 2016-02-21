@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Dietphone.ViewModels;
+﻿using Dietphone.ViewModels;
 using System.Windows.Navigation;
 
 namespace Dietphone.Views
@@ -24,12 +23,6 @@ namespace Dietphone.Views
             {
                 ViewModel.Tombstone();
             }
-        }
-
-        private void LearnCuAndFpu_Click(object sender, RoutedEventArgs e)
-        {
-            var learn = new LearningCuAndFpu();
-            learn.LearnCuAndFpu();
         }
     }
 }
