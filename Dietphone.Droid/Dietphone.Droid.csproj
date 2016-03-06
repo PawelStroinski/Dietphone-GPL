@@ -78,15 +78,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinarySerializers\DroidBinaryStreamProvider.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
+    <Compile Include="Tools\MessageDialogImpl.cs" />
+    <Compile Include="Tools\NativeFile.cs" />
     <Compile Include="Views\MainView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.en-GB.db">
+      <Link>Assets\firstrun\categories.en-GB.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.en-US.db">
+      <Link>Assets\firstrun\categories.en-US.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.fr-FR.db">
+      <Link>Assets\firstrun\categories.fr-FR.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.pl-PL.db">
+      <Link>Assets\firstrun\categories.pl-PL.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\insulincircumstances.db">
+      <Link>Assets\firstrun\insulincircumstances.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\insulins.db">
+      <Link>Assets\firstrun\insulins.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\mealnames.db">
+      <Link>Assets\firstrun\mealnames.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\meals.db">
+      <Link>Assets\firstrun\meals.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.en-GB.db">
+      <Link>Assets\firstrun\products.en-GB.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.en-US.db">
+      <Link>Assets\firstrun\products.en-US.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.fr-FR.db">
+      <Link>Assets\firstrun\products.fr-FR.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.pl-PL.db">
+      <Link>Assets\firstrun\products.pl-PL.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\settings.db">
+      <Link>Assets\firstrun\settings.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\sugars.db">
+      <Link>Assets\firstrun\sugars.db</Link>
+    </AndroidAsset>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

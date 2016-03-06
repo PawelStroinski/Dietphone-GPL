@@ -6,6 +6,7 @@ namespace Dietphone.BinarySerializers
     public abstract class SmartphoneBinaryStreamProvider : BinaryStreamProvider
     {
         private readonly FileFactory fileFactory;
+        private const string FIRST_RUN_DIRECTORY = "firstrun";
 
         public SmartphoneBinaryStreamProvider(FileFactory fileFactory)
         {
@@ -31,5 +32,10 @@ namespace Dietphone.BinarySerializers
         }
 
         protected abstract Stream GetFirstRunInputStream(string fileName);
+
+        protected string GetFirstRunRelativePath(string fileName)
+        {
+            return Path.Combine(FIRST_RUN_DIRECTORY, fileName);
+        }
     }
 }
