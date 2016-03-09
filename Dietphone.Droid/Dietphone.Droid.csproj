@@ -88,6 +88,7 @@
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
     <Compile Include="Views\MainView.cs" />
+    <Compile Include="Views\ActivityBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.en-GB.db">
