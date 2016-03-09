@@ -2,7 +2,7 @@ using Android.App;
 using Android.OS;
 using Dietphone.ViewModels;
 
-namespace Dietphone.Droid.Views
+namespace Dietphone.Views
 {
     [Activity(Label = "View for MainViewModel")]
     public class MainView : ActivityBase

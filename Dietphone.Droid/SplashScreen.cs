@@ -2,7 +2,7 @@ using Android.App;
 using Android.Content.PM;
 using MvvmCross.Droid.Views;
 
-namespace Dietphone.Droid
+namespace Dietphone
 {
     [Activity(
         Label = "Dietphone.Droid"

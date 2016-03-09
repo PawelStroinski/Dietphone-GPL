@@ -8,7 +8,7 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.Droid;
 using Dietphone.Tools;
 
-namespace Dietphone.Droid
+namespace Dietphone
 {
     public class Setup : MvxAndroidSetup
     {

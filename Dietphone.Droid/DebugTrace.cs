@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using MvvmCross.Platform.Platform;
 
-namespace Dietphone.Droid
+namespace Dietphone
 {
     public class DebugTrace : IMvxTrace
     {
