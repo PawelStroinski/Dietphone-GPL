@@ -2,7 +2,6 @@
 using Android.Content;
 using MvvmCross.Droid.Platform;
 using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform.Platform;
 using Dietphone.BinarySerializers;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Droid;
@@ -19,11 +18,6 @@ namespace Dietphone
         protected override IMvxApplication CreateApp()
         {
             return new MyApp();
-        }
-
-        protected override IMvxTrace CreateDebugTrace()
-        {
-            return new DebugTrace();
         }
 
         protected override void InitializeLastChance()
