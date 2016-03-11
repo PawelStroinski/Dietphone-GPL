@@ -5,13 +5,14 @@ using MvvmCross.Droid.Views;
 
 namespace Dietphone.Views
 {
-    [Activity(Label = "View for MainViewModel")]
+    [Activity]
     public class MainView : MvxActivity<MainViewModel>
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.MainView);
+            Title = Translations.DiabetesSpy;
         }
 
         protected override void OnViewModelSet()

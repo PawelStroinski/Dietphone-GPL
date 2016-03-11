@@ -1,8 +1,10 @@
 ﻿// Code taken from http://www.japf.fr/2009/02/very-simple-mvvm-demo-application/ and adjusted for SL as well as added support for notification of all properties
 // The following code is inspired by the work of Josh Smith
 // http://joshsmithonwpf.wordpress.com/
+// The default indexed property added from http://enginecore.blogspot.co.uk/2013/09/localization-in-xamarin-mvvmcross_18.html
 using System.Diagnostics;
 using System.Reflection;
+using Dietphone.Views;
 using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
@@ -46,5 +48,7 @@ namespace Dietphone.ViewModels
             VerifyPropertyName(propertyName);
             RaisePropertyChanged(propertyName);
         }
+
+        public string this[string index] => Translations.ResourceManager.GetString(index);
     }
 }

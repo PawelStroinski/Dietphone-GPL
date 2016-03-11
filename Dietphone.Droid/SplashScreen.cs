@@ -5,8 +5,7 @@ using MvvmCross.Droid.Views;
 namespace Dietphone
 {
     [Activity(
-        Label = "Dietphone.Droid"
-        , MainLauncher = true
+        MainLauncher = true
         , Icon = "@drawable/icon"
         , Theme = "@style/Theme.Splash"
         , NoHistory = true
