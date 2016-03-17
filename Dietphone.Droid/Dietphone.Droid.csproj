@@ -87,8 +87,9 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
-    <Compile Include="Views\ListenerAdapters\ActionExpand.cs" />
-    <Compile Include="Views\ListenerAdapters\MenuItemClick.cs" />
+    <Compile Include="Tools\UIExtensionMethods.cs" />
+    <Compile Include="Views\Adapters\ActionExpandListener.cs" />
+    <Compile Include="Views\Adapters\MenuItemClickListener.cs" />
     <Compile Include="Views\ProductListingView.cs" />
     <Compile Include="Views\JournalView.cs" />
     <Compile Include="Views\MainView.cs" />

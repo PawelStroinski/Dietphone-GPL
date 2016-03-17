@@ -1,13 +1,13 @@
 using System;
 using Android.Views;
 
-namespace Dietphone.Views.ListenerAdapters
+namespace Dietphone.Views.Adapters
 {
-    public class MenuItemClick : Java.Lang.Object, IMenuItemOnMenuItemClickListener
+    public class MenuItemClickListener : Java.Lang.Object, IMenuItemOnMenuItemClickListener
     {
         private readonly Action onClick;
 
-        public MenuItemClick(Action onClick)
+        public MenuItemClickListener(Action onClick)
         {
             this.onClick = onClick;
         }
