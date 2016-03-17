@@ -87,13 +87,25 @@ namespace Dietphone
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int ic_search_white_24dp = 2130837504;
+			public const int ic_add = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int Icon = 2130837505;
+			public const int ic_insulin = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int splash = 2130837506;
+			public const int ic_meal = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int ic_search = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int ic_sugar = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int Icon = 2130837509;
+			
+			// aapt resource value: 0x7f020006
+			public const int splash = 2130837510;
 			
 			static Drawable()
 			{
@@ -113,6 +125,21 @@ namespace Dietphone
 			
 			// aapt resource value: 0x7f040001
 			public const int MvxBindingTagUnique = 2130968577;
+			
+			// aapt resource value: 0x7f040002
+			public const int mainview_add = 2130968578;
+			
+			// aapt resource value: 0x7f040005
+			public const int mainview_insulin = 2130968581;
+			
+			// aapt resource value: 0x7f040003
+			public const int mainview_meal = 2130968579;
+			
+			// aapt resource value: 0x7f040006
+			public const int mainview_search = 2130968582;
+			
+			// aapt resource value: 0x7f040004
+			public const int mainview_sugar = 2130968580;
 			
 			static Id()
 			{
@@ -149,21 +176,18 @@ namespace Dietphone
 			}
 		}
 		
-		public partial class String
+		public partial class Menu
 		{
 			
-			// aapt resource value: 0x7f060001
-			public const int ApplicationName = 2131099649;
-			
 			// aapt resource value: 0x7f060000
-			public const int Hello = 2131099648;
+			public const int mainview_menu = 2131099648;
 			
-			static String()
+			static Menu()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 			}
 			
-			private String()
+			private Menu()
 			{
 			}
 		}

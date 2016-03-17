@@ -1,5 +1,6 @@
 using System;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -11,11 +12,13 @@ namespace Dietphone.Views
     [Activity]
     public class MainView : MvxTabActivity<MainViewModel>
     {
+        private IMenuItem add, meal, sugar, insulin, search;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.MainView);
-            Title = Translations.DiabetesSpy;
+            Title = string.Empty;
             AddTabs();
         }
 
@@ -28,7 +31,19 @@ namespace Dietphone.Views
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            AddSearchMenuItem(menu);
+            MenuInflater.Inflate(Resource.Menu.mainview_menu, menu);
+            add = menu.FindItem(Resource.Id.mainview_add);
+            meal = menu.FindItem(Resource.Id.mainview_meal);
+            sugar = menu.FindItem(Resource.Id.mainview_sugar);
+            insulin = menu.FindItem(Resource.Id.mainview_insulin);
+            search = menu.FindItem(Resource.Id.mainview_search);
+            meal.SetTitle(Translations.Meal);
+            sugar.SetTitle(Translations.Sugar);
+            insulin.SetTitle(Translations.Insulin);
+            search.SetTitle(Translations.Search);
+            var searchView = (SearchView)search.ActionView;
+            searchView.QueryTextChange += SearchView_QueryTextChange;
+            //search.SetOnActionExpandListener(new SearchExpandListener(menu));
             return true;
         }
 
@@ -38,14 +53,10 @@ namespace Dietphone.Views
             AddProductListingTab();
         }
 
-        private void AddSearchMenuItem(IMenu menu)
+        private void SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
-            var item = menu.Add(Translations.Search);
-            var searchView = new SearchView(ActionBar.ThemedContext);
-            item.SetActionView(searchView);
-            item.SetIcon(Resource.Drawable.ic_search_white_24dp);
-            item.SetShowAsAction(ShowAsAction.CollapseActionView | ShowAsAction.IfRoom);
-            //item.SetOnMenuItemClickListener(new MenuItemClickAdapter(() => SearchMenuItemClick()));
+            ViewModel.Search = e.NewText;
+            e.Handled = true;
         }
 
         private void AddJournalTab()
@@ -62,10 +73,6 @@ namespace Dietphone.Views
             tab.SetIndicator(Translations.Products);
             tab.SetContent(this.CreateIntentFor(ViewModel.ProductListing));
             TabHost.AddTab(tab);
-        }
-
-        private void SearchMenuItemClick()
-        {
         }
     }
 }

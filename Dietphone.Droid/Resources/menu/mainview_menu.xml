@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mainview_add" android:icon="@drawable/ic_add" android:showAsAction="always"
+          android:visible="true"/>
+    <item android:id="@+id/mainview_meal" android:icon="@drawable/ic_meal" android:showAsAction="always"/>
+    <item android:id="@+id/mainview_sugar" android:icon="@drawable/ic_sugar" android:showAsAction="always"/>
+    <item android:id="@+id/mainview_insulin" android:icon="@drawable/ic_insulin" android:showAsAction="always"/>
+    <item android:id="@+id/mainview_search" android:icon="@drawable/ic_search"
+          android:showAsAction="collapseActionView|always" android:actionViewClass="android.widget.SearchView"/>
+</menu>
