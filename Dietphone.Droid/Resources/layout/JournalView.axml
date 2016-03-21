@@ -4,8 +4,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Journal here" />
+    <Mvx.MvxExpandableListView
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"
+          android:id="@+id/ListView"
+          local:MvxItemTemplate="@layout/journal_item"
+          local:MvxGroupItemTemplate="@layout/journal_group"
+          local:MvxBind="ItemsSource Grouping.Groups"
+          android:childDivider="@android:color/transparent"
+          android:divider="@android:color/transparent"
+      />
 </LinearLayout>

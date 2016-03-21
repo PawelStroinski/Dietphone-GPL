@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using Android.App;
 using Android.OS;
@@ -14,9 +13,11 @@ namespace Dietphone.Views
     [Activity]
     public class MainView : MvxTabActivity<MainViewModel>
     {
+        private SubViewModelConnector subConnector;
         private IMenuItem meal, sugar, insulin, add, search, settings, exportAndImportData, about, welcomeScreen;
         private bool searchExpanded;
         private const string JOURNAL_TAB = "journal";
+        private const string PRODUCTS_TAB = "products";
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -24,14 +25,7 @@ namespace Dietphone.Views
             SetContentView(Resource.Layout.MainView);
             Title = string.Empty;
             InitializeTabs();
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-        }
-
-        protected override void OnViewModelSet()
-        {
-            base.OnViewModelSet();
-            ViewModel.Untombstone();
-            ViewModel.UiRendered();
+            InitializeViewModel();
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -51,10 +45,17 @@ namespace Dietphone.Views
             TabHost.TabChanged += TabHost_TabChanged;
         }
 
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void InitializeViewModel()
         {
-            if (e.PropertyName == "Pivot")
-                TabHost.CurrentTab = ViewModel.Pivot;
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            subConnector = new SubViewModelConnector(ViewModel);
+            subConnector.Loaded += delegate { ViewModel.UiRendered(); };
+            ViewModel.Untombstone();
+            var navigator = new NavigatorImpl(new NavigationServiceImpl());
+            subConnector.Navigator = navigator;
+            subConnector.Refresh();
+            ViewModel.Navigator = navigator;
+            SetSubViewModel();
         }
 
         private void GetMenu(IMenu menu)
@@ -100,7 +101,7 @@ namespace Dietphone.Views
 
         private void AddProductsTab()
         {
-            var tab = TabHost.NewTabSpec("products");
+            var tab = TabHost.NewTabSpec(PRODUCTS_TAB);
             tab.SetIndicator(Translations.Products);
             tab.SetContent(this.CreateIntentFor(ViewModel.ProductListing));
             TabHost.AddTab(tab);
@@ -110,6 +111,21 @@ namespace Dietphone.Views
         {
             ViewModel.Pivot = TabHost.CurrentTab;
             SetMenuVisisiblity();
+            SetSubViewModel();
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Pivot")
+                TabHost.CurrentTab = ViewModel.Pivot;
+        }
+
+        private void SetSubViewModel()
+        {
+            if (TabHost.CurrentTabTag == JOURNAL_TAB)
+                subConnector.SubViewModel = ViewModel.Journal;
+            else if (TabHost.CurrentTabTag == PRODUCTS_TAB)
+                subConnector.SubViewModel = ViewModel.ProductListing;
         }
 
         private void SearchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)

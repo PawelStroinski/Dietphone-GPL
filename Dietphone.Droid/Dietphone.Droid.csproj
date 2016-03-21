@@ -87,6 +87,7 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
+    <Compile Include="Tools\NavigationServiceImpl.cs" />
     <Compile Include="Tools\UIExtensionMethods.cs" />
     <Compile Include="Views\Adapters\ActionExpandListener.cs" />
     <Compile Include="Views\Adapters\MenuItemClickListener.cs" />
@@ -148,6 +149,10 @@
     <AndroidResource Include="Resources\layout\ProductListingView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\Journal_Group.axml" />
+    <AndroidResource Include="Resources\layout\Journal_Item.axml" />
+    <AndroidResource Include="Resources\layout\ProductListing_Item.axml" />
+    <AndroidResource Include="Resources\layout\ProductListing_Group.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

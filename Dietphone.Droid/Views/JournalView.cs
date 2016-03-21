@@ -6,7 +6,7 @@ using MvvmCross.Droid.Views;
 namespace Dietphone.Views
 {
     [Activity]
-    public class JournalView : MvxActivity<JournalViewModel>
+    public class JournalView : MvxActivity<GroupingJournalViewModel>
     {
         protected override void OnCreate(Bundle bundle)
         {

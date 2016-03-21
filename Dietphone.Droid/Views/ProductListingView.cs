@@ -6,7 +6,7 @@ using MvvmCross.Droid.Views;
 namespace Dietphone.Views
 {
     [Activity]
-    public class ProductListingView : MvxActivity<ProductListingViewModel>
+    public class ProductListingView : MvxActivity<GroupingProductListingViewModel>
     {
         protected override void OnCreate(Bundle bundle)
         {

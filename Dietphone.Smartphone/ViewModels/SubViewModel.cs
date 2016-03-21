@@ -15,6 +15,10 @@ namespace Dietphone.ViewModels
 
         public string Search
         {
+            get
+            {
+                return search;
+            }
             set
             {
                 var trimmedValue = value.Trim();

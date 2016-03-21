@@ -283,6 +283,13 @@ namespace Dietphone.Smartphone.Tests
             Assert.IsTrue(updated);
         }
 
+        [Test]
+        public void Grouping()
+        {
+            var sut = new GroupingJournalViewModel(factories, new BackgroundWorkerSyncFactory(), sugarEditing);
+            Assert.IsNull(sut.Grouping.Groups);
+        }
+
         class SutAccessor : JournalViewModel
         {
             public event EventHandler UpdateFilterDescriptorsEvent;

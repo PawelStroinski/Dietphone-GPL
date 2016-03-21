@@ -5,6 +5,7 @@ using MvvmCross.Core.ViewModels;
 using Dietphone.BinarySerializers;
 using MvvmCross.Platform;
 using Dietphone.Tools;
+using Dietphone.ViewModels;
 
 namespace Dietphone
 {
@@ -28,7 +29,9 @@ namespace Dietphone
         protected override void InitializeLastChance()
         {
             base.InitializeLastChance();
+            Mvx.RegisterType<JournalViewModel, GroupingJournalViewModel>();
             Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
+            Mvx.RegisterType<ProductListingViewModel, GroupingProductListingViewModel>();
         }
 
         private void InitializeStreamProvider()
