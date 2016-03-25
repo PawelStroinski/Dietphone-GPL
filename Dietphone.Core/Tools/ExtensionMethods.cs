@@ -249,5 +249,13 @@ namespace Dietphone.Tools
             return task.IsCompleted && !task.IsCanceled && !task.IsFaulted
                 && task.Exception == null && task.Result != null;
         }
+
+        public static string Capitalize(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+            else
+                return input.Substring(0, 1).ToUpper() + input.Substring(1);
+        }
     }
 }

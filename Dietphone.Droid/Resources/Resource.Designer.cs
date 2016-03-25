@@ -170,28 +170,31 @@ namespace Dietphone
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Journal_Group = 2130903040;
+			public const int ExportAndImportView = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int Journal_Item = 2130903041;
+			public const int Journal_Group = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int JournalView = 2130903042;
+			public const int Journal_Item = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int MainView = 2130903043;
+			public const int JournalView = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int ProductListing_Group = 2130903044;
+			public const int MainView = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int ProductListing_Item = 2130903045;
+			public const int ProductListing_Group = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int ProductListingView = 2130903046;
+			public const int ProductListing_Item = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int SplashScreen = 2130903047;
+			public const int ProductListingView = 2130903047;
+			
+			// aapt resource value: 0x7f030008
+			public const int SplashScreen = 2130903048;
 			
 			static Layout()
 			{

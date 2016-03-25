@@ -1,4 +1,6 @@
-﻿using Android.Views;
+﻿using System;
+using Android.Views;
+using Dietphone.Views.Adapters;
 
 namespace Dietphone.Tools
 {
@@ -10,12 +12,10 @@ namespace Dietphone.Tools
             return item;
         }
 
-        public static string Capitalize(this string input)
+        public static IMenuItem SetOnMenuItemClick(this IMenuItem item, Action onClick)
         {
-            if (string.IsNullOrEmpty(input))
-                return input;
-            else
-                return input.Substring(0, 1).ToUpper() + input.Substring(1);
+            item.SetOnMenuItemClickListener(new MenuItemClickListener(onClick));
+            return item;
         }
     }
 }

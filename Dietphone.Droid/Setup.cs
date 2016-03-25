@@ -32,6 +32,7 @@ namespace Dietphone
             Mvx.RegisterType<JournalViewModel, GroupingJournalViewModel>();
             Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
             Mvx.RegisterType<ProductListingViewModel, GroupingProductListingViewModel>();
+            Mvx.RegisterType<Vibration, VibrationImpl>();
         }
 
         private void InitializeStreamProvider()

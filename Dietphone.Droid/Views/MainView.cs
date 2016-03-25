@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using Android.App;
 using Android.OS;
@@ -34,6 +35,7 @@ namespace Dietphone.Views
             GetMenu(menu);
             TranslateMenu();
             InitializeSearchMenu();
+            BindMenuActions();
             return true;
         }
 
@@ -89,6 +91,11 @@ namespace Dietphone.Views
             var searchView = (SearchView)search.ActionView;
             searchView.QueryTextChange += SearchView_QueryTextChange;
             search.SetOnActionExpandListener(new ActionExpandListener(() => Search_Expand(), () => Search_Collapse()));
+        }
+
+        private void BindMenuActions()
+        {
+            exportAndImportData.SetOnMenuItemClick(() => ViewModel.ExportAndImport());
         }
 
         private void AddJournalTab()

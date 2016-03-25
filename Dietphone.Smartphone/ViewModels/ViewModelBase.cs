@@ -4,6 +4,7 @@
 // The default indexed property added from http://enginecore.blogspot.co.uk/2013/09/localization-in-xamarin-mvvmcross_18.html
 using System.Diagnostics;
 using System.Reflection;
+using Dietphone.Tools;
 using Dietphone.Views;
 using MvvmCross.Core.ViewModels;
 
@@ -49,6 +50,6 @@ namespace Dietphone.ViewModels
             RaisePropertyChanged(propertyName);
         }
 
-        public string this[string index] => Translations.ResourceManager.GetString(index);
+        public string this[string index] => Translations.ResourceManager.GetString(index).Capitalize();
     }
 }
