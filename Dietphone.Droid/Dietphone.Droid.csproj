@@ -164,7 +164,9 @@
     <AndroidResource Include="Resources\layout\Journal_Item.axml" />
     <AndroidResource Include="Resources\layout\ProductListing_Item.axml" />
     <AndroidResource Include="Resources\layout\ProductListing_Group.axml" />
-    <AndroidResource Include="Resources\layout\ExportAndImportView.axml" />
+    <AndroidResource Include="Resources\layout\ExportAndImportView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -208,6 +210,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_meal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\exportandimportview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

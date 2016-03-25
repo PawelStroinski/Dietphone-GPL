@@ -6,8 +6,28 @@
     android:layout_height="fill_parent"
     android:minWidth="25px"
     android:minHeight="25px">
-    <ToggleButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        local:MvxBind="TextOn [ExportToDropbox]; TextOff [ExportToDropbox]; Checked IsExportToCloudActive; Click ExportToCloud" />
+    <ToggleButton android:layout_width="match_parent" android:layout_height="wrap_content"
+                  local:MvxBind="TextOn [ExportToDropbox]; TextOff [ExportToDropbox]; Checked IsExportToCloudActive; Click ExportToCloud"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+              local:MvxBind="Text [AutomaticallySavesDataToDropboxOnceAWeek]"/>
+    <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+            local:MvxBind="Text [ImportFromDropbox]; Click ImportFromCloud"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+              local:MvxBind="Text [RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox]"/>
+    <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+            local:MvxBind="Text [ExportByEmail]"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+              local:MvxBind="Text [AllowsSendingDataAttachedToAnEMail]"/>
+    <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+            local:MvxBind="Text [ImportFromAddress]"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+              local:MvxBind="Text [AllowsToRetrieveDataFromAFileInXmlFormat]"/>
 </LinearLayout>
