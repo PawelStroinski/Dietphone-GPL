@@ -101,6 +101,7 @@
     <Compile Include="Tools\VibrationImpl.cs" />
     <Compile Include="Views\Adapters\ActionExpandListener.cs" />
     <Compile Include="Views\Adapters\MenuItemClickListener.cs" />
+    <Compile Include="Views\Adapters\WebViewListener.cs" />
     <Compile Include="Views\ExportAndImportView.cs" />
     <Compile Include="Views\ProductListingView.cs" />
     <Compile Include="Views\JournalView.cs" />
