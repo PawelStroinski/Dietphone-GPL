@@ -1,4 +1,7 @@
+using System;
+using System.ComponentModel;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Webkit;
@@ -29,6 +32,8 @@ namespace Dietphone.Views
             MenuInflater.Inflate(Resource.Menu.exportandimportview_menu, menu);
             GetMenu(menu);
             TranslateMenu();
+            BindMenuActions();
+            SetExportToCloudNowEnabledDependingOnIsExportToCloudActive();
             return true;
         }
 
@@ -44,6 +49,7 @@ namespace Dietphone.Views
         private void InitializeViewModel()
         {
             ViewModel.NavigateInBrowser += ViewModel_NavigateInBrowser;
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         private void GetMenu(IMenu menu)
@@ -56,9 +62,55 @@ namespace Dietphone.Views
             exportToCloudNow.SetTitleCapitalized(Translations.ExportToDropboxNow);
         }
 
+        private void BindMenuActions()
+        {
+            exportToCloudNow.SetOnMenuItemClick(() => ViewModel.ExportToCloudNow());
+        }
+
+        private void SetExportToCloudNowEnabledDependingOnIsExportToCloudActive()
+        {
+            exportToCloudNow.SetEnabled(ViewModel.IsExportToCloudActive);
+        }
+
         private void ViewModel_NavigateInBrowser(object sender, string e)
         {
             browser.LoadUrl(e);
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsExportToCloudActive")
+                SetExportToCloudNowEnabledDependingOnIsExportToCloudActive();
+            if (e.PropertyName == "ImportFromCloudVisible")
+                ViewModel_ImportFromCloudVisibleChanged();
+        }
+
+        private void ViewModel_ImportFromCloudVisibleChanged()
+        {
+            if (ViewModel.ImportFromCloudVisible)
+                ShowImportFromCloud();
+        }
+
+        private void ShowImportFromCloud()
+        {
+            new AlertDialog.Builder(this)
+                .SetTitle(Translations.AvailableForImport)
+                .SetItems(ViewModel.ImportFromCloudItems.ToArray(), ImportFromCloud_Click)
+                .Create()
+                .Show();
+        }
+
+        private void ImportFromCloud_Click(object sender, DialogClickEventArgs e)
+        {
+            CheckImportFromCloudClickArgs(e);
+            ViewModel.ImportFromCloudSelectedItem = ViewModel.ImportFromCloudItems[e.Which];
+            ViewModel.ImportFromCloudWithSelection.Execute(null);
+        }
+
+        private void CheckImportFromCloudClickArgs(DialogClickEventArgs e)
+        {
+            if (e.Which < 0 || e.Which >= ViewModel.ImportFromCloudItems.Count)
+                throw new ArgumentOutOfRangeException("e.Which");
         }
     }
 }
