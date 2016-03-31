@@ -8,6 +8,7 @@ using System.Threading;
 using System;
 using System.Collections.Generic;
 using Ploeh.AutoFixture;
+using Dietphone.Views;
 
 namespace Dietphone.Smartphone.Tests
 {
@@ -362,6 +363,26 @@ namespace Dietphone.Smartphone.Tests
         public void BrowserVisible()
         {
             sut.ChangesProperty("BrowserVisible", () => sut.BrowserVisible = true);
+        }
+
+        [TestCase("foo@bar.baz", true)]
+        [TestCase("?", false)]
+        public void AskToExportToEmail(string email, bool isBusyExpected)
+        {
+            messageDialog.Input(string.Empty, caption: Translations.SendToAnEMailAddress, value: string.Empty,
+                type: InputType.Email).Returns(email);
+            sut.AskToExportToEmail.Call();
+            Assert.AreEqual(isBusyExpected, sut.IsBusy);
+        }
+
+        [TestCase("http://foo.bar", true)]
+        [TestCase("-", false)]
+        public void AskToImportFromAddress(string url, bool isBusyExpected)
+        {
+            messageDialog.Input(string.Empty, caption: Translations.DownloadFileFromAddress,
+                value: ExportAndImportViewModel.INITIAL_URL, type: InputType.Url).Returns(url);
+            sut.AskToImportFromAddress.Call();
+            Assert.AreEqual(isBusyExpected, sut.IsBusy);
         }
     }
 }

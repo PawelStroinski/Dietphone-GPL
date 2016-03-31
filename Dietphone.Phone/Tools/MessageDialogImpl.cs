@@ -1,4 +1,5 @@
 ﻿// The Input method inspired by the article http://dotnet.dzone.com/articles/input-box-windows-phone-7
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -63,6 +64,11 @@ namespace Dietphone.Tools
                 Guide.BeginShowKeyboardInput(PlayerIndex.One, caption, text, value, null, null),
                 Guide.EndShowKeyboardInput);
             return task.Result;
+        }
+
+        public string Input(string text, string caption, string value, InputType type)
+        {
+            throw new PlatformNotSupportedException();
         }
 
         private Dispatcher Dispatcher

@@ -41,6 +41,7 @@ namespace Dietphone.ViewModels
         private const string MAILEXPORT_SUCCESS_RESULT = "Success!";
         internal const string TOKEN_ACQUIRING_CALLBACK_URL = "http://localhost/HelloTestingSuccess";
         internal const string TOKEN_ACQUIRING_NAVIGATE_AWAY_URL = "about:blank";
+        public const string INITIAL_URL = "http://";
 
         public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory,
             Vibration vibration, Cloud cloud, MessageDialog messageDialog, CloudMessages cloudMessages)
@@ -102,6 +103,20 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public ICommand AskToExportToEmail
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    Email = messageDialog.Input(string.Empty, caption: Translations.SendToAnEMailAddress,
+                        value: string.Empty, type: InputType.Email);
+                    if (!string.IsNullOrEmpty(Email))
+                        ExportToEmail();
+                });
+            }
+        }
+
         public void ExportToEmail()
         {
             if (IsBusy)
@@ -124,6 +139,20 @@ namespace Dietphone.ViewModels
             };
             IsBusy = true;
             worker.RunWorkerAsync();
+        }
+
+        public ICommand AskToImportFromAddress
+        {
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    Url = messageDialog.Input(string.Empty, caption: Translations.DownloadFileFromAddress,
+                        value: INITIAL_URL, type: InputType.Url);
+                    if (!string.IsNullOrEmpty(Url))
+                        ImportFromAddress();
+                });
+            }
         }
 
         public void ImportFromAddress()

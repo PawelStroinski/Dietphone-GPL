@@ -58,7 +58,7 @@ namespace Dietphone.Views
         {
             exportMode = false;
             Info.Text = Translations.DownloadFileFromAddress;
-            Input.Text = "http://";
+            Input.Text = ExportAndImportViewModel.INITIAL_URL;
             Input.InputScope = InputScopeNameValue.Url.GetInputScope();
             EmailAndAddressWindow.IsOpen = true;
         }

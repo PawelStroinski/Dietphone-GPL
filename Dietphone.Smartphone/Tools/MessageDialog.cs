@@ -7,5 +7,8 @@
         bool Confirm(string text, string caption);
         string Input(string text, string caption);
         string Input(string text, string caption, string value);
+        string Input(string text, string caption, string value, InputType type);
     }
+
+    public enum InputType { Default, Email, Url }
 }

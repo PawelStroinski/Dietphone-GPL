@@ -25,13 +25,13 @@
                   android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
                   local:MvxBind="Text [RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox]"/>
         <Button android:layout_width="match_parent" android:layout_height="wrap_content"
-                local:MvxBind="Text [ExportByEmail]"/>
+                local:MvxBind="Text [ExportByEmail]; Click AskToExportToEmail"/>
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:textAppearance="?android:attr/textAppearanceSmall"
                   android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
                   local:MvxBind="Text [AllowsSendingDataAttachedToAnEMail]"/>
         <Button android:layout_width="match_parent" android:layout_height="wrap_content"
-                local:MvxBind="Text [ImportFromAddress]"/>
+                local:MvxBind="Text [ImportFromAddress]; Click AskToImportFromAddress"/>
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:textAppearance="?android:attr/textAppearanceSmall"
                   android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"

@@ -1,8 +1,10 @@
-﻿using System;
+﻿// The Send method inspired by http://stackoverflow.com/a/23740338
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Dietphone.Tools
@@ -11,8 +13,9 @@ namespace Dietphone.Tools
     {
         public Dictionary<string, string> Inputs { get; set; }
         public event EventHandler<PostSenderCompletedEventArgs> Completed;
-        private readonly string targetUrl;
         private PostSenderCompletedEventArgs completedEventArgs;
+        private readonly string targetUrl;
+        private const string MEDIA_TYPE = "application/x-www-form-urlencoded";
 
         public PostSender(string targetUrl)
         {
@@ -37,9 +40,10 @@ namespace Dietphone.Tools
         private void Send()
         {
             var client = new HttpClient();
-            var doubleEncoding = Inputs
-                .Select(kvp => new KeyValuePair<string, string>(kvp.Key, WebUtility.UrlEncode(kvp.Value)));
-            var content = new FormUrlEncodedContent(doubleEncoding);
+            var encoding = string.Join("&", Inputs.Select(kvp => string.Format("{0}={1}",
+                WebUtility.UrlEncode(kvp.Key),
+                WebUtility.UrlEncode(WebUtility.UrlEncode(kvp.Value)))));
+            var content = new StringContent(encoding, Encoding.UTF8, MEDIA_TYPE);
             client.PostAsync(targetUrl, content)
                 .ContinueWith(CreateCompletedEventArgs)
                 .Wait();

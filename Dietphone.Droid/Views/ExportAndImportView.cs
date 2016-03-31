@@ -37,6 +37,14 @@ namespace Dietphone.Views
             return true;
         }
 
+        public override void OnBackPressed()
+        {
+            if (ViewModel.BrowserVisible)
+                ViewModel.BrowserVisible = false;
+            else
+                base.OnBackPressed();
+        }
+
         private void InitializeBrowser()
         {
             browser = FindViewById<WebView>(Resource.Id.browser);

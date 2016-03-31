@@ -51,7 +51,8 @@ namespace Dietphone.Tools
             {
                 var getMethod = property.GetMethod;
                 var setMethod = property.SetMethod;
-                if (getMethod != null && setMethod != null)
+                // Mono returns methods even if they are privite and inherited. The IsAccessibleFrom call fixes this.
+                if (getMethod.IsAccessibleFrom(type) && setMethod.IsAccessibleFrom(type))
                 {
                     var value = getMethod.Invoke(source, null);
                     var parameters = new object[] { value };
@@ -256,6 +257,15 @@ namespace Dietphone.Tools
                 return input;
             else
                 return input.Substring(0, 1).ToUpper() + input.Substring(1);
+        }
+
+        private static bool IsAccessibleFrom(this MethodInfo method, Type type)
+        {
+            if (method == null)
+                return false;
+            var inherited = method.DeclaringType != type;
+            var privateAndInherited = method.IsPrivate && inherited;
+            return !privateAndInherited;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using Android.App;
 using Android.OS;
+using Android.Text;
 using Android.Widget;
 using Java.Lang;
 using MvvmCross.Platform;
@@ -80,6 +81,18 @@ namespace Dietphone.Tools
             }
         }
 
+        public string Input(string text, string caption, string value, InputType type)
+        {
+            if (IsUiThread())
+            {
+                return InputDo(text, caption, value, type);
+            }
+            else
+            {
+                return DispatchedInput(text, caption, value, type);
+            }
+        }
+
         private bool IsUiThread()
         {
             var looper = Looper.MainLooper;
@@ -105,13 +118,14 @@ namespace Dietphone.Tools
             return confirmed;
         }
 
-        private string DispatchedInput(string text, string caption, string value = null)
+        private string DispatchedInput(string text, string caption, string value = null,
+            InputType type = InputType.Default)
         {
             var signal = new ManualResetEvent(false);
             string input = null;
             PostToUiThread(() =>
             {
-                input = InputDo(text, caption, value);
+                input = InputDo(text, caption, value, type);
                 signal.Set();
             });
             signal.WaitOne();
@@ -143,11 +157,12 @@ namespace Dietphone.Tools
             return ok;
         }
 
-        private string InputDo(string text, string caption, string value = null)
+        private string InputDo(string text, string caption, string value = null, InputType type = InputType.Default)
         {
             var activity = GetActivity();
             var ok = false;
             var input = new EditText(activity) { Text = value ?? string.Empty };
+            SetInputTypeAndSelection(input, type);
             var builder = new AlertDialog.Builder(activity)
                 .SetMessage(text)
                 .SetTitle(caption)
@@ -187,6 +202,21 @@ namespace Dietphone.Tools
             dialog.DismissEvent += delegate { breakLoop.SendMessage(breakLoop.ObtainMessage()); };
             dialog.Show();
             Loop();
+        }
+
+        private void SetInputTypeAndSelection(EditText input, InputType type)
+        {
+            switch (type)
+            {
+                case InputType.Email:
+                    input.InputType = InputTypes.ClassText | InputTypes.TextVariationEmailAddress;
+                    break;
+                case InputType.Url:
+                    input.InputType = InputTypes.ClassText | InputTypes.TextVariationWebEmailAddress;
+                    var text = input.Text;
+                    input.SetSelection(text.Length);
+                    break;
+            }
         }
 
         private void Loop()
