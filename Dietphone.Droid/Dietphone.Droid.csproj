@@ -103,6 +103,7 @@
     <Compile Include="Views\Adapters\MenuItemClickListener.cs" />
     <Compile Include="Views\Adapters\WebViewListener.cs" />
     <Compile Include="Views\ExportAndImportView.cs" />
+    <Compile Include="Views\ListingView.cs" />
     <Compile Include="Views\ProductListingView.cs" />
     <Compile Include="Views\JournalView.cs" />
     <Compile Include="Views\MainView.cs" />
@@ -155,16 +156,12 @@
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
     <AndroidResource Include="Resources\layout\MainView.axml" />
-    <AndroidResource Include="Resources\layout\JournalView.axml">
+    <AndroidResource Include="Resources\layout\Listing.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\ProductListingView.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\Journal_Group.axml" />
     <AndroidResource Include="Resources\layout\Journal_Item.axml" />
     <AndroidResource Include="Resources\layout\ProductListing_Item.axml" />
-    <AndroidResource Include="Resources\layout\ProductListing_Group.axml" />
+    <AndroidResource Include="Resources\layout\Listing_Group.axml" />
     <AndroidResource Include="Resources\layout\ExportAndImportView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
