@@ -272,7 +272,7 @@ namespace Dietphone.Smartphone.Tests
             var updated = false;
             sut.DescriptorsUpdating += delegate { updating = true; };
             sut.DescriptorsUpdated += delegate { updated = true; };
-            sut.UpdateFilterDescriptorsEvent += delegate
+            sut.UpdateFilterDescriptors += delegate
             {
                 Assert.IsTrue(updating);
                 Assert.IsFalse(updated);
@@ -292,8 +292,6 @@ namespace Dietphone.Smartphone.Tests
 
         class SutAccessor : JournalViewModel
         {
-            public event EventHandler UpdateFilterDescriptorsEvent;
-
             public SutAccessor()
                 : base(Substitute.For<Factories>(), Substitute.For<BackgroundWorkerFactory>(),
                     Substitute.For<SugarEditingViewModel>())
@@ -303,11 +301,6 @@ namespace Dietphone.Smartphone.Tests
             public new void OnSearchChanged()
             {
                 base.OnSearchChanged();
-            }
-
-            protected override void UpdateFilterDescriptors()
-            {
-                UpdateFilterDescriptorsEvent(null, null);
             }
         }
     }

@@ -22,8 +22,9 @@ namespace Dietphone.ViewModels
             GroupDescriptors.Add(groupByDate);
         }
 
-        protected override void UpdateFilterDescriptors()
+        protected override void OnUpdateFilterDescriptors()
         {
+            base.OnUpdateFilterDescriptors();
             FilterDescriptors.Clear();
             if (!string.IsNullOrEmpty(search))
             {

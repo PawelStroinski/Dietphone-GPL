@@ -5,17 +5,14 @@ namespace Dietphone.ViewModels
     public abstract class SearchSubViewModel : SubViewModel
     {
         public event EventHandler DescriptorsUpdating;
+        public event EventHandler UpdateFilterDescriptors;
         public event EventHandler DescriptorsUpdated;
 
         protected override void OnSearchChanged()
         {
             OnDescriptorsUpdating();
-            UpdateFilterDescriptors();
+            OnUpdateFilterDescriptors();
             OnDescriptorsUpdated();
-        }
-
-        protected virtual void UpdateFilterDescriptors()
-        {
         }
 
         protected void OnDescriptorsUpdating()
@@ -23,6 +20,14 @@ namespace Dietphone.ViewModels
             if (DescriptorsUpdating != null)
             {
                 DescriptorsUpdating(this, EventArgs.Empty);
+            }
+        }
+
+        protected virtual void OnUpdateFilterDescriptors()
+        {
+            if (UpdateFilterDescriptors != null)
+            {
+                UpdateFilterDescriptors(this, EventArgs.Empty);
             }
         }
 

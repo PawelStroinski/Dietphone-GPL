@@ -21,7 +21,7 @@ namespace Dietphone.ViewModels
             this.predicate = predicate;
             viewModel.Loaded += delegate { Invalidate(); };
             viewModel.Refreshed += delegate { Invalidate(); };
-            viewModel.DescriptorsUpdated += delegate { Invalidate(); };
+            viewModel.UpdateFilterDescriptors += delegate { Invalidate(); };
         }
 
         private void Invalidate()

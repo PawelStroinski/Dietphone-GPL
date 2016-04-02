@@ -30,8 +30,9 @@ namespace Dietphone.ViewModels
             SortDescriptors.Add(sortByName);
         }
 
-        protected override void UpdateFilterDescriptors()
+        protected override void OnUpdateFilterDescriptors()
         {
+            base.OnUpdateFilterDescriptors();
             FilterDescriptors.Clear();
             if (!string.IsNullOrEmpty(search))
             {
