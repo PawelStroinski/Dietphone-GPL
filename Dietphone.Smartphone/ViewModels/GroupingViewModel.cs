@@ -26,6 +26,8 @@ namespace Dietphone.ViewModels
 
         private void Invalidate()
         {
+            if (this.items() == null)
+                return;
             var doSearch = !string.IsNullOrEmpty(viewModel.Search);
             var items = doSearch ? this.items().Where(predicate) : this.items();
             Groups = items.GroupBy(keySelector).ToList();

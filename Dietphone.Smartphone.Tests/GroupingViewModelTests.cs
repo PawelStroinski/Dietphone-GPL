@@ -59,6 +59,12 @@ namespace Dietphone.Smartphone.Tests
             Assert.IsNotEmpty(sut.Groups);
         }
 
+        [Test]
+        public void IgnoresSearchingIfNotLoaded()
+        {
+            viewModel.Search = "foo";
+        }
+
         private class SearchSubViewModelStub : SearchSubViewModel
         {
             public List<string> Items { get; set; }

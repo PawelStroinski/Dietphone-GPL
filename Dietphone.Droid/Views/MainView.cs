@@ -1,6 +1,6 @@
-using System;
 using System.ComponentModel;
 using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -16,6 +16,7 @@ namespace Dietphone.Views
     {
         private SubViewModelConnector subConnector;
         private IMenuItem meal, sugar, insulin, add, search, settings, exportAndImportData, about, welcomeScreen;
+        private SearchView searchView;
         private bool searchExpanded;
         private const string JOURNAL_TAB = "journal";
         private const string PRODUCTS_TAB = "products";
@@ -37,6 +38,12 @@ namespace Dietphone.Views
             InitializeSearchMenu();
             BindMenuActions();
             return true;
+        }
+
+        public override bool DispatchTouchEvent(MotionEvent ev)
+        {
+            this.HideSoftInputOnTouchOutside(ev, GetGlobalVisibleRect);
+            return base.DispatchTouchEvent(ev);
         }
 
         private void InitializeTabs()
@@ -88,7 +95,7 @@ namespace Dietphone.Views
 
         private void InitializeSearchMenu()
         {
-            var searchView = (SearchView)search.ActionView;
+            searchView = (SearchView)search.ActionView;
             searchView.QueryTextChange += SearchView_QueryTextChange;
             search.SetOnActionExpandListener(new ActionExpandListener(() => Search_Expand(), () => Search_Collapse()));
         }
@@ -96,6 +103,16 @@ namespace Dietphone.Views
         private void BindMenuActions()
         {
             exportAndImportData.SetOnMenuItemClick(() => ViewModel.ExportAndImport());
+        }
+
+        private Rect GetGlobalVisibleRect(View view)
+        {
+            var rect = new Rect();
+            if (searchView.IsParentOf(view))
+                searchView.GetGlobalVisibleRect(rect);
+            else
+                view.GetGlobalVisibleRect(rect);
+            return rect;
         }
 
         private void AddJournalTab()

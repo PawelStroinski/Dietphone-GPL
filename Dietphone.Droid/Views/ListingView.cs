@@ -56,7 +56,7 @@ namespace Dietphone.Views
             if (expandState == null)
                 return;
             for (int i = 0; i < Count; i++)
-                if (expandState[i])
+                if (i < expandState.Length && expandState[i])
                     listView.ExpandGroup(i);
                 else
                     listView.CollapseGroup(i);
@@ -70,7 +70,7 @@ namespace Dietphone.Views
             get
             {
                 var groups = (ICollection)listView.ItemsSource;
-                return groups.Count;
+                return groups != null ? groups.Count : 0;
             }
         }
     }
