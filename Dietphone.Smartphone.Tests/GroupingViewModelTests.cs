@@ -32,9 +32,9 @@ namespace Dietphone.Smartphone.Tests
                     viewModel.Refresh();
             });
             var actual = sut.Groups;
-            Assert.AreEqual(1, actual.Count);
-            Assert.AreEqual(3, actual[0].Key);
-            Assert.AreEqual(2, actual[0].Count());
+            Assert.AreEqual(2, actual.Count);
+            Assert.AreEqual(4, actual[0].Key);
+            Assert.AreEqual(2, actual[1].Count());
         }
 
         [Test]
@@ -65,6 +65,21 @@ namespace Dietphone.Smartphone.Tests
             viewModel.Search = "foo";
         }
 
+        [Test]
+        public void CanSort()
+        {
+            var unsorted = new GroupingViewModel<string, int>(viewModel, () => viewModel.Items,
+                item => item.Length, item => filterResult);
+            viewModel.Load();
+            Assert.AreEqual(4, unsorted.Groups[0].Key);
+            Assert.AreEqual("foo", unsorted.Groups[1].First());
+            var sorted = new SortedGroupingViewModel<string, int, string, int>(viewModel, () => viewModel.Items,
+                item => item.Length, item => filterResult, itemSort: item => item, groupSort: group => -group.Key);
+            viewModel.Refresh();
+            Assert.AreEqual(4, sorted.Groups[0].Key);
+            Assert.AreEqual("bar", sorted.Groups[1].First());
+        }
+
         private class SearchSubViewModelStub : SearchSubViewModel
         {
             public List<string> Items { get; set; }
@@ -83,7 +98,7 @@ namespace Dietphone.Smartphone.Tests
 
             private void SetItems()
             {
-                Items = new List<string> { "foo", "bar" };
+                Items = new List<string> { "bar2", "foo", "bar" };
             }
         }
     }

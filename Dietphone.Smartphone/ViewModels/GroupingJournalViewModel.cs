@@ -11,8 +11,8 @@ namespace Dietphone.ViewModels
             : base(factories, workerFactory, sugarEditing)
         {
             Grouping = new GroupingViewModel<JournalItemViewModel, DateViewModel>(this, () => Items,
-                            keySelector: item => item.Date,
-                            predicate: item => item.FilterIn(search));
+                keySelector: item => item.Date,
+                predicate: item => item.FilterIn(search));
         }
     }
 }

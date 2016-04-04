@@ -30,8 +30,46 @@ namespace Dietphone.ViewModels
                 return;
             var doSearch = !string.IsNullOrEmpty(viewModel.Search);
             var items = doSearch ? this.items().Where(predicate) : this.items();
-            Groups = items.GroupBy(keySelector).ToList();
+            items = ProcessItems(items);
+            var groups = items.GroupBy(keySelector);
+            groups = ProcessGroups(groups);
+            Groups = groups.ToList();
             OnPropertyChanged("Groups");
+        }
+
+        protected virtual IEnumerable<T> ProcessItems(IEnumerable<T> items)
+        {
+            return items;
+        }
+
+        protected virtual IEnumerable<IGrouping<TKey, T>> ProcessGroups(IEnumerable<IGrouping<TKey, T>> groups)
+        {
+            return groups;
+        }
+    }
+
+    public class SortedGroupingViewModel<T, TKey, TItemSort, TGroupSort> : GroupingViewModel<T, TKey>
+    {
+        private readonly Func<T, TItemSort> itemSort;
+        private readonly Func<IGrouping<TKey, T>, TGroupSort> groupSort;
+
+        public SortedGroupingViewModel(SearchSubViewModel viewModel, Func<IEnumerable<T>> items,
+                Func<T, TKey> keySelector, Func<T, bool> predicate, Func<T, TItemSort> itemSort,
+                Func<IGrouping<TKey, T>, TGroupSort> groupSort)
+            : base(viewModel, items, keySelector, predicate)
+        {
+            this.itemSort = itemSort;
+            this.groupSort = groupSort;
+        }
+
+        protected override IEnumerable<T> ProcessItems(IEnumerable<T> items)
+        {
+            return items.OrderBy(itemSort);
+        }
+
+        protected override IEnumerable<IGrouping<TKey, T>> ProcessGroups(IEnumerable<IGrouping<TKey, T>> groups)
+        {
+            return groups.OrderBy(groupSort);
         }
     }
 }

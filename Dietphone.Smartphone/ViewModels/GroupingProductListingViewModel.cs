@@ -10,9 +10,12 @@ namespace Dietphone.ViewModels
         public GroupingProductListingViewModel(Factories factories, BackgroundWorkerFactory workerFactory)
             : base(factories, workerFactory)
         {
-            Grouping = new GroupingViewModel<ProductViewModel, CategoryViewModel>(this, () => Products,
-                            keySelector: product => product.Category,
-                            predicate: product => product.Name.ContainsIgnoringCase(search));
+            Grouping = new SortedGroupingViewModel<ProductViewModel, CategoryViewModel, string, string>(this,
+                () => Products,
+                keySelector: product => product.Category,
+                predicate: product => product.Name.ContainsIgnoringCase(search),
+                itemSort: product => product.Name,
+                groupSort: group => group.Key.Name);
         }
     }
 }
