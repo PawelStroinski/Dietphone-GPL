@@ -83,6 +83,25 @@ namespace Dietphone
 			}
 		}
 		
+		public partial class Color
+		{
+			
+			// aapt resource value: 0x7f050001
+			public const int accent_material_dark = 2131034113;
+			
+			// aapt resource value: 0x7f050000
+			public const int material_deep_teal_200 = 2131034112;
+			
+			static Color()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Color()
+			{
+			}
+		}
+		
 		public partial class Drawable
 		{
 			
@@ -209,11 +228,11 @@ namespace Dietphone
 		public partial class Menu
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int exportandimportview_menu = 2131099648;
+			// aapt resource value: 0x7f070000
+			public const int exportandimportview_menu = 2131165184;
 			
-			// aapt resource value: 0x7f060001
-			public const int mainview_menu = 2131099649;
+			// aapt resource value: 0x7f070001
+			public const int mainview_menu = 2131165185;
 			
 			static Menu()
 			{
@@ -228,8 +247,8 @@ namespace Dietphone
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int Theme_Splash = 2131034112;
+			// aapt resource value: 0x7f060000
+			public const int Theme_Splash = 2131099648;
 			
 			static Style()
 			{
