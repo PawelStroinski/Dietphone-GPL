@@ -37,8 +37,34 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" local:MvxBind="Visible IsNotMeal">
-        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
-                  android:textAppearance="?android:attr/textAppearanceMedium" android:text="NotMeal"/>
+                  local:MvxBind="Visible IsNotMeal">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal" local:MvxBind="Visible IsNewer">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="22"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:textColor="@color/accent_material_dark" local:MvxBind="Text Time"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="45"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-medium"
+                      local:MvxBind="Visible IsInsulin; Text Text"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="78"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-light"
+                      local:MvxBind="Visible IsSugar; Text Text"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="33"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:singleLine="true"
+                      android:ellipsize="none" android:fontFamily="sans-serif-light"
+                      local:MvxBind="Visible IsInsulin; Text Text2"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal" local:MvxBind="Visible IsOlder">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="45"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:textColor="@color/accent_material_dark" local:MvxBind="Text DateAndTime"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="55"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-medium"
+                      local:MvxBind="Visible IsInsulin; Text Text"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="55"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-light"
+                      local:MvxBind="Visible IsSugar; Text Text"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
