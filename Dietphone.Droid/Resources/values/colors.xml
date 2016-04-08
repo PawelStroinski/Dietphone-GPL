@@ -19,5 +19,7 @@
 
 <resources>
     <color name="material_deep_teal_200">#ff80cbc4</color>
+    <color name="material_grey_600">#ff757575</color>
     <color name="accent_material_dark">@color/material_deep_teal_200</color>
+    <color name="primary_dark_material_light">@color/material_grey_600</color>
 </resources>
