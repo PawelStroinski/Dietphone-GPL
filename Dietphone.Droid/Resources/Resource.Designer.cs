@@ -219,7 +219,10 @@ namespace Dietphone
 			public const int ProductListing_Item = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int SplashScreen = 2130903046;
+			public const int SettingsView = 2130903046;
+			
+			// aapt resource value: 0x7f030007
+			public const int SplashScreen = 2130903047;
 			
 			static Layout()
 			{

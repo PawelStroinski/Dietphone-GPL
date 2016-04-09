@@ -3,11 +3,10 @@ using System.Collections;
 using Android.OS;
 using Dietphone.ViewModels;
 using MvvmCross.Binding.Droid.Views;
-using MvvmCross.Droid.Views;
 
 namespace Dietphone.Views
 {
-    public abstract class ListingView<TViewModel> : MvxActivity<TViewModel>
+    public abstract class ListingView<TViewModel> : ActivityBase<TViewModel>
          where TViewModel : SearchSubViewModel
     {
         protected MvxExpandableListView listView;

@@ -8,12 +8,11 @@ using Android.Webkit;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
 using Dietphone.Views.Adapters;
-using MvvmCross.Droid.Views;
 
 namespace Dietphone.Views
 {
     [Activity]
-    public class ExportAndImportView : MvxActivity<ExportAndImportViewModel>
+    public class ExportAndImportView : ActivityBase<ExportAndImportViewModel>
     {
         private IMenuItem exportToCloudNow;
         private WebView browser;

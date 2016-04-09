@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:local="http://schemas.android.com/apk/res-auto"
-              android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingLeft="3dp"
+              android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingLeft="3dp"
               android:paddingRight="3dp" android:paddingTop="3dp" android:paddingBottom="3dp">
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   local:MvxBind="Visible IsMeal">
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal" local:MvxBind="Visible VisibleWhenIsNewerAndHasName">
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="22"
                       android:textAppearance="?android:attr/textAppearanceMedium"
@@ -18,7 +18,7 @@
                       android:ellipsize="none" android:fontFamily="sans-serif-condensed-light" android:paddingLeft="18dp"
                       local:MvxBind="Text ProductsHead"/>
         </LinearLayout>
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal" local:MvxBind="Visible VisibleWhenIsNewerAndHasNoName">
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="22"
                       android:textAppearance="?android:attr/textAppearanceMedium"
@@ -27,7 +27,7 @@
                       android:textAppearance="?android:attr/textAppearanceMedium" android:singleLine="true"
                       android:ellipsize="none" android:fontFamily="sans-serif-condensed-light" local:MvxBind="Text ProductsHead"/>
         </LinearLayout>
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal" local:MvxBind="Visible VisibleWhenIsOlder">
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="45"
                       android:textAppearance="?android:attr/textAppearanceMedium"
@@ -37,9 +37,9 @@
                       android:ellipsize="none" android:fontFamily="sans-serif-condensed-light" local:MvxBind="Text ProductsHead"/>
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   local:MvxBind="Visible IsNotMeal">
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal" local:MvxBind="Visible IsNewer">
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="22"
                       android:textAppearance="?android:attr/textAppearanceMedium"
@@ -55,7 +55,7 @@
                       android:ellipsize="none" android:fontFamily="sans-serif-light"
                       local:MvxBind="Visible IsInsulin; Text Text2"/>
         </LinearLayout>
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal" local:MvxBind="Visible IsOlder">
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="45"
                       android:textAppearance="?android:attr/textAppearanceMedium"
