@@ -54,13 +54,11 @@ namespace Dietphone.Views
         {
             AddJournalTab();
             AddProductsTab();
-            TabHost.CurrentTab = ViewModel.Pivot;
             TabHost.TabChanged += TabHost_TabChanged;
         }
 
         private void InitializeViewModel()
         {
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             subConnector = new SubViewModelConnector(ViewModel);
             subConnector.Loaded += delegate { ViewModel.UiRendered(); };
             ViewModel.Untombstone();
@@ -107,6 +105,7 @@ namespace Dietphone.Views
         private void BindMenuActions()
         {
             exportAndImportData.SetOnMenuItemClick(() => ViewModel.ExportAndImport());
+            settings.SetOnMenuItemClick(() => ViewModel.Settings());
         }
 
         private void AddJournalTab()
@@ -127,15 +126,8 @@ namespace Dietphone.Views
 
         private void TabHost_TabChanged(object sender, TabHost.TabChangeEventArgs e)
         {
-            ViewModel.Pivot = TabHost.CurrentTab;
             SetMenuVisisiblity();
             SetSubViewModel();
-        }
-
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Pivot")
-                TabHost.CurrentTab = ViewModel.Pivot;
         }
 
         private void SetSubViewModel()

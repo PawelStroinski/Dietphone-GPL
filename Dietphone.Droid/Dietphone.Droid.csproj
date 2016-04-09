@@ -97,6 +97,7 @@
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
     <Compile Include="Tools\NavigationServiceImpl.cs" />
+    <Compile Include="Tools\TabHostCurrentTabTargetBinding.cs" />
     <Compile Include="Tools\UIExtensionMethods.cs" />
     <Compile Include="Tools\VibrationImpl.cs" />
     <Compile Include="Views\Adapters\ActionExpandListener.cs" />

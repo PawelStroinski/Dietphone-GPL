@@ -6,6 +6,8 @@ using Dietphone.BinarySerializers;
 using MvvmCross.Platform;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
+using MvvmCross.Binding.Bindings.Target.Construction;
+using Android.Widget;
 
 namespace Dietphone
 {
@@ -33,6 +35,13 @@ namespace Dietphone
             Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
             Mvx.RegisterType<ProductListingViewModel, GroupingProductListingViewModel>();
             Mvx.RegisterType<Vibration, VibrationImpl>();
+        }
+
+        protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
+        {
+            registry.RegisterCustomBindingFactory<TabHost>("CurrentTab",
+                tabHost => new TabHostCurrentTabTargetBinding(tabHost));
+            base.FillTargetFactories(registry);
         }
 
         private void InitializeStreamProvider()
