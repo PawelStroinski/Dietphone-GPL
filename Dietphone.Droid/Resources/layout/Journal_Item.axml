@@ -11,10 +11,11 @@
                       android:textAppearance="?android:attr/textAppearanceMedium"
                       android:textColor="@color/accent_material_dark" local:MvxBind="Text Time"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="23"
-                      android:textAppearance="?android:attr/textAppearanceMedium" local:MvxBind="Text Name"/>
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:fontFamily="sans-serif-light" local:MvxBind="Text Name"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="55"
                       android:textAppearance="?android:attr/textAppearanceMedium" android:singleLine="true"
-                      android:ellipsize="none" android:fontFamily="sans-serif-light" android:paddingLeft="18dp"
+                      android:ellipsize="none" android:fontFamily="sans-serif-condensed-light" android:paddingLeft="18dp"
                       local:MvxBind="Text ProductsHead"/>
         </LinearLayout>
         <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
                       android:textColor="@color/accent_material_dark" local:MvxBind="Text Time"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="78"
                       android:textAppearance="?android:attr/textAppearanceMedium" android:singleLine="true"
-                      android:ellipsize="none" android:fontFamily="sans-serif-light" local:MvxBind="Text ProductsHead"/>
+                      android:ellipsize="none" android:fontFamily="sans-serif-condensed-light" local:MvxBind="Text ProductsHead"/>
         </LinearLayout>
         <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal" local:MvxBind="Visible VisibleWhenIsOlder">
@@ -33,7 +34,7 @@
                       android:textColor="@color/accent_material_dark" local:MvxBind="Text DateAndTime"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="55"
                       android:textAppearance="?android:attr/textAppearanceMedium" android:singleLine="true"
-                      android:ellipsize="none" android:fontFamily="sans-serif-light" local:MvxBind="Text ProductsHead"/>
+                      android:ellipsize="none" android:fontFamily="sans-serif-condensed-light" local:MvxBind="Text ProductsHead"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
