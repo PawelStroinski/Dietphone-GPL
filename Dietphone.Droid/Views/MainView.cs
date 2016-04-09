@@ -12,7 +12,7 @@ using MvvmCross.Droid.Views;
 namespace Dietphone.Views
 {
     [Activity]
-    public class MainView : TabActivityBase<MainViewModel>
+    public class MainView : MvxTabActivity<MainViewModel>
     {
         private SubViewModelConnector subConnector;
         private IMenuItem meal, sugar, insulin, add, search, settings, exportAndImportData, about, welcomeScreen;
@@ -40,14 +40,10 @@ namespace Dietphone.Views
             return true;
         }
 
-        protected override Rect GetGlobalVisibleRect(View view)
+        public override bool DispatchTouchEvent(MotionEvent ev)
         {
-            var rect = new Rect();
-            if (searchView.IsParentOf(view))
-                searchView.GetGlobalVisibleRect(rect);
-            else
-                view.GetGlobalVisibleRect(rect);
-            return rect;
+            this.HideSoftInputOnTouchOutside(ev, GetGlobalVisibleRect);
+            return base.DispatchTouchEvent(ev);
         }
 
         private void InitializeTabs()
@@ -106,6 +102,16 @@ namespace Dietphone.Views
         {
             exportAndImportData.SetOnMenuItemClick(() => ViewModel.ExportAndImport());
             settings.SetOnMenuItemClick(() => ViewModel.Settings());
+        }
+
+        private Rect GetGlobalVisibleRect(View view)
+        {
+            var rect = new Rect();
+            if (searchView.IsParentOf(view))
+                searchView.GetGlobalVisibleRect(rect);
+            else
+                view.GetGlobalVisibleRect(rect);
+            return rect;
         }
 
         private void AddJournalTab()
