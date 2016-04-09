@@ -4,11 +4,11 @@ using Android.Webkit;
 
 namespace Dietphone.Views.Adapters
 {
-    public class WebViewListener : WebViewClient
+    public class WebViewClientImpl : WebViewClient
     {
         private readonly Action<string> onNavigating;
 
-        public WebViewListener(Action<string> onNavigating)
+        public WebViewClientImpl(Action<string> onNavigating)
         {
             this.onNavigating = onNavigating;
         }

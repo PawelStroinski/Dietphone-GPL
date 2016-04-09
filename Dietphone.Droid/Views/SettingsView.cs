@@ -13,6 +13,7 @@ namespace Dietphone.Views
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.SettingsView);
             Title = Translations.Settings.Capitalize();
+            this.InitializeTabs(Translations.Results, Translations.General, Translations.Language);
         }
     }
 }

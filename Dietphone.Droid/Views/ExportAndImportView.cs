@@ -49,8 +49,8 @@ namespace Dietphone.Views
             browser = FindViewById<WebView>(Resource.Id.browser);
             var settings = browser.Settings;
             settings.JavaScriptEnabled = true;
-            var listener = new WebViewListener(ViewModel.BrowserIsNavigating);
-            browser.SetWebViewClient(listener);
+            var client = new WebViewClientImpl(ViewModel.BrowserIsNavigating);
+            browser.SetWebViewClient(client);
         }
 
         private void InitializeViewModel()

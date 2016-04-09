@@ -19,9 +19,18 @@ namespace Dietphone.ViewModels
                 {
                     pivot = value;
                     OnPropertyChanged("Pivot");
+                    OnPropertyChanged("FirstPivot");
+                    OnPropertyChanged("SecondPivot");
+                    OnPropertyChanged("ThirdPivot");
                 }
             }
         }
+
+        public bool FirstPivot => Pivot == 0;
+
+        public bool SecondPivot => Pivot == 1;
+
+        public bool ThirdPivot => Pivot == 2;
 
         public virtual void Tombstone()
         {
