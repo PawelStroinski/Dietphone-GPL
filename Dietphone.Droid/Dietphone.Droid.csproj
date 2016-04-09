@@ -107,6 +107,7 @@
     <Compile Include="Views\ProductListingView.cs" />
     <Compile Include="Views\JournalView.cs" />
     <Compile Include="Views\MainView.cs" />
+    <Compile Include="Views\TabActivityBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.en-GB.db">
