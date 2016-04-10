@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:local="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent" android:layout_height="match_parent">
-    <!--Results-->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                  android:orientation="vertical" local:MvxBind="Visible FirstPivot">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="FirstPivot"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:local="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true"
+            android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="10dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <!--Results-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical" local:MvxBind="Visible FirstPivot">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:paddingBottom="15dp" local:MvxBind="Text [SelectNutritionalValuesToCalculateMax4]"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      local:MvxBind="Text [EnergyCalories]; Checked ScoreEnergy"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      local:MvxBind="Text [ProteinGrams]; Checked ScoreProtein"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      local:MvxBind="Text [DigestibleCarbohydratesGrams]; Checked ScoreDigestibleCarbs"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      local:MvxBind="Text [FatGrams]; Checked ScoreFat"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      local:MvxBind="Text [CuCarbohydrateUnit]; Checked ScoreCu"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      local:MvxBind="Text [FpuFatProteinUnit]; Checked ScoreFpu"/>
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:background="@android:color/transparent" android:textColor="@color/accent_material_dark"
+                    android:paddingTop="5dp" local:MvxBind="Text [LearnMoreAboutCuAndFpu]; Click LearnCuAndFpu"/>
+        </LinearLayout>
+        <!--General-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical" local:MvxBind="Visible SecondPivot">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:text="SecondPivot"/>
+        </LinearLayout>
+        <!--Language-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical" local:MvxBind="Visible ThirdPivot">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:text="ThirdPivot"/>
+        </LinearLayout>
     </LinearLayout>
-    <!--General-->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                  android:orientation="vertical" local:MvxBind="Visible SecondPivot">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="SecondPivot"/>
-    </LinearLayout>
-    <!--Language-->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                  android:orientation="vertical" local:MvxBind="Visible ThirdPivot">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:text="ThirdPivot"/>
-    </LinearLayout>
-</LinearLayout>
+</ScrollView>
