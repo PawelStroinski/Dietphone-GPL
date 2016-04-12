@@ -29,8 +29,62 @@
         <!--General-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical" local:MvxBind="Visible SecondPivot">
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:text="SecondPivot"/>
+            <!--SugarUnit | MaxBolus-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [SugarUnit]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [MaxBolus]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
+                                android:layout_weight="1" android:layout_marginRight="10dp"
+                                local:MvxBind="SelectedItem SugarUnit; ItemsSource AllSugarUnits"/>
+                <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:inputType="numberDecimal" local:MvxBind="Text MaxBolus"/>
+            </LinearLayout>
+            <!--MruProductMaxCount | SugarsAfterInsulinHours-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [MruProductMaxCount]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [SugarsAfterInsulinHours]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:inputType="number" local:MvxBind="Text MruProductMaxCount"/>
+                <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:inputType="number" local:MvxBind="Text SugarsAfterInsulinHours"/>
+            </LinearLayout>
+            <!--Unit-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:weightSum="2">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [PreferredUnitOfMass]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:weightSum="2">
+                <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
+                                android:layout_weight="1" android:layout_marginRight="10dp"
+                                local:MvxBind="SelectedItem Unit; ItemsSource AllUnits"/>
+            </LinearLayout>
         </LinearLayout>
         <!--Language-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"

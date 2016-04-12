@@ -26,6 +26,11 @@ namespace Dietphone.Tools
             return item;
         }
 
+        public static void HideSoftInputOnTouchOutside(this Activity activity, MotionEvent ev)
+        {
+            activity.HideSoftInputOnTouchOutside(ev, GetGlobalVisibleRect);
+        }
+
         public static void HideSoftInputOnTouchOutside(this Activity activity, MotionEvent ev,
             Func<View, Rect> getGlobalVisibleRect)
         {
@@ -63,6 +68,13 @@ namespace Dietphone.Tools
                     return true;
             } while (view != null);
             return false;
+        }
+
+        private static Rect GetGlobalVisibleRect(View view)
+        {
+            var rect = new Rect();
+            view.GetGlobalVisibleRect(rect);
+            return rect;
         }
 
         private static void AddTabs(this ActionBar actionBar, PivotTombstoningViewModel viewModel, string[] texts)
