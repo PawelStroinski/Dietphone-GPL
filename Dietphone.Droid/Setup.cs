@@ -40,7 +40,9 @@ namespace Dietphone
         protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {
             registry.RegisterCustomBindingFactory<TabHost>("CurrentTab",
-                tabHost => new TabHostCurrentTabTargetBinding(tabHost));
+                target => new TabHostCurrentTabTargetBinding(target));
+            registry.RegisterCustomBindingFactory<EditText>("TextOnFocusLost",
+                target => new EditTextTextOnFocusLostTargetBinding(target));
             base.FillTargetFactories(registry);
         }
 
