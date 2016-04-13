@@ -1,19 +1,36 @@
+// The SubscribeToEvents & Dispose methods based on http://stackoverflow.com/a/19221385
 using System;
 using Android.Widget;
 using MvvmCross.Binding;
 using MvvmCross.Binding.Droid.Target;
 
-namespace Dietphone.Tools
+namespace Dietphone.TargetBindings
 {
-    public class TabHostCurrentTabTargetBinding : MvxAndroidTargetBinding
+    public class TabHostCurrentTab : MvxAndroidTargetBinding
     {
+        private bool subscribed;
         private readonly TabHost target;
 
-        public TabHostCurrentTabTargetBinding(TabHost target)
+        public TabHostCurrentTab(TabHost target)
             : base(target)
         {
             this.target = target;
+        }
+
+        public override void SubscribeToEvents()
+        {
             target.TabChanged += Target_TabChanged;
+            subscribed = true;
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            if (isDisposing && subscribed)
+            {
+                target.TabChanged -= Target_TabChanged;
+                subscribed = false;
+            }
+            base.Dispose(isDisposing);
         }
 
         public override Type TargetType => typeof(int);

@@ -8,6 +8,8 @@ using Dietphone.Tools;
 using Dietphone.ViewModels;
 using MvvmCross.Binding.Bindings.Target.Construction;
 using Android.Widget;
+using Dietphone.TargetBindings;
+using Dietphone.Controls;
 
 namespace Dietphone
 {
@@ -40,9 +42,9 @@ namespace Dietphone
         protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
         {
             registry.RegisterCustomBindingFactory<TabHost>("CurrentTab",
-                target => new TabHostCurrentTabTargetBinding(target));
-            registry.RegisterCustomBindingFactory<EditText>("TextOnFocusLost",
-                target => new EditTextTextOnFocusLostTargetBinding(target));
+                target => new TabHostCurrentTab(target));
+            registry.RegisterCustomBindingFactory<BackEditText>("TextOnFocusLost",
+                target => new BackEditTextTextOnFocusLost(target));
             base.FillTargetFactories(registry);
         }
 
