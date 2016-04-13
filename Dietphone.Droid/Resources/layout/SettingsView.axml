@@ -46,7 +46,7 @@
                 <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
                                 android:layout_weight="1" android:layout_marginRight="10dp"
                                 android:layout_gravity="center_vertical"
-                                local:MvxBind="SelectedItem SugarUnit; ItemsSource AllSugarUnits"/>
+                                local:MvxBind="ItemsSource AllSugarUnits; SelectedItem SugarUnit"/>
                 <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
                               android:layout_weight="1" android:layout_marginLeft="10dp"
                               android:layout_gravity="center_vertical" android:inputType="numberDecimal"
@@ -89,7 +89,7 @@
                 <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
                                 android:layout_weight="1" android:layout_marginRight="10dp"
                                 android:layout_gravity="center_vertical"
-                                local:MvxBind="SelectedItem Unit; ItemsSource AllUnits"/>
+                                local:MvxBind="ItemsSource AllUnits; SelectedItem Unit"/>
             </LinearLayout>
         </LinearLayout>
         <!--Language-->
