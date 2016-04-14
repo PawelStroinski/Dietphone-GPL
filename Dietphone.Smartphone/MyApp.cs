@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using Dietphone.BinarySerializers;
 using Dietphone.Models;
@@ -13,6 +14,7 @@ namespace Dietphone
     {
         public static BinaryStreamProvider StreamProvider { private get; set; }
         private static Factories factories = null;
+        private static CultureInfo currentUiCultureInfo = null;
         private static readonly object factoriesLock = new object();
 
         public override void Initialize()
@@ -57,6 +59,18 @@ namespace Dietphone
                     throw new NullReferenceException("Factories");
                 }
                 factories = value;
+            }
+        }
+
+        public static CultureInfo CurrentUiCultureInfo
+        {
+            get
+            {
+                if (currentUiCultureInfo == null)
+                {
+                    currentUiCultureInfo = new CultureInfo(CurrentUiCulture);
+                }
+                return currentUiCultureInfo;
             }
         }
 

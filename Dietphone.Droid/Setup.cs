@@ -10,6 +10,7 @@ using MvvmCross.Binding.Bindings.Target.Construction;
 using Android.Widget;
 using Dietphone.TargetBindings;
 using Dietphone.Controls;
+using Dietphone.Views;
 
 namespace Dietphone
 {
@@ -33,10 +34,8 @@ namespace Dietphone
         protected override void InitializeLastChance()
         {
             base.InitializeLastChance();
-            Mvx.RegisterType<JournalViewModel, GroupingJournalViewModel>();
-            Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
-            Mvx.RegisterType<ProductListingViewModel, GroupingProductListingViewModel>();
-            Mvx.RegisterType<Vibration, VibrationImpl>();
+            RegisterTypes();
+            SetTranslationsCulture();
         }
 
         protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
@@ -53,6 +52,19 @@ namespace Dietphone
             var root = ApplicationContext.FilesDir;
             var fileFactory = new NativeFileFactory(root.Path);
             MyApp.StreamProvider = new DroidBinaryStreamProvider(fileFactory, ApplicationContext);
+        }
+
+        private void RegisterTypes()
+        {
+            Mvx.RegisterType<JournalViewModel, GroupingJournalViewModel>();
+            Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
+            Mvx.RegisterType<ProductListingViewModel, GroupingProductListingViewModel>();
+            Mvx.RegisterType<Vibration, VibrationImpl>();
+        }
+
+        private void SetTranslationsCulture()
+        {
+            Translations.Culture = MyApp.CurrentUiCultureInfo;
         }
     }
 }

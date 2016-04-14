@@ -50,6 +50,8 @@ namespace Dietphone.ViewModels
             RaisePropertyChanged(propertyName);
         }
 
-        public string this[string index] => Translations.ResourceManager.GetString(index).Capitalize();
+        public string this[string index] => Translations.ResourceManager
+            .GetString(index, MyApp.CurrentUiCultureInfo)
+            .Capitalize();
     }
 }

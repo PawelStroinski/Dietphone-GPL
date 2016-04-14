@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Dietphone.Views
+﻿namespace Dietphone.Views
 {
     public sealed class TranslationsFactory
     {
@@ -26,9 +24,7 @@ namespace Dietphone.Views
 
         private static void SetCulture()
         {
-            var cultureName = MyApp.CurrentUiCulture;
-            var culture = new CultureInfo(cultureName);
-            Translations.Culture = culture;
+            Translations.Culture = MyApp.CurrentUiCultureInfo;
         }
     }
 }
