@@ -95,8 +95,34 @@
         <!--Language-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical" local:MvxBind="Visible ThirdPivot">
+            <!--UiCulture-->
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:text="ThirdPivot"/>
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      local:MvxBind="Text [AppLanguage]"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <Mvx.MvxSpinner android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="ItemsSource UiCultures; SelectedItem UiCulture"/>
+            </LinearLayout>
+            <!--ProductCulture-->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      local:MvxBind="Text [LocalizationOfProductDatabase]"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <Mvx.MvxSpinner android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="ItemsSource ProductCultures; SelectedItem ProductCulture"/>
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:layout_marginTop="-23dp"
+                      local:MvxBind="Text [YouCanChangeLocalizationOfProductDatabaseManyTimes]"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:textColor="@color/accent_material_dark" android:paddingTop="9dp"
+                      local:MvxBind="Text [ChangesOfLanguageAndLocalizationWillBeAppliedThe]; Visible CultureChanged"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
