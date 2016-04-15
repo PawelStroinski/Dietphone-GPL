@@ -99,6 +99,7 @@
     <Compile Include="Tools\NavigationServiceImpl.cs" />
     <Compile Include="TargetBindings\BackEditTextTextOnFocusLost.cs" />
     <Compile Include="TargetBindings\TabHostCurrentTab.cs" />
+    <Compile Include="Tools\TrialImpl.cs" />
     <Compile Include="Tools\UIExtensionMethods.cs" />
     <Compile Include="Tools\VibrationImpl.cs" />
     <Compile Include="Views\ActivityBase.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Views\Adapters\MenuItemClickListener.cs" />
     <Compile Include="Views\Adapters\WebViewClientImpl.cs" />
     <Compile Include="Controls\BackEditText.cs" />
+    <Compile Include="Views\MealEditingView.cs" />
     <Compile Include="Views\SettingsView.cs" />
     <Compile Include="Views\ExportAndImportView.cs" />
     <Compile Include="Views\ListingView.cs" />
@@ -161,7 +163,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
     <AndroidResource Include="Resources\layout\MainView.axml" />
-    <AndroidResource Include="Resources\layout\Listing.axml">
+    <AndroidResource Include="Resources\layout\ListingView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Journal_Item.axml" />
@@ -171,6 +173,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\SettingsView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\MealEditingView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Scores.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

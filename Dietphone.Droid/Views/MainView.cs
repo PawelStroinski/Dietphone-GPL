@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Android.App;
 using Android.Graphics;
 using Android.OS;
@@ -8,6 +7,7 @@ using Dietphone.Tools;
 using Dietphone.ViewModels;
 using Dietphone.Views.Adapters;
 using MvvmCross.Droid.Views;
+using MvvmCross.Platform;
 
 namespace Dietphone.Views
 {
@@ -58,7 +58,7 @@ namespace Dietphone.Views
             subConnector = new SubViewModelConnector(ViewModel);
             subConnector.Loaded += delegate { ViewModel.UiRendered(); };
             ViewModel.Untombstone();
-            var navigator = new NavigatorImpl(new NavigationServiceImpl());
+            var navigator = Mvx.Resolve<Navigator>();
             subConnector.Navigator = navigator;
             subConnector.Refresh();
             ViewModel.Navigator = navigator;
@@ -102,6 +102,10 @@ namespace Dietphone.Views
         {
             exportAndImportData.SetOnMenuItemClick(() => ViewModel.ExportAndImport());
             settings.SetOnMenuItemClick(() => ViewModel.Settings());
+            BindAddMenuAction(meal, new JournalViewModel.AddMealCommand());
+            BindAddMenuAction(sugar, new JournalViewModel.AddSugarCommand());
+            BindAddMenuAction(insulin, new JournalViewModel.AddInsulinCommand());
+            BindAddMenuAction(add, new DefaultAddCommand());
         }
 
         private Rect GetGlobalVisibleRect(View view)
@@ -160,6 +164,11 @@ namespace Dietphone.Views
         {
             searchExpanded = false;
             SetMenuVisisiblity();
+        }
+
+        private void BindAddMenuAction(IMenuItem item, AddCommand command)
+        {
+            item.SetOnMenuItemClick(() => subConnector.Add(command));
         }
 
         private void SetMenuVisisiblity()
