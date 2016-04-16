@@ -171,7 +171,7 @@ namespace Dietphone.Views
 
         protected void Scores_ScoreClick(object sender, EventArgs e)
         {
-            ViewModel.OpenScoresSettings();
+            ViewModel.OpenScoresSettings.Execute(null);
         }
 
         private void TranslateApplicationBar()

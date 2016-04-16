@@ -7,7 +7,7 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical" local:MvxBind="Visible FirstPivot">
             <MvxFrameControl android:layout_width="match_parent" android:layout_height="wrap_content"
-                             local:MvxTemplate="@layout/scores" local:MvxBind="DataContext Subject.Scores" />
+                             local:MvxTemplate="@layout/scores" local:MvxBind="DataContext ." />
         </LinearLayout>
         <!--General-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"

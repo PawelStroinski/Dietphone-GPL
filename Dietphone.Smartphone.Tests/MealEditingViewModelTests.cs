@@ -174,7 +174,7 @@ namespace Dietphone.Smartphone.Tests
         public void ReturnedFromNavigationInvalidatesScoresWhenWentToSettings()
         {
             sut.Load();
-            sut.OpenScoresSettings();
+            sut.OpenScoresSettings.Call();
             sut.Subject.Scores.ChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
         }
 

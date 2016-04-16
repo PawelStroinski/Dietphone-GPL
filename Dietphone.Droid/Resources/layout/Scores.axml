@@ -3,7 +3,31 @@
               xmlns:local="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent" android:layout_height="wrap_content"
               android:orientation="vertical">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:paddingLeft="17dp" android:textAppearance="?android:attr/textAppearanceLarge"
-              android:text="Scores"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
+                  android:fontFamily="sans-serif-medium"
+                  local:MvxBind="Text Subject.Scores.First; Click OpenScoresSettings"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
+                  android:fontFamily="sans-serif-medium" android:gravity="center_horizontal"
+                  local:MvxBind="Text Subject.Scores.Second; Click OpenScoresSettings"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal" android:paddingTop="12dp"
+                  local:MvxBind="Visible Subject.Scores.ThirdExists">
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
+                  android:fontFamily="sans-serif-medium"
+                  local:MvxBind="Text Subject.Scores.Third; Click OpenScoresSettings"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
+                  android:fontFamily="sans-serif-medium" android:gravity="center_horizontal"
+                  local:MvxBind="Text Subject.Scores.Fourth; Click OpenScoresSettings"/>
+    </LinearLayout>
 </LinearLayout>

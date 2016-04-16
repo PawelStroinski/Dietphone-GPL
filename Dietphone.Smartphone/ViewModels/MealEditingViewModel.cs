@@ -182,10 +182,16 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public void OpenScoresSettings()
+        public ICommand OpenScoresSettings
         {
-            wentToSettings = true;
-            Navigator.GoToSettings();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    wentToSettings = true;
+                    Navigator.GoToSettings();
+                });
+            }
         }
 
         public void ReturnedFromNavigation()
