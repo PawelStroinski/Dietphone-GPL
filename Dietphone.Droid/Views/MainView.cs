@@ -30,6 +30,12 @@ namespace Dietphone.Views
             InitializeViewModel();
         }
 
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+            InitializeViewModel();
+        }
+
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.mainview_menu, menu);
@@ -55,14 +61,19 @@ namespace Dietphone.Views
 
         private void InitializeViewModel()
         {
-            subConnector = new SubViewModelConnector(ViewModel);
-            subConnector.Loaded += delegate { ViewModel.UiRendered(); };
+            var fullInitialization = subConnector == null;
+            if (fullInitialization)
+            {
+                subConnector = new SubViewModelConnector(ViewModel);
+                subConnector.Loaded += delegate { ViewModel.UiRendered(); };
+            }
             ViewModel.Untombstone();
             var navigator = Mvx.Resolve<Navigator>();
             subConnector.Navigator = navigator;
             subConnector.Refresh();
             ViewModel.Navigator = navigator;
-            SetSubViewModel();
+            if (fullInitialization)
+                SetSubViewModel();
         }
 
         private void GetMenu(IMenu menu)

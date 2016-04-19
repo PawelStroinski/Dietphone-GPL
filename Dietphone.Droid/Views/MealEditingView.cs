@@ -1,4 +1,5 @@
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
@@ -18,10 +19,21 @@ namespace Dietphone.Views
             this.InitializeTabs(Translations.Ingredients, Translations.General);
         }
 
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+            ViewModel.ReturnedFromNavigation();
+        }
+
         private void InitializeViewModel()
         {
-            ViewModel.Navigator = Mvx.Resolve<Navigator>();
-            ViewModel.Load();
+            if (ViewModel.Navigator == null)
+            {
+                ViewModel.Navigator = Mvx.Resolve<Navigator>();
+                ViewModel.Load();
+            }
+            else
+                ViewModel.ReturnedFromNavigation();
         }
     }
 }

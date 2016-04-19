@@ -69,6 +69,8 @@ namespace Dietphone.ViewModels
             }
         }
 
+        public ScoreSelector MealScores => Subject.Scores;
+
         public void Init(Navigation navigation)
         {
             this.navigation = navigation;

@@ -6,8 +6,21 @@
         <!--Ingredients-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical" local:MvxBind="Visible FirstPivot">
-            <MvxFrameControl android:layout_width="match_parent" android:layout_height="wrap_content"
-                             local:MvxTemplate="@layout/scores" local:MvxBind="DataContext ." />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:orientation="horizontal">
+                <!--0-->
+                <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
+                                 android:layout_weight="8" android:layout_marginTop="12dp"
+                                 android:layout_marginLeft="9dp" local:MvxTemplate="@layout/scores"
+                                 local:MvxBind="DataContext ."/>
+                <!--+-->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="2" android:gravity="center_horizontal">
+                    <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                                 android:src="@drawable/ic_add" android:scaleType="fitCenter"
+                                 local:MvxBind="Click AddItem"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
         <!--General-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"

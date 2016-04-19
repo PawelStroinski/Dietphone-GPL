@@ -308,5 +308,12 @@ namespace Dietphone.Smartphone.Tests
             sut.DeleteAndSaveAndReturn();
             Assert.AreEqual(confirm ? 0 : 1, factories.Meals.Count);
         }
+
+        [Test]
+        public void MealScores()
+        {
+            sut.Load();
+            Assert.AreSame(sut.MealScores, sut.Subject.Scores);
+        }
     }
 }
