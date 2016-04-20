@@ -17,7 +17,7 @@ namespace Dietphone.Views
         private SubViewModelConnector subConnector;
         private IMenuItem meal, sugar, insulin, add, search, settings, exportAndImportData, about, welcomeScreen;
         private SearchView searchView;
-        private bool searchExpanded;
+        private bool searchExpanded, showProductsOnly;
         private const string JOURNAL_TAB = "journal";
         private const string PRODUCTS_TAB = "products";
 
@@ -26,8 +26,8 @@ namespace Dietphone.Views
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.MainView);
             Title = string.Empty;
-            InitializeTabs();
             InitializeViewModel();
+            InitializeTabs();
         }
 
         protected override void OnRestart()
@@ -43,6 +43,8 @@ namespace Dietphone.Views
             TranslateMenu();
             InitializeSearchMenu();
             BindMenuActions();
+            if (showProductsOnly)
+                SetMenuVisisiblity();
             return true;
         }
 
@@ -50,13 +52,6 @@ namespace Dietphone.Views
         {
             this.HideSoftInputOnTouchOutside(ev, GetGlobalVisibleRect);
             return base.DispatchTouchEvent(ev);
-        }
-
-        private void InitializeTabs()
-        {
-            AddJournalTab();
-            AddProductsTab();
-            TabHost.TabChanged += TabHost_TabChanged;
         }
 
         private void InitializeViewModel()
@@ -67,13 +62,21 @@ namespace Dietphone.Views
                 subConnector = new SubViewModelConnector(ViewModel);
                 subConnector.Loaded += delegate { ViewModel.UiRendered(); };
             }
+            ViewModel.ShowProductsOnly += delegate { showProductsOnly = true; };
             ViewModel.Untombstone();
             var navigator = Mvx.Resolve<Navigator>();
             subConnector.Navigator = navigator;
             subConnector.Refresh();
             ViewModel.Navigator = navigator;
-            if (fullInitialization)
-                SetSubViewModel();
+        }
+
+        private void InitializeTabs()
+        {
+            if (!showProductsOnly)
+                AddJournalTab();
+            AddProductsTab();
+            TabHost.TabChanged += TabHost_TabChanged;
+            SetSubViewModel();
         }
 
         private void GetMenu(IMenu menu)
