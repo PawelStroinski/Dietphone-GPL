@@ -20,6 +20,7 @@ namespace Dietphone.ViewModels
             Untombstone();
             OnNeedToShow();
             IsVisible = true;
+            OnPropertyChanged("IsVisible");
         }
 
         public void Confirm()
@@ -47,6 +48,7 @@ namespace Dietphone.ViewModels
         private void OnHidden()
         {
             IsVisible = false;
+            OnPropertyChanged("IsVisible");
             ClearTombstoning();
         }
 

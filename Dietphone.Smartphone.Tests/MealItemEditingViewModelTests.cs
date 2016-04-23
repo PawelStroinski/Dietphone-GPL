@@ -30,7 +30,7 @@ namespace Dietphone.Smartphone.Tests
             model.Value = 1;
             sut.StateProvider = stateProvider;
             sut.NeedToShow += delegate { needToShow = true; };
-            sut.Show(mealItem);
+            sut.ChangesProperty("IsVisible", () => sut.Show(mealItem));
             Assert.AreEqual("5", sut.Subject.Value);
             Assert.IsTrue(needToShow);
             Assert.IsTrue(sut.IsVisible);
@@ -43,7 +43,7 @@ namespace Dietphone.Smartphone.Tests
             var confirmed = false;
             sut.StateProvider = stateProvider;
             sut.Confirmed += delegate { confirmed = true; };
-            sut.Confirm();
+            sut.ChangesProperty("IsVisible", () => sut.Confirm());
             Assert.IsTrue(confirmed);
             Assert.IsFalse(sut.IsVisible);
             Assert.IsFalse(stateProvider.State.ContainsKey(MealItemEditingViewModel.MEAL_ITEM));
@@ -56,7 +56,7 @@ namespace Dietphone.Smartphone.Tests
             var cancelled = false;
             sut.StateProvider = stateProvider;
             sut.Cancelled += delegate { cancelled = true; };
-            sut.Cancel();
+            sut.ChangesProperty("IsVisible", () => sut.Cancel());
             Assert.IsTrue(cancelled);
             Assert.IsFalse(sut.IsVisible);
             Assert.IsFalse(stateProvider.State.ContainsKey(MealItemEditingViewModel.MEAL_ITEM));
@@ -69,7 +69,7 @@ namespace Dietphone.Smartphone.Tests
             var needToDelete = false;
             sut.StateProvider = stateProvider;
             sut.NeedToDelete += delegate { needToDelete = true; };
-            sut.Delete();
+            sut.ChangesProperty("IsVisible", () => sut.Delete());
             Assert.IsTrue(needToDelete);
             Assert.IsFalse(sut.IsVisible);
             Assert.IsFalse(stateProvider.State.ContainsKey(MealItemEditingViewModel.MEAL_ITEM));

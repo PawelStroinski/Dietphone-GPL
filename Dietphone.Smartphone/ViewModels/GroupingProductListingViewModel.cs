@@ -14,6 +14,7 @@ namespace Dietphone.ViewModels
                 () => Products,
                 keySelector: product => product.Category,
                 predicate: product => product.Name.ContainsIgnoringCase(search),
+                choose: Choose,
                 itemSort: product => product.Name,
                 groupSort: group => group.Key.Name);
         }

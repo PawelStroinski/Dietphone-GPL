@@ -12,7 +12,8 @@ namespace Dietphone.ViewModels
         {
             Grouping = new GroupingViewModel<JournalItemViewModel, DateViewModel>(this, () => Items,
                 keySelector: item => item.Date,
-                predicate: item => item.FilterIn(search));
+                predicate: item => item.FilterIn(search),
+                choose: Choose);
         }
     }
 }

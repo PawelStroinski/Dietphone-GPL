@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dietphone.ViewModels;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Dietphone.Smartphone.Tests
@@ -10,13 +12,15 @@ namespace Dietphone.Smartphone.Tests
         private SearchSubViewModelStub viewModel;
         private GroupingViewModel<string, int> sut;
         private bool filterResult;
+        private Action<string> choose;
 
         [SetUp]
         public void TestInitialize()
         {
             viewModel = new SearchSubViewModelStub();
+            choose = Substitute.For<Action<string>>();
             sut = new GroupingViewModel<string, int>(viewModel, () => viewModel.Items, item => item.Length,
-                item => filterResult);
+                item => filterResult, choose);
         }
 
         [TestCase(true, false)]
@@ -69,15 +73,26 @@ namespace Dietphone.Smartphone.Tests
         public void CanSort()
         {
             var unsorted = new GroupingViewModel<string, int>(viewModel, () => viewModel.Items,
-                item => item.Length, item => filterResult);
+                item => item.Length, item => filterResult, choose);
             viewModel.Load();
             Assert.AreEqual(4, unsorted.Groups[0].Key);
             Assert.AreEqual("foo", unsorted.Groups[1].First());
             var sorted = new SortedGroupingViewModel<string, int, string, int>(viewModel, () => viewModel.Items,
-                item => item.Length, item => filterResult, itemSort: item => item, groupSort: group => -group.Key);
+                item => item.Length, item => filterResult, choose, itemSort: item => item,
+                groupSort: group => -group.Key);
             viewModel.Refresh();
             Assert.AreEqual(4, sorted.Groups[0].Key);
             Assert.AreEqual("bar", sorted.Groups[1].First());
+        }
+
+        [Test]
+        public void CanChoose()
+        {
+            viewModel.Load();
+            choose.DidNotReceiveWithAnyArgs().Invoke(null);
+            sut.ChangesProperty("Choice", () => sut.Choice = "foo");
+            choose.Received().Invoke("foo");
+            Assert.IsNull(sut.Choice);
         }
 
         private class SearchSubViewModelStub : SearchSubViewModel

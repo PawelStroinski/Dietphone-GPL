@@ -11,5 +11,5 @@
                                android:id="@+id/ListView" android:childDivider="@android:color/transparent"
                                android:divider="@android:color/transparent"
                                local:MvxGroupItemTemplate="@layout/listing_group"
-                               local:MvxBind="ItemsSource Grouping.Groups"/>
+                               local:MvxBind="ItemsSource Grouping.Groups; SelectedItem Grouping.Choice"/>
 </FrameLayout>

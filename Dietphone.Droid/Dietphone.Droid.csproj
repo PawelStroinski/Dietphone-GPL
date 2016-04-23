@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinarySerializers\DroidBinaryStreamProvider.cs" />
+    <Compile Include="Controls\MvxPopupWindow.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DroidApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -162,7 +163,9 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\SplashScreen.axml" />
-    <AndroidResource Include="Resources\layout\MainView.axml" />
+    <AndroidResource Include="Resources\layout\MainView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\ListingView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -179,6 +182,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Scores.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\MealItemEditing.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
