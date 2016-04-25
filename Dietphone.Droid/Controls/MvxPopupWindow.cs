@@ -16,11 +16,13 @@ namespace Dietphone.Controls
 {
     public sealed class MvxPopupWindow : View, IMvxBindingContextOwner
     {
+        public event EventHandler IsVisibleChanged;
+        public event EventHandler AutoDissmissed;
+        private object cachedDataContext;
+        private bool isVisible, dissmissing;
+        private PopupWindow popup;
         private readonly int templateId;
         private readonly IMvxAndroidBindingContext bindingContext;
-        private object cachedDataContext;
-        private bool isVisible;
-        private PopupWindow popup;
 
         public MvxPopupWindow(Context context, IAttributeSet attrs)
             : base(context, attrs)
@@ -81,43 +83,45 @@ namespace Dietphone.Controls
                     if (value)
                         Show();
                     else
-                        Dismiss(true);
+                        Dismiss();
                 }
             }
         }
 
-        public event EventHandler IsVisibleChanged;
-
         private void Show()
         {
             if (cachedDataContext != null && DataContext == null)
-                DataContext = cachedDataContext;
+                bindingContext.DataContext = cachedDataContext;
             popup = new PopupWindow(
                 bindingContext.BindingInflate(templateId, null),
                 ViewGroup.LayoutParams.MatchParent,
                 ViewGroup.LayoutParams.MatchParent,
                 true);
             popup.SetBackgroundDrawable(new BitmapDrawable()); // This is needed, see http://stackoverflow.com/a/3122696
-            popup.DismissEvent += Popup_DismissEvent;
+            popup.DismissEvent += delegate { HandleDismiss(); };
             popup.ShowAtLocation(this, GravityFlags.NoGravity, 0, 0);
+            dissmissing = false;
         }
 
-        private void Dismiss(bool dismiss)
+        private void Dismiss()
+        {
+            dissmissing = true;
+            popup.Dismiss();
+        }
+
+        private void HandleDismiss()
         {
             if (popup == null)
                 return;
             cachedDataContext = DataContext;
-            DataContext = null;
-            if (dismiss)
-                popup.Dismiss();
+            bindingContext.DataContext = null;
             popup = null;
-        }
-
-        private void Popup_DismissEvent(object sender, EventArgs e)
-        {
-            Dismiss(false);
-            isVisible = false;
-            OnIsVisibleChanged(EventArgs.Empty);
+            if (!dissmissing)
+            {
+                isVisible = false;
+                OnIsVisibleChanged(EventArgs.Empty);
+                OnAutoDissmissed(EventArgs.Empty);
+            }
         }
 
         private void OnIsVisibleChanged(EventArgs e)
@@ -125,6 +129,14 @@ namespace Dietphone.Controls
             if (IsVisibleChanged != null)
             {
                 IsVisibleChanged(this, e);
+            }
+        }
+
+        private void OnAutoDissmissed(EventArgs e)
+        {
+            if (AutoDissmissed != null)
+            {
+                AutoDissmissed(this, e);
             }
         }
     }

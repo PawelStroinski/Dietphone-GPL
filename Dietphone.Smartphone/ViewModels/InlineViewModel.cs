@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Windows.Input;
 using Dietphone.Tools;
+using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
@@ -23,22 +25,40 @@ namespace Dietphone.ViewModels
             OnPropertyChanged("IsVisible");
         }
 
-        public void Confirm()
+        public ICommand Confirm
         {
-            OnConfirmed();
-            OnHidden();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    OnConfirmed();
+                    OnHidden();
+                });
+            }
         }
 
-        public void Cancel()
+        public ICommand Cancel
         {
-            OnCancelled();
-            OnHidden();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    OnCancelled();
+                    OnHidden();
+                });
+            }
         }
 
-        public void Delete()
+        public ICommand Delete
         {
-            OnNeedToDelete();
-            OnHidden();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    OnNeedToDelete();
+                    OnHidden();
+                });
+            }
         }
 
         public abstract void Tombstone();

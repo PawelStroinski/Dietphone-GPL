@@ -161,7 +161,7 @@ namespace Dietphone.Smartphone.Tests
             var viewModel = new SugarViewModel(sugar, factories);
             sut.Choose(viewModel);
             sugarEditing.Subject.BloodSugar = "110";
-            sugarEditing.Confirm();
+            sugarEditing.Confirm.Call();
             Assert.AreEqual(110, sugar.BloodSugar);
             Assert.AreNotEqual(items, sut.Items, "Should refresh");
         }
@@ -175,7 +175,7 @@ namespace Dietphone.Smartphone.Tests
             var viewModel = new SugarViewModel(sugar, factories);
             sut.Choose(viewModel);
             Assert.IsTrue(sugarEditing.CanDelete);
-            sugarEditing.Delete();
+            sugarEditing.Delete.Call();
             Assert.IsEmpty(factories.Sugars);
             Assert.IsEmpty(sut.Items);
         }
@@ -188,7 +188,7 @@ namespace Dietphone.Smartphone.Tests
             sut.Load();
             var viewModel = new SugarViewModel(sugar, factories);
             sut.Choose(viewModel);
-            sugarEditing.Cancel();
+            sugarEditing.Cancel.Call();
             Assert.IsNotEmpty(factories.Sugars);
             Assert.IsNotEmpty(sut.Items);
         }
@@ -223,7 +223,7 @@ namespace Dietphone.Smartphone.Tests
             sut.Load();
             var command = new JournalViewModel.AddSugarCommand();
             sut.Add(command);
-            sugarEditing.Cancel();
+            sugarEditing.Cancel.Call();
             Assert.IsEmpty(factories.Sugars);
             Assert.IsEmpty(sut.Items);
         }
@@ -248,10 +248,10 @@ namespace Dietphone.Smartphone.Tests
             sut.Choose(viewModel);
             viewModel.BloodSugar = "100";
             sut.Tombstone();
-            sugarEditing.Cancel();
+            sugarEditing.Cancel.Call();
             sut.Untombstone();
             Assert.IsTrue(sugarEditing.IsVisible);
-            sugarEditing.Confirm();
+            sugarEditing.Confirm.Call();
             Assert.AreEqual(100, sugar.BloodSugar);
         }
 

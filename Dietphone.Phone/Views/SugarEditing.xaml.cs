@@ -45,19 +45,19 @@ namespace Dietphone.Views
 
         private void Ok_Click(object sender, EventArgs e)
         {
-            ViewModel.Confirm();
+            ViewModel.Confirm.Execute(null);
             Close();
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            ViewModel.Cancel();
+            ViewModel.Cancel.Execute(null);
             Close();
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            ViewModel.Delete();
+            ViewModel.Delete.Execute(null);
             Close();
         }
 
@@ -82,7 +82,7 @@ namespace Dietphone.Views
         {
             if (!controlledClosing)
             {
-                ViewModel.Cancel();
+                ViewModel.Cancel.Execute(null);
             }
         }
 

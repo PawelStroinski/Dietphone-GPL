@@ -119,7 +119,7 @@ namespace Dietphone.ViewModels
             sugarEditing.Cancelled += delegate
             {
                 if (choosedAnAdded)
-                    sugarEditing.Delete();
+                    sugarEditing.Delete.Execute(null);
             };
             sugarEditing.NeedToDelete += delegate
             {
