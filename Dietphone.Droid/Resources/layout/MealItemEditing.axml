@@ -2,6 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:local="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent" android:layout_height="match_parent"
-              android:orientation="vertical" android:background="@color/primary_dark_material_light">
+              android:background="@color/black">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:layout_marginTop="25dp" android:orientation="vertical">
+        <!--Header & Icons-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:paddingTop="15dp" android:paddingLeft="15dp"
+                      local:MvxBind="Text [IngredientQuantity]"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:gravity="right">
+                <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                             android:src="@drawable/ic_delete" android:scaleType="centerInside"
+                             android:padding="12dp" android:background="?android:selectableItemBackground"
+                             local:MvxBind="Click Delete; Enabled CanDelete; Clickable CanDelete"/>
+                <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                             android:src="@drawable/ic_cancel" android:scaleType="centerInside"
+                             android:padding="12dp" android:background="?android:selectableItemBackground"
+                             local:MvxBind="Click Cancel"/>
+                <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                             android:src="@drawable/ic_check" android:scaleType="centerInside"
+                             android:padding="12dp" android:background="?android:selectableItemBackground"
+                             local:MvxBind="Click Confirm"/>
+            </LinearLayout>
+        </LinearLayout>
 
+    </LinearLayout>
 </LinearLayout>

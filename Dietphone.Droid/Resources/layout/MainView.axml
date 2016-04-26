@@ -11,5 +11,5 @@
     </LinearLayout>
     <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
                     local:MvxTemplate="@layout/mealitemediting"
-                    local:MvxBind="IsVisible MealItemEditing.IsVisible; DataContext MealItemEditing"/>
+                    local:MvxBind="IsVisible MealItemEditing.IsVisible; Dissmissed MealItemEditing.Cancel; DataContext MealItemEditing"/>
 </TabHost>

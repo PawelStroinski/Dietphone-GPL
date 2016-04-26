@@ -86,8 +86,11 @@ namespace Dietphone
 		public partial class Color
 		{
 			
+			// aapt resource value: 0x7f050003
+			public const int accent_material_dark = 2131034115;
+			
 			// aapt resource value: 0x7f050002
-			public const int accent_material_dark = 2131034114;
+			public const int black = 2131034114;
 			
 			// aapt resource value: 0x7f050000
 			public const int material_deep_teal_200 = 2131034112;
@@ -95,8 +98,8 @@ namespace Dietphone
 			// aapt resource value: 0x7f050001
 			public const int material_grey_600 = 2131034113;
 			
-			// aapt resource value: 0x7f050003
-			public const int primary_dark_material_light = 2131034115;
+			// aapt resource value: 0x7f050004
+			public const int primary_dark_material_light = 2131034116;
 			
 			static Color()
 			{
@@ -115,22 +118,31 @@ namespace Dietphone
 			public const int ic_add = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int ic_insulin = 2130837505;
+			public const int ic_cancel = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int ic_meal = 2130837506;
+			public const int ic_check = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int ic_search = 2130837507;
+			public const int ic_delete = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int ic_sugar = 2130837508;
+			public const int ic_insulin = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int Icon = 2130837509;
+			public const int ic_meal = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int splash = 2130837510;
+			public const int ic_search = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int ic_sugar = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int Icon = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int splash = 2130837513;
 			
 			static Drawable()
 			{

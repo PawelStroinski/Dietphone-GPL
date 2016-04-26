@@ -1,5 +1,5 @@
 // Based on https://github.com/MvvmCross/MvvmCross/blob/4.0/MvvmCross/Binding/Droid/Views/MvxFrameControl.cs
-// and http://stackoverflow.com/a/1967886
+// and http://stackoverflow.com/a/1967886, http://stackoverflow.com/a/27147729
 using System;
 using Android.Content;
 using Android.Graphics.Drawables;
@@ -17,7 +17,7 @@ namespace Dietphone.Controls
     public sealed class MvxPopupWindow : View, IMvxBindingContextOwner
     {
         public event EventHandler IsVisibleChanged;
-        public event EventHandler AutoDissmissed;
+        public event EventHandler Dissmissed;
         private object cachedDataContext;
         private bool isVisible, dissmissing;
         private PopupWindow popup;
@@ -99,6 +99,7 @@ namespace Dietphone.Controls
                 true);
             popup.SetBackgroundDrawable(new BitmapDrawable()); // This is needed, see http://stackoverflow.com/a/3122696
             popup.DismissEvent += delegate { HandleDismiss(); };
+            popup.AnimationStyle = Android.Resource.Style.AnimationTranslucent;
             popup.ShowAtLocation(this, GravityFlags.NoGravity, 0, 0);
             dissmissing = false;
         }
@@ -120,7 +121,7 @@ namespace Dietphone.Controls
             {
                 isVisible = false;
                 OnIsVisibleChanged(EventArgs.Empty);
-                OnAutoDissmissed(EventArgs.Empty);
+                OnDissmissed(EventArgs.Empty);
             }
         }
 
@@ -132,11 +133,11 @@ namespace Dietphone.Controls
             }
         }
 
-        private void OnAutoDissmissed(EventArgs e)
+        private void OnDissmissed(EventArgs e)
         {
-            if (AutoDissmissed != null)
+            if (Dissmissed != null)
             {
-                AutoDissmissed(this, e);
+                Dissmissed(this, e);
             }
         }
     }

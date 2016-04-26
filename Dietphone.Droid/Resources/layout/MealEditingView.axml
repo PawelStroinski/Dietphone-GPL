@@ -17,7 +17,8 @@
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                               android:layout_weight="2" android:gravity="center_horizontal">
                     <ImageButton android:layout_width="56dp" android:layout_height="56dp"
-                                 android:src="@drawable/ic_add" android:scaleType="fitCenter"
+                                 android:src="@drawable/ic_add" android:scaleType="centerInside"
+                                 android:padding="12dp" android:background="?android:selectableItemBackground"
                                  local:MvxBind="Click AddItem"/>
                 </LinearLayout>
             </LinearLayout>
