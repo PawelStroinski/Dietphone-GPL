@@ -5,12 +5,12 @@
               android:background="@color/black">
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                   android:layout_marginTop="25dp" android:orientation="vertical">
-        <!--Header & Icons-->
+        <!--Header | Icons-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceMedium"
-                      android:paddingTop="15dp" android:paddingLeft="15dp"
+                      android:layout_marginTop="18dp" android:layout_marginLeft="10dp"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:textStyle="bold" 
                       local:MvxBind="Text [IngredientQuantity]"/>
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:orientation="horizontal" android:gravity="right">
@@ -28,6 +28,17 @@
                              local:MvxBind="Click Confirm"/>
             </LinearLayout>
         </LinearLayout>
-
+        <!--ValueWrapper | UnitWithDetalis-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_marginTop="25dp" android:orientation="horizontal">
+            <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                      android:layout_weight="1" android:layout_marginLeft="10dp"
+                      android:inputType="numberDecimal" local:MvxBind="Text Subject.ValueWrapper"/>
+            <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:layout_marginRight="10dp"
+                            android:spinnerMode="dialog"
+                            local:MvxBind="ItemsSource Subject.AllUsableUnitsWithDetalis;
+                                           SelectedItem Subject.UnitWithDetalis; Enabled Subject.HasManyUsableUnits"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
