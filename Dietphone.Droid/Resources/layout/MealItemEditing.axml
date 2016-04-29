@@ -2,43 +2,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:local="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent" android:layout_height="match_parent"
-              android:background="@color/black">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                  android:layout_marginTop="25dp" android:orientation="vertical">
-        <!--Header | Icons-->
+              android:orientation="vertical" android:background="@color/black">
+    <!--Header | Icons-->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginTop="25dp" android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_marginTop="18dp" android:layout_marginLeft="10dp"
+                  android:textAppearance="?android:attr/textAppearanceSmall" android:textStyle="bold"
+                  local:MvxBind="Text [IngredientQuantity]"/>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="horizontal">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:layout_marginTop="18dp" android:layout_marginLeft="10dp"
-                      android:textAppearance="?android:attr/textAppearanceSmall" android:textStyle="bold" 
-                      local:MvxBind="Text [IngredientQuantity]"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:orientation="horizontal" android:gravity="right">
-                <ImageButton android:layout_width="56dp" android:layout_height="56dp"
-                             android:src="@drawable/ic_delete" android:scaleType="centerInside"
-                             android:padding="12dp" android:background="?android:selectableItemBackground"
-                             local:MvxBind="Click Delete; Enabled CanDelete; Clickable CanDelete"/>
-                <ImageButton android:layout_width="56dp" android:layout_height="56dp"
-                             android:src="@drawable/ic_cancel" android:scaleType="centerInside"
-                             android:padding="12dp" android:background="?android:selectableItemBackground"
-                             local:MvxBind="Click Cancel"/>
-                <ImageButton android:layout_width="56dp" android:layout_height="56dp"
-                             android:src="@drawable/ic_check" android:scaleType="centerInside"
-                             android:padding="12dp" android:background="?android:selectableItemBackground"
-                             local:MvxBind="Click Confirm"/>
-            </LinearLayout>
+                      android:orientation="horizontal" android:gravity="right">
+            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                         android:src="@drawable/ic_delete" android:scaleType="centerInside"
+                         android:padding="12dp" android:background="?android:selectableItemBackground"
+                         local:MvxBind="Click Delete; Enabled CanDelete; Clickable CanDelete"/>
+            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                         android:src="@drawable/ic_cancel" android:scaleType="centerInside"
+                         android:padding="12dp" android:background="?android:selectableItemBackground"
+                         local:MvxBind="Click Cancel"/>
+            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                         android:src="@drawable/ic_check" android:scaleType="centerInside"
+                         android:padding="12dp" android:background="?android:selectableItemBackground"
+                         local:MvxBind="Click Confirm"/>
         </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                  android:orientation="vertical">
         <!--ValueWrapper | UnitWithDetalis-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_marginTop="25dp" android:orientation="horizontal">
             <EditText android:layout_width="0dp" android:layout_height="wrap_content"
-                      android:layout_weight="1" android:layout_marginLeft="10dp"
-                      android:inputType="numberDecimal" local:MvxBind="Text Subject.ValueWrapper"/>
+                      android:layout_weight="1" android:inputType="numberDecimal"
+                      local:MvxBind="Text Subject.ValueWrapper"/>
             <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
-                            android:layout_weight="1" android:layout_marginRight="10dp"
-                            android:spinnerMode="dialog"
+                            android:layout_weight="1" android:spinnerMode="dialog"
                             local:MvxBind="ItemsSource Subject.AllUsableUnitsWithDetalis;
                                            SelectedItem Subject.UnitWithDetalis; Enabled Subject.HasManyUsableUnits"/>
         </LinearLayout>
+        <!--ProductName-->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_marginTop="90dp" android:textAppearance="?android:attr/textAppearanceSmall"
+                  local:MvxBind="Text Subject.ProductName"/>
+        <!--0-->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  local:MvxBind="Text Subject.Scores.First; Visible Subject.Scores.FirstExists"/>
+        <!--0-->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  local:MvxBind="Text Subject.Scores.Second; Visible Subject.Scores.SecondExists"/>
+        <!--0-->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  local:MvxBind="Text Subject.Scores.Third; Visible Subject.Scores.ThirdExists"/>
+        <!--0-->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  local:MvxBind="Text Subject.Scores.Fourth; Visible Subject.Scores.FourthExists"/>
     </LinearLayout>
 </LinearLayout>
