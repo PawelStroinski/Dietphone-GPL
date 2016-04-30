@@ -133,16 +133,19 @@ namespace Dietphone
 			public const int ic_meal = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int ic_search = 2130837510;
+			public const int ic_save = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int ic_sugar = 2130837511;
+			public const int ic_search = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int Icon = 2130837512;
+			public const int ic_sugar = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int splash = 2130837513;
+			public const int Icon = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int splash = 2130837514;
 			
 			static Drawable()
 			{
@@ -199,6 +202,18 @@ namespace Dietphone
 			// aapt resource value: 0x7f04000d
 			public const int mainview_welcomescreen = 2130968589;
 			
+			// aapt resource value: 0x7f04000f
+			public const int mealeditingview_cancel = 2130968591;
+			
+			// aapt resource value: 0x7f040011
+			public const int mealeditingview_delete = 2130968593;
+			
+			// aapt resource value: 0x7f040010
+			public const int mealeditingview_insulin = 2130968592;
+			
+			// aapt resource value: 0x7f04000e
+			public const int mealeditingview_save = 2130968590;
+			
 			static Id()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -228,22 +243,25 @@ namespace Dietphone
 			public const int MainView = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int MealEditingView = 2130903045;
+			public const int Meal_Item = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int MealItemEditing = 2130903046;
+			public const int MealEditingView = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int ProductListing_Item = 2130903047;
+			public const int MealItemEditing = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int Scores = 2130903048;
+			public const int ProductListing_Item = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int SettingsView = 2130903049;
+			public const int Scores = 2130903049;
 			
 			// aapt resource value: 0x7f03000a
-			public const int SplashScreen = 2130903050;
+			public const int SettingsView = 2130903050;
+			
+			// aapt resource value: 0x7f03000b
+			public const int SplashScreen = 2130903051;
 			
 			static Layout()
 			{
@@ -263,6 +281,9 @@ namespace Dietphone
 			
 			// aapt resource value: 0x7f070001
 			public const int mainview_menu = 2131165185;
+			
+			// aapt resource value: 0x7f070002
+			public const int mealeditingview_menu = 2131165186;
 			
 			static Menu()
 			{

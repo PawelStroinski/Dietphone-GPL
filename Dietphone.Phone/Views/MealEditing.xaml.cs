@@ -91,7 +91,7 @@ namespace Dietphone.Views
             var item = Items.SelectedItem as MealItemViewModel;
             if (item != null)
             {
-                ViewModel.EditItem(item);
+                ViewModel.EditItem.Execute(item);
             }
             Items.SelectedItem = null;
         }

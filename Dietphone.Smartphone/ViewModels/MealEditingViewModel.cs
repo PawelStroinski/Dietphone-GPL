@@ -174,13 +174,19 @@ namespace Dietphone.ViewModels
             }
         }
 
-        public void EditItem(MealItemViewModel itemViewModel)
+        public ICommand EditItem
         {
-            if (itemViewModel != null)
+            get
             {
-                editItem = itemViewModel;
-                editItem.MakeBuffer();
-                itemEditing.Show(editItem);
+                return new MvxCommand<MealItemViewModel>(itemViewModel =>
+                {
+                    if (itemViewModel != null)
+                    {
+                        editItem = itemViewModel;
+                        editItem.MakeBuffer();
+                        itemEditing.Show(editItem);
+                    }
+                });
             }
         }
 
@@ -434,7 +440,7 @@ namespace Dietphone.ViewModels
                 if (editItemIndex > -1 && editItemIndex < items.Count)
                 {
                     var item = items[editItemIndex];
-                    EditItem(item);
+                    EditItem.Execute(item);
                 }
             }
         }

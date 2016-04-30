@@ -7,13 +7,13 @@
                   android:orientation="horizontal">
         <!--0-->
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
-                  android:fontFamily="sans-serif-medium"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:textStyle="bold"
                   local:MvxBind="Text MealScores.First; Click OpenScoresSettings"/>
         <!--0-->
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
-                  android:fontFamily="sans-serif-medium" android:gravity="center_horizontal"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:textStyle="bold" android:gravity="center_horizontal"
                   local:MvxBind="Text MealScores.Second; Click OpenScoresSettings"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -21,13 +21,13 @@
                   local:MvxBind="Visible MealScores.ThirdExists">
         <!--0-->
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
-                  android:fontFamily="sans-serif-medium"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:textStyle="bold"
                   local:MvxBind="Text MealScores.Third; Click OpenScoresSettings"/>
         <!--0-->
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"
-                  android:fontFamily="sans-serif-medium" android:gravity="center_horizontal"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:textStyle="bold" android:gravity="center_horizontal"
                   local:MvxBind="Text MealScores.Fourth; Click OpenScoresSettings"/>
     </LinearLayout>
 </LinearLayout>

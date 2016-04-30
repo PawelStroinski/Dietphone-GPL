@@ -6,13 +6,13 @@
         <!--Ingredients-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical" local:MvxBind="Visible FirstPivot">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:orientation="horizontal">
                 <!--0-->
                 <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
-                                 android:layout_weight="8" android:layout_marginTop="12dp"
-                                 android:layout_marginLeft="9dp" local:MvxTemplate="@layout/scores"
-                                 local:MvxBind="DataContext ."/>
+                                 android:layout_weight="8" android:layout_marginTop="15dp"
+                                 android:layout_marginBottom="16dp" android:layout_marginLeft="9dp"
+                                 local:MvxTemplate="@layout/scores" local:MvxBind="DataContext ."/>
                 <!--+-->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                               android:layout_weight="2" android:gravity="center_horizontal">
@@ -22,6 +22,10 @@
                                  local:MvxBind="Click AddItem"/>
                 </LinearLayout>
             </LinearLayout>
+            <!--[]-->
+            <Mvx.MvxListView android:layout_width="match_parent" android:layout_height="match_parent"
+                             android:divider="@android:color/transparent" local:MvxItemTemplate="@layout/meal_item"
+                             local:MvxBind="ItemsSource Subject.Items; ItemClick EditItem"/>
         </LinearLayout>
         <!--General-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
