@@ -44,6 +44,8 @@ namespace Dietphone
                 target => new TabHostCurrentTab(target));
             registry.RegisterCustomBindingFactory<BackEditText>("TextOnFocusLost",
                 target => new BackEditTextTextOnFocusLost(target));
+            registry.RegisterCustomBindingFactory<EditText>("SelectAllOnFocus",
+                target => new EditTextSelectAllOnFocus(target));
             base.FillTargetFactories(registry);
         }
 

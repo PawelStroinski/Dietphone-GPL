@@ -6,6 +6,7 @@ using Android.Graphics;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using Dietphone.Models;
 using Dietphone.ViewModels;
 using Dietphone.Views.Adapters;
 using MvvmCross.Droid.Views;
@@ -24,6 +25,17 @@ namespace Dietphone.Tools
         {
             item.SetOnMenuItemClickListener(new MenuItemClickListener(onClick));
             return item;
+        }
+
+        public static IMenuItem BindSaveEnabled<TModel, TViewModel>(this IMenuItem save,
+                EditingViewModelBase<TModel, TViewModel> viewModel)
+            where TModel : EntityWithId
+            where TViewModel : ViewModelBase
+        {
+            Action set = () => { save.SetEnabled(viewModel.IsDirty); };
+            viewModel.IsDirtyChanged += delegate { set(); };
+            set();
+            return save;
         }
 
         public static void HideSoftInputOnTouchOutside(this Activity activity, MotionEvent ev)

@@ -1,3 +1,4 @@
+using System;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -34,6 +35,7 @@ namespace Dietphone.Views
             GetMenu(menu);
             TranslateMenu();
             BindMenuActions();
+            BindMenuEnabled();
             return true;
         }
 
@@ -70,6 +72,11 @@ namespace Dietphone.Views
             cancel.SetOnMenuItemClick(ViewModel.CancelAndReturn);
             insulin.SetOnMenuItemClick(ViewModel.GoToInsulinEditing);
             delete.SetOnMenuItemClick(ViewModel.DeleteAndSaveAndReturn);
+        }
+
+        private void BindMenuEnabled()
+        {
+            save.BindSaveEnabled(ViewModel);
         }
     }
 }
