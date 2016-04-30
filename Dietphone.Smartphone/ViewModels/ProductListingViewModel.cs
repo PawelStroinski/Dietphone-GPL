@@ -12,6 +12,7 @@ namespace Dietphone.ViewModels
         public ObservableCollection<ProductViewModel> Products { get; private set; }
         public ObservableCollection<CategoryViewModel> Categories { get; private set; }
         public bool AddMru { get; set; }
+        public bool HasMru { get; private set; }
         public event EventHandler<ChoosedEventArgs> Choosed;
         private readonly Factories factories;
         private readonly MaxCuAndFpuInCategories maxCuAndFpu;
@@ -181,6 +182,7 @@ namespace Dietphone.ViewModels
                     return;
                 AddMruCategory();
                 AddMruProducts();
+                GetViewModel().HasMru = true;
             }
 
             private void AssignCategories()
