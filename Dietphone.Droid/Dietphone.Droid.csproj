@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinarySerializers\DroidBinaryStreamProvider.cs" />
+    <Compile Include="Controls\DatePickerEditText.cs" />
     <Compile Include="Controls\MvxPopupWindow.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="DroidApplication.cs" />
