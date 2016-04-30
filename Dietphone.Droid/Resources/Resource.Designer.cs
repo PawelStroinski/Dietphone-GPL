@@ -86,11 +86,14 @@ namespace Dietphone
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f050003
-			public const int accent_material_dark = 2131034115;
+			// aapt resource value: 0x7f050004
+			public const int accent_material_dark = 2131034116;
 			
 			// aapt resource value: 0x7f050002
-			public const int black = 2131034114;
+			public const int extreme_background = 2131034114;
+			
+			// aapt resource value: 0x7f050003
+			public const int extreme_foreground = 2131034115;
 			
 			// aapt resource value: 0x7f050000
 			public const int material_deep_teal_200 = 2131034112;
@@ -98,8 +101,8 @@ namespace Dietphone
 			// aapt resource value: 0x7f050001
 			public const int material_grey_600 = 2131034113;
 			
-			// aapt resource value: 0x7f050004
-			public const int primary_dark_material_light = 2131034116;
+			// aapt resource value: 0x7f050005
+			public const int primary_dark_material_light = 2131034117;
 			
 			static Color()
 			{
