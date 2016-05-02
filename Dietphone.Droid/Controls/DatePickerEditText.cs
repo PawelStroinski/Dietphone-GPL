@@ -3,38 +3,16 @@ using System;
 using Android.App;
 using Android.Content;
 using Android.Util;
-using Android.Widget;
 
 namespace Dietphone.Controls
 {
-    public sealed class DatePickerEditText : EditText
+    public sealed class DatePickerEditText : DateTimePickerEditText
     {
-        public string Title { get; set; }
-        public event EventHandler ValueChanged;
-        private DateTime value;
         private string dateFormat;
-        private DateTime dateSet;
-        private bool cancelled;
 
         public DatePickerEditText(Context context, IAttributeSet attrs)
             : base(context, attrs)
         {
-            Click += DatePickerEditText_Click;
-            Focusable = false;
-            SetCursorVisible(false);
-        }
-
-        public DateTime Value
-        {
-            get
-            {
-                return value;
-            }
-            set
-            {
-                this.value = value;
-                SetText();
-            }
         }
 
         public string DateFormat
@@ -50,52 +28,20 @@ namespace Dietphone.Controls
             }
         }
 
-        private void DatePickerEditText_Click(object sender, EventArgs e)
+        protected override AlertDialog CreateDialog()
         {
-            var dialog = new DatePickerDialog(Context, Dialog_DateSet, year: Value.Year, monthOfYear: Value.Month - 1,
+            return new DatePickerDialog(Context, Dialog_DateSet, year: Value.Year, monthOfYear: Value.Month - 1,
                 dayOfMonth: Value.Day);
-            dialog.CancelEvent += Dialog_CancelEvent;
-            dialog.DismissEvent += Dialog_DismissEvent;
-            if (!string.IsNullOrEmpty(Title))
-                dialog.SetTitle(Title);
-            dateSet = Value;
-            cancelled = false;
-            dialog.Show();
         }
 
-        private void SetText()
+        protected override string GetText()
         {
-            var text = string.IsNullOrEmpty(DateFormat) ? Value.ToShortDateString() : value.ToString(DateFormat);
-            if (Text != text)
-                Text = text;
+            return string.IsNullOrEmpty(DateFormat) ? Value.ToShortDateString() : Value.ToString(DateFormat);
         }
 
         private void Dialog_DateSet(object sender, DatePickerDialog.DateSetEventArgs e)
         {
-            dateSet = new DateTime(e.Date.Date.Ticks + Value.TimeOfDay.Ticks, Value.Kind);
-        }
-
-        private void Dialog_CancelEvent(object sender, EventArgs e)
-        {
-            cancelled = true;
-        }
-
-        private void Dialog_DismissEvent(object sender, EventArgs e)
-        {
-            if (cancelled)
-                return;
-            if (Value == dateSet)
-                return;
-            Value = dateSet;
-            OnValueChanged(EventArgs.Empty);
-        }
-
-        private void OnValueChanged(EventArgs e)
-        {
-            if (ValueChanged != null)
-            {
-                ValueChanged(this, e);
-            }
+            dateTimeSet = new DateTime(e.Date.Date.Ticks + Value.TimeOfDay.Ticks, Value.Kind);
         }
     }
 }
