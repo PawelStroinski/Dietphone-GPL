@@ -75,6 +75,18 @@
                                       local:MvxBind="IsChecked NotIsLockedDateTime"/>
                 </LinearLayout>
             </LinearLayout>
+            <!--Name-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceSmall" local:MvxBind="Text [Name]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <ListPickerEditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    local:MvxBind="Title [Name]; ItemsSource Names; SelectedItem Subject.Name"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
