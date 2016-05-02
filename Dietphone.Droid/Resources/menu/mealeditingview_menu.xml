@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/mealeditingview_save" android:icon="@drawable/ic_save" android:showAsAction="always"/>
-    <item android:id="@+id/mealeditingview_cancel" android:icon="@drawable/ic_cancel" android:showAsAction="always"/>
     <item android:id="@+id/mealeditingview_insulin" android:icon="@drawable/ic_insulin" android:showAsAction="always"/>
+    <item android:id="@+id/mealeditingview_cancel" android:icon="@drawable/ic_cancel" android:showAsAction="always"/>
+    <item android:id="@+id/mealeditingview_save" android:icon="@drawable/ic_save" android:showAsAction="always"/>
     <item android:id="@+id/mealeditingview_delete" android:showAsAction="never"/>
 </menu>

@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="BinarySerializers\DroidBinaryStreamProvider.cs" />
     <Compile Include="Controls\DateTimePickerEditText.cs" />
+    <Compile Include="Controls\LockToggleButton.cs" />
     <Compile Include="Controls\TimePickerEditText.cs" />
     <Compile Include="Controls\DatePickerEditText.cs" />
     <Compile Include="Controls\MvxPopupWindow.cs" />
@@ -260,6 +261,12 @@
     <AndroidResource Include="Resources\menu\mealeditingview_menu.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_lock_open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_lock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

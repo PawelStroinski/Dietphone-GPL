@@ -38,7 +38,7 @@
                       android:orientation="vertical" local:MvxBind="Visible SecondPivot">
             <!--Date | Time-->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:orientation="horizontal">
+                          android:orientation="horizontal" android:weightSum="2.5">
                 <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                           android:layout_weight="1" android:layout_marginRight="10dp"
                           android:textAppearance="?android:attr/textAppearanceSmall"
@@ -56,8 +56,16 @@
                                     local:MvxBind="Value Subject.DateTime; DateFormat DateFormat; Title [ChooseDate]"/>
                 <TimePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
                                     android:layout_weight="1" android:layout_marginLeft="10dp"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginRight="10dp" android:layout_gravity="center_vertical"
                                     local:MvxBind="Value Subject.DateTime; Title [ChooseTime]"/>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_marginTop="-10dp" android:layout_weight="0.5"
+                              android:gravity="center_horizontal">
+                    <LockToggleButton android:layout_width="56dp" android:layout_height="56dp"
+                                      android:scaleType="centerInside" android:padding="12dp"
+                                      android:background="?android:selectableItemBackground"
+                                      local:MvxBind="IsChecked NotIsLockedDateTime"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
