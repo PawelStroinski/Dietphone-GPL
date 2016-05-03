@@ -46,6 +46,8 @@ namespace Dietphone
                 target => new BackEditTextTextOnFocusLost(target));
             registry.RegisterCustomBindingFactory<EditText>("SelectAllOnFocus",
                 target => new EditTextSelectAllOnFocus(target));
+            registry.RegisterCustomBindingFactory<ImageButton>("OpaqueEnabled",
+                target => new ImageButtonOpaqueEnabled(target));
             base.FillTargetFactories(registry);
         }
 

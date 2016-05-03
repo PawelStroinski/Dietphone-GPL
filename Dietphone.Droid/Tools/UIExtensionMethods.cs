@@ -32,10 +32,19 @@ namespace Dietphone.Tools
             where TModel : EntityWithId
             where TViewModel : ViewModelBase
         {
-            Action set = () => { save.SetEnabled(viewModel.IsDirty); };
+            Action set = () => { save.SetOpaqueEnabled(viewModel.IsDirty); };
             viewModel.IsDirtyChanged += delegate { set(); };
             set();
             return save;
+        }
+
+        public static IMenuItem SetOpaqueEnabled(this IMenuItem item, bool enabled)
+        {
+            item.SetEnabled(enabled);
+            var icon = item.Icon;
+            if (icon != null)
+                icon.Alpha = enabled.ToAlpha();
+            return item;
         }
 
         public static void HideSoftInputOnTouchOutside(this Activity activity, MotionEvent ev)
@@ -80,6 +89,11 @@ namespace Dietphone.Tools
                     return true;
             } while (view != null);
             return false;
+        }
+
+        public static int ToAlpha(this bool enabled)
+        {
+            return enabled ? 255 : 100;
         }
 
         private static Rect GetGlobalVisibleRect(View view)

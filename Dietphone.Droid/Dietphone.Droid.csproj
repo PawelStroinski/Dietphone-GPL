@@ -101,6 +101,7 @@
     <Compile Include="Setup.cs" />
     <Compile Include="SplashScreen.cs" />
     <Compile Include="TargetBindings\EditTextSelectAllOnFocus.cs" />
+    <Compile Include="TargetBindings\ImageButtonOpaqueEnabled.cs" />
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
     <Compile Include="Tools\NavigationServiceImpl.cs" />
