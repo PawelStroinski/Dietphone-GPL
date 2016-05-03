@@ -2,7 +2,7 @@
 using System;
 using Android.Webkit;
 
-namespace Dietphone.Views.Adapters
+namespace Dietphone.Adapters
 {
     public class WebViewClientImpl : WebViewClient
     {

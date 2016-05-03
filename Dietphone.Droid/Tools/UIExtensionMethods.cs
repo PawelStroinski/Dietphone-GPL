@@ -8,7 +8,7 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using Dietphone.Models;
 using Dietphone.ViewModels;
-using Dietphone.Views.Adapters;
+using Dietphone.Adapters;
 using MvvmCross.Droid.Views;
 
 namespace Dietphone.Tools

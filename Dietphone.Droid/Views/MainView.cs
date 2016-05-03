@@ -5,7 +5,7 @@ using Android.Views;
 using Android.Widget;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
-using Dietphone.Views.Adapters;
+using Dietphone.Adapters;
 using MvvmCross.Droid.Views;
 using MvvmCross.Platform;
 

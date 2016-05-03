@@ -110,9 +110,10 @@
     <Compile Include="Tools\UIExtensionMethods.cs" />
     <Compile Include="Tools\VibrationImpl.cs" />
     <Compile Include="Views\ActivityBase.cs" />
-    <Compile Include="Views\Adapters\ActionExpandListener.cs" />
-    <Compile Include="Views\Adapters\MenuItemClickListener.cs" />
-    <Compile Include="Views\Adapters\WebViewClientImpl.cs" />
+    <Compile Include="Adapters\ActionExpandListener.cs" />
+    <Compile Include="Adapters\ClickListener.cs" />
+    <Compile Include="Adapters\MenuItemClickListener.cs" />
+    <Compile Include="Adapters\WebViewClientImpl.cs" />
     <Compile Include="Controls\BackEditText.cs" />
     <Compile Include="Views\MealEditingView.cs" />
     <Compile Include="Views\SettingsView.cs" />

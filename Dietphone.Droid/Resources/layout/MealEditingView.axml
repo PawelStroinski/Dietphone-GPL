@@ -85,7 +85,8 @@
                           android:orientation="horizontal" android:paddingBottom="20dp">
                 <ListPickerEditText android:layout_width="match_parent" android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    local:MvxBind="Title [Name]; ItemsSource Names; SelectedItem Subject.Name"/>
+                                    local:MvxBind="Title [Name]; ItemsSource Names; SelectedItem Subject.Name;
+                                                   AddClick AddName; EditClick EditName; DeleteClick DeleteName"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

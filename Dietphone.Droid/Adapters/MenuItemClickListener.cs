@@ -1,7 +1,7 @@
 using System;
 using Android.Views;
 
-namespace Dietphone.Views.Adapters
+namespace Dietphone.Adapters
 {
     public class MenuItemClickListener : Java.Lang.Object, IMenuItemOnMenuItemClickListener
     {

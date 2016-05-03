@@ -7,7 +7,7 @@ using Android.Views;
 using Android.Webkit;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
-using Dietphone.Views.Adapters;
+using Dietphone.Adapters;
 
 namespace Dietphone.Views
 {

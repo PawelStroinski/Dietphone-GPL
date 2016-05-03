@@ -5,6 +5,7 @@ using Android.App;
 using Android.Content;
 using Android.Util;
 using Android.Widget;
+using Dietphone.Adapters;
 
 namespace Dietphone.Controls
 {
@@ -16,8 +17,12 @@ namespace Dietphone.Controls
         public string Title { get; set; }
         public IList ItemsSource { get; set; }
         public event EventHandler SelectedItemChanged;
+        public event EventHandler AddClick;
+        public event EventHandler EditClick;
+        public event EventHandler DeleteClick;
         private object selectedItem;
         private object clickedItem;
+        private AlertDialog dialog;
 
         public ListPickerEditText(Context context, IAttributeSet attrs)
             : base(context, attrs)
@@ -46,7 +51,7 @@ namespace Dietphone.Controls
             var cancelText = Context.GetString(Android.Resource.String.Cancel);
             var builder = new AlertDialog.Builder(Context)
                 .SetTitle(Title)
-                .SetPositiveButton(okText, Dialog_PositiveButtonClick)
+                .SetPositiveButton(okText, delegate { SetSelectedItem(); })
                 .SetNegativeButton(cancelText, delegate { })
                 .SetNeutralButton(EDIT, delegate { });
             if (ItemsSource == null)
@@ -55,8 +60,10 @@ namespace Dietphone.Controls
             var selectedItem = ItemsSource.IndexOf(SelectedItem);
             builder.SetSingleChoiceItems(items, selectedItem, Dialog_ItemClick);
             clickedItem = null;
-            var dialog = builder.Create();
+            dialog = builder.Create();
             dialog.Show();
+            var neutralButton = dialog.GetButton((int)DialogButtonType.Neutral);
+            neutralButton.SetOnClickListener(new ClickListener(ShowEditingDialog));
         }
 
         private void SetText()
@@ -66,7 +73,7 @@ namespace Dietphone.Controls
                 Text = text;
         }
 
-        private void Dialog_PositiveButtonClick(object sender, DialogClickEventArgs e)
+        private void SetSelectedItem()
         {
             if (clickedItem != null && clickedItem != selectedItem)
             {
@@ -80,12 +87,33 @@ namespace Dietphone.Controls
             clickedItem = ItemsSource.Cast<object>().ElementAtOrDefault(e.Which);
         }
 
+        private void ShowEditingDialog()
+        {
+            SetSelectedItem();
+            var builder = new AlertDialog.Builder(Context)
+                .SetPositiveButton(ADD, delegate { OnEdit(AddClick); })
+                .SetNeutralButton(EDIT, delegate { OnEdit(EditClick); })
+                .SetNegativeButton(DELETE, delegate { OnEdit(DeleteClick); });
+            var dialog = builder.Create();
+            dialog.Show();
+        }
+
         private void OnSelectedItemChanged(EventArgs e)
         {
             if (SelectedItemChanged != null)
             {
                 SelectedItemChanged(this, e);
             }
+        }
+
+        private void OnEdit(EventHandler handler)
+        {
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+                SetText();
+            }
+            dialog.Dismiss();
         }
     }
 }
