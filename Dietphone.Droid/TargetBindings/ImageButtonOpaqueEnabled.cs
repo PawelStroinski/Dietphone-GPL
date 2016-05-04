@@ -1,31 +1,23 @@
-using System;
 using Android.Widget;
 using Dietphone.Tools;
 using MvvmCross.Binding;
-using MvvmCross.Binding.Droid.Target;
 
 namespace Dietphone.TargetBindings
 {
-    public class ImageButtonOpaqueEnabled : MvxAndroidTargetBinding
+    public class ImageButtonOpaqueEnabled : TargetBindingBase<ImageButton, bool>
     {
-        private readonly ImageButton target;
-
         public ImageButtonOpaqueEnabled(ImageButton target)
             : base(target)
         {
-            this.target = target;
         }
 
-        public override Type TargetType => typeof(bool);
+        public override MvxBindingMode DefaultMode => MvxBindingMode.OneWay;
 
-        public override MvxBindingMode DefaultMode => MvxBindingMode.TwoWay;
-
-        protected override void SetValueImpl(object target, object value)
+        protected override void DoSetValue(ImageButton target, bool value)
         {
-            var enabled = (bool)value;
-            this.target.Enabled = enabled;
-            this.target.Clickable = enabled;
-            this.target.ImageAlpha = enabled.ToAlpha();
+            target.Enabled = value;
+            target.Clickable = value;
+            target.ImageAlpha = value.ToAlpha();
         }
     }
 }

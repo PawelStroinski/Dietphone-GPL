@@ -1,27 +1,31 @@
 // The SubscribeToEvents & Dispose methods based on http://stackoverflow.com/a/19221385
+// and EditorAction on http://stackoverflow.com/a/5077543
 using System;
 using Android.Views;
+using Android.Views.InputMethods;
+using Android.Widget;
 using Dietphone.Controls;
 using MvvmCross.Binding;
-using MvvmCross.Binding.Droid.Target;
 
 namespace Dietphone.TargetBindings
 {
-    public class BackEditTextTextOnFocusLost : MvxAndroidTargetBinding
+    public class BackEditTextTextOnFocusLost : TargetBindingBase<BackEditText, string>
     {
         private bool subscribed;
-        private readonly BackEditText target;
 
         public BackEditTextTextOnFocusLost(BackEditText target)
             : base(target)
         {
-            this.target = target;
         }
 
         public override void SubscribeToEvents()
         {
-            target.FocusChange += Target_FocusChange;
-            target.Back += Target_Back;
+            Do(target =>
+            {
+                target.FocusChange += Target_FocusChange;
+                target.Back += Target_Back;
+                target.EditorAction += Target_EditorAction;
+            });
             subscribed = true;
         }
 
@@ -29,31 +33,45 @@ namespace Dietphone.TargetBindings
         {
             if (isDisposing && subscribed)
             {
-                target.FocusChange -= Target_FocusChange;
-                target.Back -= Target_Back;
+                Do(target =>
+                {
+                    target.FocusChange -= Target_FocusChange;
+                    target.Back -= Target_Back;
+                    target.EditorAction -= Target_EditorAction;
+                });
                 subscribed = false;
             }
             base.Dispose(isDisposing);
         }
 
-        public override Type TargetType => typeof(string);
-
         public override MvxBindingMode DefaultMode => MvxBindingMode.TwoWay;
 
-        protected override void SetValueImpl(object target, object value)
+        protected override void DoSetValue(BackEditText target, string value)
         {
-            this.target.Text = (string)value;
+            target.Text = value;
         }
 
         private void Target_FocusChange(object sender, View.FocusChangeEventArgs e)
         {
             if (!e.HasFocus)
-                FireValueChanged(target.Text);
+                FireValueChanged();
         }
 
         private void Target_Back(object sender, EventArgs e)
         {
-            FireValueChanged(target.Text);
+            FireValueChanged();
+        }
+
+        private void Target_EditorAction(object sender, TextView.EditorActionEventArgs e)
+        {
+            if (e.ActionId == ImeAction.Done)
+                FireValueChanged();
+            e.Handled = false;
+        }
+
+        private void FireValueChanged()
+        {
+            Do(target => FireValueChanged(target.Text));
         }
     }
 }

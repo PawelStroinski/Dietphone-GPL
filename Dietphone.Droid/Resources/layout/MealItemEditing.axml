@@ -18,9 +18,9 @@
         <!--ValueWrapper | UnitWithDetalis-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_marginTop="25dp" android:orientation="horizontal">
-            <EditText android:layout_width="0dp" android:layout_height="wrap_content"
-                      android:layout_weight="1" android:inputType="numberDecimal"
-                      local:MvxBind="Text Subject.ValueWrapper; SelectRight True"/>
+            <DoneEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:inputType="numberDecimal"
+                          local:MvxBind="Text Subject.ValueWrapper; SelectRight True; Done Confirm"/>
             <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:spinnerMode="dialog"
                             local:MvxBind="ItemsSource Subject.AllUsableUnitsWithDetalis;

@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinarySerializers\DroidBinaryStreamProvider.cs" />
+    <Compile Include="Controls\DoneEditText.cs" />
     <Compile Include="Controls\ListPickerEditText.cs" />
     <Compile Include="Controls\DateTimePickerEditText.cs" />
     <Compile Include="Controls\LockToggleButton.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="SplashScreen.cs" />
     <Compile Include="TargetBindings\EditTextSelectRight.cs" />
     <Compile Include="TargetBindings\ImageButtonOpaqueEnabled.cs" />
+    <Compile Include="TargetBindings\TargetBindingBase.cs" />
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
     <Compile Include="Tools\NavigationServiceImpl.cs" />

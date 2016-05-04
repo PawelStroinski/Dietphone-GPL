@@ -1,32 +1,25 @@
-using System;
 using Android.Widget;
 using MvvmCross.Binding;
-using MvvmCross.Binding.Droid.Target;
 
 namespace Dietphone.TargetBindings
 {
-    public class EditTextSelectRight : MvxAndroidTargetBinding
+    public class EditTextSelectRight : TargetBindingBase<EditText, bool>
     {
-        private readonly EditText target;
-
         public EditTextSelectRight(EditText target)
             : base(target)
         {
-            this.target = target;
         }
-
-        public override Type TargetType => typeof(bool);
 
         public override MvxBindingMode DefaultMode => MvxBindingMode.OneTime;
 
-        protected override void SetValueImpl(object target, object value)
+        protected override void DoSetValue(EditText target, bool value)
         {
-            if (!(bool)value)
+            if (!value)
                 return;
-            var text = this.target.Text;
+            var text = target.Text;
             if (string.IsNullOrEmpty(text))
                 return;
-            this.target.SetSelection(text.Length, text.Length);
+            target.SetSelection(text.Length, text.Length);
         }
     }
 }
