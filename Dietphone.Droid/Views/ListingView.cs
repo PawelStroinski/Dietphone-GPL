@@ -15,11 +15,13 @@ namespace Dietphone.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            SetContentView(Resource.Layout.ListingView);
+            SetContentView(LayoutResourceId);
             listView = FindViewById<MvxExpandableListView>(Resource.Id.ListView);
             ViewModel.DescriptorsUpdating += ViewModel_DescriptorsUpdating;
             ViewModel.DescriptorsUpdated += ViewModel_DescriptorsUpdated;
         }
+
+        protected virtual int LayoutResourceId => Resource.Layout.ListingView;
 
         private void ViewModel_DescriptorsUpdating(object sender, EventArgs e)
         {

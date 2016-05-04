@@ -16,5 +16,7 @@ namespace Dietphone.Views
             for (int i = 0; i < EXPAND_TOP_GROUPS; i++)
                 listView.ExpandGroup(i);
         }
+
+        protected override int LayoutResourceId => Resource.Layout.JournalView;
     }
 }

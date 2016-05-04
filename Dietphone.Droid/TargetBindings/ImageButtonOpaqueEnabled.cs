@@ -24,6 +24,7 @@ namespace Dietphone.TargetBindings
         {
             var enabled = (bool)value;
             this.target.Enabled = enabled;
+            this.target.Clickable = enabled;
             this.target.ImageAlpha = enabled.ToAlpha();
         }
     }

@@ -10,21 +10,7 @@
                   android:layout_marginTop="18dp" android:layout_marginLeft="10dp"
                   android:textAppearance="?android:attr/textAppearanceSmall" android:textStyle="bold"
                   local:MvxBind="Text [IngredientQuantity]"/>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="horizontal" android:gravity="right">
-            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
-                         android:src="@drawable/ic_delete" android:scaleType="centerInside"
-                         android:padding="12dp" android:background="?android:selectableItemBackground"
-                         local:MvxBind="Click Delete; OpaqueEnabled CanDelete; Clickable CanDelete"/>
-            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
-                         android:src="@drawable/ic_cancel" android:scaleType="centerInside"
-                         android:padding="12dp" android:background="?android:selectableItemBackground"
-                         local:MvxBind="Click Cancel"/>
-            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
-                         android:src="@drawable/ic_check" android:scaleType="centerInside"
-                         android:padding="12dp" android:background="?android:selectableItemBackground"
-                         local:MvxBind="Click Confirm"/>
-        </LinearLayout>
+        <include layout="@layout/inlineicons_include"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
