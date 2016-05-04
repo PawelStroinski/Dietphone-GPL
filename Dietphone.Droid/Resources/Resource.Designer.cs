@@ -240,7 +240,7 @@ namespace Dietphone
 			public const int ExportAndImportView = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int InlineIcons_Include = 2130903041;
+			public const int InlineViewIcons_Include = 2130903041;
 			
 			// aapt resource value: 0x7f030002
 			public const int Journal_Item = 2130903042;

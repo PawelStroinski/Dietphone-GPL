@@ -207,7 +207,7 @@
     <AndroidResource Include="Resources\layout\JournalView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\InlineIcons_Include.axml">
+    <AndroidResource Include="Resources\layout\InlineViewIcons_Include.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

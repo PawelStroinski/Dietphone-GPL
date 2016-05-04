@@ -1,5 +1,5 @@
 // The SubscribeToEvents & Dispose methods based on http://stackoverflow.com/a/19221385
-// and EditorAction on http://stackoverflow.com/a/5077543
+// and Target_EditorAction on http://stackoverflow.com/a/5077543
 using System;
 using Android.Views;
 using Android.Views.InputMethods;

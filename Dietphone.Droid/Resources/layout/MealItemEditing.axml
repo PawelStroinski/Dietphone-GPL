@@ -10,7 +10,7 @@
                   android:layout_marginTop="18dp" android:layout_marginLeft="10dp"
                   android:textAppearance="?android:attr/textAppearanceSmall" android:textStyle="bold"
                   local:MvxBind="Text [IngredientQuantity]"/>
-        <include layout="@layout/inlineicons_include"/>
+        <include layout="@layout/inlineviewicons_include"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
