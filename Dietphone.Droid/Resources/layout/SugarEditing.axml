@@ -20,7 +20,7 @@
                       android:orientation="horizontal" android:paddingBottom="20dp">
             <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_gravity="center_vertical" android:inputType="numberDecimal"
-                      local:MvxBind="Text Subject.BloodSugarWrapper; SelectAllOnFocus True"/>
+                      local:MvxBind="Text Subject.BloodSugarWrapper; SelectRight True"/>
         </LinearLayout>
         <!--Date | Time-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"

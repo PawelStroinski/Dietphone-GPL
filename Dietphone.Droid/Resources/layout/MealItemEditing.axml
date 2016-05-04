@@ -20,7 +20,7 @@
                       android:layout_marginTop="25dp" android:orientation="horizontal">
             <EditText android:layout_width="0dp" android:layout_height="wrap_content"
                       android:layout_weight="1" android:inputType="numberDecimal"
-                      local:MvxBind="Text Subject.ValueWrapper; SelectAllOnFocus True"/>
+                      local:MvxBind="Text Subject.ValueWrapper; SelectRight True"/>
             <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:spinnerMode="dialog"
                             local:MvxBind="ItemsSource Subject.AllUsableUnitsWithDetalis;
