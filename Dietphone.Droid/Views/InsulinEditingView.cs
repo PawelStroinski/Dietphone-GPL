@@ -8,17 +8,17 @@ using MvvmCross.Platform;
 namespace Dietphone.Views
 {
     [Activity]
-    public class MealEditingView : ActivityBase<MealEditingViewModel>
+    public class InsulinEditingView : ActivityBase<InsulinEditingViewModel>
     {
-        private IMenuItem save, cancel, insulin, delete;
+        private IMenuItem save, cancel, meal, copy, delete;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             InitializeViewModel();
-            SetContentView(Resource.Layout.MealEditingView);
-            Title = Translations.Meal.Capitalize();
-            this.InitializeTabs(Translations.Ingredients, Translations.General);
+            SetContentView(Resource.Layout.InsulinEditingView);
+            Title = Translations.Insulin.Capitalize();
+            this.InitializeTabs(Translations.General, Translations.Suggestion, Translations.Date);
         }
 
         protected override void OnRestart()
@@ -29,7 +29,7 @@ namespace Dietphone.Views
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            MenuInflater.Inflate(Resource.Menu.mealeditingview_menu, menu);
+            MenuInflater.Inflate(Resource.Menu.insulineditingview_menu, menu);
             GetMenu(menu);
             TranslateMenu();
             BindMenuActions();
@@ -50,17 +50,19 @@ namespace Dietphone.Views
 
         private void GetMenu(IMenu menu)
         {
-            save = menu.FindItem(Resource.Id.mealeditingview_save);
-            cancel = menu.FindItem(Resource.Id.mealeditingview_cancel);
-            insulin = menu.FindItem(Resource.Id.mealeditingview_insulin);
-            delete = menu.FindItem(Resource.Id.mealeditingview_delete);
+            save = menu.FindItem(Resource.Id.insulineditingview_save);
+            cancel = menu.FindItem(Resource.Id.insulineditingview_cancel);
+            meal = menu.FindItem(Resource.Id.insulineditingview_meal);
+            copy = menu.FindItem(Resource.Id.insulineditingview_copy);
+            delete = menu.FindItem(Resource.Id.insulineditingview_delete);
         }
 
         private void TranslateMenu()
         {
             save.SetTitleCapitalized(Translations.Save);
             cancel.SetTitleCapitalized(Translations.Cancel);
-            insulin.SetTitleCapitalized(Translations.Insulin);
+            meal.SetTitleCapitalized(Translations.Meal);
+            copy.SetTitleCapitalized(Translations.Copy);
             delete.SetTitleCapitalized(Translations.Delete);
         }
 
@@ -68,7 +70,8 @@ namespace Dietphone.Views
         {
             save.SetOnMenuItemClick(ViewModel.SaveAndReturn);
             cancel.SetOnMenuItemClick(ViewModel.CancelAndReturn);
-            insulin.SetOnMenuItemClick(ViewModel.GoToInsulinEditing);
+            meal.SetOnMenuItemClick(ViewModel.GoToMealEditing);
+            copy.SetOnMenuItemClick(ViewModel.CopyAsText);
             delete.SetOnMenuItemClick(ViewModel.DeleteAndSaveAndReturn);
         }
 

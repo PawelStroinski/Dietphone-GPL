@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/insulineditingview_meal" android:icon="@drawable/ic_meal" android:showAsAction="always"/>
+    <item android:id="@+id/insulineditingview_cancel" android:icon="@drawable/ic_cancel" android:showAsAction="always"/>
+    <item android:id="@+id/insulineditingview_save" android:icon="@drawable/ic_save" android:showAsAction="always"/>
+    <item android:id="@+id/insulineditingview_copy" android:showAsAction="never"/>
+    <item android:id="@+id/insulineditingview_delete" android:showAsAction="never"/>
+</menu>

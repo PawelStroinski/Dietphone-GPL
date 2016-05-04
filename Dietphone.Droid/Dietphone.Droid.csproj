@@ -104,6 +104,7 @@
     <Compile Include="TargetBindings\EditTextSelectRight.cs" />
     <Compile Include="TargetBindings\ImageButtonOpaqueEnabled.cs" />
     <Compile Include="TargetBindings\TargetBindingBase.cs" />
+    <Compile Include="Tools\ClipboardImpl.cs" />
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
     <Compile Include="Tools\NavigationServiceImpl.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Adapters\MenuItemClickListener.cs" />
     <Compile Include="Adapters\WebViewClientImpl.cs" />
     <Compile Include="Controls\BackEditText.cs" />
+    <Compile Include="Views\InsulinEditingView.cs" />
     <Compile Include="Views\MealEditingView.cs" />
     <Compile Include="Views\SettingsView.cs" />
     <Compile Include="Views\ExportAndImportView.cs" />
@@ -210,6 +212,9 @@
     <AndroidResource Include="Resources\layout\InlineViewIcons_Include.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\InsulinEditingView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -284,6 +289,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\insulineditingview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

@@ -60,6 +60,7 @@ namespace Dietphone
 
         private void RegisterTypes()
         {
+            Mvx.RegisterType<Clipboard, ClipboardImpl>();
             Mvx.RegisterType<JournalViewModel, GroupingJournalViewModel>();
             Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
             Mvx.RegisterType<NavigationService, NavigationServiceImpl>();
