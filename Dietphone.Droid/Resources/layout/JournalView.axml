@@ -6,5 +6,5 @@
     <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
                     local:MvxTemplate="@layout/sugarediting"
                     local:MvxBind="IsVisible SugarEditing.IsVisible; Dissmissed SugarEditing.Cancel;
-                                   DataContext SugarEditing; ShowKeyboard True"/>
+                                   DataContext SugarEditing; SoftInput True"/>
 </FrameLayout>

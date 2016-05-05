@@ -31,7 +31,7 @@
             <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
                             local:MvxTemplate="@layout/mealitemediting"
                             local:MvxBind="IsVisible ItemEditing.IsVisible; Dissmissed ItemEditing.Cancel;
-                                           DataContext ItemEditing; ShowKeyboard True"/>
+                                           DataContext ItemEditing; SoftInput True"/>
         </LinearLayout>
         <!--General-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
@@ -98,7 +98,7 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
                           android:orientation="horizontal" android:paddingBottom="20dp">
                 <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical" android:inputType="text"
+                          android:layout_gravity="center_vertical" android:inputType="textCapSentences"
                           local:MvxBind="Text Subject.Note"/>
             </LinearLayout>
         </LinearLayout>

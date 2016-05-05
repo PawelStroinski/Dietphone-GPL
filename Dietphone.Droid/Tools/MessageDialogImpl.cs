@@ -4,6 +4,7 @@ using System.Threading;
 using Android.App;
 using Android.OS;
 using Android.Text;
+using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using MvvmCross.Platform;
@@ -162,7 +163,7 @@ namespace Dietphone.Tools
             var activity = GetActivity();
             var ok = false;
             var input = new EditText(activity) { Text = value ?? string.Empty };
-            SetInputTypeAndSelection(input, type);
+            ConfigureInput(input, type);
             var builder = new AlertDialog.Builder(activity)
                 .SetMessage(text)
                 .SetTitle(caption)
@@ -170,7 +171,7 @@ namespace Dietphone.Tools
                 .SetNegativeButton(GetCancel(activity), delegate { })
                 .SetCancelable(false)
                 .SetView(input);
-            ShowAndWait(builder);
+            ShowAndWait(builder, softInput: true);
             if (ok)
                 return input.Text;
             else
@@ -196,15 +197,20 @@ namespace Dietphone.Tools
             return activity.GetString(Android.Resource.String.Cancel);
         }
 
-        private void ShowAndWait(AlertDialog.Builder builder)
+        private void ShowAndWait(AlertDialog.Builder builder, bool softInput = false)
         {
             var dialog = builder.Create();
             dialog.DismissEvent += delegate { breakLoop.SendMessage(breakLoop.ObtainMessage()); };
+            if (softInput)
+            {
+                var window = dialog.Window;
+                window.SetSoftInputMode(SoftInput.StateVisible);
+            }
             dialog.Show();
             Loop();
         }
 
-        private void SetInputTypeAndSelection(EditText input, InputType type)
+        private void ConfigureInput(EditText input, InputType type)
         {
             switch (type)
             {
@@ -216,7 +222,11 @@ namespace Dietphone.Tools
                     var text = input.Text;
                     input.SetSelection(text.Length);
                     break;
+                case InputType.Default:
+                    input.InputType = InputTypes.ClassText | InputTypes.TextFlagCapSentences;
+                    break;
             }
+            input.SetSingleLine(true);
         }
 
         private void Loop()

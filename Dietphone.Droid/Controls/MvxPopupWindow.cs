@@ -7,6 +7,7 @@ using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using Dietphone.Tools;
 using MvvmCross.Binding.Attributes;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.Droid.BindingContext;
@@ -17,7 +18,7 @@ namespace Dietphone.Controls
 {
     public sealed class MvxPopupWindow : View, IMvxBindingContextOwner
     {
-        public bool ShowKeyboard { get; set; }
+        public bool SoftInput { get; set; }
         public event EventHandler IsVisibleChanged;
         public event EventHandler Dissmissed;
         private object cachedDataContext;
@@ -103,8 +104,8 @@ namespace Dietphone.Controls
             popup.DismissEvent += delegate { HandleDismiss(); };
             popup.AnimationStyle = Android.Resource.Style.AnimationTranslucent;
             popup.ShowAtLocation(this, GravityFlags.NoGravity, 0, 0);
-            if (ShowKeyboard)
-                DoShowKeyboard();
+            if (SoftInput)
+                ShowSoftInput();
             dissmissing = false;
         }
 
@@ -129,7 +130,7 @@ namespace Dietphone.Controls
             }
         }
 
-        private void DoShowKeyboard()
+        private void ShowSoftInput()
         {
             var inputManager = (InputMethodManager)Context.GetSystemService(Context.InputMethodService);
             inputManager.ToggleSoftInput(ShowFlags.Implicit, HideSoftInputFlags.NotAlways);
