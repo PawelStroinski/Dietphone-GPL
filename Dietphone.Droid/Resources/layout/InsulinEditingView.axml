@@ -32,13 +32,12 @@
                               android:layout_weight="1" android:layout_marginRight="10dp"
                               android:layout_gravity="center_vertical" android:inputType="numberDecimal"
                               local:MvxBind="TextOnFocusLost CurrentSugar.BloodSugar"/>
-                <ListPickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
-                                    android:layout_weight="1" android:layout_marginLeft="10dp"
-                                    android:layout_gravity="center_vertical" android:singleLine="true"
-                                    local:MvxBind="Title [InsulinCircumstances]; ItemsSource Circumstances;
-                                                   MultiChoice Subject.Circumstances;
-                                                   AddClick AddCircumstance; EditClick EditCircumstance;
-                                                   DeleteClick DeleteCircumstance"/>
+                <MultiplePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                        android:layout_weight="1" android:layout_marginLeft="10dp"
+                                        android:layout_gravity="center_vertical"
+                                        local:MvxBind="Title [InsulinCircumstances]; ItemsSource Circumstances;
+                                                       SelectedItems Subject.Circumstances; AddClick AddCircumstance;
+                                                       EditClick EditCircumstance; DeleteClick DeleteCircumstance"/>
             </LinearLayout>
         </LinearLayout>
         <!--Suggestion-->

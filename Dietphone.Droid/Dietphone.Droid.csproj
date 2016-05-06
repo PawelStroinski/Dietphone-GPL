@@ -89,9 +89,11 @@
   <ItemGroup>
     <Compile Include="BinarySerializers\DroidBinaryStreamProvider.cs" />
     <Compile Include="Controls\DoneEditText.cs" />
+    <Compile Include="Controls\SinglePickerEditText.cs" />
     <Compile Include="Controls\ListPickerEditText.cs" />
     <Compile Include="Controls\DateTimePickerEditText.cs" />
     <Compile Include="Controls\LockToggleButton.cs" />
+    <Compile Include="Controls\MultiplePickerEditText.cs" />
     <Compile Include="Controls\TimePickerEditText.cs" />
     <Compile Include="Controls\DatePickerEditText.cs" />
     <Compile Include="Controls\MvxPopupWindow.cs" />
