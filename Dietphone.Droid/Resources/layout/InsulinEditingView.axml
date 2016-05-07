@@ -8,7 +8,8 @@
                       android:orientation="vertical" local:MvxBind="Visible FirstPivot">
             <!--0-->
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:orientation="horizontal" android:weightSum="10">
+                          android:orientation="horizontal" android:weightSum="10"
+                          android:focusableInTouchMode="true">
                 <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
                                  android:layout_weight="8" android:layout_marginTop="15dp"
                                  android:layout_marginBottom="21dp" android:layout_marginLeft="9dp"
@@ -31,7 +32,7 @@
                 <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
                               android:layout_weight="1" android:layout_marginRight="10dp"
                               android:layout_gravity="center_vertical" android:inputType="numberDecimal"
-                              local:MvxBind="TextOnFocusLost CurrentSugar.BloodSugar"/>
+                              local:MvxBind="TextOnFocusLost CurrentSugar.BloodSugar; Focus ShouldFocusSugar"/>
                 <MultiplePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
                                         android:layout_weight="1" android:layout_marginLeft="10dp"
                                         android:layout_gravity="center_vertical"
@@ -39,6 +40,52 @@
                                                        SelectedItems Subject.Circumstances; AddClick AddCircumstance;
                                                        EditClick EditCircumstance; DeleteClick DeleteCircumstance;
                                                        DoneText [Done]; CancelText [Cancel]"/>
+            </LinearLayout>
+            <!--NormalBolus | SquareWaveBolus-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [NormalBolus]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [SquareWaveBolus]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.NormalBolus"/>
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.SquareWaveBolus"/>
+            </LinearLayout>
+            <!--SquareWaveBolusHours | Note-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [SquareWaveBolusHours]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [Note]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.SquareWaveBolusHours"/>
+                <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:layout_gravity="center_vertical" android:inputType="textCapSentences"
+                          local:MvxBind="Text Subject.Note"/>
             </LinearLayout>
         </LinearLayout>
         <!--Suggestion-->

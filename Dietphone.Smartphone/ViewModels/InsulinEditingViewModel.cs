@@ -398,10 +398,16 @@ namespace Dietphone.ViewModels
             clipboard.Set(Subject.Text);
         }
 
-        public void OpenScoresSettings()
+        public ICommand OpenScoresSettings
         {
-            wentToSettings = true;
-            Navigator.GoToSettings();
+            get
+            {
+                return new MvxCommand(() =>
+                {
+                    wentToSettings = true;
+                    Navigator.GoToSettings();
+                });
+            }
         }
 
         public ICommand UseCalculation
@@ -479,10 +485,7 @@ namespace Dietphone.ViewModels
             OnPropertyChanged("Circumstances");
         }
 
-        public bool ShouldFocusSugar()
-        {
-            return sugarIsNew;
-        }
+        public bool ShouldFocusSugar => sugarIsNew;
 
         protected override void FindAndCopyModel()
         {

@@ -11,6 +11,7 @@ using Android.Widget;
 using Dietphone.TargetBindings;
 using Dietphone.Controls;
 using Dietphone.Views;
+using Android.Views;
 
 namespace Dietphone
 {
@@ -46,6 +47,8 @@ namespace Dietphone
                 target => new BackEditTextTextOnFocusLost(target));
             registry.RegisterCustomBindingFactory<EditText>("SelectRight",
                 target => new EditTextSelectRight(target));
+            registry.RegisterCustomBindingFactory<View>("Focus",
+                target => new ViewFocus(target));
             registry.RegisterCustomBindingFactory<ImageButton>("OpaqueEnabled",
                 target => new ImageButtonOpaqueEnabled(target));
             base.FillTargetFactories(registry);

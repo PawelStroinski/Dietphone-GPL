@@ -34,7 +34,7 @@ namespace Dietphone.Views
                 += InsulinCircumstancesSummaryForSelectedItemsDelegate;
             Loaded += delegate
             {
-                if (ViewModel.ShouldFocusSugar())
+                if (ViewModel.ShouldFocusSugar)
                     CurrentSugar.Focus();
                 RestoreCalculationDetailsPickers();
             };
@@ -154,7 +154,7 @@ namespace Dietphone.Views
 
         private void MealScores_ScoreClick(object sender, EventArgs e)
         {
-            ViewModel.OpenScoresSettings();
+            ViewModel.OpenScoresSettings.Execute(null);
         }
 
         private void Chart_Tap(object sender, System.Windows.Input.GestureEventArgs e)

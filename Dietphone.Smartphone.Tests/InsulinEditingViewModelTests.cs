@@ -492,7 +492,7 @@ namespace Dietphone.Smartphone.Tests
             public void ShouldFocusSugarWhenNewSugar()
             {
                 InitializeViewModel();
-                Assert.IsTrue(sut.ShouldFocusSugar());
+                Assert.IsTrue(sut.ShouldFocusSugar);
             }
 
             [Test]
@@ -501,7 +501,7 @@ namespace Dietphone.Smartphone.Tests
                 var sugar = new Sugar { BloodSugar = 150 };
                 factories.Finder.FindSugarBeforeInsulin(insulin).Returns(sugar);
                 InitializeViewModel();
-                Assert.IsFalse(sut.ShouldFocusSugar());
+                Assert.IsFalse(sut.ShouldFocusSugar);
             }
 
             [Test]
@@ -656,7 +656,7 @@ namespace Dietphone.Smartphone.Tests
             [Test]
             public void OpenScoresSettings()
             {
-                sut.OpenScoresSettings();
+                sut.OpenScoresSettings.Call();
                 navigator.Received().GoToSettings();
             }
 
@@ -667,7 +667,7 @@ namespace Dietphone.Smartphone.Tests
                 InitializeViewModel();
                 if (wentToSettings)
                 {
-                    sut.OpenScoresSettings();
+                    sut.OpenScoresSettings.Call();
                     sut.MealScores.ChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
                 }
                 sut.MealScores.NotChangesProperty(string.Empty, () => sut.ReturnedFromNavigation());
