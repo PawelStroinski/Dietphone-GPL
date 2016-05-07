@@ -140,7 +140,7 @@ namespace Dietphone.Tools
                 .SetMessage(text)
                 .SetNeutralButton(GetOk(activity), delegate { });
             if (caption != null)
-                builder.SetTitle(caption);
+                builder.SetTitle(caption.Capitalize());
             ShowAndWait(builder);
         }
 
@@ -150,7 +150,7 @@ namespace Dietphone.Tools
             var ok = false;
             var builder = new AlertDialog.Builder(activity)
                 .SetMessage(text)
-                .SetTitle(caption)
+                .SetTitle(caption.Capitalize())
                 .SetPositiveButton(GetOk(activity), delegate { ok = true; })
                 .SetNegativeButton(GetCancel(activity), delegate { })
                 .SetCancelable(false);
@@ -166,14 +166,14 @@ namespace Dietphone.Tools
             ConfigureInput(input, type);
             var builder = new AlertDialog.Builder(activity)
                 .SetMessage(text)
-                .SetTitle(caption)
+                .SetTitle(caption.Capitalize())
                 .SetPositiveButton(GetOk(activity), delegate { ok = true; })
                 .SetNegativeButton(GetCancel(activity), delegate { })
                 .SetCancelable(false)
                 .SetView(input);
             ShowAndWait(builder, softInput: true);
             if (ok)
-                return input.Text;
+                return string.IsNullOrEmpty(input.Text) ? input.Text : input.Text.TrimEnd(' ');
             else
                 return null;
         }
@@ -212,20 +212,10 @@ namespace Dietphone.Tools
 
         private void ConfigureInput(EditText input, InputType type)
         {
-            switch (type)
-            {
-                case InputType.Email:
-                    input.InputType = InputTypes.ClassText | InputTypes.TextVariationEmailAddress;
-                    break;
-                case InputType.Url:
-                    input.InputType = InputTypes.ClassText | InputTypes.TextVariationWebEmailAddress;
-                    var text = input.Text;
-                    input.SetSelection(text.Length);
-                    break;
-                case InputType.Default:
-                    input.InputType = InputTypes.ClassText | InputTypes.TextFlagCapSentences;
-                    break;
-            }
+            input.InputType = GetInputTypes(type);
+            var text = input.Text;
+            if (!string.IsNullOrEmpty(text))
+                input.SetSelection(text.Length);
             input.SetSingleLine(true);
         }
 
@@ -238,6 +228,20 @@ namespace Dietphone.Tools
             catch (BreakLoopException)
             {
             }
+        }
+
+        private InputTypes GetInputTypes(InputType type)
+        {
+            switch (type)
+            {
+                case InputType.Email:
+                    return InputTypes.ClassText | InputTypes.TextVariationEmailAddress;
+                case InputType.Url:
+                    return InputTypes.ClassText | InputTypes.TextVariationWebEmailAddress;
+                case InputType.Default:
+                    return InputTypes.ClassText | InputTypes.TextFlagCapSentences;
+            }
+            throw new ArgumentOutOfRangeException();
         }
     }
 

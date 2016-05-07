@@ -37,7 +37,8 @@
                                         android:layout_gravity="center_vertical"
                                         local:MvxBind="Title [InsulinCircumstances]; ItemsSource Circumstances;
                                                        SelectedItems Subject.Circumstances; AddClick AddCircumstance;
-                                                       EditClick EditCircumstance; DeleteClick DeleteCircumstance"/>
+                                                       EditClick EditCircumstance; DeleteClick DeleteCircumstance;
+                                                       DoneText [Done]; CancelText [Cancel]"/>
             </LinearLayout>
         </LinearLayout>
         <!--Suggestion-->

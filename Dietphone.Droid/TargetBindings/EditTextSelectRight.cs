@@ -19,7 +19,7 @@ namespace Dietphone.TargetBindings
             var text = target.Text;
             if (string.IsNullOrEmpty(text))
                 return;
-            target.SetSelection(text.Length, text.Length);
+            target.SetSelection(text.Length);
         }
     }
 }

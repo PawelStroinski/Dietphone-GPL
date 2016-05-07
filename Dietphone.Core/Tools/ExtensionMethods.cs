@@ -256,7 +256,13 @@ namespace Dietphone.Tools
             if (string.IsNullOrEmpty(input))
                 return input;
             else
-                return input.Substring(0, 1).ToUpper() + input.Substring(1).ToLower();
+            {
+                var firstLetter = input.Substring(0, 1).ToUpper();
+                var rest = input.Substring(1);
+                if (rest.ToUpper() == rest)
+                    rest = rest.ToLower();
+                return firstLetter + rest;
+            }
         }
 
         private static bool IsAccessibleFrom(this MethodInfo method, Type type)

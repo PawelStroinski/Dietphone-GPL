@@ -9,7 +9,7 @@ namespace Dietphone.Controls
     public sealed class SinglePickerEditText : ListPickerEditText
     {
         public event EventHandler SelectedItemChanged;
-        private object selectedItem, clickedItem;
+        private object selectedItem;
 
         public SinglePickerEditText(Context context, IAttributeSet attrs)
             : base(context, attrs)
@@ -29,20 +29,10 @@ namespace Dietphone.Controls
             }
         }
 
-        protected override void Confirm()
-        {
-            if (clickedItem != null && clickedItem != SelectedItem)
-            {
-                SelectedItem = clickedItem;
-                OnSelectedItemChanged(EventArgs.Empty);
-            }
-        }
-
         protected override void InitializeDialogItems(AlertDialog.Builder builder, string[] items)
         {
             var checkedItem = ItemsSource.IndexOf(SelectedItem);
             builder.SetSingleChoiceItems(items, checkedItem, Dialog_Click);
-            clickedItem = null;
         }
 
         protected override string GetText()
@@ -52,7 +42,13 @@ namespace Dietphone.Controls
 
         private void Dialog_Click(object sender, DialogClickEventArgs e)
         {
-            clickedItem = ItemsSource.Cast<object>().ElementAtOrDefault(e.Which);
+            var clickedItem = ItemsSource.Cast<object>().ElementAtOrDefault(e.Which);
+            if (clickedItem != null)
+            {
+                SelectedItem = clickedItem;
+                OnSelectedItemChanged(EventArgs.Empty);
+                dialog.Dismiss();
+            }
         }
 
         private void OnSelectedItemChanged(EventArgs e)

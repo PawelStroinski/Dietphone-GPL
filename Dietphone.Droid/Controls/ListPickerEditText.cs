@@ -4,6 +4,7 @@ using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Util;
+using Android.Views.InputMethods;
 using Android.Widget;
 using Dietphone.Adapters;
 
@@ -19,43 +20,49 @@ namespace Dietphone.Controls
         public event EventHandler AddClick;
         public event EventHandler EditClick;
         public event EventHandler DeleteClick;
-        private AlertDialog dialog;
+        protected AlertDialog dialog;
+        private string[] itemsBeforeEditing;
 
         public ListPickerEditText(Context context, IAttributeSet attrs)
             : base(context, attrs)
         {
-            Click += View_Click;
+            Click += delegate { ShowDialog(); };
             Focusable = false;
             SetCursorVisible(false);
             SetSingleLine(true);
         }
 
-        private void View_Click(object sender, EventArgs e)
+        protected void ShowDialog()
         {
-            var okText = Context.GetString(Android.Resource.String.Ok);
-            var cancelText = Context.GetString(Android.Resource.String.Cancel);
             var builder = new AlertDialog.Builder(Context)
                 .SetTitle(Title)
-                .SetPositiveButton(okText, delegate { Confirm(); })
-                .SetNegativeButton(cancelText, delegate { })
                 .SetNeutralButton(EDIT, delegate { });
-            if (ItemsSource == null)
-                throw new NullReferenceException("ItemsSource");
-            var items = ItemsSource.Cast<object>().Select(item => item.ToString()).ToArray();
-            InitializeDialogItems(builder, items);
+            InitializePositiveAndNegativeButtons(builder);
+            CheckItemsSource();
+            InitializeDialogItems(builder, Items);
             dialog = builder.Create();
             dialog.Show();
             var neutralButton = dialog.GetButton((int)DialogButtonType.Neutral);
             neutralButton.SetOnClickListener(new ClickListener(ShowEditingDialog));
         }
 
-        protected abstract void Confirm();
+        protected virtual void InitializePositiveAndNegativeButtons(AlertDialog.Builder builder)
+        {
+        }
+
+        private void CheckItemsSource()
+        {
+            if (ItemsSource == null)
+                throw new NullReferenceException("ItemsSource");
+        }
+
+        private string[] Items => ItemsSource.Cast<object>().Select(item => item.ToString()).ToArray();
 
         protected abstract void InitializeDialogItems(AlertDialog.Builder builder, string[] items);
 
         private void ShowEditingDialog()
         {
-            Confirm();
+            itemsBeforeEditing = Items;
             var builder = new AlertDialog.Builder(Context)
                 .SetPositiveButton(ADD, delegate { OnEdit(AddClick); })
                 .SetNeutralButton(EDIT, delegate { OnEdit(EditClick); })
@@ -67,11 +74,13 @@ namespace Dietphone.Controls
         private void OnEdit(EventHandler handler)
         {
             if (handler != null)
-            {
                 handler(this, EventArgs.Empty);
+            if (!itemsBeforeEditing.SequenceEqual(Items))
+            {
                 SetText();
+                dialog.Dismiss();
+                Edited();
             }
-            dialog.Dismiss();
         }
 
         protected void SetText()
@@ -82,5 +91,9 @@ namespace Dietphone.Controls
         }
 
         protected abstract string GetText();
+
+        protected virtual void Edited()
+        {
+        }
     }
 }

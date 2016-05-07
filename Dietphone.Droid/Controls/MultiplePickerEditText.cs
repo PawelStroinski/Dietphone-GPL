@@ -10,7 +10,10 @@ namespace Dietphone.Controls
     public sealed class MultiplePickerEditText : ListPickerEditText
     {
         public event EventHandler SelectedItemsChanged;
+        public string DoneText { get; set; }
+        public string CancelText { get; set; }
         private IList selectedItems, tempSelectedItems;
+        private bool keepTempSelectedItems;
 
         public MultiplePickerEditText(Context context, IAttributeSet attrs)
             : base(context, attrs)
@@ -30,25 +33,46 @@ namespace Dietphone.Controls
             }
         }
 
-        protected override void Confirm()
+        protected override void InitializePositiveAndNegativeButtons(AlertDialog.Builder builder)
         {
-            if (!tempSelectedItems.Cast<object>().SequenceEqual(SelectedItems.Cast<object>()))
-            {
-                SelectedItems = tempSelectedItems;
-                OnSelectedItemsChanged(EventArgs.Empty);
-            }
+            builder.SetPositiveButton(DoneText, delegate { Done(); });
+            builder.SetNegativeButton(CancelText, delegate { });
         }
 
         protected override void InitializeDialogItems(AlertDialog.Builder builder, string[] items)
         {
-            tempSelectedItems = CopyGenericList(SelectedItems);
-            var checkedItems = ItemsSource.Cast<object>().Select(item => SelectedItems.Contains(item)).ToArray();
+            if (!keepTempSelectedItems)
+                tempSelectedItems = CopyGenericList(SelectedItems);
+            var checkedItems = ItemsSource.Cast<object>().Select(item => tempSelectedItems.Contains(item)).ToArray();
             builder.SetMultiChoiceItems(items, checkedItems, Dialog_Click);
         }
 
         protected override string GetText()
         {
             return string.Join(", ", SelectedItems.Cast<object>().Select(item => item.ToString()));
+        }
+
+        protected override void Edited()
+        {
+            RemoveDeletedFromTempSelectedItems();
+            keepTempSelectedItems = true;
+            try
+            {
+                ShowDialog();
+            }
+            finally
+            {
+                keepTempSelectedItems = false;
+            }
+        }
+
+        private void Done()
+        {
+            if (!tempSelectedItems.Cast<object>().SequenceEqual(SelectedItems.Cast<object>()))
+            {
+                SelectedItems = tempSelectedItems;
+                OnSelectedItemsChanged(EventArgs.Empty);
+            }
         }
 
         private IList CopyGenericList(IList source)
@@ -71,6 +95,13 @@ namespace Dietphone.Controls
                 tempSelectedItems.Add(item);
             else
                 tempSelectedItems.Remove(item);
+        }
+
+        private void RemoveDeletedFromTempSelectedItems()
+        {
+            for (var i = tempSelectedItems.Count - 1; i >= 0; i--)
+                if (!ItemsSource.Contains(tempSelectedItems[i]))
+                    tempSelectedItems.RemoveAt(i);
         }
 
         private void OnSelectedItemsChanged(EventArgs e)
