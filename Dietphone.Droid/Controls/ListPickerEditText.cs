@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Android.App;
 using Android.Content;
+using Android.Text;
 using Android.Util;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -30,6 +31,7 @@ namespace Dietphone.Controls
             Focusable = false;
             SetCursorVisible(false);
             SetSingleLine(true);
+            InputType = InputTypes.ClassText | InputTypes.TextFlagNoSuggestions;
         }
 
         protected void ShowDialog()

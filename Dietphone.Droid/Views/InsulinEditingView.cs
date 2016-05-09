@@ -1,6 +1,8 @@
 using Android.App;
 using Android.OS;
+using Android.Text;
 using Android.Views;
+using Android.Widget;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
 using MvvmCross.Platform;
@@ -19,6 +21,7 @@ namespace Dietphone.Views
             SetContentView(Resource.Layout.InsulinEditingView);
             Title = Translations.Insulin.Capitalize();
             this.InitializeTabs(Translations.General, Translations.Suggestion, Translations.Date);
+            FormatSuggestedInsulinHeader();
         }
 
         protected override void OnRestart()
@@ -46,6 +49,20 @@ namespace Dietphone.Views
             }
             else
                 ViewModel.ReturnedFromNavigation();
+        }
+
+        private void FormatSuggestedInsulinHeader()
+        {
+            var html = $@"
+                <font color='#{this.ResourceColorToHex(Resource.Color.extreme_foreground)}'>
+                    {Translations.SuggestedInsulinHeaderWarning}
+                </font>
+                {Translations.SuggestedInsulinHeader}
+                <font color='#ff0000'>
+                    {Translations.SuggestedInsulinHeaderWarning2}
+                </font>";
+            var target = FindViewById<TextView>(Resource.Id.suggested_insulin_header);
+            target.TextFormatted = Html.FromHtml(html);
         }
 
         private void GetMenu(IMenu menu)

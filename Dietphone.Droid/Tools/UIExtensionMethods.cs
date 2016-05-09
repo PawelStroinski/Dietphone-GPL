@@ -96,6 +96,15 @@ namespace Dietphone.Tools
             return enabled ? 255 : 100;
         }
 
+        public static string ResourceColorToHex(this ContextWrapper context, int resourceId)
+        {
+            var resources = context.Resources;
+#pragma warning disable CS0618 // Type or member is obsolete
+            var color = resources.GetColor(resourceId);
+#pragma warning restore CS0618 // Type or member is obsolete
+            return string.Format("{0:x}", color.ToArgb()).Substring(2);
+        }
+
         private static Rect GetGlobalVisibleRect(View view)
         {
             var rect = new Rect();

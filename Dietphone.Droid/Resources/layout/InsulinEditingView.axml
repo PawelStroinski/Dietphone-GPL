@@ -92,6 +92,58 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:layout_marginTop="15dp" android:orientation="vertical"
                       local:MvxBind="Visible SecondPivot">
+            <!--IsCalculated-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:orientation="vertical" local:MvxBind="Visible IsCalculated">
+                <!--SuggestedInsulinHeader-->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:id="@+id/suggested_insulin_header"/>
+                <!--IsCalculationIncomplete-->
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginTop="-13dp" android:layout_marginBottom="-15dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:background="@android:color/transparent" android:textColor="@color/accent_material_dark"
+                        local:MvxBind="Visible IsCalculationIncomplete; Text [InsulinCalculationIncomplete];
+                                       Click ShowListOfMealItemsNotIncludedInCalculation"/>
+                <!--SuggestedBolus-->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_marginTop="22dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [SuggestedBolus]"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:layout_marginTop="-12dp" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="65" android:layout_marginTop="15dp"
+                              android:textAppearance="?android:attr/textAppearanceMedium"
+                              android:fontFamily="sans-serif-medium" local:MvxBind="Text Calculated.Text"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                                  android:layout_weight="35"
+                                  android:orientation="horizontal" android:gravity="center_horizontal">
+                        <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                                     android:src="@drawable/ic_check" android:scaleType="centerInside"
+                                     android:padding="12dp" android:background="?android:selectableItemBackground"
+                                     local:MvxBind="Click UseCalculation"/>
+                        <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                                     android:src="@drawable/ic_more" android:scaleType="centerInside"
+                                     android:padding="12dp" android:background="?android:selectableItemBackground"
+                                     local:MvxBind="Click CalculationDetails"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--IsCalculationEmpty-->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="19dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                      local:MvxBind="Visible IsCalculationEmpty; Text [NoSuggestion]"/>
+            <!--NoMealPresent-->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="19dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                      local:MvxBind="Visible NoMealPresent; Text [NoMealPresent]"/>
+            <!--NoSugarEntered-->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="19dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                      local:MvxBind="Visible NoSugarEntered; Text [NoSugarEntered]"/>
         </LinearLayout>
         <!--Date-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
