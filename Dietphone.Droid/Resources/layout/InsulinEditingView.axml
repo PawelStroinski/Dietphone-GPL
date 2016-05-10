@@ -108,8 +108,7 @@
                                        Click ShowListOfMealItemsNotIncludedInCalculation"/>
                 <!--SuggestedBolus-->
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:layout_marginTop="22dp"
-                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          android:layout_marginTop="22dp" android:textAppearance="?android:attr/textAppearanceSmall"
                           local:MvxBind="Text [SuggestedBolus]"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                               android:layout_marginTop="-12dp" android:orientation="horizontal">
@@ -130,7 +129,10 @@
                                      local:MvxBind="Click CalculationDetails"/>
                     </LinearLayout>
                 </LinearLayout>
-
+                <!--EstimatedBloodSugar-->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_marginTop="5dp" android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [EstimatedBloodSugar]"/>
             </LinearLayout>
             <!--IsCalculationEmpty-->
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
