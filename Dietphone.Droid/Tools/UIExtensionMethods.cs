@@ -10,10 +10,11 @@ using Dietphone.Models;
 using Dietphone.ViewModels;
 using Dietphone.Adapters;
 using MvvmCross.Droid.Views;
+using OxyPlot;
 
 namespace Dietphone.Tools
 {
-    public static class UIExtensionMethods
+    public static class contextUIExtensionMethods
     {
         public static IMenuItem SetTitleCapitalized(this IMenuItem item, string title)
         {
@@ -98,11 +99,12 @@ namespace Dietphone.Tools
 
         public static string ResourceColorToHex(this ContextWrapper context, int resourceId)
         {
-            var resources = context.Resources;
-#pragma warning disable CS0618 // Type or member is obsolete
-            var color = resources.GetColor(resourceId);
-#pragma warning restore CS0618 // Type or member is obsolete
-            return string.Format("{0:x}", color.ToArgb()).Substring(2);
+            return string.Format("{0:x}", context.ResourceColorToArgb(resourceId)).Substring(2);
+        }
+
+        public static OxyColor ResourceColorToOxyColor(this ContextWrapper context, int resourceId)
+        {
+            return OxyColor.FromUInt32((uint)context.ResourceColorToArgb(resourceId));
         }
 
         private static Rect GetGlobalVisibleRect(View view)
@@ -134,6 +136,15 @@ namespace Dietphone.Tools
                 if (tab != actionBar.SelectedTab)
                     actionBar.SelectTab(tab);
             };
+        }
+
+        private static int ResourceColorToArgb(this ContextWrapper context, int resourceId)
+        {
+            var resources = context.Resources;
+#pragma warning disable CS0618 // Type or member is obsolete
+            var color = resources.GetColor(resourceId);
+#pragma warning restore CS0618 // Type or member is obsolete
+            return color.ToArgb();
         }
     }
 }

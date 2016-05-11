@@ -172,8 +172,8 @@ namespace Dietphone
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f040004
-			public const int ListView = 2130968580;
+			// aapt resource value: 0x7f040005
+			public const int ListView = 2130968581;
 			
 			// aapt resource value: 0x7f040000
 			public const int MvvmCrossTagId = 2130968576;
@@ -184,62 +184,65 @@ namespace Dietphone
 			// aapt resource value: 0x7f040002
 			public const int browser = 2130968578;
 			
-			// aapt resource value: 0x7f040005
-			public const int exportandimportview_exporttocloudnow = 2130968581;
-			
-			// aapt resource value: 0x7f040007
-			public const int insulineditingview_cancel = 2130968583;
-			
-			// aapt resource value: 0x7f040009
-			public const int insulineditingview_copy = 2130968585;
-			
-			// aapt resource value: 0x7f04000a
-			public const int insulineditingview_delete = 2130968586;
-			
 			// aapt resource value: 0x7f040006
-			public const int insulineditingview_meal = 2130968582;
+			public const int exportandimportview_exporttocloudnow = 2130968582;
 			
 			// aapt resource value: 0x7f040008
-			public const int insulineditingview_save = 2130968584;
+			public const int insulineditingview_cancel = 2130968584;
 			
-			// aapt resource value: 0x7f040012
-			public const int mainview_about = 2130968594;
-			
-			// aapt resource value: 0x7f04000e
-			public const int mainview_add = 2130968590;
-			
-			// aapt resource value: 0x7f040010
-			public const int mainview_exportandimportdata = 2130968592;
-			
-			// aapt resource value: 0x7f04000d
-			public const int mainview_insulin = 2130968589;
+			// aapt resource value: 0x7f04000a
+			public const int insulineditingview_copy = 2130968586;
 			
 			// aapt resource value: 0x7f04000b
-			public const int mainview_meal = 2130968587;
+			public const int insulineditingview_delete = 2130968587;
 			
-			// aapt resource value: 0x7f04000f
-			public const int mainview_search = 2130968591;
+			// aapt resource value: 0x7f040007
+			public const int insulineditingview_meal = 2130968583;
 			
-			// aapt resource value: 0x7f040011
-			public const int mainview_settings = 2130968593;
-			
-			// aapt resource value: 0x7f04000c
-			public const int mainview_sugar = 2130968588;
+			// aapt resource value: 0x7f040009
+			public const int insulineditingview_save = 2130968585;
 			
 			// aapt resource value: 0x7f040013
-			public const int mainview_welcomescreen = 2130968595;
+			public const int mainview_about = 2130968595;
 			
-			// aapt resource value: 0x7f040015
-			public const int mealeditingview_cancel = 2130968597;
+			// aapt resource value: 0x7f04000f
+			public const int mainview_add = 2130968591;
 			
-			// aapt resource value: 0x7f040017
-			public const int mealeditingview_delete = 2130968599;
+			// aapt resource value: 0x7f040011
+			public const int mainview_exportandimportdata = 2130968593;
+			
+			// aapt resource value: 0x7f04000e
+			public const int mainview_insulin = 2130968590;
+			
+			// aapt resource value: 0x7f04000c
+			public const int mainview_meal = 2130968588;
+			
+			// aapt resource value: 0x7f040010
+			public const int mainview_search = 2130968592;
+			
+			// aapt resource value: 0x7f040012
+			public const int mainview_settings = 2130968594;
+			
+			// aapt resource value: 0x7f04000d
+			public const int mainview_sugar = 2130968589;
 			
 			// aapt resource value: 0x7f040014
-			public const int mealeditingview_insulin = 2130968596;
+			public const int mainview_welcomescreen = 2130968596;
 			
 			// aapt resource value: 0x7f040016
-			public const int mealeditingview_save = 2130968598;
+			public const int mealeditingview_cancel = 2130968598;
+			
+			// aapt resource value: 0x7f040018
+			public const int mealeditingview_delete = 2130968600;
+			
+			// aapt resource value: 0x7f040015
+			public const int mealeditingview_insulin = 2130968597;
+			
+			// aapt resource value: 0x7f040017
+			public const int mealeditingview_save = 2130968599;
+			
+			// aapt resource value: 0x7f040004
+			public const int sugar_chart = 2130968580;
 			
 			// aapt resource value: 0x7f040003
 			public const int suggested_insulin_header = 2130968579;
