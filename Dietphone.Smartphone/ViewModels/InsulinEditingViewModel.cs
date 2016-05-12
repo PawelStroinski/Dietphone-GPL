@@ -21,6 +21,7 @@ namespace Dietphone.ViewModels
         public IList<PatternViewModel> CalculationDetailsAlternatives { get; private set; }
         public ScoreSelector MealScores { get; private set; }
         public bool MealScoresVisible { get; private set; }
+        public bool ReducedSugarChartMargin { private get; set; }
         public event EventHandler<Action> CircumstanceEdit;
         public event EventHandler<Action> CircumstanceDelete;
         private List<InsulinCircumstanceViewModel> addedCircumstances = new List<InsulinCircumstanceViewModel>();
@@ -47,8 +48,10 @@ namespace Dietphone.ViewModels
         private readonly Clipboard clipboard;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MGDL = (decimal)10;
         private const decimal SUGAR_CHART_MARGIN_MAXIMUM_MGDL = (decimal)55;
+        private const decimal SUGAR_CHART_MARGIN_MAXIMUM_REDUCED_MGDL = (decimal)33;
         private const decimal SUGAR_CHART_MARGIN_MINIMUM_MMOLL = (decimal)0.55;
         private const decimal SUGAR_CHART_MARGIN_MAXIMUM_MMOLL = (decimal)3.05;
+        private const decimal SUGAR_CHART_MARGIN_MAXIMUM_REDUCED_MMOLL = (decimal)1.83;
         private const string INSULIN = "INSULIN";
         private const string INSULIN_SUGAR = "INSULIN_SUGAR";
         private const string CIRCUMSTANCES = "CIRCUMSTANCES";
@@ -61,6 +64,7 @@ namespace Dietphone.ViewModels
         private const string CALCULATION_DETAILS_VISIBLE = "CALCULATION_DETAILS_VISIBLE";
         private const string CALCULATION_DETAILS_ALTERNATIVES_VISIBLE = "CALCULATION_DETAILS_ALTERNATIVES_VISIBLE";
         private const string CALCULATION_DETAILS_ALTERNATIVES_INDEX = "CALCULATION_DETAILS_ALTERNATIVES_INDEX";
+        internal static readonly TimeSpan SUGAR_CHART_TIME_MARGIN = TimeSpan.FromMinutes(10);
 
         public InsulinEditingViewModel(Factories factories, ReplacementBuilderAndSugarEstimatorFacade facade,
             BackgroundWorkerFactory workerFactory, Clipboard clipboard, MessageDialog messageDialog)
@@ -204,8 +208,29 @@ namespace Dietphone.ViewModels
             get
             {
                 var margin = factories.Settings.SugarUnit == SugarUnit.mgdL
-                    ? SUGAR_CHART_MARGIN_MAXIMUM_MGDL : SUGAR_CHART_MARGIN_MAXIMUM_MMOLL;
+                    ? (ReducedSugarChartMargin ? SUGAR_CHART_MARGIN_MAXIMUM_REDUCED_MGDL : SUGAR_CHART_MARGIN_MAXIMUM_MGDL) :
+                      (ReducedSugarChartMargin ? SUGAR_CHART_MARGIN_MAXIMUM_REDUCED_MMOLL : SUGAR_CHART_MARGIN_MAXIMUM_MMOLL);
                 return SugarChart.Any() ? SugarChart.Max(sugar => sugar.BloodSugar) + margin : 100;
+            }
+        }
+
+        public DateTime SugarChartStart
+        {
+            get
+            {
+                return SugarChart.Any()
+                    ? SugarChart.Select(sugar => sugar.DateTime).First().Add(-SUGAR_CHART_TIME_MARGIN)
+                    : DateTime.Now;
+            }
+        }
+
+        public DateTime SugarChartEnd
+        {
+            get
+            {
+                return SugarChart.Any()
+                    ? SugarChart.Select(sugar => sugar.DateTime).Last().Add(SUGAR_CHART_TIME_MARGIN)
+                    : DateTime.Now;
             }
         }
 
@@ -902,6 +927,8 @@ namespace Dietphone.ViewModels
             OnPropertyChanged("SugarChart");
             OnPropertyChanged("SugarChartMinimum");
             OnPropertyChanged("SugarChartMaximum");
+            OnPropertyChanged("SugarChartStart");
+            OnPropertyChanged("SugarChartEnd");
         }
 
         private void ClearSugarChart()

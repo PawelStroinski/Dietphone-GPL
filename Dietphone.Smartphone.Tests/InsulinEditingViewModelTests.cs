@@ -1152,6 +1152,17 @@ namespace Dietphone.Smartphone.Tests
             }
 
             [Test]
+            public void SugarChartMaximumReturnsMaximumOfChartPlus33WhenUnitIsMgdLAndReduced()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                estimatedSugars[1].BloodSugar = 155.1f;
+                InitializeViewModel();
+                sut.ReducedSugarChartMargin = true;
+                sut.CurrentSugar.BloodSugar = "100";
+                Assert.AreEqual(188.1f, sut.SugarChartMaximum);
+            }
+
+            [Test]
             public void SugarChartMaximumReturnsMaximumOfChartPlus3_05WhenUnitIsMmolL()
             {
                 var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
@@ -1164,11 +1175,51 @@ namespace Dietphone.Smartphone.Tests
             }
 
             [Test]
+            public void SugarChartMaximumReturnsMaximumOfChartPlus1_83WhenUnitIsMmolLAndReduced()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                estimatedSugars[1].BloodSugar = 155.1f;
+                sugar.BloodSugar = 100;
+                InitializeViewModel();
+                settings.SugarUnit = SugarUnit.mmolL;
+                sut.ReducedSugarChartMargin = true;
+                ChooseCircumstance();
+                Assert.AreEqual(156.93f, (double)sut.SugarChartMaximum, 0.001);
+            }
+
+            [Test]
             public void SugarChartMinimumAndMaximumReturn100WhenChartIsEmpty()
             {
                 InitializeViewModel();
                 Assert.AreEqual(100, sut.SugarChartMinimum);
                 Assert.AreEqual(100, sut.SugarChartMaximum);
+            }
+
+            [Test]
+            public void SugarChartStartReturnsStartTimeMinusMargin()
+            {
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                var margin = InsulinEditingViewModel.SUGAR_CHART_TIME_MARGIN.TotalMinutes;
+                Assert.AreEqual(meal.DateTime.AddMinutes(-margin), sut.SugarChartStart);
+            }
+
+            [Test]
+            public void SugarChartEndReturnsEndTimePlusMargin()
+            {
+                var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
+                InitializeViewModel();
+                sut.CurrentSugar.BloodSugar = "100";
+                var margin = InsulinEditingViewModel.SUGAR_CHART_TIME_MARGIN.TotalMinutes;
+                Assert.AreEqual(estimatedSugars[0].DateTime.AddMinutes(margin), sut.SugarChartEnd);
+            }
+
+            [Test]
+            public void SugarChartStartAndEndReturnNowWhenChartIsEmpty()
+            {
+                InitializeViewModel();
+                Assert.AreEqual(DateTime.Now.Ticks, sut.SugarChartStart.Ticks, TimeSpan.FromMinutes(1).Ticks);
+                Assert.AreEqual(DateTime.Now.Ticks, sut.SugarChartEnd.Ticks, TimeSpan.FromMinutes(1).Ticks);
             }
 
             [TestCase(SugarUnit.mgdL)]
@@ -1225,7 +1276,7 @@ namespace Dietphone.Smartphone.Tests
             }
 
             [Test]
-            public void CalculationChangesMinimumAndMaximum()
+            public void CalculationChangesMinimumAndMaximumAndStartAndEnd()
             {
                 var estimatedSugars = replacementAndEstimatedSugars.EstimatedSugars;
                 InitializeViewModel();
@@ -1233,7 +1284,13 @@ namespace Dietphone.Smartphone.Tests
                 {
                     sut.ChangesProperty("SugarChartMaximum", () =>
                     {
-                        sut.CurrentSugar.BloodSugar = "100";
+                        sut.ChangesProperty("SugarChartStart", () =>
+                        {
+                            sut.ChangesProperty("SugarChartEnd", () =>
+                            {
+                                sut.CurrentSugar.BloodSugar = "100";
+                            });
+                        });
                     });
                 });
             }

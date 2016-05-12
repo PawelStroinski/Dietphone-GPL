@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using System.Linq;
 using Android.App;
@@ -7,6 +6,7 @@ using Android.Text;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Dietphone.Controls;
 using Dietphone.Tools;
 using Dietphone.ViewModels;
 using MvvmCross.Platform;
@@ -55,6 +55,7 @@ namespace Dietphone.Views
 
         private void InitializeViewModel()
         {
+            ViewModel.ReducedSugarChartMargin = true;
             if (ViewModel.Navigator == null)
             {
                 ViewModel.Navigator = Mvx.Resolve<Navigator>();
@@ -81,14 +82,19 @@ namespace Dietphone.Views
 
         private void InitializeSugarChart()
         {
-            sugarChartDateTimeAxis = new DateTimeAxis
+            sugarChartDateTimeAxis = new ExactDateTimeAxis(() => ViewModel.SugarChart.Select(item => item.DateTime))
             {
                 Position = AxisPosition.Bottom,
-                StringFormat = "HH:mm"
+                StringFormat = "HH:mm",
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                TicklineColor = OxyColors.Transparent
             };
             sugarChartLinearAxis = new LinearAxis
             {
-                IsAxisVisible = false
+                IsAxisVisible = false,
+                IsPanEnabled = false,
+                IsZoomEnabled = false
             };
             sugarChartSeries = new LineSeries
             {
@@ -147,24 +153,19 @@ namespace Dietphone.Views
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SugarChart")
-            {
-                var hadSource = sugarChartSeries.ItemsSource != null;
-                sugarChartSeries.ItemsSource = ViewModel.SugarChart;
-                if (hadSource)
-                {
-                    sugarChartOptions.InvalidatePlot(true);
-                    sugarChartOptions.ResetAllAxes();
-                }
-                if (ViewModel.SugarChart.Any())
-                {
-                    sugarChartDateTimeAxis.Minimum = DateTimeAxis.ToDouble(ViewModel.SugarChart.First().DateTime.AddMinutes(-10));
-                    sugarChartDateTimeAxis.Maximum = DateTimeAxis.ToDouble(ViewModel.SugarChart.Last().DateTime.AddMinutes(10));
-                }
-            }
-            if (e.PropertyName == "SugarChartMinimum")
-                sugarChartLinearAxis.Minimum = (double)ViewModel.SugarChartMinimum;
-            if (e.PropertyName == "SugarChartMaximum")
-                sugarChartLinearAxis.Maximum = (double)ViewModel.SugarChartMaximum;
+                InvalidateSugarChart();
+        }
+
+        private void InvalidateSugarChart()
+        {
+            sugarChartDateTimeAxis.Minimum = DateTimeAxis.ToDouble(ViewModel.SugarChartStart);
+            sugarChartDateTimeAxis.Maximum = DateTimeAxis.ToDouble(ViewModel.SugarChartEnd);
+            sugarChartLinearAxis.Minimum = (double)ViewModel.SugarChartMinimum;
+            sugarChartLinearAxis.Maximum = (double)ViewModel.SugarChartMaximum;
+            var hadSource = sugarChartSeries.ItemsSource != null;
+            sugarChartSeries.ItemsSource = ViewModel.SugarChart;
+            if (hadSource)
+                sugarChartOptions.InvalidatePlot(true);
         }
     }
 }
