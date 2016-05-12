@@ -1,4 +1,5 @@
 ﻿// The HideSoftInputOnTouchOutside method is from http://stackoverflow.com/a/28939113
+// and the ToPx from http://stackoverflow.com/a/6327095
 using System;
 using Android.App;
 using Android.Content;
@@ -11,6 +12,7 @@ using Dietphone.ViewModels;
 using Dietphone.Adapters;
 using MvvmCross.Droid.Views;
 using OxyPlot;
+using Android.Util;
 
 namespace Dietphone.Tools
 {
@@ -105,6 +107,12 @@ namespace Dietphone.Tools
         public static OxyColor ResourceColorToOxyColor(this ContextWrapper context, int resourceId)
         {
             return OxyColor.FromUInt32((uint)context.ResourceColorToArgb(resourceId));
+        }
+
+        public static float ToPx(this double value, ComplexUnitType unit, ContextWrapper context)
+        {
+            var resources = context.Resources;
+            return TypedValue.ApplyDimension(unit, (float)value, resources.DisplayMetrics);
         }
 
         private static Rect GetGlobalVisibleRect(View view)

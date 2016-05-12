@@ -4,6 +4,7 @@ using System.Linq;
 using Android.App;
 using Android.OS;
 using Android.Text;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Dietphone.Tools;
@@ -101,7 +102,8 @@ namespace Dietphone.Views
             {
                 Background = OxyColors.Transparent,
                 TextColor = this.ResourceColorToOxyColor(Resource.Color.extreme_foreground),
-                PlotAreaBorderColor = OxyColors.Transparent
+                PlotAreaBorderColor = OxyColors.Transparent,
+                DefaultFontSize = 8.5.ToPx(ComplexUnitType.Sp, this)
             };
             sugarChartOptions.Axes.Add(sugarChartDateTimeAxis);
             sugarChartOptions.Axes.Add(sugarChartLinearAxis);
