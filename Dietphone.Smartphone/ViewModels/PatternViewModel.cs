@@ -7,7 +7,7 @@ using MvvmCross.Core.ViewModels;
 
 namespace Dietphone.ViewModels
 {
-    public class PatternViewModel
+    public class PatternViewModel : ViewModelBase
     {
         public Pattern Pattern { get; private set; }
         public MealItemViewModel Match { get; private set; }
