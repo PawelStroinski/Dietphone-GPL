@@ -149,6 +149,10 @@
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:layout_marginBottom="19dp" android:textAppearance="?android:attr/textAppearanceLarge"
                       local:MvxBind="Visible NoSugarEntered; Text [NoSugarEntered]"/>
+            <!--CalculationDetailsVisible-->
+            <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            local:MvxTemplate="@layout/calculationdetails"
+                            local:MvxBind="IsVisible CalculationDetailsVisible; DataContext ."/>
         </LinearLayout>
         <!--Date-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
