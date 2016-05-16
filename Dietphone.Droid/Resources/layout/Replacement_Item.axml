@@ -5,10 +5,10 @@
               android:layout_marginTop="10dp" android:orientation="vertical">
     <!--ProductName-->
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:layout_marginLeft="10dp" android:textAppearance="?android:attr/textAppearanceLarge"
-              android:fontFamily="sans-serif-light" local:MvxBind="Text Pattern.For.ProductName"/>
+              android:textAppearance="?android:attr/textAppearanceLarge" android:fontFamily="sans-serif-light"
+              android:textSize="@dimen/extra_large" local:MvxBind="Text Pattern.For.ProductName"/>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp" android:orientation="horizontal">
+                  android:orientation="horizontal">
         <!--g-->
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                   android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"

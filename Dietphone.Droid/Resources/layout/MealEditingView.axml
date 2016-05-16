@@ -10,12 +10,13 @@
                           android:orientation="horizontal">
                 <!--0-->
                 <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
-                                 android:layout_weight="8" android:layout_marginTop="15dp"
-                                 android:layout_marginBottom="16dp" android:layout_marginLeft="9dp"
-                                 local:MvxTemplate="@layout/scores" local:MvxBind="DataContext ."/>
+                                 android:layout_weight="8" android:layout_marginTop="13dp"
+                                 android:layout_marginLeft="9dp" local:MvxTemplate="@layout/scores"
+                                 local:MvxBind="DataContext ."/>
                 <!--+-->
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                              android:layout_weight="2" android:gravity="center_horizontal">
+                              android:layout_marginTop="0.5dp" android:layout_weight="2"
+                              android:gravity="center_horizontal">
                     <ImageButton android:layout_width="56dp" android:layout_height="56dp"
                                  android:src="@drawable/ic_add" android:scaleType="centerInside"
                                  android:padding="12dp" android:background="?android:selectableItemBackground"
@@ -24,7 +25,7 @@
             </LinearLayout>
             <!--[]-->
             <Mvx.MvxListView android:layout_width="match_parent" android:layout_height="match_parent"
-                             android:layout_marginTop="-3dp" android:divider="@android:color/transparent"
+                             android:layout_marginTop="9dp" android:divider="@android:color/transparent"
                              local:MvxItemTemplate="@layout/meal_item"
                              local:MvxBind="ItemsSource Subject.Items; ItemClick EditItem"/>
             <!--ItemEditing-->

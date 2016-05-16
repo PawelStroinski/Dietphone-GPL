@@ -8,7 +8,7 @@
     <!--ProductName-->
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:textAppearance="?android:attr/textAppearanceLarge" android:fontFamily="sans-serif-light"
-              local:MvxBind="Text ProductName"/>
+              android:textSize="@dimen/extra_large" local:MvxBind="Text ProductName"/>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:orientation="horizontal">
         <!--g-->

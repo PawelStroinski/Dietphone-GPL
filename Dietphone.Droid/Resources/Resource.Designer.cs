@@ -114,6 +114,22 @@ namespace Dietphone
 			}
 		}
 		
+		public partial class Dimension
+		{
+			
+			// aapt resource value: 0x7f060000
+			public const int extra_large = 2131099648;
+			
+			static Dimension()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Dimension()
+			{
+			}
+		}
+		
 		public partial class Drawable
 		{
 			
@@ -339,17 +355,17 @@ namespace Dietphone
 		public partial class Menu
 		{
 			
-			// aapt resource value: 0x7f070000
-			public const int exportandimportview_menu = 2131165184;
+			// aapt resource value: 0x7f080000
+			public const int exportandimportview_menu = 2131230720;
 			
-			// aapt resource value: 0x7f070001
-			public const int insulineditingview_menu = 2131165185;
+			// aapt resource value: 0x7f080001
+			public const int insulineditingview_menu = 2131230721;
 			
-			// aapt resource value: 0x7f070002
-			public const int mainview_menu = 2131165186;
+			// aapt resource value: 0x7f080002
+			public const int mainview_menu = 2131230722;
 			
-			// aapt resource value: 0x7f070003
-			public const int mealeditingview_menu = 2131165187;
+			// aapt resource value: 0x7f080003
+			public const int mealeditingview_menu = 2131230723;
 			
 			static Menu()
 			{
@@ -364,8 +380,8 @@ namespace Dietphone
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int Theme_Splash = 2131099648;
+			// aapt resource value: 0x7f070000
+			public const int Theme_Splash = 2131165184;
 			
 			static Style()
 			{

@@ -11,7 +11,7 @@
                           android:orientation="horizontal" android:weightSum="10"
                           android:focusableInTouchMode="true">
                 <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
-                                 android:layout_weight="8" android:layout_marginTop="15dp"
+                                 android:layout_weight="8" android:layout_marginTop="13dp"
                                  android:layout_marginBottom="21dp" android:layout_marginLeft="9dp"
                                  local:MvxTemplate="@layout/scores" local:MvxBind="DataContext ."/>
             </LinearLayout>
