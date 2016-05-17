@@ -45,8 +45,8 @@
                       android:textAppearance="?android:attr/textAppearanceMedium"
                       android:textColor="@color/accent_material_dark" local:MvxBind="Text Time"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="45"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-medium"
-                      local:MvxBind="Visible IsInsulin; Text Text"/>
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:textColor="@color/extreme_foreground" local:MvxBind="Visible IsInsulin; Text Text"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="78"
                       android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-light"
                       local:MvxBind="Visible IsSugar; Text Text"/>
@@ -61,8 +61,8 @@
                       android:textAppearance="?android:attr/textAppearanceMedium"
                       android:textColor="@color/accent_material_dark" local:MvxBind="Text DateAndTime"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="55"
-                      android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-medium"
-                      local:MvxBind="Visible IsInsulin; Text Text"/>
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:textColor="@color/extreme_foreground" local:MvxBind="Visible IsInsulin; Text Text"/>
             <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="55"
                       android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-light"
                       local:MvxBind="Visible IsSugar; Text Text"/>

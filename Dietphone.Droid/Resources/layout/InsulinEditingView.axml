@@ -111,11 +111,11 @@
                           android:layout_marginTop="22dp" android:textAppearance="?android:attr/textAppearanceSmall"
                           local:MvxBind="Text [SuggestedBolus]"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:layout_marginTop="-12dp" android:orientation="horizontal">
+                              android:layout_marginTop="-10dp" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                               android:layout_weight="65" android:layout_marginTop="15dp"
                               android:textAppearance="?android:attr/textAppearanceMedium"
-                              android:fontFamily="sans-serif-medium" local:MvxBind="Text Calculated.Text"/>
+                              android:textColor="@color/extreme_foreground" local:MvxBind="Text Calculated.Text"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                                   android:layout_weight="35"
                                   android:orientation="horizontal" android:gravity="center_horizontal">
