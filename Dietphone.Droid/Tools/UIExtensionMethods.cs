@@ -13,6 +13,7 @@ using Dietphone.Adapters;
 using MvvmCross.Droid.Views;
 using OxyPlot;
 using Android.Util;
+using System.Collections.Generic;
 
 namespace Dietphone.Tools
 {
@@ -92,6 +93,14 @@ namespace Dietphone.Tools
                     return true;
             } while (view != null);
             return false;
+        }
+
+        public static List<View> GetChildren(this ViewGroup parent)
+        {
+            var children = new List<View>();
+            for (int i = 0; i < parent.ChildCount; i++)
+                children.Add(parent.GetChildAt(i));
+            return children;
         }
 
         public static int ToAlpha(this bool enabled)
