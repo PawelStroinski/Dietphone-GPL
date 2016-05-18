@@ -153,6 +153,10 @@
             <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
                             local:MvxTemplate="@layout/calculationdetails"
                             local:MvxBind="IsVisible CalculationDetailsVisible; DataContext ."/>
+            <!--CalculationDetailsAlternativesVisible-->
+            <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            local:MvxTemplate="@layout/calculationdetailsalternatives"
+                            local:MvxBind="IsVisible CalculationDetailsAlternativesVisible; DataContext ."/>
         </LinearLayout>
         <!--Date-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
