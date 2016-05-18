@@ -286,64 +286,67 @@ namespace Dietphone
 			public const int CalculationDetailsAlternatives = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int ExportAndImportView = 2130903042;
+			public const int DateTimeLock_Include = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int InlineViewIcons_Include = 2130903043;
+			public const int ExportAndImportView = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int InsulinEditingView = 2130903044;
+			public const int InlineViewIcons_Include = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int Journal_Item = 2130903045;
+			public const int InsulinEditingView = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int JournalView = 2130903046;
+			public const int Journal_Item = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int Listing_Group = 2130903047;
+			public const int JournalView = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int Listing_Include = 2130903048;
+			public const int Listing_Group = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int ListingView = 2130903049;
+			public const int Listing_Include = 2130903049;
 			
 			// aapt resource value: 0x7f03000a
-			public const int MainView = 2130903050;
+			public const int ListingView = 2130903050;
 			
 			// aapt resource value: 0x7f03000b
-			public const int Meal_Item = 2130903051;
+			public const int MainView = 2130903051;
 			
 			// aapt resource value: 0x7f03000c
-			public const int MealEditingView = 2130903052;
+			public const int Meal_Item = 2130903052;
 			
 			// aapt resource value: 0x7f03000d
-			public const int MealItemEditing = 2130903053;
+			public const int MealEditingView = 2130903053;
 			
 			// aapt resource value: 0x7f03000e
-			public const int Pattern = 2130903054;
+			public const int MealItemEditing = 2130903054;
 			
 			// aapt resource value: 0x7f03000f
-			public const int Pattern_Sugar = 2130903055;
+			public const int Pattern = 2130903055;
 			
 			// aapt resource value: 0x7f030010
-			public const int ProductListing_Item = 2130903056;
+			public const int Pattern_Sugar = 2130903056;
 			
 			// aapt resource value: 0x7f030011
-			public const int Replacement_Item = 2130903057;
+			public const int ProductListing_Item = 2130903057;
 			
 			// aapt resource value: 0x7f030012
-			public const int Scores = 2130903058;
+			public const int Replacement_Item = 2130903058;
 			
 			// aapt resource value: 0x7f030013
-			public const int SettingsView = 2130903059;
+			public const int Scores = 2130903059;
 			
 			// aapt resource value: 0x7f030014
-			public const int SplashScreen = 2130903060;
+			public const int SettingsView = 2130903060;
 			
 			// aapt resource value: 0x7f030015
-			public const int SugarEditing = 2130903061;
+			public const int SplashScreen = 2130903061;
+			
+			// aapt resource value: 0x7f030016
+			public const int SugarEditing = 2130903062;
 			
 			static Layout()
 			{
