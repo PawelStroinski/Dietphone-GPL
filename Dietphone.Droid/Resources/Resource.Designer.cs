@@ -260,6 +260,15 @@ namespace Dietphone
 			// aapt resource value: 0x7f040017
 			public const int mealeditingview_save = 2130968599;
 			
+			// aapt resource value: 0x7f040019
+			public const int producteditingview_cancel = 2130968601;
+			
+			// aapt resource value: 0x7f04001b
+			public const int producteditingview_delete = 2130968603;
+			
+			// aapt resource value: 0x7f04001a
+			public const int producteditingview_save = 2130968602;
+			
 			// aapt resource value: 0x7f040004
 			public const int sugar_chart = 2130968580;
 			
@@ -331,22 +340,25 @@ namespace Dietphone
 			public const int Pattern_Sugar = 2130903056;
 			
 			// aapt resource value: 0x7f030011
-			public const int ProductListing_Item = 2130903057;
+			public const int ProductEditingView = 2130903057;
 			
 			// aapt resource value: 0x7f030012
-			public const int Replacement_Item = 2130903058;
+			public const int ProductListing_Item = 2130903058;
 			
 			// aapt resource value: 0x7f030013
-			public const int Scores = 2130903059;
+			public const int Replacement_Item = 2130903059;
 			
 			// aapt resource value: 0x7f030014
-			public const int SettingsView = 2130903060;
+			public const int Scores = 2130903060;
 			
 			// aapt resource value: 0x7f030015
-			public const int SplashScreen = 2130903061;
+			public const int SettingsView = 2130903061;
 			
 			// aapt resource value: 0x7f030016
-			public const int SugarEditing = 2130903062;
+			public const int SplashScreen = 2130903062;
+			
+			// aapt resource value: 0x7f030017
+			public const int SugarEditing = 2130903063;
 			
 			static Layout()
 			{
@@ -372,6 +384,9 @@ namespace Dietphone
 			
 			// aapt resource value: 0x7f080003
 			public const int mealeditingview_menu = 2131230723;
+			
+			// aapt resource value: 0x7f080004
+			public const int producteditingview_menu = 2131230724;
 			
 			static Menu()
 			{

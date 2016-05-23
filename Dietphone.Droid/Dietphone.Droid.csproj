@@ -132,6 +132,7 @@
     <Compile Include="Adapters\MenuItemClickListener.cs" />
     <Compile Include="Adapters\WebViewClientImpl.cs" />
     <Compile Include="Controls\BackEditText.cs" />
+    <Compile Include="Views\ProductEditingView.cs" />
     <Compile Include="Views\InsulinEditingView.cs" />
     <Compile Include="Views\MealEditingView.cs" />
     <Compile Include="Views\SettingsView.cs" />
@@ -247,6 +248,9 @@
     <AndroidResource Include="Resources\layout\DateTimeLock_Include.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\ProductEditingView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -335,6 +339,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\dimens.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\producteditingview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
