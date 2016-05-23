@@ -8,20 +8,22 @@
         <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
                      style="@android:style/Widget.ProgressBar.Large"/>
     </LinearLayout>
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true"
-                android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="10dp">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+                android:fillViewport="true" android:paddingLeft="10dp"
+                android:paddingRight="10dp" android:paddingTop="10dp">
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
             <!--General-->
             <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                           android:orientation="vertical" local:MvxBind="Visible FirstPivot">
                 <!--0-->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                              android:orientation="horizontal" android:weightSum="10"
-                              android:focusableInTouchMode="true">
+                              android:layout_marginTop="13dp" android:layout_marginBottom="2dp"
+                              android:layout_marginLeft="9dp" android:orientation="horizontal"
+                              android:weightSum="10" android:focusableInTouchMode="true">
                     <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
-                                     android:layout_weight="8" android:layout_marginTop="13dp"
-                                     android:layout_marginBottom="21dp" android:layout_marginLeft="9dp"
-                                     local:MvxTemplate="@layout/scores" local:MvxBind="DataContext ."/>
+                                     android:layout_weight="8" android:layout_marginBottom="19dp"
+                                     local:MvxTemplate="@layout/scores"
+                                     local:MvxBind="Visible MealScoresVisible; DataContext ."/>
                 </LinearLayout>
                 <!--CurrentSugar | InsulinCircumstances-->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -45,9 +47,9 @@
                                             android:layout_weight="1" android:layout_marginLeft="10dp"
                                             android:layout_gravity="center_vertical"
                                             local:MvxBind="Title [InsulinCircumstances]; ItemsSource Circumstances;
-                                                       SelectedItems Subject.Circumstances; AddClick AddCircumstance;
-                                                       EditClick EditCircumstance; DeleteClick DeleteCircumstance;
-                                                       DoneText [Done]; CancelText [Cancel]"/>
+                                                           SelectedItems Subject.Circumstances; AddClick AddCircumstance;
+                                                           EditClick EditCircumstance; DeleteClick DeleteCircumstance;
+                                                           DoneText [Done]; CancelText [Cancel]"/>
                 </LinearLayout>
                 <!--NormalBolus | SquareWaveBolus-->
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -111,9 +113,10 @@
                     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:layout_marginTop="-13dp" android:layout_marginBottom="-15dp"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:background="@android:color/transparent" android:textColor="@color/accent_material_dark"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/accent_material_dark"
                             local:MvxBind="Visible IsCalculationIncomplete; Text [InsulinCalculationIncomplete];
-                                       Click ShowListOfMealItemsNotIncludedInCalculation"/>
+                                           Click ShowListOfMealItemsNotIncludedInCalculation"/>
                     <!--SuggestedBolus-->
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:layout_marginTop="22dp" android:textAppearance="?android:attr/textAppearanceSmall"
