@@ -32,6 +32,8 @@ namespace Dietphone.ViewModels
             this.learningCuAndFpu = learningCuAndFpu;
         }
 
+        public bool ShouldFocusName => string.IsNullOrEmpty(Subject.Name);
+
         public string CategoryName
         {
             get

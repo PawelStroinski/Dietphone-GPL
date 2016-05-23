@@ -41,8 +41,7 @@ namespace Dietphone.Views
 
         private void ProductEditing_Loaded(object sender, RoutedEventArgs e)
         {
-            var product = ViewModel.Subject;
-            if (string.IsNullOrEmpty(product.Name))
+            if (ViewModel.ShouldFocusName)
             {
                 NameBox.Focus();
             }

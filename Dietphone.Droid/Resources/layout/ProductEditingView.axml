@@ -9,12 +9,28 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:layout_marginTop="4dp" android:orientation="vertical"
                       local:MvxBind="Visible FirstPivot">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:focusableInTouchMode="true"></LinearLayout>
             <!--Name-->
             <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
                           android:orientation="horizontal" android:paddingBottom="20dp">
                 <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:layout_gravity="center_vertical" android:inputType="textCapSentences"
-                          local:MvxBind="Text Subject.Name"/>
+                          local:MvxBind="Text Subject.Name; Focus ShouldFocusName"/>
+            </LinearLayout>
+            <!--Category-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceSmall" local:MvxBind="Text [Category]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <SinglePickerEditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                                      android:layout_gravity="center_vertical"
+                                      local:MvxBind="Title [Category]; ItemsSource Categories;
+                                                     SelectedItem Subject.Category; AddClick AddCategory;
+                                                     EditClick EditCategory; DeleteClick DeleteCategory"/>
             </LinearLayout>
         </LinearLayout>
         <!--100g-->

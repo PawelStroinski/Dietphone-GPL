@@ -147,5 +147,14 @@ namespace Dietphone.Smartphone.Tests
             sut.DeleteAndSaveAndReturn();
             Assert.AreEqual(confirm ? 0 : 1, factories.Products.Count);
         }
+
+        [Test]
+        public void ShouldFocusName()
+        {
+            sut.Load();
+            Assert.IsFalse(sut.ShouldFocusName);
+            sut.Subject.Name = string.Empty;
+            Assert.IsTrue(sut.ShouldFocusName);
+        }
     }
 }
