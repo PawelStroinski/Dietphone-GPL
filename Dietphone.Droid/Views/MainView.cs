@@ -43,8 +43,7 @@ namespace Dietphone.Views
             TranslateMenu();
             InitializeSearchMenu();
             BindMenuActions();
-            if (showProductsOnly)
-                SetMenuVisisiblity();
+            SetMenuVisisiblity();
             return true;
         }
 
@@ -187,6 +186,8 @@ namespace Dietphone.Views
 
         private void SetMenuVisisiblity()
         {
+            if (meal == null)
+                return;
             var inJournalTab = TabHost.CurrentTabTag == JOURNAL_TAB;
             meal.SetVisible(inJournalTab && !searchExpanded);
             sugar.SetVisible(inJournalTab && !searchExpanded);
