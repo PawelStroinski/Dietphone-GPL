@@ -7,7 +7,7 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
         <!--General-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                      android:layout_marginTop="4dp" android:orientation="vertical"
+                      android:layout_marginTop="8.5dp" android:orientation="vertical"
                       local:MvxBind="Visible FirstPivot">
             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                           android:focusableInTouchMode="true"></LinearLayout>
