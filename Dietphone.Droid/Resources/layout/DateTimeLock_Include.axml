@@ -21,8 +21,7 @@
             <DatePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
                                 android:layout_weight="1" android:layout_marginRight="10dp"
                                 android:layout_gravity="center_vertical"
-                                local:MvxBind="Value Subject.DateTime; DateFormat DateFormat;
-                                                           Title [ChooseDate]"/>
+                                local:MvxBind="Value Subject.DateTime; DateFormat DateFormat; Title [ChooseDate]"/>
             <TimePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
                                 android:layout_weight="1" android:layout_marginLeft="10dp"
                                 android:layout_gravity="center_vertical"

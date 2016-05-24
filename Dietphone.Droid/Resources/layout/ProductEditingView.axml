@@ -109,6 +109,44 @@
                               android:layout_gravity="center_vertical" android:enabled="false"
                               local:MvxBind="TextOnFocusLost Subject.DigestibleCarbsPer100g"/>
             </LinearLayout>
+            <!--CU & FPU-->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      android:textColor="@color/extreme_foreground"
+                      local:MvxBind="Text [FullSquareMeansMaximumInCategory]"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+                          android:layout_marginTop="12dp" android:orientation="horizontal">
+                <LinearLayout android:layout_width="0dp" android:layout_height="match_parent"
+                              android:layout_weight="1" android:orientation="horizontal"
+                              local:MvxBind="Click LearnCu">
+                    <LinearLayout android:layout_width="50dp" android:layout_height="match_parent"
+                                  android:orientation="horizontal"
+                                  android:background="@color/primary_dark_material_light">
+                        <View android:layout_width="2dp" android:layout_height="match_parent"
+                              android:background="@color/accent_material_dark"
+                              local:MvxBind="ScaleX Subject.DoubledWidthOfFilledCuRect"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_marginLeft="14.5dp" android:layout_gravity="center_vertical"
+                              android:textAppearance="?android:attr/textAppearanceLarge"
+                              android:fontFamily="sans-serif-medium" local:MvxBind="Text Subject.CuPer100g"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="match_parent"
+                              android:layout_weight="1" android:orientation="horizontal"
+                              local:MvxBind="Click LearnFpu">
+                    <LinearLayout android:layout_width="50dp" android:layout_height="match_parent"
+                                  android:orientation="horizontal"
+                                  android:background="@color/primary_dark_material_light">
+                        <View android:layout_width="2dp" android:layout_height="match_parent"
+                              android:background="@color/accent_material_dark"
+                              local:MvxBind="ScaleX Subject.DoubledWidthOfFilledFpuRect"/>
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_marginLeft="14.5dp" android:layout_gravity="center_vertical"
+                              android:textAppearance="?android:attr/textAppearanceLarge"
+                              android:fontFamily="sans-serif-medium" local:MvxBind="Text Subject.FpuPer100g"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
         <!--Serving-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
