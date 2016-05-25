@@ -150,8 +150,37 @@
         </LinearLayout>
         <!--Serving-->
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                      android:layout_marginTop="15dp" android:orientation="vertical"
+                      android:layout_marginTop="13dp" android:orientation="vertical"
                       local:MvxBind="Visible ThirdPivot">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_marginBottom="21dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                      android:fontFamily="sans-serif-medium" local:MvxBind="Text [NutritionalValuePerServing]"/>
+            <!--ServingSizeDescription | ServingSizeValue | ServingSizeUnit-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [ServingDescription]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [ServingSize]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="2" android:layout_marginRight="10dp"
+                          android:layout_gravity="center_vertical" android:inputType="textCapSentences"
+                          local:MvxBind="Text Subject.ServingSizeDescription"/>
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.ServingSizeValue"/>
+                <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
+                                android:layout_weight="1" android:layout_gravity="center_vertical"
+                                local:MvxBind="ItemsSource AllServingSizeUnits; SelectedItem Subject.ServingSizeUnit"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
