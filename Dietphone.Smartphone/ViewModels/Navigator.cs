@@ -18,6 +18,7 @@ namespace Dietphone.ViewModels
         void GoToMain();
         void GoToMainToAddMealItem();
         void GoToAbout();
+        void GoToEmbeddedAbout();
         void GoToExportAndImport();
         void GoToSettings();
     }
@@ -102,6 +103,11 @@ namespace Dietphone.ViewModels
         {
             FillAboutDto();
             about.Go();
+        }
+
+        public void GoToEmbeddedAbout()
+        {
+            ShowViewModel<EmbeddedAboutViewModel>();
         }
 
         public void GoToExportAndImport()

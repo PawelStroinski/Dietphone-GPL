@@ -85,6 +85,11 @@ namespace Dietphone.ViewModels
             navigator.GoToAbout();
         }
 
+        public void EmbeddedAbout()
+        {
+            navigator.GoToEmbeddedAbout();
+        }
+
         public void ExportAndImport()
         {
             navigator.GoToExportAndImport();

@@ -119,6 +119,7 @@ namespace Dietphone.Views
             settings.SetOnMenuItemClick(() => ViewModel.Settings());
             var welcome = ViewModel.WelcomeScreen;
             welcomeScreen.SetOnMenuItemClick(welcome.Show);
+            about.SetOnMenuItemClick(ViewModel.EmbeddedAbout);
             BindAddMenuAction(meal, new JournalViewModel.AddMealCommand());
             BindAddMenuAction(sugar, new JournalViewModel.AddSugarCommand());
             BindAddMenuAction(insulin, new JournalViewModel.AddInsulinCommand());

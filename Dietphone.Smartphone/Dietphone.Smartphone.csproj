@@ -62,6 +62,7 @@
     <Compile Include="Tools\Trial.cs" />
     <Compile Include="Tools\VerboseBackgroundWorker.cs" />
     <Compile Include="Tools\Vibration.cs" />
+    <Compile Include="ViewModels\EmbeddedAboutViewModel.cs" />
     <Compile Include="ViewModels\BackgroundWorker.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\CloudMessages.cs" />

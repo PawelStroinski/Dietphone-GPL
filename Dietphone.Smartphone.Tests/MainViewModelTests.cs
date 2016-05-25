@@ -161,5 +161,16 @@ namespace Dietphone.Smartphone.Tests
             welcomeScreen.Show.Received(showWelcomeScreen ? 1 : 0).Execute(null);
             Assert.IsFalse(factories.Settings.ShowWelcomeScreen);
         }
+
+        [Test]
+        public void EmbeddedAbout()
+        {
+            var sut = CreateSut();
+            sut.Init(new MainViewModel.Navigation());
+            var navigator = Substitute.For<Navigator>();
+            sut.Navigator = navigator;
+            sut.EmbeddedAbout();
+            navigator.Received().GoToEmbeddedAbout();
+        }
     }
 }

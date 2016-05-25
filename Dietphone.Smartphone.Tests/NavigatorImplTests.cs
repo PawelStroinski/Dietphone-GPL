@@ -108,6 +108,14 @@ namespace Dietphone.Smartphone.Tests
         }
 
         [Test]
+        public void GoToEmbeddedAbout()
+        {
+            sut.GoToEmbeddedAbout();
+            var request = mockDispatcher.Requests.Single();
+            Assert.AreEqual(typeof(EmbeddedAboutViewModel), request.ViewModelType);
+        }
+
+        [Test]
         public void GoToExportAndImport()
         {
             sut.GoToExportAndImport();
