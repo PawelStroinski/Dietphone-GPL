@@ -1,5 +1,5 @@
-﻿// The HideSoftInputOnTouchOutside method is from http://stackoverflow.com/a/28939113
-// and the ToPx from http://stackoverflow.com/a/6327095
+﻿// The HideSoftInputOnTouchOutside method is from http://stackoverflow.com/a/28939113,
+// the ToPx from http://stackoverflow.com/a/6327095 and the LaunchBrowser from http://stackoverflow.com/a/2201999
 using System;
 using Android.App;
 using Android.Content;
@@ -14,6 +14,7 @@ using MvvmCross.Droid.Views;
 using OxyPlot;
 using Android.Util;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Dietphone.Tools
 {
@@ -22,6 +23,12 @@ namespace Dietphone.Tools
         public static IMenuItem SetTitleCapitalized(this IMenuItem item, string title)
         {
             item.SetTitle(title.Capitalize());
+            return item;
+        }
+
+        public static IMenuItem SetOnMenuItemClick(this IMenuItem item, ICommand onClick)
+        {
+            item.SetOnMenuItemClick(() => onClick.Execute(null));
             return item;
         }
 
@@ -122,6 +129,13 @@ namespace Dietphone.Tools
         {
             var resources = context.Resources;
             return TypedValue.ApplyDimension(unit, (float)value, resources.DisplayMetrics);
+        }
+
+        public static void LaunchBrowser(this ContextWrapper context, string url)
+        {
+            var uri = Android.Net.Uri.Parse(url);
+            var browserIntent = new Intent(Intent.ActionView, uri);
+            context.StartActivity(browserIntent);
         }
 
         private static Rect GetGlobalVisibleRect(View view)

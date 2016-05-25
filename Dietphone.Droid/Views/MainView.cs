@@ -60,6 +60,8 @@ namespace Dietphone.Views
             {
                 subConnector = new SubViewModelConnector(ViewModel);
                 subConnector.Loaded += delegate { ViewModel.UiRendered(); };
+                var welcome = ViewModel.WelcomeScreen;
+                welcome.LaunchBrowser += (_, url) => this.LaunchBrowser(url);
             }
             ViewModel.ShowProductsOnly += delegate { showProductsOnly = true; };
             ViewModel.Untombstone();
@@ -115,6 +117,8 @@ namespace Dietphone.Views
         {
             exportAndImportData.SetOnMenuItemClick(() => ViewModel.ExportAndImport());
             settings.SetOnMenuItemClick(() => ViewModel.Settings());
+            var welcome = ViewModel.WelcomeScreen;
+            welcomeScreen.SetOnMenuItemClick(welcome.Show);
             BindAddMenuAction(meal, new JournalViewModel.AddMealCommand());
             BindAddMenuAction(sugar, new JournalViewModel.AddSugarCommand());
             BindAddMenuAction(insulin, new JournalViewModel.AddInsulinCommand());
