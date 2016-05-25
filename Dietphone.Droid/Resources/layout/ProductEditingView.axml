@@ -181,6 +181,75 @@
                                 android:layout_weight="1" android:layout_gravity="center_vertical"
                                 local:MvxBind="ItemsSource AllServingSizeUnits; SelectedItem Subject.ServingSizeUnit"/>
             </LinearLayout>
+            <!--EnergyPerServing | FatPerServing-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [EnergyCaloriesUppercase]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [FatG]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="number"
+                              local:MvxBind="TextOnFocusLost Subject.EnergyPerServing"/>
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.FatPerServing"/>
+            </LinearLayout>
+            <!--CarbsTotalPerServing | FiberPerServing-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [CarbohydratesG]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [DietaryFiberG]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.CarbsTotalPerServing"/>
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.FiberPerServing"/>
+            </LinearLayout>
+            <!--ProteinPerServing | DigestibleCarbsPerServing-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [ProteinG]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [DigestibleCarbsG]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost Subject.ProteinPerServing"/>
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:enabled="false"
+                              local:MvxBind="TextOnFocusLost Subject.DigestibleCarbsPerServing"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
