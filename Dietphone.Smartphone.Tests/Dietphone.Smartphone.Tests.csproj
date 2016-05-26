@@ -82,6 +82,7 @@
     <Compile Include="CategoriesAndProductsLoaderTests.cs" />
     <Compile Include="ExportAndImportViewModelTests.cs" />
     <Compile Include="PivotTombstoningViewModelTests.cs" />
+    <Compile Include="EmbeddedAboutViewModelTests.cs" />
     <Compile Include="ProductListingViewModelTests.cs" />
     <Compile Include="GroupingViewModelTests.cs" />
     <Compile Include="ProductEditingViewModelTests.cs" />

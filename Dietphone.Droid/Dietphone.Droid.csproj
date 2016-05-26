@@ -132,6 +132,7 @@
     <Compile Include="Adapters\MenuItemClickListener.cs" />
     <Compile Include="Adapters\WebViewClientImpl.cs" />
     <Compile Include="Controls\BackEditText.cs" />
+    <Compile Include="Views\EmbeddedAboutView.cs" />
     <Compile Include="Views\ProductEditingView.cs" />
     <Compile Include="Views\InsulinEditingView.cs" />
     <Compile Include="Views\MealEditingView.cs" />
@@ -251,6 +252,9 @@
     <AndroidResource Include="Resources\layout\ProductEditingView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\EmbeddedAboutView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -344,6 +348,14 @@
     <AndroidResource Include="Resources\menu\producteditingview_menu.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Dietphone.Phone.Rarely\documents\license.en-US.txt">
+      <Link>Assets\documents\license.en-US.txt</Link>
+    </Content>
+    <Content Include="..\Dietphone.Phone.Rarely\documents\license.pl-PL.txt">
+      <Link>Assets\documents\license.pl-PL.txt</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

@@ -1,5 +1,6 @@
 ﻿// The HideSoftInputOnTouchOutside method is from http://stackoverflow.com/a/28939113,
-// the ToPx from http://stackoverflow.com/a/6327095 and the LaunchBrowser from http://stackoverflow.com/a/2201999
+// the ToPx from http://stackoverflow.com/a/6327095, the LaunchBrowser from http://stackoverflow.com/a/2201999
+// and the LaunchEmail from http://stackoverflow.com/a/21700592
 using System;
 using Android.App;
 using Android.Content;
@@ -136,6 +137,14 @@ namespace Dietphone.Tools
             var uri = Android.Net.Uri.Parse(url);
             var browserIntent = new Intent(Intent.ActionView, uri);
             context.StartActivity(browserIntent);
+        }
+
+        public static void LaunchEmail(this ContextWrapper context, string address)
+        {
+            var uri = Android.Net.Uri.FromParts("mailto", address, null);
+            var emailIntent = new Intent(Intent.ActionSendto, uri);
+            var chooser = Intent.CreateChooser(emailIntent, (string)null);
+            context.StartActivity(chooser);
         }
 
         private static Rect GetGlobalVisibleRect(View view)
