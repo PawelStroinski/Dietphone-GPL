@@ -350,12 +350,12 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Dietphone.Phone.Rarely\documents\license.en-US.txt">
+    <AndroidAsset Include="..\Dietphone.Phone.Rarely\documents\license.en-US.txt">
       <Link>Assets\documents\license.en-US.txt</Link>
-    </Content>
-    <Content Include="..\Dietphone.Phone.Rarely\documents\license.pl-PL.txt">
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone.Rarely\documents\license.pl-PL.txt">
       <Link>Assets\documents\license.pl-PL.txt</Link>
-    </Content>
+    </AndroidAsset>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
