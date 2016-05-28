@@ -7,13 +7,16 @@ using System;
 using System.IO;
 using Android.Text;
 using System.Text;
+using Android.Views;
 
 namespace Dietphone.Views
 {
     [Activity]
     public class EmbeddedAboutView : ActivityBase<EmbeddedAboutViewModel>
     {
+        private IMenuItem changelog;
         private const string LICENSE_PATH = "documents/license.{0}.txt";
+        private const string CHANGELOG_URL = "http://www.pabloware.com/mobile/diabetes-spy.changelog.{0}.html";
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -23,6 +26,14 @@ namespace Dietphone.Views
             AddLinkHandler();
             AddEmailLinkHandler();
             FormatLicense(LoadLicense());
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.embeddedaboutview_menu, menu);
+            GetMenu(menu);
+            BindMenuActions();
+            return true;
         }
 
         private void AddLinkHandler()
@@ -59,6 +70,22 @@ namespace Dietphone.Views
             using (var stream = Assets.Open(path))
             using (var reader = new StreamReader(stream))
                 return reader.ReadToEnd();
+        }
+
+        private void GetMenu(IMenu menu)
+        {
+            changelog = menu.FindItem(Resource.Id.embeddedaboutview_changelog);
+        }
+
+        private void BindMenuActions()
+        {
+            changelog.SetOnMenuItemClick(ChangelogClick);
+        }
+
+        private void ChangelogClick()
+        {
+            var url = string.Format(CHANGELOG_URL, MyApp.CurrentUiCulture);
+            this.LaunchBrowser(url);
         }
     }
 }
