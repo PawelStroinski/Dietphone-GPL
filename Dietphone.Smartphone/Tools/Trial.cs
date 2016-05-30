@@ -1,8 +1,10 @@
-﻿namespace Dietphone.Tools
+﻿using System;
+
+namespace Dietphone.Tools
 {
     public interface Trial
     {
-        bool IsTrial();
+        void IsTrial(Action<bool> callback);
         void Show();
     }
 }

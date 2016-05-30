@@ -28,9 +28,20 @@ namespace Dietphone.ViewModels
             var settings = factories.Settings;
             var modulo = settings.TrialCounter % PERIOD;
             var isInPeriod = modulo == 0 && settings.TrialCounter > 0;
-            if (isInPeriod && trial.IsTrial())
-                ConfirmAndShow();
-            settings.TrialCounter = (byte)(isInPeriod ? 0 : settings.TrialCounter + 1);
+            if (isInPeriod)
+                RunInPeriod(settings);
+            else
+                settings.TrialCounter = (byte)(settings.TrialCounter + 1);
+        }
+
+        private void RunInPeriod(Settings settings)
+        {
+            trial.IsTrial((isTrial) =>
+            {
+                if (isTrial)
+                    ConfirmAndShow();
+                settings.TrialCounter = 0;
+            });
         }
 
         private void ConfirmAndShow()

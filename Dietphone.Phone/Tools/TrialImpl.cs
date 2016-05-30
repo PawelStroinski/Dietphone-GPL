@@ -1,16 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 
 namespace Dietphone.Tools
 {
     public sealed class TrialImpl : Trial
     {
-        public bool IsTrial()
+        public void IsTrial(Action<bool> callback)
         {
 #if DEBUG
-            return true;
+            callback(true);
 #else
-            return Guide.IsTrialMode;
+            callback(Guide.IsTrialMode);
 #endif
         }
 
