@@ -7,7 +7,11 @@ using MvvmCross.Platform;
 
 namespace Dietphone
 {
-    [Application]
+#if DEBUG
+    [Application(Debuggable = true)]
+#else
+    [Application(Debuggable = false)]
+#endif
     public sealed class DroidApplication : Application
     {
         public DroidApplication(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)

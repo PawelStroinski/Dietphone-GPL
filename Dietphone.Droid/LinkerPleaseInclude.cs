@@ -12,14 +12,20 @@ namespace Dietphone
     {
         public void Include(Button button)
         {
-            button.Click += (s,e) => button.Text = button.Text + "";
+            button.Click += (s, e) => button.Text = button.Text + "";
+        }
+
+        public void Include(ToggleButton button)
+        {
+            button.TextOn = button.TextOn + "";
+            button.TextOff = button.TextOff + "";
         }
 
         public void Include(CheckBox checkBox)
         {
             checkBox.CheckedChange += (sender, args) => checkBox.Checked = !checkBox.Checked;
         }
-        
+
         public void Include(Switch @switch)
         {
             @switch.CheckedChange += (sender, args) => @switch.Checked = !@switch.Checked;
@@ -28,6 +34,7 @@ namespace Dietphone
         public void Include(View view)
         {
             view.Click += (s, e) => view.ContentDescription = view.ContentDescription + "";
+            view.ScaleX = view.ScaleX + 1;
         }
 
         public void Include(TextView text)
@@ -35,7 +42,7 @@ namespace Dietphone
             text.TextChanged += (sender, args) => text.Text = "" + text.Text;
             text.Hint = "" + text.Hint;
         }
-        
+
         public void Include(CheckedTextView text)
         {
             text.TextChanged += (sender, args) => text.Text = "" + text.Text;
@@ -59,22 +66,23 @@ namespace Dietphone
 
         public void Include(INotifyCollectionChanged changed)
         {
-            changed.CollectionChanged += (s,e) => { var test = $"{e.Action}{e.NewItems}{e.NewStartingIndex}{e.OldItems}{e.OldStartingIndex}"; };
+            changed.CollectionChanged += (s, e) => { var test = $"{e.Action}{e.NewItems}{e.NewStartingIndex}{e.OldItems}{e.OldStartingIndex}"; };
         }
 
         public void Include(ICommand command)
         {
             command.CanExecuteChanged += (s, e) => { if (command.CanExecute(null)) command.Execute(null); };
         }
-        
+
         public void Include(MvvmCross.Platform.IoC.MvxPropertyInjector injector)
         {
-            injector = new MvvmCross.Platform.IoC.MvxPropertyInjector ();
-        } 
+            injector = new MvvmCross.Platform.IoC.MvxPropertyInjector();
+        }
 
         public void Include(System.ComponentModel.INotifyPropertyChanged changed)
         {
-            changed.PropertyChanged += (sender, e) =>  {
+            changed.PropertyChanged += (sender, e) =>
+            {
                 var test = e.PropertyName;
             };
         }
