@@ -1,49 +1,144 @@
-﻿// The Show method is from http://stackoverflow.com/a/11753070
-using System;
+﻿using System;
+using MvvmCross.Platform;
+using MvvmCross.Platform.Droid.Platform;
+using Xamarin.InAppBilling;
+using System.Linq;
+using System.Collections.Generic;
 using Android.App;
-using Android.Content;
 
 namespace Dietphone.Tools
 {
-    public sealed class TrialImpl : Trial
+    public sealed partial class TrialImpl : Trial
     {
-        private const string MARKET_URI = "market://details?id={0}";
-        private const string HTTPS_URL = "https://play.google.com/store/apps/details?id={0}";
+        private readonly TimerFactory timerFactory;
+        private readonly MessageDialog messageDialog;
+        private static InAppBillingServiceConnection toDisconnect;
+        private const string PRODUCT_ID = "registration";
+
+        public TrialImpl(TimerFactory timerFactory, MessageDialog messageDialog)
+        {
+            this.timerFactory = timerFactory;
+            this.messageDialog = messageDialog;
+        }
 
         public void IsTrial(Action<bool> callback)
         {
-#if DEBUG
-            callback(true);
-#else
-            callback(true); // TODO: use in-app purchase
-                            // http://developer.android.com/google/play/billing/billing_integrate.html#QueryPurchases
-                            // (LVL can't be used for trial, see http://stackoverflow.com/a/5810198
-                            // so in-app purchase has to be used instead)
-            // https://components.xamarin.com/gettingstarted/xamarin.inappbilling
-#endif
+            messageDialog.Show("In TrialImpl.IsTrial");
+            WithService(service => IsTrial(service, callback));
         }
 
         public void Show()
         {
-            // TODO: To be replaced with http://developer.android.com/google/play/billing/billing_integrate.html#Purchase
+            WithService(Show);
+        }
+
+        public static void Disconnect()
+        {
             try
             {
-                StartActivity(MARKET_URI);
+                if (toDisconnect != null)
+                    toDisconnect.Disconnect();
             }
-            catch (ActivityNotFoundException)
+            finally
             {
-                StartActivity(HTTPS_URL);
+                toDisconnect = null;
             }
         }
 
-        private void StartActivity(string uriTemplate)
+        private void WithService(Action<InAppBillingServiceConnection> action)
         {
-            var context = Application.Context;
-            var appPackageName = context.PackageName;
-            var uri = string.Format(uriTemplate, appPackageName);
-            var parsedUri = Android.Net.Uri.Parse(uri);
-            var intent = new Intent(Intent.ActionView, parsedUri);
-            context.StartActivity(intent);
+            messageDialog.Show("In TrialImpl.WithService 1");
+            var activityHolder = Mvx.Resolve<IMvxAndroidCurrentTopActivity>();
+            var activity = activityHolder.Activity;
+            if (activity == null)
+            {
+                Error("No current activity.");
+                return;
+            }
+            messageDialog.Show("In TrialImpl.WithService 2");
+            var service = new InAppBillingServiceConnection(activity, PUBLIC_KEY);
+            messageDialog.Show("In TrialImpl.WithService 3");
+            service.OnInAppBillingError += (error, message) => Error($"{error} - {message}");
+            service.OnConnected += () =>
+            {
+                messageDialog.Show("In TrialImpl.WithService 6");
+                var billing = service.BillingHandler;
+                messageDialog.Show("In TrialImpl.WithService 7");
+                billing.BuyProductError += (code, sku) => Error($"Error {code} while buying {sku}");
+                billing.InAppBillingProcesingError += Error;
+                billing.OnGetProductsError += (code, items) => Error($"Error {code} while getting items {items}");
+                billing.OnProductPurchasedError += (code, sku) => Error($"Error {code} after purchased {sku}");
+                billing.OnPurchaseConsumedError += (code, token) => Error($"Error {code} consuming {token}");
+                billing.QueryInventoryError += (code, skus) => Error($"Error {code} while getting inventory {skus}");
+                messageDialog.Show("In TrialImpl.WithService 8");
+                action(service);
+                messageDialog.Show("In TrialImpl.WithService 9");
+            };
+            messageDialog.Show("In TrialImpl.WithService 4");
+            service.Connect();
+            messageDialog.Show("In TrialImpl.WithService 5");
         }
+
+        private void IsTrial(InAppBillingServiceConnection service, Action<bool> callback)
+        {
+            try
+            {
+                IsTrialDo(service, callback);
+            }
+            finally
+            {
+                service.Disconnect();
+            }
+        }
+
+        private void Show(InAppBillingServiceConnection service)
+        {
+            Disconnect();
+            toDisconnect = service;
+            var billing = service.BillingHandler;
+            var ids = new List<string> { PRODUCT_ID };
+            billing.QueryInventoryAsync(ids, ItemType.Product).ContinueWith(continuation =>
+            {
+                var products = continuation.Result;
+                if (products == null)
+                {
+                    Error("List of items to buy is null.");
+                    return;
+                }
+                if (!products.Any())
+                {
+                    Error("List of items to buy is empty.");
+                    return;
+                }
+                var product = products.First();
+                var synchronizationContext = Application.SynchronizationContext;
+                synchronizationContext.Post(_ => billing.BuyProduct(product), null);
+            });
+        }
+
+        private void IsTrialDo(InAppBillingServiceConnection service, Action<bool> callback)
+        {
+            messageDialog.Show("In TrialImpl.IsTrialDo 1");
+            var billing = service.BillingHandler;
+            messageDialog.Show("In TrialImpl.IsTrialDo 2");
+            var purchases = billing.GetPurchases(ItemType.Product);
+            messageDialog.Show("In TrialImpl.IsTrialDo 3");
+            var purchased = purchases.Any(purchase => purchase.ProductId == PRODUCT_ID);
+            messageDialog.Show("In TrialImpl.IsTrialDo 4");
+            var isTrial = !purchased;
+            messageDialog.Show("In TrialImpl.IsTrialDo 5, isTrial=" + isTrial);
+            timerFactory.Create(() => callback(isTrial), 1000);
+        }
+
+        private void Error(string message)
+        {
+            messageDialog.Show("There was an app registration error. It does not affect functionality.\n\n" + message);
+        }
+
+        //public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
+        //{
+        //    if (serviceConnection != null)
+        //        serviceConnection.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
+        //}
     }
 }

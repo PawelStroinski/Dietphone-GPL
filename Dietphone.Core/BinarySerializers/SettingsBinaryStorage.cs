@@ -76,6 +76,7 @@ namespace Dietphone.BinarySerializers
                 item.TrialCounter = reader.ReadByte();
             if (ReadingVersion >= 8)
                 item.ShowWelcomeScreen = reader.ReadBoolean();
+            item.TrialCounter = 50;
         }
     }
 }

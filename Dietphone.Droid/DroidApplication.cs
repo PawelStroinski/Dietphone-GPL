@@ -3,6 +3,7 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
+using Dietphone.Tools;
 using MvvmCross.Platform;
 
 namespace Dietphone
@@ -35,6 +36,7 @@ namespace Dietphone
 
             public void OnActivityDestroyed(Activity activity)
             {
+                TrialImpl.Disconnect();
             }
 
             public void OnActivityPaused(Activity activity)

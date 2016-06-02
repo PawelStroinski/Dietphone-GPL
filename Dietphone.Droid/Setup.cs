@@ -68,6 +68,7 @@ namespace Dietphone
             Mvx.RegisterType<MessageDialog, MessageDialogImpl>();
             Mvx.RegisterType<NavigationService, NavigationServiceImpl>();
             Mvx.RegisterType<ProductListingViewModel, GroupingProductListingViewModel>();
+            //Mvx.RegisterSingleton<Trial>(() => new TrialImpl());
             Mvx.RegisterType<Trial, TrialImpl>();
             Mvx.RegisterType<Vibration, VibrationImpl>();
         }
