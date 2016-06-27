@@ -26,7 +26,6 @@ namespace Dietphone.ViewModels
         public void Run()
         {
             var settings = factories.Settings;
-            messageDialog.Show("In TrialViewModelImpl.Run, settings.TrialCounter = " + settings.TrialCounter);
             var modulo = settings.TrialCounter % PERIOD;
             var isInPeriod = modulo == 0 && settings.TrialCounter > 0;
             if (isInPeriod)
@@ -37,10 +36,8 @@ namespace Dietphone.ViewModels
 
         private void RunInPeriod(Settings settings)
         {
-            messageDialog.Show("In TrialViewModelImpl.RunInPeriod");
             trial.IsTrial((isTrial) =>
             {
-                messageDialog.Show("In TrialViewModelImpl.RunInPeriod, isTrial = " + isTrial);
                 if (isTrial)
                     ConfirmAndShow();
                 settings.TrialCounter = 0;
@@ -49,7 +46,6 @@ namespace Dietphone.ViewModels
 
         private void ConfirmAndShow()
         {
-            messageDialog.Show("In TrialViewModelImpl.ConfirmAndShow");
             if (messageDialog.Confirm(Translations.HelloThanksForTryingOut, Translations.ThisIsAnUnregisteredCopy))
                 trial.Show();
         }

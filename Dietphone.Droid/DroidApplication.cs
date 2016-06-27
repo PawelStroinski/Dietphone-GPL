@@ -22,6 +22,7 @@ namespace Dietphone
         public override void OnCreate()
         {
             base.OnCreate();
+            ExceptionLogging.Register();
             var callbacks = new ActivityLifecycleCallbacks();
             RegisterActivityLifecycleCallbacks(callbacks);
         }

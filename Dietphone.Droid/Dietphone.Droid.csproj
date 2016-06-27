@@ -85,6 +85,10 @@
       <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
       <HintPath>..\packages\OxyPlot.Core.1.0.0-unstable1983\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\OxyPlot.dll</HintPath>
       <Private>True</Private>
@@ -134,11 +138,14 @@
     <Compile Include="TargetBindings\ImageButtonOpaqueEnabled.cs" />
     <Compile Include="TargetBindings\TargetBindingBase.cs" />
     <Compile Include="Tools\ClipboardImpl.cs" />
+    <Compile Include="Tools\ExceptionLogging.cs" />
     <Compile Include="Tools\MessageDialogImpl.cs" />
     <Compile Include="Tools\NativeFile.cs" />
     <Compile Include="Tools\NavigationServiceImpl.cs" />
     <Compile Include="TargetBindings\BackEditTextTextOnFocusLost.cs" />
     <Compile Include="TargetBindings\TabHostCurrentTab.cs" />
+    <Compile Include="Tools\Logger.cs" />
+    <Compile Include="Tools\LoggerSecret.cs" />
     <Compile Include="Tools\TrialImplKey.cs" />
     <Compile Include="Tools\TrialImpl.cs" />
     <Compile Include="Tools\UIExtensionMethods.cs" />

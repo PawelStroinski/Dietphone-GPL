@@ -139,10 +139,16 @@ namespace Dietphone.Tools
             context.StartActivity(browserIntent);
         }
 
-        public static void LaunchEmail(this ContextWrapper context, string address)
+        public static void LaunchEmail(this ContextWrapper context, string address,
+            Tuple<string, string> subjectAndBody = null)
         {
             var uri = Android.Net.Uri.FromParts("mailto", address, null);
             var emailIntent = new Intent(Intent.ActionSendto, uri);
+            if (subjectAndBody != null)
+            {
+                emailIntent.PutExtra(Intent.ExtraSubject, subjectAndBody.Item1);
+                emailIntent.PutExtra(Intent.ExtraText, subjectAndBody.Item2);
+            }
             var chooser = Intent.CreateChooser(emailIntent, (string)null);
             context.StartActivity(chooser);
         }
