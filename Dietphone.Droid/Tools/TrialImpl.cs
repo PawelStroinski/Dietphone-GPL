@@ -23,7 +23,6 @@ namespace Dietphone.Tools
 
         public void IsTrial(Action<bool> callback)
         {
-            Logger.Debug("In TrialImpl.IsTrial");
             WithService(service => IsTrial(service, callback));
         }
 
@@ -47,7 +46,6 @@ namespace Dietphone.Tools
 
         private void WithService(Action<InAppBillingServiceConnection> action)
         {
-            Logger.Debug("In TrialImpl.WithService 1");
             var activityHolder = Mvx.Resolve<IMvxAndroidCurrentTopActivity>();
             var activity = activityHolder.Activity;
             if (activity == null)
@@ -55,28 +53,20 @@ namespace Dietphone.Tools
                 Logger.Error("No current activity.");
                 return;
             }
-            Logger.Debug("In TrialImpl.WithService 2");
             var service = new InAppBillingServiceConnection(activity, PUBLIC_KEY);
-            Logger.Debug("In TrialImpl.WithService 3");
             service.OnInAppBillingError += (error, message) => Logger.Error($"{error} - {message}");
             service.OnConnected += () =>
             {
-                Logger.Debug("In TrialImpl.WithService 6");
                 var billing = service.BillingHandler;
-                Logger.Debug("In TrialImpl.WithService 7");
                 billing.BuyProductError += (code, sku) => Logger.Error($"Error {code} while buying {sku}");
                 billing.InAppBillingProcesingError += Logger.Error;
                 billing.OnGetProductsError += (code, items) => Logger.Error($"Error {code} when getting items {items}");
                 billing.OnProductPurchasedError += (code, sku) => Logger.Error($"Error {code} after purchased {sku}");
                 billing.OnPurchaseConsumedError += (code, token) => Logger.Error($"Error {code} consuming {token}");
                 billing.QueryInventoryError += (code, skus) => Logger.Error($"Error {code} getting inventory {skus}");
-                Logger.Debug("In TrialImpl.WithService 8");
                 action(service);
-                Logger.Debug("In TrialImpl.WithService 9");
             };
-            Logger.Debug("In TrialImpl.WithService 4");
             service.Connect();
-            Logger.Debug("In TrialImpl.WithService 5");
         }
 
         private void IsTrial(InAppBillingServiceConnection service, Action<bool> callback)
@@ -118,22 +108,11 @@ namespace Dietphone.Tools
 
         private void IsTrialDo(InAppBillingServiceConnection service, Action<bool> callback)
         {
-            Logger.Debug("In TrialImpl.IsTrialDo 1");
             var billing = service.BillingHandler;
-            Logger.Debug("In TrialImpl.IsTrialDo 2");
             var purchases = billing.GetPurchases(ItemType.Product);
-            Logger.Debug("In TrialImpl.IsTrialDo 3");
             var purchased = purchases.Any(purchase => purchase.ProductId == PRODUCT_ID);
-            Logger.Debug("In TrialImpl.IsTrialDo 4");
             var isTrial = !purchased;
-            Logger.Debug("In TrialImpl.IsTrialDo 5, isTrial=" + isTrial);
             timerFactory.Create(() => callback(isTrial), 1000);
         }
-
-        //public void HandleActivityResult(int requestCode, Result resultCode, Intent data)
-        //{
-        //    if (serviceConnection != null)
-        //        serviceConnection.BillingHandler.HandleActivityResult(requestCode, resultCode, data);
-        //}
     }
 }

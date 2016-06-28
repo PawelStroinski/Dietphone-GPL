@@ -13,12 +13,5 @@ namespace Dietphone.Views
             this.HideSoftInputOnTouchOutside(ev);
             return base.DispatchTouchEvent(ev);
         }
-
-        //protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        //{
-        //    var trial = Mvx.Resolve<TrialImpl>();
-        //    trial.HandleActivityResult(requestCode, resultCode, data);
-        //    base.OnActivityResult(requestCode, resultCode, data);
-        //}
     }
 }
