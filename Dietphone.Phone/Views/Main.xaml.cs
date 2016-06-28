@@ -111,10 +111,10 @@ namespace Dietphone.Views
             Pivot.Items.Remove(Journal);
         }
 
-        private void WelcomeScreen_LaunchBrowser(object sender, string url)
+        private void WelcomeScreen_LaunchBrowser(object sender, EventArgs e)
         {
             var webBrowserTask = new WebBrowserTask();
-            webBrowserTask.Uri = new Uri(url);
+            webBrowserTask.Uri = new Uri(Translations.WelcomeScreenLinkPhone);
             webBrowserTask.Show();
         }
 

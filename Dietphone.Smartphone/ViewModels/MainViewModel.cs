@@ -240,15 +240,15 @@ namespace Dietphone.ViewModels
 
     public abstract class WelcomeScreen
     {
-        public event EventHandler<string> LaunchBrowser;
+        public event EventHandler LaunchBrowser;
 
         public abstract ICommand Show { get; }
 
-        protected void OnLaunchBrowser(string url)
+        protected void OnLaunchBrowser()
         {
             if (LaunchBrowser != null)
             {
-                LaunchBrowser(this, url);
+                LaunchBrowser(this, EventArgs.Empty);
             }
         }
     }
@@ -270,7 +270,7 @@ namespace Dietphone.ViewModels
                 {
                     if (messageDialog.Confirm(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader))
                     {
-                        OnLaunchBrowser(Translations.WelcomeScreenLink);
+                        OnLaunchBrowser();
                     }
                 });
             }

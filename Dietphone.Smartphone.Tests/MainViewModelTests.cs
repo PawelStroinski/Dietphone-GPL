@@ -100,13 +100,13 @@ namespace Dietphone.Smartphone.Tests
         {
             var messageDialog = Substitute.For<MessageDialog>();
             var sut = CreateSut(messageDialog: messageDialog);
-            string launchedBrowserWith = null;
+            bool launchedBrowser = false;
             var welcomeScreen = sut.WelcomeScreen;
-            welcomeScreen.LaunchBrowser += (e, url) => { launchedBrowserWith = url; };
+            welcomeScreen.LaunchBrowser += delegate { launchedBrowser = true; };
             messageDialog.Confirm(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader).Returns(confirm);
             welcomeScreen.Show.Call();
             messageDialog.Received().Confirm(Translations.WelcomeScreenText, Translations.WelcomeScreenHeader);
-            Assert.AreEqual(confirm ? Translations.WelcomeScreenLink : null, launchedBrowserWith);
+            Assert.AreEqual(confirm, launchedBrowser);
         }
 
         [TestCase(false, false)]

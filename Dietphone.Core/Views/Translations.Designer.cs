@@ -1839,11 +1839,20 @@ namespace Dietphone.Views {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://goo.gl/mKXT1z.
+        /// </summary>
+        public static string WelcomeScreenLinkDroid {
+            get {
+                return ResourceManager.GetString("WelcomeScreenLinkDroid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://goo.gl/SHSwx6.
         /// </summary>
-        public static string WelcomeScreenLink {
+        public static string WelcomeScreenLinkPhone {
             get {
-                return ResourceManager.GetString("WelcomeScreenLink", resourceCulture);
+                return ResourceManager.GetString("WelcomeScreenLinkPhone", resourceCulture);
             }
         }
         

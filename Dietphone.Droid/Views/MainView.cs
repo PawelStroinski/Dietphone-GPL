@@ -61,7 +61,7 @@ namespace Dietphone.Views
                 subConnector = new SubViewModelConnector(ViewModel);
                 subConnector.Loaded += delegate { ViewModel.UiRendered(); };
                 var welcome = ViewModel.WelcomeScreen;
-                welcome.LaunchBrowser += (_, url) => this.LaunchBrowser(url);
+                welcome.LaunchBrowser += delegate { this.LaunchBrowser(Translations.WelcomeScreenLinkDroid); };
             }
             ViewModel.ShowProductsOnly += delegate { showProductsOnly = true; };
             ViewModel.Untombstone();
