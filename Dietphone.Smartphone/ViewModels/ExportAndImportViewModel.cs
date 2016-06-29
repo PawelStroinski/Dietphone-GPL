@@ -37,6 +37,7 @@ namespace Dietphone.ViewModels
         private readonly Cloud cloud;
         private readonly MessageDialog messageDialog;
         private readonly CloudMessages cloudMessages;
+        private readonly BackgroundWorkerFactory workerFactory;
         private const string MAILEXPORT_URL = "http://www.bizmaster.pl/varia/dietphone/MailExport.aspx";
         private const string MAILEXPORT_SUCCESS_RESULT = "Success!";
         internal const string TOKEN_ACQUIRING_CALLBACK_URL = "http://localhost/HelloTestingSuccess";
@@ -44,7 +45,8 @@ namespace Dietphone.ViewModels
         public const string INITIAL_URL = "http://";
 
         public ExportAndImportViewModel(Factories factories, CloudProviderFactory cloudProviderFactory,
-            Vibration vibration, Cloud cloud, MessageDialog messageDialog, CloudMessages cloudMessages)
+            Vibration vibration, Cloud cloud, MessageDialog messageDialog, CloudMessages cloudMessages,
+            BackgroundWorkerFactory workerFactory)
         {
             this.factories = factories;
             exportAndImport = new ExportAndImportImpl(factories);
@@ -53,6 +55,7 @@ namespace Dietphone.ViewModels
             this.cloud = cloud;
             this.messageDialog = messageDialog;
             this.cloudMessages = cloudMessages;
+            this.workerFactory = workerFactory;
         }
 
         public bool IsBusy
@@ -128,7 +131,7 @@ namespace Dietphone.ViewModels
                 OnSendingFailedDuringExportToEmail();
                 return;
             }
-            var worker = new VerboseBackgroundWorker();
+            var worker = workerFactory.CreateVerbose();
             worker.DoWork += delegate
             {
                 data = exportAndImport.Export();
@@ -166,7 +169,7 @@ namespace Dietphone.ViewModels
                 OnDownloadingFailedDuringImportFromAddress();
                 return;
             }
-            var worker = new VerboseBackgroundWorker();
+            var worker = workerFactory.CreateVerbose();
             worker.DoWork += delegate
             {
                 DownloadFromAddress();
@@ -215,7 +218,7 @@ namespace Dietphone.ViewModels
             {
                 return new MvxCommand(() =>
                 {
-                    var worker = new VerboseBackgroundWorker();
+                    var worker = workerFactory.CreateVerbose();
                     var hasSelection = !string.IsNullOrEmpty(ImportFromCloudSelectedItem);
                     worker.DoWork += delegate
                     {
@@ -240,7 +243,7 @@ namespace Dietphone.ViewModels
             if (!IsThisUrlTheTokenAcquiringCallbackUrl(url))
                 return;
             CheckCloudProvider();
-            var worker = new VerboseBackgroundWorker();
+            var worker = workerFactory.CreateVerbose();
             worker.DoWork += delegate { CatchedBrowserIsNavigatingDoWork(); };
             worker.RunWorkerCompleted += delegate
             {
@@ -259,7 +262,7 @@ namespace Dietphone.ViewModels
         public void ExportToCloudNow()
         {
             CheckIsExportToCloudActive();
-            var worker = new VerboseBackgroundWorker();
+            var worker = workerFactory.CreateVerbose();
             worker.DoWork += delegate { CatchedExportToCloudNow(); };
             worker.RunWorkerCompleted += delegate
             {
@@ -273,7 +276,7 @@ namespace Dietphone.ViewModels
 
         private void SendByEmail()
         {
-            var sender = new PostSender(MAILEXPORT_URL);
+            var sender = new PostSender(MAILEXPORT_URL, workerFactory);
             sender.Inputs["address"] = Email;
             sender.Inputs["data"] = data;
             sender.Completed += SendByEmail_Completed;
@@ -317,7 +320,7 @@ namespace Dietphone.ViewModels
 
         private void ImportDownloadedFromAddress()
         {
-            var worker = new BackgroundWorker();
+            var worker = workerFactory.Create();
             worker.DoWork += delegate
             {
                 CatchedImportDownloadedFromAddress();
@@ -345,7 +348,7 @@ namespace Dietphone.ViewModels
 
         private void ActivateExportToCloud(BrowserIsNavigatingHint browserIsNavigatingHint)
         {
-            var worker = new VerboseBackgroundWorker();
+            var worker = workerFactory.CreateVerbose();
             var url = string.Empty;
             worker.DoWork += delegate
             {
@@ -381,7 +384,7 @@ namespace Dietphone.ViewModels
         private void ShowImportFromCloudItems()
         {
             List<string> imports = null;
-            var worker = new VerboseBackgroundWorker();
+            var worker = workerFactory.CreateVerbose();
             worker.DoWork += delegate
             {
                 imports = CatchedListImports(imports);

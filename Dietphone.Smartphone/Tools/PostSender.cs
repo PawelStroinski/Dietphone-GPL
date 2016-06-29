@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Dietphone.ViewModels;
 
 namespace Dietphone.Tools
 {
@@ -15,17 +16,19 @@ namespace Dietphone.Tools
         public event EventHandler<PostSenderCompletedEventArgs> Completed;
         private PostSenderCompletedEventArgs completedEventArgs;
         private readonly string targetUrl;
+        private readonly BackgroundWorkerFactory workerFactory;
         private const string MEDIA_TYPE = "application/x-www-form-urlencoded";
 
-        public PostSender(string targetUrl)
+        public PostSender(string targetUrl, BackgroundWorkerFactory workerFactory)
         {
             Inputs = new Dictionary<string, string>();
             this.targetUrl = targetUrl;
+            this.workerFactory = workerFactory;
         }
 
         public void SendAsync()
         {
-            var worker = new VerboseBackgroundWorker();
+            var worker = workerFactory.CreateVerbose();
             worker.DoWork += delegate
             {
                 Send();

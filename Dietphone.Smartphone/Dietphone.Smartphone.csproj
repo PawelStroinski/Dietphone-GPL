@@ -60,7 +60,6 @@
     <Compile Include="Tools\StateSerializer.cs" />
     <Compile Include="Tools\TimerFactory.cs" />
     <Compile Include="Tools\Trial.cs" />
-    <Compile Include="Tools\VerboseBackgroundWorker.cs" />
     <Compile Include="Tools\Vibration.cs" />
     <Compile Include="ViewModels\EmbeddedAboutViewModel.cs" />
     <Compile Include="ViewModels\BackgroundWorker.cs" />

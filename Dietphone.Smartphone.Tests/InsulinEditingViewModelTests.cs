@@ -726,7 +726,7 @@ namespace Dietphone.Smartphone.Tests
                         = new List<Sugar> { new Sugar { BloodSugar = 100, DateTime = DateTime.Now.AddHours(2) },
                                             new Sugar { BloodSugar = 110, DateTime = DateTime.Now.AddHours(1) } }
                 };
-                meal.DateTime = DateTime.Now.AddHours(0.5);
+                meal.DateTime = DateTime.UtcNow.AddHours(0.5);
                 facade.GetReplacementAndEstimatedSugars(meal,
                     Arg.Is<Insulin>(temp => temp.Id == insulin.Id),
                     Arg.Is<Sugar>(temp => temp.BloodSugar == 100f))
@@ -1201,7 +1201,7 @@ namespace Dietphone.Smartphone.Tests
                 InitializeViewModel();
                 sut.CurrentSugar.BloodSugar = "100";
                 var margin = InsulinEditingViewModel.SUGAR_CHART_TIME_MARGIN.TotalMinutes;
-                Assert.AreEqual(meal.DateTime.AddMinutes(-margin), sut.SugarChartStart);
+                Assert.AreEqual(meal.DateTime.ToLocalTime().AddMinutes(-margin), sut.SugarChartStart);
             }
 
             [Test]
