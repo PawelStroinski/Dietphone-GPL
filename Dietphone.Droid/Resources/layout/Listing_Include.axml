@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:local="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:gravity="center" local:MvxBind="Visible IsBusy">
+        <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     style="@android:style/Widget.ProgressBar.Large"/>
+    </LinearLayout>
+    <Mvx.MvxExpandableListView android:layout_width="match_parent" android:layout_height="match_parent"
+                               android:id="@+id/ListView" android:childDivider="@android:color/transparent"
+                               android:divider="@android:color/transparent"
+                               local:MvxGroupItemTemplate="@layout/listing_group"
+                               local:MvxBind="ItemsSource Grouping.Groups; SelectedItem Grouping.Choice"/>
+</merge>

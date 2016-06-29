@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:orientation="vertical">
+    <!--From-->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="7" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text From.LongDateAndTime"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="3" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground"
+                  local:MvxBind="Visible From.HasName; Text From.Name"/>
+    </LinearLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="@color/extreme_foreground"
+              local:MvxBind="Visible From.HasNote; Text From.Note"/>
+    <!--Match-->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <!--g-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text Match.ValueWithUnit"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text Match.Scores.First"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text Match.Scores.Second"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text Match.Scores.Third"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text Match.Scores.Fourth"/>
+    </LinearLayout>
+    <!--From-->
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:layout_marginTop="4dp" android:layout_marginBottom="1dp"
+              android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="@color/extreme_foreground"
+              local:MvxBind="Text From.Products"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text From.Scores.First"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text From.Scores.Second"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text From.Scores.Third"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" android:gravity="center_horizontal"
+                  local:MvxBind="Text From.Scores.Fourth"/>
+    </LinearLayout>
+    <!--Before-->
+    <MvxFrameControl android:layout_width="match_parent" android:layout_height="wrap_content"
+                     local:MvxTemplate="@layout/pattern_sugar" local:MvxBind="DataContext Before"/>
+    <!--Insulin-->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="200" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text Insulin.Time"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="425" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text Insulin.Text"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="375" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/accent_material_dark" local:MvxBind="Text Insulin.CircumstancesSummary"/>
+    </LinearLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall" android:textColor="@color/extreme_foreground"
+              local:MvxBind="Visible Insulin.HasText2; Text Insulin.Text2"/>
+    <!--After-->
+    <Mvx.MvxListView android:layout_width="match_parent" android:layout_height="match_parent"
+                     android:divider="@android:color/transparent" local:MvxItemTemplate="@layout/pattern_sugar"
+                     local:MvxBind="ItemsSource After"/>
+    <!--Relevance & Factor-->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="35" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text [Relevance]"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="15" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text Pattern.RightnessPoints"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="35" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text [Factor]"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="15" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:textColor="@color/extreme_foreground" local:MvxBind="Text Factor"/>
+    </LinearLayout>
+    <!--Icons-->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal" android:gravity="right">
+        <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                     android:src="@drawable/ic_meal" android:scaleType="centerInside"
+                     android:padding="12dp" android:background="?android:selectableItemBackground"
+                     local:MvxBind="Click GoToMeal"/>
+        <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                     android:src="@drawable/ic_insulin" android:scaleType="centerInside"
+                     android:padding="12dp" android:background="?android:selectableItemBackground"
+                     local:MvxBind="Click GoToInsulin"/>
+        <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                     android:src="@drawable/ic_alternatives" android:scaleType="centerInside"
+                     android:padding="12dp" android:background="?android:selectableItemBackground"
+                     local:MvxBind="Visible HasAlternatives; Click ShowAlternatives"/>
+    </LinearLayout>
+</LinearLayout>

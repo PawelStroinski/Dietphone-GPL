@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:local="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true"
+            android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="25dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <!--Results-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical" local:MvxBind="Visible FirstPivot">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:paddingBottom="15dp" local:MvxBind="Text [SelectNutritionalValuesToCalculateMax4]"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="12dp"
+                      local:MvxBind="Text [EnergyCalories]; Checked ScoreEnergy"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="12dp"
+                      local:MvxBind="Text [ProteinGrams]; Checked ScoreProtein"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="12dp"
+                      local:MvxBind="Text [DigestibleCarbohydratesGrams]; Checked ScoreDigestibleCarbs"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="12dp"
+                      local:MvxBind="Text [FatGrams]; Checked ScoreFat"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:layout_marginBottom="12dp"
+                      local:MvxBind="Text [CuCarbohydrateUnit]; Checked ScoreCu"/>
+            <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      local:MvxBind="Text [FpuFatProteinUnit]; Checked ScoreFpu"/>
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:background="@android:color/transparent" android:textColor="@color/accent_material_dark"
+                    android:paddingTop="3dp" local:MvxBind="Text [LearnMoreAboutCuAndFpu]; Click LearnCuAndFpu"/>
+        </LinearLayout>
+        <!--General-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical" local:MvxBind="Visible SecondPivot">
+            <!--SugarUnit | MaxBolus-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [SugarUnit]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [MaxBolus]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
+                                android:layout_weight="1" android:layout_marginRight="10dp"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="ItemsSource AllSugarUnits; SelectedItem SugarUnit"/>
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                              local:MvxBind="TextOnFocusLost MaxBolus"/>
+            </LinearLayout>
+            <!--MruProductMaxCount | SugarsAfterInsulinHours-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [MruProductMaxCount]"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginLeft="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [SugarsAfterInsulinHours]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="number"
+                              local:MvxBind="TextOnFocusLost MruProductMaxCount"/>
+                <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="number"
+                              local:MvxBind="TextOnFocusLost SugarsAfterInsulinHours"/>
+            </LinearLayout>
+            <!--Unit-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:weightSum="2">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1" android:layout_marginRight="10dp"
+                          android:textAppearance="?android:attr/textAppearanceSmall"
+                          local:MvxBind="Text [PreferredUnitOfMass]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp"
+                          android:weightSum="2">
+                <Mvx.MvxSpinner android:layout_width="0dp" android:layout_height="wrap_content"
+                                android:layout_weight="1" android:layout_marginRight="10dp"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="ItemsSource AllUnits; SelectedItem Unit"/>
+            </LinearLayout>
+        </LinearLayout>
+        <!--Language-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical" local:MvxBind="Visible ThirdPivot">
+            <!--UiCulture-->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      local:MvxBind="Text [AppLanguage]"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <Mvx.MvxSpinner android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="ItemsSource UiCultures; SelectedItem UiCulture"/>
+            </LinearLayout>
+            <!--ProductCulture-->
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      local:MvxBind="Text [LocalizationOfProductDatabase]"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <Mvx.MvxSpinner android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="ItemsSource ProductCultures; SelectedItem ProductCulture"/>
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:layout_marginTop="-23dp"
+                      local:MvxBind="Text [YouCanChangeLocalizationOfProductDatabaseManyTimes]"/>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:textColor="@color/accent_material_dark" android:paddingTop="9dp"
+                      local:MvxBind="Text [ChangesOfLanguageAndLocalizationWillBeAppliedThe]; Visible CultureChanged"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

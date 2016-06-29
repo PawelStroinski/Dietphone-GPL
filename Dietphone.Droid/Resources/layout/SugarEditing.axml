@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:orientation="vertical" android:background="@color/extreme_background">
+    <!--Header | Icons-->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginTop="25dp" android:orientation="horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_marginTop="18dp" android:layout_marginLeft="10dp"
+                  android:textAppearance="?android:attr/textAppearanceSmall" android:textStyle="bold"
+                  local:MvxBind="Text [BloodSugar]"/>
+        <include layout="@layout/inlineviewicons_include"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+                  android:layout_marginTop="41.6dp" android:orientation="vertical">
+        <!--BloodSugarWrapper-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                      android:orientation="horizontal" android:paddingBottom="20dp">
+            <DoneEditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                          local:MvxBind="Text Subject.BloodSugarWrapper; SelectRight True; Done Confirm"/>
+        </LinearLayout>
+        <!--Date | Time-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                      android:layout_weight="1" android:layout_marginRight="10dp"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      local:MvxBind="Text [Date]"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                      android:layout_weight="1" android:layout_marginLeft="10dp"
+                      android:textAppearance="?android:attr/textAppearanceSmall"
+                      local:MvxBind="Text [Time]"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                      android:orientation="horizontal" android:paddingBottom="20dp">
+            <DatePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                android:layout_weight="1" android:layout_marginRight="10dp"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="Value Subject.DateTime; DateFormat Subject.DateFormat;
+                                               Title [ChooseDate]"/>
+            <TimePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                android:layout_weight="1" android:layout_marginLeft="10dp"
+                                android:layout_gravity="center_vertical"
+                                local:MvxBind="Value Subject.DateTime; Title [ChooseTime]"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingLeft="3dp"
+              android:paddingRight="3dp" android:paddingTop="3dp" android:paddingBottom="3dp"
+              android:orientation="horizontal" android:gravity="center_vertical">
+    <LinearLayout android:layout_width="31dp" android:layout_height="25dp" android:orientation="horizontal">
+        <LinearLayout android:layout_width="25dp" android:layout_height="match_parent" android:orientation="horizontal"
+                      android:background="@color/primary_dark_material_light">
+            <View android:layout_width="2dp" android:layout_height="match_parent"
+                  android:background="@color/accent_material_dark" local:MvxBind="ScaleX WidthOfFilledCuRect"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_width="31dp" android:layout_height="25dp" android:orientation="horizontal">
+        <LinearLayout android:layout_width="25dp" android:layout_height="match_parent" android:orientation="horizontal"
+                      android:background="@color/primary_dark_material_light">
+            <View android:layout_width="2dp" android:layout_height="match_parent"
+                  android:background="@color/accent_material_dark" local:MvxBind="ScaleX WidthOfFilledFpuRect"/>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceMedium" android:fontFamily="sans-serif-light"
+              local:MvxBind="Text Name"/>
+</LinearLayout>

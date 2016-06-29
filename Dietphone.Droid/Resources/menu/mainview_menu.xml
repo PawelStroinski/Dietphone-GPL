@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mainview_meal" android:icon="@drawable/ic_meal" android:showAsAction="always"/>
+    <item android:id="@+id/mainview_sugar" android:icon="@drawable/ic_sugar" android:showAsAction="always"/>
+    <item android:id="@+id/mainview_insulin" android:icon="@drawable/ic_insulin" android:showAsAction="always"/>
+    <item android:id="@+id/mainview_add" android:icon="@drawable/ic_add" android:showAsAction="always"
+          android:visible="false"/>
+    <item android:id="@+id/mainview_search" android:icon="@drawable/ic_search"
+          android:showAsAction="collapseActionView|always" android:actionViewClass="android.widget.SearchView"/>
+    <item android:id="@+id/mainview_exportandimportdata" android:showAsAction="never"/>
+    <item android:id="@+id/mainview_settings" android:showAsAction="never"/>
+    <item android:id="@+id/mainview_about" android:showAsAction="never"/>
+    <item android:id="@+id/mainview_welcomescreen" android:showAsAction="never"/>
+</menu>

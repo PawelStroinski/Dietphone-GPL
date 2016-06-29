@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>o diabetes spy</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>dodaj</value>
+  </data>
+  <data name="ExportAndImportData" xml:space="preserve">
+    <value>eksport i import danych</value>
+  </data>
+  <data name="Ingredients" xml:space="preserve">
+    <value>składniki</value>
+  </data>
+  <data name="MealUppercase" xml:space="preserve">
+    <value>POSIŁEK</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>produkty</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>szukaj</value>
+  </data>
+  <data name="SearchUppercase" xml:space="preserve">
+    <value>Szukaj</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>ustawienia</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>ogólne</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="NameUppercase" xml:space="preserve">
+    <value>NAZWA</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Godzina</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>anuluj</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>usuń</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Notatka</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>zapisz</value>
+  </data>
+  <data name="AddName" xml:space="preserve">
+    <value>DODAJ NAZWĘ</value>
+  </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisMeal" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć ten posiłek?
+
+{0}</value>
+  </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisName" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć tę nazwę?
+
+{0}</value>
+  </data>
+  <data name="AreYouSureYouWantToSaveThisMeal" xml:space="preserve">
+    <value>Czy na pewno chcesz zapisać ten posiłek?</value>
+  </data>
+  <data name="CannotDeleteThisName" xml:space="preserve">
+    <value>Nie można usunąć tej nazwy.</value>
+  </data>
+  <data name="CannotEditThisName" xml:space="preserve">
+    <value>Nie można edytować tej nazwy.</value>
+  </data>
+  <data name="DeleteMeal" xml:space="preserve">
+    <value>Usunąć posiłek?</value>
+  </data>
+  <data name="DeleteName" xml:space="preserve">
+    <value>Usunąć nazwę?</value>
+  </data>
+  <data name="EditName" xml:space="preserve">
+    <value>EDYTUJ NAZWĘ</value>
+  </data>
+  <data name="IngredientQuantity" xml:space="preserve">
+    <value>ILOŚĆ SKŁADNIKA</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ok</value>
+  </data>
+  <data name="CuIs" xml:space="preserve">
+    <value>WW czyli wymiennik węglowodanowy to ilość węglowodanów przyswajalnych w gramach podzielona przez 10.
+Został wprowadzony, żeby ułatwić liczenie węglowodanów w posiłku.</value>
+  </data>
+  <data name="FpuIs" xml:space="preserve">
+    <value>WBT czyli wymiennik białkowo-tłuszczowy to wartość energetyczna (kcal) pochodząca z białka i tłuszczu podzielona przez 100.
+Pozwala w jednej poręcznej liczbie określić zawartość białka i tłuszczu w posiłku.</value>
+  </data>
+  <data name="ExportAndImport" xml:space="preserve">
+    <value>eksport import</value>
+  </data>
+  <data name="ExportByEmail" xml:space="preserve">
+    <value>eksportuj poprzez e-mail</value>
+  </data>
+  <data name="AllowsSendingDataAttachedToAnEMail" xml:space="preserve">
+    <value>Umożliwia wysłanie danych w załączniku e-maila. Dane będą w formacie XML.</value>
+  </data>
+  <data name="ImportFromAddress" xml:space="preserve">
+    <value>importuj z adresu</value>
+  </data>
+  <data name="ExportCompletedSuccessfully" xml:space="preserve">
+    <value>Eksport zakończony sukcesem.</value>
+  </data>
+  <data name="ImportCompletedSuccessfully" xml:space="preserve">
+    <value>Import zakończony sukcesem.</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Proszę czekać...</value>
+  </data>
+  <data name="AnErrorOccurredWhileRetrievingTheImportedData" xml:space="preserve">
+    <value>Wystąpił błąd podczas pobierania importowanych danych. Upewnij się, że masz dostęp do internetu i adres jest prawidłowy.</value>
+  </data>
+  <data name="AnErrorOccurredWhileSendingTheExportedData" xml:space="preserve">
+    <value>Wystąpił błąd podczas wysyłania eksportowanych danych. Upewnij się, że masz dostęp do internetu i adres e-mail jest prawidłowy</value>
+  </data>
+  <data name="AnErrorOccurredDuringImport" xml:space="preserve">
+    <value>Wystąpił błąd podczas importu. Upewnij się, że importowane dane nie były naruszone.</value>
+  </data>
+  <data name="SendToAnEMailAddress" xml:space="preserve">
+    <value>Wyślij pod adres e-mail</value>
+  </data>
+  <data name="DownloadFileFromAddress" xml:space="preserve">
+    <value>Adres pliku do pobrania</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Gotowe</value>
+  </data>
+  <data name="SettingsUppercase" xml:space="preserve">
+    <value>USTAWIENIA</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>wyniki</value>
+  </data>
+  <data name="SelectNutritionalValuesToCalculateMax4" xml:space="preserve">
+    <value>Wybierz obliczane wartości odżywcze (maks. 4)</value>
+  </data>
+  <data name="EnergyCalories" xml:space="preserve">
+    <value>wartość energetyczna (kcal)</value>
+  </data>
+  <data name="ProteinGrams" xml:space="preserve">
+    <value>białko (gramy)</value>
+  </data>
+  <data name="DigestibleCarbohydratesGrams" xml:space="preserve">
+    <value>węglowodany przyswajalne (gramy)</value>
+  </data>
+  <data name="FatGrams" xml:space="preserve">
+    <value>tłuszcz (gramy)</value>
+  </data>
+  <data name="CuCarbohydrateUnit" xml:space="preserve">
+    <value>WW - wymiennik węglowodanowy</value>
+  </data>
+  <data name="FpuFatProteinUnit" xml:space="preserve">
+    <value>WBT - wymiennik białkowo-tłuszczowy</value>
+  </data>
+  <data name="LearnMoreAboutCuAndFpu" xml:space="preserve">
+    <value>Dowiedz się więcej o WW i WBT...</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>język</value>
+  </data>
+  <data name="AppLanguage" xml:space="preserve">
+    <value>Język aplikacji</value>
+  </data>
+  <data name="LocalizationOfProductDatabase" xml:space="preserve">
+    <value>Lokalizacja bazy produktów</value>
+  </data>
+  <data name="YouCanChangeLocalizationOfProductDatabaseManyTimes" xml:space="preserve">
+    <value>Lokalizację bazy produktów możesz zmieniać wielokrotnie. Jest to przydatne, jeśli często podróżujesz.</value>
+  </data>
+  <data name="ChangesOfLanguageAndLocalizationWillBeAppliedThe" xml:space="preserve">
+    <value>Zmiany języka i lokalizacji będą zastosowane przy następnym uruchomieniu aplikacji.</value>
+  </data>
+  <data name="BugInAppReportToTheAuthor" xml:space="preserve">
+    <value>A niech to, pluskwa w aplikacji! Zgłosić autorowi?</value>
+  </data>
+  <data name="Bug" xml:space="preserve">
+    <value>Pluskwa!</value>
+  </data>
+  <data name="IWouldLikeToReportTheFollowingBug" xml:space="preserve">
+    <value>Zgłaszam poniższą pluskwę:
+
+{0}</value>
+  </data>
+  <data name="NoName" xml:space="preserve">
+    <value>Bez nazwy</value>
+  </data>
+  <data name="NoProduct" xml:space="preserve">
+    <value>Brak produktu</value>
+  </data>
+  <data name="IngredientNoContainsFollowingErrors" xml:space="preserve">
+    <value>Składnik nr {0} zawiera następujące błędy. {1}
+</value>
+  </data>
+  <data name="TheProductDoesNotExist" xml:space="preserve">
+    <value>Produkt nie istnieje.</value>
+  </data>
+  <data name="QuantityOfTheIngredientWasNotSpecified" xml:space="preserve">
+    <value>Nie podano ilości składnika.</value>
+  </data>
+  <data name="NoInformationAboutNutritionalValuePerUnit" xml:space="preserve">
+    <value>Brak informacji o wartościach odżywczych w przeliczeniu na jednostkę {0}. Wybierz inną jednostkę.</value>
+  </data>
+  <data name="NotSpecifiedNutritionalValuePer100g" xml:space="preserve">
+    <value>Nie podano żadnych wartości odżywczych w 100 g.</value>
+  </data>
+  <data name="In100gOfProductProbablyShouldBeCaloriesButIs" xml:space="preserve">
+    <value>W 100 g produktu prawdopodobnie powinno być {0} kcal (+/-{1} kcal) a jest {2} kcal.</value>
+  </data>
+  <data name="InServingOfProductProbablyShouldBeCaloriesButIs" xml:space="preserve">
+    <value>W porcji produktu prawdopodobnie powinno być {0} kcal (+/-{1} kcal) a jest {2} kcal.</value>
+  </data>
+  <data name="ThereMayNotBeMoreDietaryFiberThanCarbohydrates" xml:space="preserve">
+    <value>Nie może być więcej błonnika niż węglowodanów ogółem.</value>
+  </data>
+  <data name="SpecifiedDescriptionOfServingSizeButNotTheSize" xml:space="preserve">
+    <value>Podano opis porcji ale nie podano jej miary.</value>
+  </data>
+  <data name="SpecifiedServingSizeButNotDescriptionOfServingSize" xml:space="preserve">
+    <value>Podano rozmiar porcji ale nie podano jej opisu.</value>
+  </data>
+  <data name="ServingSizeInADifferentUnitThanGramsIsSpecifiedBut" xml:space="preserve">
+    <value>Podano porcję w innej jednostce niż gramy ale nie podano jej wartości odżywczych.</value>
+  </data>
+  <data name="NutritionalValuePerServingSizeIsSpecifiedButDesc" xml:space="preserve">
+    <value>Podano wartości odżywcze porcji ale nie podano opisu porcji.</value>
+  </data>
+  <data name="AllowsToRetrieveDataFromAFileInXmlFormat" xml:space="preserve">
+    <value>Umożliwia pobranie danych z pliku w formacie XML. Plik ten należy wcześniej wysłać na dowolny serwer, np. Google Docs.</value>
+  </data>
+  <data name="CantUseServingSizeAsAUnitOfSizeOfServingSize" xml:space="preserve">
+    <value>Jednostką w której podany jest rozmiar porcji nie może być porcja.</value>
+  </data>
+  <data name="TheQuantityOfCaloriesInAServingSizeOfTheProductIs" xml:space="preserve">
+    <value>Ilość kalorii w porcji produktu nie jest proporcjonalna do ilości w 100 g produktu.</value>
+  </data>
+  <data name="TheQuantityOfProteinInAServingSizeOfTheProductIs" xml:space="preserve">
+    <value>Ilość białka w porcji produktu nie jest proporcjonalna do ilości w 100 g produktu.</value>
+  </data>
+  <data name="TheQuantityOfFatInAServingSizeOfTheProductIsNot" xml:space="preserve">
+    <value>Ilość tłuszczu w porcji produktu nie jest proporcjonalna do ilości w 100 g produktu.</value>
+  </data>
+  <data name="TheQuantityOfTotalCarbohydratesInAServingSizeOfThe" xml:space="preserve">
+    <value>Ilość węglowodanów ogółem w porcji produktu nie jest proporcjonalna do ilości w 100 g produktu.</value>
+  </data>
+  <data name="TheQuantityOfDietaryFiberInAServingSizeOfThe" xml:space="preserve">
+    <value>Ilość błonnika pokarmowego w porcji produktu nie jest proporcjonalna do ilości w 100 g produktu.</value>
+  </data>
+  <data name="Serving" xml:space="preserve">
+    <value>porcja</value>
+  </data>
+  <data name="Older" xml:space="preserve">
+    <value>starsze</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>wczoraj</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>dziś</value>
+  </data>
+  <data name="Cal" xml:space="preserve">
+    <value>{0} kcal</value>
+  </data>
+  <data name="Prot" xml:space="preserve">
+    <value>{0} białk</value>
+  </data>
+  <data name="Fat" xml:space="preserve">
+    <value>{0} tł</value>
+  </data>
+  <data name="Carb" xml:space="preserve">
+    <value>{0} węgl</value>
+  </data>
+  <data name="Cu" xml:space="preserve">
+    <value>{0} WW</value>
+  </data>
+  <data name="Fpu" xml:space="preserve">
+    <value>{0} WBT</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>PRODUKT</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Kategoria</value>
+  </data>
+  <data name="CategoryUppercase" xml:space="preserve">
+    <value>KATEGORIA</value>
+  </data>
+  <data name="NutritionalValuePer100g" xml:space="preserve">
+    <value>Wartość odżywcza w 100 g</value>
+  </data>
+  <data name="ProteinG" xml:space="preserve">
+    <value>Białko (g)</value>
+  </data>
+  <data name="CarbohydratesG" xml:space="preserve">
+    <value>Węglow.+błonnik (g)</value>
+  </data>
+  <data name="FatG" xml:space="preserve">
+    <value>Tłuszcz (g)</value>
+  </data>
+  <data name="DietaryFiberG" xml:space="preserve">
+    <value>Błonnik (g)</value>
+  </data>
+  <data name="EnergyCaloriesUppercase" xml:space="preserve">
+    <value>Wart. energet. (kcal)</value>
+  </data>
+  <data name="DigestibleCarbsG" xml:space="preserve">
+    <value>Węglow. przysw. (g)</value>
+  </data>
+  <data name="FullSquareMeansMaximumInCategory" xml:space="preserve">
+    <value>Pełny kwadrat oznacza maksimum w kategorii.</value>
+  </data>
+  <data name="NutritionalValuePerServing" xml:space="preserve">
+    <value>Wartość odżywcza w porcji</value>
+  </data>
+  <data name="ServingDescription" xml:space="preserve">
+    <value>Opis porcji</value>
+  </data>
+  <data name="ServingSize" xml:space="preserve">
+    <value>Rozmiar porcji</value>
+  </data>
+  <data name="AddCategory" xml:space="preserve">
+    <value>DODAJ KATEGORIĘ</value>
+  </data>
+  <data name="EditCategory" xml:space="preserve">
+    <value>EDYTUJ KATEGORIĘ</value>
+  </data>
+  <data name="ThisCategoryIncludesOtherProducts" xml:space="preserve">
+    <value>Do tej kategorii należą inne produkty. Zmień ich kategorię i spróbuj ponownie.</value>
+  </data>
+  <data name="CannotDelete" xml:space="preserve">
+    <value>Nie można usunąć</value>
+  </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisCategory" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć tę kategorię?
+
+{0}</value>
+  </data>
+  <data name="DeleteCategory" xml:space="preserve">
+    <value>Usunąć kategorię?</value>
+  </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisProduct" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć ten produkt?
+
+{0}</value>
+  </data>
+  <data name="DeleteProduct" xml:space="preserve">
+    <value>Usunąć produkt?</value>
+  </data>
+  <data name="AreYouSureYouWantToSaveThisProduct" xml:space="preserve">
+    <value>Czy na pewno chcesz zapisać ten produkt?</value>
+  </data>
+  <data name="Breakfast" xml:space="preserve">
+    <value>Śniadanie</value>
+  </data>
+  <data name="Lunch" xml:space="preserve">
+    <value>Obiad</value>
+  </data>
+  <data name="Dinner" xml:space="preserve">
+    <value>Kolacja</value>
+  </data>
+  <data name="UnknownInsulinCircumstance" xml:space="preserve">
+    <value>Nieznana okoliczność</value>
+  </data>
+  <data name="Insulin" xml:space="preserve">
+    <value>insulina</value>
+  </data>
+  <data name="AreYouSureYouWantToSaveThisInsulin" xml:space="preserve">
+    <value>Czy na pewno chcesz zapisać tę insulinę?</value>
+  </data>
+  <data name="CurrentSugar" xml:space="preserve">
+    <value>Aktualny cukier</value>
+  </data>
+  <data name="InsulinCircumstances" xml:space="preserve">
+    <value>Okoliczności insuliny</value>
+  </data>
+  <data name="NormalBolus" xml:space="preserve">
+    <value>Bolus prosty</value>
+  </data>
+  <data name="SquareWaveBolus" xml:space="preserve">
+    <value>Bolus przedłużony</value>
+  </data>
+  <data name="SquareWaveBolusHours" xml:space="preserve">
+    <value>Czas trwania (godz)</value>
+  </data>
+  <data name="DateLowercase" xml:space="preserve">
+    <value>data</value>
+  </data>
+  <data name="Circumstances" xml:space="preserve">
+    <value>OKOLICZNOŚCI</value>
+  </data>
+  <data name="ChooseDate" xml:space="preserve">
+    <value>WYBIERZ DATĘ</value>
+  </data>
+  <data name="ChooseTime" xml:space="preserve">
+    <value>WYBIERZ GODZINĘ</value>
+  </data>
+  <data name="InsulinUppercase" xml:space="preserve">
+    <value>INSULINA</value>
+  </data>
+  <data name="AddCircumstance" xml:space="preserve">
+    <value>DODAJ OKOLICZNOŚĆ</value>
+  </data>
+  <data name="Exercise" xml:space="preserve">
+    <value>Wysiłek fizyczny</value>
+  </data>
+  <data name="Sickness" xml:space="preserve">
+    <value>Choroba</value>
+  </data>
+  <data name="Stress" xml:space="preserve">
+    <value>Stres</value>
+  </data>
+  <data name="SelectCircumstanceFirst" xml:space="preserve">
+    <value>Najpierw proszę wybrać okoliczność i nacisnąć gotowe.</value>
+  </data>
+  <data name="Circumstance" xml:space="preserve">
+    <value>Okoliczność</value>
+  </data>
+  <data name="EditCircumstance" xml:space="preserve">
+    <value>EDYTUJ OKOLICZNOŚĆ</value>
+  </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisCircumstance" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć tę okoliczność?
+
+{0}</value>
+  </data>
+  <data name="CannotDeleteCircumstanceBecauseOnlyOneLeft" xml:space="preserve">
+    <value>Nie można usunąć okoliczności ponieważ pozostała tylko jedna.</value>
+  </data>
+  <data name="DeleteCircumstance" xml:space="preserve">
+    <value>Usunąć okoliczność?</value>
+  </data>
+  <data name="AreYouSureYouWantToPermanentlyDeleteThisInsulin" xml:space="preserve">
+    <value>Czy na pewno chcesz trwale usunąć tę insulinę?
+
+{0}</value>
+  </data>
+  <data name="DeleteInsulin" xml:space="preserve">
+    <value>Usunąć insulinę?</value>
+  </data>
+  <data name="NormalBolusText" xml:space="preserve">
+    <value>{0} J</value>
+  </data>
+  <data name="SquareWaveBolusText" xml:space="preserve">
+    <value>{0} J na {1} h</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>dziennik</value>
+  </data>
+  <data name="BloodSugar" xml:space="preserve">
+    <value>POZIOM CUKRU</value>
+  </data>
+  <data name="Sugar" xml:space="preserve">
+    <value>cukier</value>
+  </data>
+  <data name="RecentlyUsed" xml:space="preserve">
+    <value>{0} ostatnio używanych</value>
+  </data>
+  <data name="AutomaticallySavesDataToDropboxOnceAWeek" xml:space="preserve">
+    <value>Automatycznie raz w tygodniu zapisuje dane na Dropboksie. Dane zostaną zapisane w folderze Aplikacje w formacie XML.</value>
+  </data>
+  <data name="ExportToDropbox" xml:space="preserve">
+    <value>eksportuj na Dropboksa</value>
+  </data>
+  <data name="ImportFromDropbox" xml:space="preserve">
+    <value>importuj z Dropboksa</value>
+  </data>
+  <data name="RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox" xml:space="preserve">
+    <value>Pobiera i dodaje do aplikacji dane poprzednio zapisane na Dropboksie.</value>
+  </data>
+  <data name="EstimatedBloodSugar" xml:space="preserve">
+    <value>Estymowany poziom cukru</value>
+  </data>
+  <data name="Meal" xml:space="preserve">
+    <value>posiłek</value>
+  </data>
+  <data name="ExportToDropboxIsActiveDoYouWantToTurnItOff" xml:space="preserve">
+    <value>Eksport na Dropboksa jest aktywny. Czy chcesz go wyłączyć?</value>
+  </data>
+  <data name="ExportToDropboxActivationWasSuccessful" xml:space="preserve">
+    <value>Aktywacja eksportu na Dropboksa przebiegła pomyślnie.
+Początkowy eksport został również wykonany.</value>
+  </data>
+  <data name="ThereWasAnErrorDuringTheExportToDropbox" xml:space="preserve">
+    <value>Wystąpił błąd podczas eksportu na Dropboksa.</value>
+  </data>
+  <data name="AvailableForImport" xml:space="preserve">
+    <value>Dostępne do zaimportowania</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheDropboxOperation" xml:space="preserve">
+    <value>Wystąpił błąd podczas operowania Dropboksem. Spróbuj ponownie.</value>
+  </data>
+  <data name="Suggestion" xml:space="preserve">
+    <value>sugestia</value>
+  </data>
+  <data name="SuggestedInsulinHeader" xml:space="preserve">
+    <value>Wyświetlono sugerowaną insulinę i estymowany poziom cukru bazujące na poprzednio wprowadzonych danych.  Uwaga, są to tylko szacunki bazujące na poprzednio podanej insulinie i jej efektach.  Możliwe, że należy dostosować sugerowaną ilość insuliny, szczególnie jeśli widzisz, że estymowany poziom cukru nie jest odpowiedni. </value>
+  </data>
+  <data name="SuggestedBolus" xml:space="preserve">
+    <value>Sugerowana insulina</value>
+  </data>
+  <data name="InsulinCalculationIncomplete" xml:space="preserve">
+    <value>Dopasowanie posiłku nie jest kompletne.</value>
+  </data>
+  <data name="NoMealPresent" xml:space="preserve">
+    <value>Bieżący posiłek nie został dodany</value>
+  </data>
+  <data name="NoSugarEntered" xml:space="preserve">
+    <value>Nie określono aktualnego poziomu cukru</value>
+  </data>
+  <data name="NoSuggestion" xml:space="preserve">
+    <value>Nie udało się znaleźć sugestii na podstawie Twoich poprzednich wpisów</value>
+  </data>
+  <data name="Relevance" xml:space="preserve">
+    <value>trafność</value>
+  </data>
+  <data name="Factor" xml:space="preserve">
+    <value>współczynnik</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>zamknij</value>
+  </data>
+  <data name="AlternativeOptions" xml:space="preserve">
+    <value>OPCJE ALTERNATYWNE</value>
+  </data>
+  <data name="IngredientsNotIncluded" xml:space="preserve">
+    <value>Składniki pominięte:</value>
+  </data>
+  <data name="MaxBolus" xml:space="preserve">
+    <value>Bolus maksymalny</value>
+  </data>
+  <data name="MruProductMaxCount" xml:space="preserve">
+    <value>Ostatnio używane produkty</value>
+  </data>
+  <data name="SugarsAfterInsulinHours" xml:space="preserve">
+    <value>Cukry po insulinie (godz)</value>
+  </data>
+  <data name="SugarUnit" xml:space="preserve">
+    <value>Jednostka cukru</value>
+  </data>
+  <data name="ExportToDropboxWasSuccessful" xml:space="preserve">
+    <value>Eksport na Dropboksa przebiegł pomyślnie.</value>
+  </data>
+  <data name="ExportToDropboxNow" xml:space="preserve">
+    <value>eksportuj na Dropboksa teraz</value>
+  </data>
+  <data name="PreferredUnitOfMass" xml:space="preserve">
+    <value>Preferowana jednostka masy</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>kopiuj</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning" xml:space="preserve">
+    <value>UŻYWASZ NA WŁASNE RYZYKO. </value>
+  </data>
+  <data name="HelloThanksForTryingOut" xml:space="preserve">
+    <value>Cześć! Dzięki za sprawdzanie Diabetes Spy.
+
+Jest to niezarejestrowana wersja ewaluacyjna i chociaż okres próbny jest nieograniczony, w celu dalszego używania licencja musi być zakupiona.
+ 
+Czy chciałbyś zakupić licencję teraz?</value>
+  </data>
+  <data name="ThisIsAnUnregisteredCopy" xml:space="preserve">
+    <value>Jest to niezarejestrowana kopia</value>
+  </data>
+  <data name="SuggestedInsulinHeaderWarning2" xml:space="preserve">
+    <value>Jest to tylko narzędzie i każdą decyzję należy przemyśleć i skonsultować z lekarzem.</value>
+  </data>
+  <data name="WelcomeScreen" xml:space="preserve">
+    <value>ekran powitalny</value>
+  </data>
+  <data name="WelcomeScreenHeader" xml:space="preserve">
+    <value>Witamy! Naciśnij OK aby obejrzeć wideo wprowadzające.</value>
+  </data>
+  <data name="WelcomeScreenText" xml:space="preserve">
+    <value>Zarządzanie cukrzycą to ciągłe zajęcie wymagające bardzo częstej decyzji - jaka ilość jednostek insuliny powinna zostać podana z posiłkiem.  Z aplikacją Diabetes Spy liczone są wymagane ilości insuliny (bazując na danych historycznych) i estymowane są poziomy cukru.  System ten umożliwia rosnąco poprawne zbilansowanie jedzenia i insuliny w przyszłych posiłkach.
+
+Jak używać tej aplikacji:
+
+1. Wprowadź składniki posiłku.  Automatycznie wyświetlone zostaną ilość kalorii oraz zawartość tłuszczu, białka i węglowodanów.  Dostępna jest również rozbudowana i łatwo dopasowywalna baza danych produktów dla rynków Polski, Wielkiej Brytanii, Francji i Stanów Zjednoczonych.
+2. Wprowadź ilość insuliny wraz z aktualnym poziomem cukru oraz warunkami fizycznymi i okolicznościami (np. wysiłek fizyczny, choroba, itp.).  Powinien zostać także wprowadzony przynajmniej jeden poziom cukru zmierzony po posiłku/insulinie.
+3. Następnym razem kiedy będziesz mieć podobny posiłek w podobnych okolicznościach i zaczniesz wprowadzać szczegóły insuliny, zostanie wyświetlona sugerowania ilość insuliny.  Pokazany zostanie także wykres obrazujący estymowany poziom cukru po podaniu sugerowanej ilości insuliny.
+
+OSTRZEŻENIE: Aplikacja ta to tylko narzędzie i powinna być używana tylko pod opieką lekarską i z ostrożnością!
+
+Diabetes Spy jest innowacyjnym rozwiązaniem i ponieważ jest to pierwsza wersja tej aplikacji, rozumiemy że tymczasowo nie została ona jeszcze dopasowana do wszystkich potrzeb w każdym czasie.  W związku z tym, zapraszamy do udzielenia nam każdej informacji zwrotnej.  Aplikacja ta może być stosowana przez użytkowników pomp insulinowych i penów.
+
+Inne funkcje aplikacji:
+
+- Umożliwia opcjonalne wykonanie kopii zapasowej i synchronizacji danych w chmurze.  Umożliwia eksportowanie i importowanie danych w formacie pozwalającym na ich ponowne użycie.
+- Nie wymaga połączenia z internetem do pracy.
+- Preferowane jednostki, wersja bazy danych produktów, itp. mogą być wybrane poprzez ustawienia aplikacji.</value>
+  </data>
+</root>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:layout_marginTop="10dp" android:orientation="vertical">
+    <!--ProductName-->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceLarge" android:fontFamily="sans-serif-light"
+              android:textSize="@dimen/extra_large" local:MvxBind="Text Pattern.For.ProductName"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <!--g-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  local:MvxBind="Text Pattern.For.ValueWithUnit"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:gravity="center_horizontal" local:MvxBind="Text Pattern.For.Scores.First"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:gravity="center_horizontal" local:MvxBind="Text Pattern.For.Scores.Second"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:gravity="center_horizontal" local:MvxBind="Text Pattern.For.Scores.Third"/>
+        <!--0-->
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:gravity="center_horizontal" local:MvxBind="Text Pattern.For.Scores.Fourth"/>
+    </LinearLayout>
+    <MvxFrameControl android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:layout_marginTop="5dp" local:MvxTemplate="@layout/pattern"
+                     local:MvxBind="DataContext Pattern"/>
+</LinearLayout>

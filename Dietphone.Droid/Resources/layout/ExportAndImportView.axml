@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:local="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:layout_centerHorizontal="true" android:layout_margin="20dp"
+                      local:MvxBind="Visible IsBusy">
+            <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:paddingTop="6.5dp" style="@android:style/Widget.ProgressBar.Small"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:paddingLeft="17dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                      local:MvxBind="Text [PleaseWait]"/>
+        </LinearLayout>
+        <ToggleButton android:layout_width="match_parent" android:layout_height="wrap_content"
+                      local:MvxBind="TextOn [ExportToDropbox]; TextOff [ExportToDropbox]; Checked IsExportToCloudActive; Click ExportToCloud"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+                  local:MvxBind="Text [AutomaticallySavesDataToDropboxOnceAWeek]"/>
+        <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+                local:MvxBind="Text [ImportFromDropbox]; Click ImportFromCloud"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+                  local:MvxBind="Text [RetrievesAndAddsToApplicationDataPreviouslySavedToDropbox]"/>
+        <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+                local:MvxBind="Text [ExportByEmail]; Click AskToExportToEmail"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+                  local:MvxBind="Text [AllowsSendingDataAttachedToAnEMail]"/>
+        <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+                local:MvxBind="Text [ImportFromAddress]; Click AskToImportFromAddress"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="20dp"
+                  local:MvxBind="Text [AllowsToRetrieveDataFromAFileInXmlFormat]"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  local:MvxBind="Visible BrowserVisible">
+        <WebView android:id="@+id/browser" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    </LinearLayout>
+</FrameLayout>

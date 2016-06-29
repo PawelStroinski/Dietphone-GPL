@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:local="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:orientation="vertical" android:gravity="center"
+                  local:MvxBind="Visible IsBusy">
+        <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     style="@android:style/Widget.ProgressBar.Large"/>
+    </LinearLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+                android:fillViewport="true" android:paddingLeft="10dp"
+                android:paddingRight="10dp" android:paddingTop="10dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            <!--General-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:orientation="vertical" local:MvxBind="Visible FirstPivot">
+                <!--0-->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:layout_marginTop="13dp" android:layout_marginBottom="2dp"
+                              android:layout_marginLeft="9dp" android:orientation="horizontal"
+                              android:weightSum="10" android:focusableInTouchMode="true">
+                    <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
+                                     android:layout_weight="8" android:layout_marginBottom="19dp"
+                                     local:MvxTemplate="@layout/scores"
+                                     local:MvxBind="Visible MealScoresVisible; DataContext ."/>
+                </LinearLayout>
+                <!--CurrentSugar | InsulinCircumstances-->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [CurrentSugar]"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [InsulinCircumstances]"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                              android:orientation="horizontal" android:paddingBottom="20dp">
+                    <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                  android:layout_weight="1" android:layout_marginRight="10dp"
+                                  android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                                  local:MvxBind="TextOnFocusLost CurrentSugar.BloodSugar; Focus ShouldFocusSugar"/>
+                    <MultiplePickerEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                            android:layout_weight="1" android:layout_marginLeft="10dp"
+                                            android:layout_gravity="center_vertical"
+                                            local:MvxBind="Title [InsulinCircumstances]; ItemsSource Circumstances;
+                                                           SelectedItems Subject.Circumstances; AddClick AddCircumstance;
+                                                           EditClick EditCircumstance; DeleteClick DeleteCircumstance;
+                                                           DoneText [Done]; CancelText [Cancel]"/>
+                </LinearLayout>
+                <!--NormalBolus | SquareWaveBolus-->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [NormalBolus]"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [SquareWaveBolus]"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                              android:orientation="horizontal" android:paddingBottom="20dp">
+                    <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                  android:layout_weight="1" android:layout_marginRight="10dp"
+                                  android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                                  local:MvxBind="TextOnFocusLost Subject.NormalBolus"/>
+                    <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                  android:layout_weight="1" android:layout_marginLeft="10dp"
+                                  android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                                  local:MvxBind="TextOnFocusLost Subject.SquareWaveBolus"/>
+                </LinearLayout>
+                <!--SquareWaveBolusHours | Note-->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                              android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginRight="10dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [SquareWaveBolusHours]"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [Note]"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                              android:orientation="horizontal" android:paddingBottom="20dp">
+                    <BackEditText android:layout_width="0dp" android:layout_height="wrap_content"
+                                  android:layout_weight="1" android:layout_marginRight="10dp"
+                                  android:layout_gravity="center_vertical" android:inputType="numberDecimal"
+                                  local:MvxBind="TextOnFocusLost Subject.SquareWaveBolusHours"/>
+                    <EditText android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_weight="1" android:layout_marginLeft="10dp"
+                              android:layout_gravity="center_vertical" android:inputType="textCapSentences"
+                              local:MvxBind="Text Subject.Note"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!--Suggestion-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:layout_marginTop="15dp" android:orientation="vertical"
+                          local:MvxBind="Visible SecondPivot">
+                <!--IsCalculated-->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                              android:orientation="vertical" local:MvxBind="Visible IsCalculated">
+                    <!--SuggestedInsulinHeader-->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:id="@+id/suggested_insulin_header"/>
+                    <!--IsCalculationIncomplete-->
+                    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginTop="-13dp" android:layout_marginBottom="-15dp"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/accent_material_dark"
+                            local:MvxBind="Visible IsCalculationIncomplete; Text [InsulinCalculationIncomplete];
+                                           Click ShowListOfMealItemsNotIncludedInCalculation"/>
+                    <!--SuggestedBolus-->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_marginTop="22dp" android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [SuggestedBolus]"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                  android:layout_marginTop="-10dp" android:orientation="horizontal">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                                  android:layout_weight="65" android:layout_marginTop="15dp"
+                                  android:textAppearance="?android:attr/textAppearanceMedium"
+                                  android:textColor="@color/extreme_foreground" local:MvxBind="Text Calculated.Text"/>
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                                      android:layout_weight="35"
+                                      android:orientation="horizontal" android:gravity="center_horizontal">
+                            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                                         android:src="@drawable/ic_check" android:scaleType="centerInside"
+                                         android:padding="12dp" android:background="?android:selectableItemBackground"
+                                         local:MvxBind="Click UseCalculation"/>
+                            <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                                         android:src="@drawable/ic_more" android:scaleType="centerInside"
+                                         android:padding="12dp" android:background="?android:selectableItemBackground"
+                                         local:MvxBind="Click CalculationDetails"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!--EstimatedBloodSugar-->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:layout_marginTop="5dp" android:textAppearance="?android:attr/textAppearanceSmall"
+                              local:MvxBind="Text [EstimatedBloodSugar]"/>
+                    <oxyplot.xamarin.android.PlotView android:layout_width="fill_parent"
+                                                      android:layout_height="wrap_content" android:id="@+id/sugar_chart"
+                                                      local:MvxBind="Click ShowSugarChartAsText"/>
+                </LinearLayout>
+                <!--IsCalculationEmpty-->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_marginBottom="19dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                          local:MvxBind="Visible IsCalculationEmpty; Text [NoSuggestion]"/>
+                <!--NoMealPresent-->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_marginBottom="19dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                          local:MvxBind="Visible NoMealPresent; Text [NoMealPresent]"/>
+                <!--NoSugarEntered-->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_marginBottom="19dp" android:textAppearance="?android:attr/textAppearanceLarge"
+                          local:MvxBind="Visible NoSugarEntered; Text [NoSugarEntered]"/>
+                <!--CalculationDetailsVisible-->
+                <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                local:MvxTemplate="@layout/calculationdetails"
+                                local:MvxBind="IsVisible CalculationDetailsVisible; DataContext ."/>
+                <!--CalculationDetailsAlternativesVisible-->
+                <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                local:MvxTemplate="@layout/calculationdetailsalternatives"
+                                local:MvxBind="IsVisible CalculationDetailsAlternativesVisible; DataContext ."/>
+            </LinearLayout>
+            <!--Date-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:layout_marginTop="15dp" android:orientation="vertical"
+                          local:MvxBind="Visible ThirdPivot">
+                <include layout="@layout/datetimelock_include"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

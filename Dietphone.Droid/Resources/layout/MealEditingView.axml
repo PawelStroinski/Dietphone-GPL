@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:local="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true"
+            android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="10dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <!--Ingredients-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical" local:MvxBind="Visible FirstPivot">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <!--0-->
+                <MvxFrameControl android:layout_width="0dp" android:layout_height="wrap_content"
+                                 android:layout_weight="8" android:layout_marginTop="13dp"
+                                 android:layout_marginLeft="9dp" local:MvxTemplate="@layout/scores"
+                                 local:MvxBind="DataContext ."/>
+                <!--+-->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                              android:layout_marginTop="0.5dp" android:layout_weight="2"
+                              android:gravity="center_horizontal">
+                    <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                                 android:src="@drawable/ic_add" android:scaleType="centerInside"
+                                 android:padding="12dp" android:background="?android:selectableItemBackground"
+                                 local:MvxBind="Click AddItem"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!--[]-->
+            <Mvx.MvxListView android:layout_width="match_parent" android:layout_height="match_parent"
+                             android:layout_marginTop="9dp" android:divider="@android:color/transparent"
+                             local:MvxItemTemplate="@layout/meal_item"
+                             local:MvxBind="ItemsSource Subject.Items; ItemClick EditItem"/>
+            <!--ItemEditing-->
+            <MvxPopupWindow android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            local:MvxTemplate="@layout/mealitemediting"
+                            local:MvxBind="IsVisible ItemEditing.IsVisible; Dissmissed ItemEditing.Cancel;
+                                           DataContext ItemEditing; SoftInput True"/>
+        </LinearLayout>
+        <!--General-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:layout_marginTop="15dp" android:orientation="vertical"
+                      local:MvxBind="Visible SecondPivot">
+            <include layout="@layout/datetimelock_include"/>
+            <!--Name-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceSmall" local:MvxBind="Text [Name]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <SinglePickerEditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                                      android:layout_gravity="center_vertical"
+                                      local:MvxBind="Title [Name]; ItemsSource Names; SelectedItem Subject.Name;
+                                                     AddClick AddName; EditClick EditName; DeleteClick DeleteName"/>
+            </LinearLayout>
+            <!--Note-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:textAppearance="?android:attr/textAppearanceSmall" local:MvxBind="Text [Note]"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="65dp"
+                          android:orientation="horizontal" android:paddingBottom="20dp">
+                <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:layout_gravity="center_vertical" android:inputType="textCapSentences"
+                          local:MvxBind="Text Subject.Note"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

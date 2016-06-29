@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:orientation="horizontal" android:gravity="right">
+    <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                 android:src="@drawable/ic_delete" android:scaleType="centerInside"
+                 android:padding="12dp" android:background="?android:selectableItemBackground"
+                 local:MvxBind="Click Delete; OpaqueEnabled CanDelete"/>
+    <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                 android:src="@drawable/ic_cancel" android:scaleType="centerInside"
+                 android:padding="12dp" android:background="?android:selectableItemBackground"
+                 local:MvxBind="Click Cancel"/>
+    <ImageButton android:layout_width="56dp" android:layout_height="56dp"
+                 android:src="@drawable/ic_check" android:scaleType="centerInside"
+                 android:padding="12dp" android:background="?android:selectableItemBackground"
+                 local:MvxBind="Click Confirm"/>
+</LinearLayout>

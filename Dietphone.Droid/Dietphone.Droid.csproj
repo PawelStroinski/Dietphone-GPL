@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5230CD75-0A49-4A7B-A051-338BF1CAC722}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dietphone</RootNamespace>
+    <AssemblyName>Dietphone.Droid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidApplication>true</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip>Xamarin.InAppBilling</AndroidLinkSkip>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidSupportedAbis />
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <Debugger>Xamarin</Debugger>
+    <AotAssemblies>False</AotAssemblies>
+    <EnableLLVM>False</EnableLLVM>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+    <EnableProguard>False</EnableProguard>
+    <DebugSymbols>False</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Export" />
+    <Reference Include="mscorlib" />
+    <Reference Include="MvvmCross.Binding, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\MonoAndroid\MvvmCross.Binding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Binding.Droid, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\MonoAndroid\MvvmCross.Binding.Droid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Core, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Core.4.0.0\lib\MonoAndroid\MvvmCross.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Droid, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Core.4.0.0\lib\MonoAndroid\MvvmCross.Droid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Localization, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Binding.4.0.0\lib\MonoAndroid\MvvmCross.Localization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Platform, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\MonoAndroid\MvvmCross.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvvmCross.Platform.Droid, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmCross.Platform.4.0.0\lib\MonoAndroid\MvvmCross.Platform.Droid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0-unstable1983\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1+Xamarin.iOS10\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Xamarin.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Xamarin.Android.1.0.0-unstable1983\lib\MonoAndroid10\OxyPlot.Xamarin.Android.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Xamarin.InAppBilling">
+      <HintPath>..\Components\xamarin.inappbilling-2.2\lib\android\Xamarin.InAppBilling.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BinarySerializers\DroidBinaryStreamProvider.cs" />
+    <Compile Include="Controls\DoneEditText.cs" />
+    <Compile Include="Controls\ListViewWithHeaderBefore.cs" />
+    <Compile Include="Controls\SinglePickerEditText.cs" />
+    <Compile Include="Controls\ListPickerEditText.cs" />
+    <Compile Include="Controls\DateTimePickerEditText.cs" />
+    <Compile Include="Controls\LockToggleButton.cs" />
+    <Compile Include="Controls\MultiplePickerEditText.cs" />
+    <Compile Include="Controls\ExactDateTimeAxis.cs" />
+    <Compile Include="Controls\TimePickerEditText.cs" />
+    <Compile Include="Controls\DatePickerEditText.cs" />
+    <Compile Include="Controls\MvxPopupWindow.cs" />
+    <Compile Include="LinkerPleaseInclude.cs" />
+    <Compile Include="DroidApplication.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup.cs" />
+    <Compile Include="SplashScreen.cs" />
+    <Compile Include="TargetBindings\ViewFocus.cs" />
+    <Compile Include="TargetBindings\EditTextSelectRight.cs" />
+    <Compile Include="TargetBindings\ImageButtonOpaqueEnabled.cs" />
+    <Compile Include="TargetBindings\TargetBindingBase.cs" />
+    <Compile Include="Tools\ClipboardImpl.cs" />
+    <Compile Include="Tools\ExceptionLogging.cs" />
+    <Compile Include="Tools\MessageDialogImpl.cs" />
+    <Compile Include="Tools\NativeFile.cs" />
+    <Compile Include="Tools\NavigationServiceImpl.cs" />
+    <Compile Include="TargetBindings\BackEditTextTextOnFocusLost.cs" />
+    <Compile Include="TargetBindings\TabHostCurrentTab.cs" />
+    <Compile Include="Tools\Logger.cs" />
+    <Compile Include="Tools\LoggerSecret.cs" />
+    <Compile Include="Tools\TrialImplKey.cs" />
+    <Compile Include="Tools\TrialImpl.cs" />
+    <Compile Include="Tools\UIExtensionMethods.cs" />
+    <Compile Include="Tools\VibrationImpl.cs" />
+    <Compile Include="Views\ActivityBase.cs" />
+    <Compile Include="Adapters\ActionExpandListener.cs" />
+    <Compile Include="Adapters\ClickListener.cs" />
+    <Compile Include="Adapters\MenuItemClickListener.cs" />
+    <Compile Include="Adapters\WebViewClientImpl.cs" />
+    <Compile Include="Controls\BackEditText.cs" />
+    <Compile Include="Views\EmbeddedAboutView.cs" />
+    <Compile Include="Views\ProductEditingView.cs" />
+    <Compile Include="Views\InsulinEditingView.cs" />
+    <Compile Include="Views\MealEditingView.cs" />
+    <Compile Include="Views\SettingsView.cs" />
+    <Compile Include="Views\ExportAndImportView.cs" />
+    <Compile Include="Views\ListingView.cs" />
+    <Compile Include="Views\ProductListingView.cs" />
+    <Compile Include="Views\JournalView.cs" />
+    <Compile Include="Views\MainView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.en-GB.db">
+      <Link>Assets\firstrun\categories.en-GB.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.en-US.db">
+      <Link>Assets\firstrun\categories.en-US.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.fr-FR.db">
+      <Link>Assets\firstrun\categories.fr-FR.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\categories.pl-PL.db">
+      <Link>Assets\firstrun\categories.pl-PL.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\insulincircumstances.db">
+      <Link>Assets\firstrun\insulincircumstances.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\insulins.db">
+      <Link>Assets\firstrun\insulins.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\mealnames.db">
+      <Link>Assets\firstrun\mealnames.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\meals.db">
+      <Link>Assets\firstrun\meals.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.en-GB.db">
+      <Link>Assets\firstrun\products.en-GB.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.en-US.db">
+      <Link>Assets\firstrun\products.en-US.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.fr-FR.db">
+      <Link>Assets\firstrun\products.fr-FR.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\products.pl-PL.db">
+      <Link>Assets\firstrun\products.pl-PL.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\settings.db">
+      <Link>Assets\firstrun\settings.db</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone\firstrun\sugars.db">
+      <Link>Assets\firstrun\sugars.db</Link>
+    </AndroidAsset>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\layout\SplashScreen.axml" />
+    <AndroidResource Include="Resources\layout\MainView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ListingView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Journal_Item.axml" />
+    <AndroidResource Include="Resources\layout\ProductListing_Item.axml" />
+    <AndroidResource Include="Resources\layout\Listing_Group.axml" />
+    <AndroidResource Include="Resources\layout\ExportAndImportView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\SettingsView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\MealEditingView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Scores.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\MealItemEditing.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Meal_Item.axml" />
+    <AndroidResource Include="Resources\layout\SugarEditing.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Listing_Include.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\JournalView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\InlineViewIcons_Include.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\InsulinEditingView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\CalculationDetails.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Replacement_Item.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Pattern.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Pattern_Sugar.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\CalculationDetailsAlternatives.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\DateTimeLock_Include.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ProductEditingView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\EmbeddedAboutView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\SplashStyle.xml" />
+    <AndroidResource Include="Resources\drawable\splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dietphone.Core\Dietphone.Core.csproj">
+      <Project>{62a44f50-63f5-4f79-a980-1f85a8793e82}</Project>
+      <Name>Dietphone.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dietphone.Smartphone\Dietphone.Smartphone.csproj">
+      <Project>{2788c479-27d7-4b73-94ea-988274abb912}</Project>
+      <Name>Dietphone.Smartphone</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\mainview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_insulin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_sugar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_meal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\exportandimportview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\colors.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\mealeditingview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_lock_open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\insulineditingview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_more.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_alternatives.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\dimens.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\producteditingview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\Dietphone.Phone.Rarely\documents\license.en-US.txt">
+      <Link>Assets\documents\license.en-US.txt</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Dietphone.Phone.Rarely\documents\license.pl-PL.txt">
+      <Link>Assets\documents\license.pl-PL.txt</Link>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_changelog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\menu\embeddedaboutview_menu.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamarin.inappbilling">
+      <Visible>False</Visible>
+      <Version>2.2</Version>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+     Other similar extension points exist, see Microsoft.Common.targets.
+		<Target Name="BeforeBuild">
+		</Target>
+		<Target Name="AfterBuild">
+		</Target>
+ -->
+</Project>

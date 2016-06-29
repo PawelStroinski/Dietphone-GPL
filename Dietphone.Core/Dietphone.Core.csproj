@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{62A44F50-63F5-4F79-A980-1F85A8793E82}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dietphone</RootNamespace>
+    <AssemblyName>Dietphone.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BinarySerializers\BinaryFile.cs" />
+    <Compile Include="BinarySerializers\BinarySerializer.cs" />
+    <Compile Include="BinarySerializers\BinaryStorage.cs" />
+    <Compile Include="BinarySerializers\BinaryStorageCreator.cs" />
+    <Compile Include="BinarySerializers\BinaryStreamProvider.cs" />
+    <Compile Include="BinarySerializers\CategoryBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\InsulinBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\InsulinCircumstanceBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\MealBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\MealNameBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\OutputStream.cs" />
+    <Compile Include="BinarySerializers\ProductBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\SettingsBinaryStorage.cs" />
+    <Compile Include="BinarySerializers\SugarBinaryStorage.cs" />
+    <Compile Include="Models\Cloud.cs" />
+    <Compile Include="Models\MruProducts.cs" />
+    <Compile Include="Models\ReplacementBuilderAndSugarEstimatorFacade.cs" />
+    <Compile Include="Models\Calculator.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\DefaultEntities.cs" />
+    <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\ExportAndImport.cs" />
+    <Compile Include="Models\Factories.cs" />
+    <Compile Include="Models\Factory.cs" />
+    <Compile Include="Models\Finder.cs" />
+    <Compile Include="Models\HourDifference.cs" />
+    <Compile Include="Models\Insulin.cs" />
+    <Compile Include="Models\InsulinCircumstance.cs" />
+    <Compile Include="Models\Meal.cs" />
+    <Compile Include="Models\MealItem.cs" />
+    <Compile Include="Models\MealName.cs" />
+    <Compile Include="Models\Pattern.cs" />
+    <Compile Include="Models\PatternBuilder.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Replacement.cs" />
+    <Compile Include="Models\ReplacementBuilder.cs" />
+    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Models\Storage.cs" />
+    <Compile Include="Models\Sugar.cs" />
+    <Compile Include="Models\SugarEstimator.cs" />
+    <Compile Include="Tools\CloudProvider.cs" />
+    <Compile Include="Tools\File.cs" />
+    <Compile Include="Tools\PortableClassLibraryShim.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\AppVersion.cs" />
+    <Compile Include="Tools\Constrains.cs" />
+    <Compile Include="Tools\ExtensionMethods.cs" />
+    <Compile Include="Tools\FallbackParserExtensions.cs" />
+    <Compile Include="Tools\MyEnum.cs" />
+    <Compile Include="Views\Translations.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Translations.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PublicTranslations.cs" />
+    <Compile Include="Views\Translations.pl.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Translations.pl.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Translations.pl.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translations.pl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Translations.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translations.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
