@@ -1,20 +1,10 @@
-Diettr GPL source release
+Diet & diabetes management apps source release
 ============================
-This is GPL source release of [Dietphone](http://windowsphone.com/s?appid=e70d0fa0-67c1-4674-b27f-849ff5832f47) Windows Phone app. Until a better name it is renamed to **Diettr** to avoid confusion with Dietphone iPhone app from Queen Margaret University which is not related to this Windows Phone app.
+This is GPL source release of diet & diabetes management apps for Android & Windows Phone.
 
 Implementation details
 ----------------------
-Diettr was written with [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) architectural pattern, [Clean Code](http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882), performance, Metro UI and everyday-use in mind.
-
-But what is Diettr?
-----------------------
-Knowledge of nutrition helps rationalize your diet. Diettr is a solution for those particularly who want to know nutritional value of meals. Diettr is accurate and calculates all types of the nutritional value, not just calories. This app is very helpful for diabetics, especially using insulin pumps.
-
-Diettr has a very rich, editable products database that you can search and browse by categories and add to the meal. Meals are stored in the log, where you can search and browse chronologically.
-
-Diettr will calculate for you: the energy value in calories (kcal), count of carbohydrates, protein, fat and CU, FPU exchangers. Diettr will help you avoid mistakes, because it detects basic errors when you enter meals. Thanks to charts of nutritional value you can easily compare all the alternative products in a category.
-
-If you want to learn better your diet, choose Diettr.
+The apps were written with [MVVM](http://en.wikipedia.org/wiki/Model_View_ViewModel) architectural pattern, [Clean Code](http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882), performance, Metro UI and everyday-use in mind.
 
 License
 -------
